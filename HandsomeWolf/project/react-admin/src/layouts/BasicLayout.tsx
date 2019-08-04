@@ -8,6 +8,7 @@ import ProLayout, {
   MenuDataItem,
   BasicLayoutProps as ProLayoutProps,
   Settings,
+  DefaultFooter,
 } from '@ant-design/pro-layout';
 import React, { useEffect } from 'react';
 import Link from 'umi/link';
@@ -47,7 +48,20 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
 
 const footerRender: BasicLayoutProps['footerRender'] = (_, defaultDom) => {
   if (!isAntDesignPro()) {
-    return defaultDom;
+    // return defaultDom;
+    return (<DefaultFooter
+      links={[
+        // {
+        //   title: "octopus",
+        //   href: 'http://admin.zzkj.net.cn'
+        // },
+        // {
+        //   title: "netlify2",
+        //   href: 'https://www.netlify.com'
+        // }
+      ]}
+      copyright={(new Date).getFullYear()+" octopus"}
+    ></DefaultFooter>)
   }
   return (
     <>
@@ -122,8 +136,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         return first ? (
           <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
         ) : (
-          <span>{route.breadcrumbName}</span>
-        );
+            <span>{route.breadcrumbName}</span>
+          );
       }}
       footerRender={footerRender}
       menuDataRender={menuDataRender}

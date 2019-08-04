@@ -54,7 +54,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'octopus',
+  title: 'Octopus',
   pwa: false,
   iconfontUrl: '',
 } as DefaultSettings;
