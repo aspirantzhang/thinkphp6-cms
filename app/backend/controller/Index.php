@@ -11,8 +11,12 @@ class Index extends Common
     {
         parent::initialize();
     }
+    public function __construct()
+    {
+    }
     public function index()
     {
-        var_dump($this->request->param('name'));
+        echo 'base ok';
     }
+
 }

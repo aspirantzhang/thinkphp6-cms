@@ -1,9 +1,10 @@
 <?php
+
 namespace app\backend\model;
 
-use app\backend\model\Common;
+use app\common\model\GlobalModel;
 
-class Backend extends Common
+class Common extends GlobalModel
 {
     public function initialize()
     {
