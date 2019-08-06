@@ -436,12 +436,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "25112b01b252bd5326e8bd6c5e270d71931b082d"
+                "reference": "e35f3460c3b0f81d460d887add076a0ff29f2af1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/25112b01b252bd5326e8bd6c5e270d71931b082d",
-                "reference": "25112b01b252bd5326e8bd6c5e270d71931b082d",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/e35f3460c3b0f81d460d887add076a0ff29f2af1",
+                "reference": "e35f3460c3b0f81d460d887add076a0ff29f2af1",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -496,7 +496,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-08-05T09:28:20+00:00"
+            "time": "2019-08-06T06:27:40+00:00"
         },
         {
             "name": "topthink/think-helper",
@@ -549,12 +549,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "5f52623b7d1239e73821d67bd76c1ecb256ca2c0"
+                "reference": "a81fe59d094f32650747e874388d31d6f81259b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/5f52623b7d1239e73821d67bd76c1ecb256ca2c0",
-                "reference": "5f52623b7d1239e73821d67bd76c1ecb256ca2c0",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/a81fe59d094f32650747e874388d31d6f81259b4",
+                "reference": "a81fe59d094f32650747e874388d31d6f81259b4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -591,7 +591,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2019-08-05T09:06:00+00:00"
+            "time": "2019-08-06T03:58:01+00:00"
         },
         {
             "name": "topthink/think-template",
