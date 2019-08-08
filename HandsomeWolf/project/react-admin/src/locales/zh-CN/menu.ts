@@ -1,4 +1,14 @@
 export default {
+  /**
+   * 权限管理
+   */
+  "menu.auth": "权限管理",
+  "menu.auth.admin": "管理员管理",
+  "menu.auth.admin-log": "管理员日志",
+  "menu.auth.group": "角色组",
+  "menu.auth.rule": "菜单规则",
+
+  
   'menu.welcome': '欢迎02',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',

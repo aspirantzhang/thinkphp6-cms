@@ -58,3 +58,4 @@ export default {
   pwa: false,
   iconfontUrl: '',
 } as DefaultSettings;
+

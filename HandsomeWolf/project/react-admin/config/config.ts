@@ -1,18 +1,13 @@
 import { IConfig, IPlugin } from 'umi-types';
+import defaultSettings from './defaultSettings'; // https://umijs.org/config/
 
-import defaultSettings from './defaultSettings';
-// https://umijs.org/config/
 import slash from 'slash2';
 import webpackPlugin from './plugin.config';
-
-const { pwa, primaryColor } = defaultSettings;
-
-// preview.pro.ant.design only do not use in your production ;
+const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
+
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
-
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
-
 const plugins: IPlugin[] = [
   [
     'umi-plugin-react',
@@ -36,20 +31,19 @@ const plugins: IPlugin[] = [
       },
       pwa: pwa
         ? {
-            workboxPluginMode: 'InjectManifest',
-            workboxOptions: {
-              importWorkboxFrom: 'local',
-            },
-          }
-        : false,
-      // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
+          workboxPluginMode: 'InjectManifest',
+          workboxOptions: {
+            importWorkboxFrom: 'local',
+          },
+        }
+        : false, // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
       // dll features https://webpack.js.org/plugins/dll-plugin/
       // dll: {
       //   include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
       //   exclude: ['@babel/runtime', 'netlify-lambda'],
       // },
     },
-  ],
+  ], //
   [
     'umi-plugin-pro-block',
     {
@@ -59,9 +53,8 @@ const plugins: IPlugin[] = [
       autoAddMenu: true,
     },
   ],
-];
+]; // 针对 preview.pro.ant.design 的 GA 统计代码
 
-// 针对 preview.pro.ant.design 的 GA 统计代码
 if (isAntDesignProPreview) {
   plugins.push([
     'umi-plugin-ga',
@@ -89,17 +82,62 @@ export default {
   devtool: isAntDesignProPreview ? 'source-map' : false,
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
+    // 登录
+    {
+      path: '/login',
+      component: '../layouts/UserLayout',
+      routes: [
+        {
+          path: '/login',
+          name: 'login',
+          component: './user/login',
+        },
+      ],
+    },
     {
       path: '/',
       component: '../layouts/BasicLayout',
       Routes: ['src/pages/Authorized'],
+      // 权限认证
       authority: ['admin', 'user'],
       routes: [
+        // {
+        //   name: 'list',
+        //   path: '/list/table/list',
+        //   component: './list/table/list',
+        // },
+        // {
+        //   path: '/',
+        //   name: 'welcome',
+        //   icon: 'smile',
+        //   component: './Welcome',
+        // },
         {
-          path: '/',
-          name: 'welcome',
-          icon: 'smile',
-          component: './Welcome',
+          path: '/auth',
+          name: 'auth',//权限管理
+          icon: 'deployment-unit',
+          routes: [
+            {
+              path: 'admin',
+              name: 'admin',//管理员管理
+              component: './auth/admin',
+            },
+            {
+              path: 'admin-log',
+              name: 'admin-log',//管理员日志
+              component: './list/table/list',
+            },
+            {
+              path: 'group',
+              name: 'group',//角色组
+              component: './list/table/list',
+            },
+            {
+              path: 'rule',
+              name: 'rule',//菜单规则
+              component: './list/table/list',
+            },
+          ],
         },
         {
           component: './404',
@@ -130,7 +168,7 @@ export default {
         resourcePath: string;
       },
       _: string,
-      localName: string,
+      localName: string
     ) => {
       if (
         context.resourcePath.includes('node_modules') ||

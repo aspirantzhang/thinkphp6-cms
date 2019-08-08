@@ -47,14 +47,26 @@ const UserLayout: React.SFC<UserLayoutProps> = props => {
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>Ant Design</span>
+                <span className={styles.title}>Octopus</span>
               </Link>
             </div>
-            <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+            <div className={styles.desc}>Octopus 连接着梦想</div>
           </div>
           {children}
         </div>
-        <DefaultFooter />
+        <DefaultFooter
+      links={[
+        // {
+        //   title: "octopus",
+        //   href: 'http://admin.zzkj.net.cn'
+        // },
+        // {
+        //   title: "netlify2",
+        //   href: 'https://www.netlify.com'
+        // }
+      ]}
+      copyright={(new Date).getFullYear()+" octopus"}
+     />
       </div>
     </DocumentTitle>
   );
