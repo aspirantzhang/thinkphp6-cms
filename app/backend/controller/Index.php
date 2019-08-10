@@ -4,6 +4,7 @@ declare (strict_types = 1);
 namespace app\backend\controller;
 
 use app\backend\controller\Common;
+use app\backend\model\Admin;
 
 class Index extends Common
 {
@@ -11,12 +12,18 @@ class Index extends Common
     {
         parent::initialize();
     }
-    public function __construct()
-    {
-    }
     public function index()
     {
-        echo 'base ok';
+        echo 'backend index';
     }
+    public function login(Admin $admin)
+    {
+        if ($admin->loginCheck($this->request->only(['username', 'password']))) {
+            return json(['status'=>'ok', 'type'=>'account', 'currentAuthority'=>'admin']);
+        } else {
+            return json(['status'=>'error', 'type'=>'account', 'currentAuthority'=>'guest']);
+        }
+    }
+
 
 }

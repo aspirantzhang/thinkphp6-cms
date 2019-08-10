@@ -10,16 +10,4 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::get('/', function () {
-    return 'Hello,world!';
-});
-
-Route::get('ok','backend/index/index');
-Route::get('ok2','index/index/hello');
-
-
-Route::get('think', function () {
-    return 'hello,ThinkPHP6!';
-});
-
-Route::get('hello/:name', 'index/hello');
+Route::post('login','Index/login')->allowCrossDomain();;
