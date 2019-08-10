@@ -4,7 +4,7 @@ declare (strict_types = 1);
 namespace app\backend\controller;
 
 use app\backend\controller\Common;
-use app\backend\model\Admin;
+use app\backend\model\Admin as AdminModel;
 
 class Index extends Common
 {
@@ -14,9 +14,9 @@ class Index extends Common
     }
     public function index()
     {
-        echo 'backend index';
+        return 'backend controller index';
     }
-    public function login(Admin $admin)
+    public function login(AdminModel $admin)
     {
         if ($admin->loginCheck($this->request->only(['username', 'password']))) {
             return json(['status'=>'ok', 'type'=>'account', 'currentAuthority'=>'admin']);

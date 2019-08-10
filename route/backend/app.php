@@ -10,4 +10,5 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::post('login','Index/login')->allowCrossDomain();;
+Route::post('login','Index/login')->allowCrossDomain();
+Route::resource('admins', 'Admin')->allowCrossDomain();
