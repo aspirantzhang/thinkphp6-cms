@@ -10,5 +10,9 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::post('login','Index/login')->allowCrossDomain();
-Route::resource('admins', 'Admin')->allowCrossDomain();
+Route::post('login', 'Index/login')->validate(\app\backend\validate\Admin::class, 'login')->allowCrossDomain();
+
+Route::resource('admins', 'Admin')->except(['create', 'edit'])
+        ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class)->allowCrossDomain();
+
+
