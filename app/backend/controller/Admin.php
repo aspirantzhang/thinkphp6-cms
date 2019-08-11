@@ -9,9 +9,10 @@ use app\backend\model\Admin as AdminModel;
 class Admin extends Common
 {
 
+    //TODO: if empty?
     public function index()
     {
-        $admin = AdminModel::order('id', 'desc')->hidden(['password'])->paginateX(10);
+        $admin = AdminModel::order('id', 'desc')->hidden(['password', 'delete_time'])->paginate(10);
         return json($admin);
     }
 
@@ -21,7 +22,7 @@ class Admin extends Common
         if ($admin) {
             return json(['userid'=>$admin], 201);
         } else {
-            return json(['code'=>'4001', 'error'=>'Save failed.']);
+            return json(['code'=>'4001', 'error'=>'Save failed.'], 400);
         }
     }
 
@@ -31,7 +32,7 @@ class Admin extends Common
         if ($admin) {
             return json($admin->hidden(['password']));
         } else {
-            return json(['code'=>4041, 'error'=>'Admin not found.'], 404);
+            return json(['code'=>'4041', 'error'=>'Admin not found.'], 404);
         }
     }
 
@@ -48,10 +49,10 @@ class Admin extends Common
 
     public function delete(AdminModel $adminModel, $id)
     {
-        if ($adminModel->deleteID($id)) {
+        if ($adminModel->deleteByID($id)) {
             return json()->code(200);
         } else {
-            return json(['code'=>'4004', 'error'=>'Delete failed.']);
+            return json(['code'=>'4004', 'error'=>'Delete failed.'], 400);
         }
     }
 }

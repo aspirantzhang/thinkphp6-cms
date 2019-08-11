@@ -4,14 +4,23 @@ declare (strict_types = 1);
 namespace app\backend\model;
 
 use app\backend\model\Common;
+use think\model\concern\SoftDelete;
 
 class Admin extends Common
 {
+    use SoftDelete;
+    protected $deleteTime = 'delete_time';
     protected $readonly = ['name'];
     protected $globalScope = ['status'];
+
     public function scopeStatus($query)
     {
         $query->where('status', 1);
+    }
+
+    public function setPasswordAttr($value)
+    {
+        return password_hash($value, PASSWORD_ARGON2ID);
     }
 
     public function loginCheck($data)
@@ -23,19 +32,28 @@ class Admin extends Common
             return false;
         }
     }
+
     public function saveNew($data)
     {
-        $data['password'] = password_hash($data['password'], PASSWORD_ARGON2ID);
+        // Display Name default value
+        if (!isset($data['display_name'])) {
+            $data['display_name'] = $data['username'];
+        }
         $admin = Admin::create($data);
         if ($admin) {
             return $admin->id;
         } else {
-            return 0;
+            return false;
         }
     }
-    public function deleteID($id)
+
+    public function deleteByID($id)
     {
-        $admin = Admin::find($id);
-        return $admin->delete();
+        $admin = $this->find($id);
+        if ($admin) {
+            return $admin->delete();
+        } else {
+            return false;
+        }
     }
 }
