@@ -39,9 +39,9 @@ class Admin extends Common
         if (!isset($data['display_name'])) {
             $data['display_name'] = $data['username'];
         }
-        $admin = Admin::create($data);
-        if ($admin) {
-            return $admin->id;
+        $result = $this->save($data);
+        if ($result) {
+            return $this->getData('id');
         } else {
             return false;
         }

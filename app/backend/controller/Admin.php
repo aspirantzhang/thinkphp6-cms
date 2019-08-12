@@ -30,7 +30,7 @@ class Admin extends Common
     {
         $admin = AdminModel::find($id);
         if ($admin) {
-            return json($admin->hidden(['password']));
+            return json($admin->hidden(['password', 'delete_time']));
         } else {
             return json(['code'=>'4041', 'error'=>'Admin not found.'], 404);
         }
