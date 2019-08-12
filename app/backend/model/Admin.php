@@ -13,11 +13,6 @@ class Admin extends Common
     protected $readonly = ['name'];
     protected $globalScope = ['status'];
 
-    public function scopeStatus($query)
-    {
-        $query->where('status', 1);
-    }
-
     public function setPasswordAttr($value)
     {
         return password_hash($value, PASSWORD_ARGON2ID);
@@ -25,7 +20,7 @@ class Admin extends Common
 
     public function loginCheck($data)
     {
-        $admin = $this->where('username', $data['username'])->find();
+        $admin = $this->where('username', $data['username'])->where('status', 1)->find();
         if ($admin) {
             return password_verify($data['password'], $admin->password);
         } else {
