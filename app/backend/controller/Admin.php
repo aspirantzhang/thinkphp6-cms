@@ -9,10 +9,9 @@ use app\backend\model\Admin as AdminModel;
 class Admin extends Common
 {
 
-    //TODO: if empty?
-    public function index()
+    public function index(AdminModel $adminModel)
     {
-        $admin = AdminModel::order('id', 'desc')->hidden(['password', 'delete_time'])->paginate(10);
+        $admin = $adminModel->list($this->request->param());
         return json($admin);
     }
 
@@ -30,7 +29,7 @@ class Admin extends Common
     {
         $admin = AdminModel::find($id);
         if ($admin) {
-            return json($admin->hidden(['password', 'delete_time']));
+            return json($admin->hidden(['password', 'delete_time']), 200);
         } else {
             return json(['code'=>'4041', 'error'=>'Admin not found.'], 404);
         }
