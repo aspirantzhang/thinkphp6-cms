@@ -1,0 +1,78 @@
+<?php
+declare (strict_types = 1);
+
+namespace app\backend\service;
+
+use app\backend\logic\Admin as AdminLogic;
+
+class Admin extends AdminLogic
+{
+    public function listApi($data)
+    {
+        return $this->getNormalList($data);
+    }
+
+    public function saveApi($data)
+    {
+        $result = $this->saveNew($data);
+        if ($result == -1) {
+            return msg(4091, $this->error);
+        } elseif ($result == 0) {
+            return msg(4001, $this->error);
+        } else {
+            return msg(201);
+        }
+    }
+
+    public function readApi($id)
+    {
+        $result = $this->where('id', $id)->find();
+        if ($result) {
+            return msg(200, $result->visible($this->allowRead));
+        } else {
+            return msg(4041, 'Admin not found.');
+        }
+    }
+
+    public function updateApi($id, $data)
+    {
+        $admin = $this->where('id', $id)->find();
+        if ($admin) {
+            if ($admin->allowField($this->allowUpdate)->save($data)) {
+                return msg(204);
+            } else {
+                return msg(4092, 'Update failed.');
+            }
+        } else {
+            return msg(4041, 'Admin not found.');
+        }
+    }
+
+    public function deleteApi($id)
+    {
+        $admin = $this->find($id);
+        if ($admin) {
+            if ($admin->delete()) {
+                return msg(204);
+            } else {
+                return msg(4093, 'Delete failed.');
+            }
+        } else {
+            return msg(4101, 'That Admin Does not exist.');
+        }
+    }
+
+    public function loginApi($data)
+    {
+        $result = $this->checkPassword($data);
+        if ($result === -1) {
+            return msg(4002, 'Invalid username or incorrect password.');
+        } elseif ($result == false) {
+            return msg(4002, 'Invalid username or incorrect password.');
+        } else {
+            return msg(200, ['status'=>'ok', 'type'=>'account', 'currentAuthority'=>'admin']);
+        }
+
+    }
+
+}

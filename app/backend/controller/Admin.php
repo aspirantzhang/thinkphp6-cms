@@ -4,56 +4,39 @@ declare (strict_types = 1);
 namespace app\backend\controller;
 
 use app\backend\controller\Common;
-use app\backend\model\Admin as AdminModel;
+use app\backend\service\Admin as AdminService;
 
 class Admin extends Common
 {
 
-    public function index(AdminModel $adminModel)
+    public function index(AdminService $adminService)
     {
-        $admin = $adminModel->list($this->request->param());
-        return json($admin);
+        $result = $adminService->listApi($this->request->only($adminService->allowIndex));
+        return json($result);
     }
 
-    public function save(AdminModel $adminModel)
+    public function save(AdminService $adminService)
     {
-        $result = $adminModel->saveNew($this->request->only(['username', 'password', 'display_name', 'status']));
-        if ($result == -1) {
-            return json(['code'=>'4091', 'error'=> $adminModel->getError()], 409);
-        } elseif ($result == 0) {
-            return json(['code'=>'4001', 'error'=> $adminModel->getError()], 400);
-        } else {
-            return json()->code(201);
-        }
+        $result = $adminService->saveApi($this->request->only($adminService->allowSave));
+        return $result;
     }
 
-    public function read($id)
+    public function read(AdminService $adminService, $id)
     {
-        $admin = AdminModel::find($id);
-        if ($admin) {
-            return json($admin->hidden(['password', 'delete_time']), 200);
-        } else {
-            return json(['code'=>'4041', 'error'=>'Admin not found.'], 404);
-        }
+        $result = $adminService->readApi($id);
+        return $result;
     }
 
-    public function update($id)
+    public function update(AdminService $adminService, $id)
     {
-        $admin = AdminModel::where('id', $id)->update($this->request->only(['password', 'display_name', 'status']));
-        if ($admin) {
-            return json()->code(204);
-        } else {
-            return json(['code'=>'4003', 'error'=>'Update failed.'], 400);
-        }
+        $result = $adminService->updateApi($id, $this->request->only($adminService->allowUpdate));
+        return $result;
     }
 
-
-    public function delete(AdminModel $adminModel, $id)
+    public function delete(AdminService $adminService, $id)
     {
-        if ($adminModel->deleteByID($id)) {
-            return json()->code(204);
-        } else {
-            return json(['code'=>'4004', 'error'=>'Delete failed.'], 400);
-        }
+        $result = $adminService->deleteApi($id);
+        return $result;
     }
+
 }

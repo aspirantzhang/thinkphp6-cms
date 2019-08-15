@@ -4,7 +4,7 @@ declare (strict_types = 1);
 namespace app\backend\controller;
 
 use app\backend\controller\Common;
-use app\backend\model\Admin as AdminModel;
+use app\backend\service\Admin as AdminService;
 
 class Index extends Common
 {
@@ -16,13 +16,10 @@ class Index extends Common
     {
         return 'backend controller index';
     }
-    public function login(AdminModel $admin)
+    public function login(AdminService $adminService)
     {
-        if ($admin->loginCheck($this->request->only(['username', 'password']))) {
-            return json(['status'=>'ok', 'type'=>'account', 'currentAuthority'=>'admin']);
-        } else {
-            return json(['status'=>'error', 'type'=>'account', 'currentAuthority'=>'guest']);
-        }
+        $result = $adminService->loginApi($this->request->only($adminService->allowLogin));
+        return $result;
     }
 
 
