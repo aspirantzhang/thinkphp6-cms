@@ -84,6 +84,11 @@ class Admin extends Common
 
     public function saveNew($data)
     {
+        $adminExist = $this->where('username', $data['username'])->find();
+        if ($adminExist) {
+            $this->error = 'Sorry, that username already exists.';
+            return -1;
+        }
         // Display Name default value
         if (!isset($data['display_name'])) {
             $data['display_name'] = $data['username'];
@@ -92,7 +97,8 @@ class Admin extends Common
         if ($result) {
             return $this->getData('id');
         } else {
-            return false;
+            $this->error = 'Save failed.';
+            return 0;
         }
     }
 
@@ -105,4 +111,5 @@ class Admin extends Common
             return false;
         }
     }
+
 }

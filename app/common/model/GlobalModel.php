@@ -9,4 +9,8 @@ class GlobalModel extends Model
     {
         parent::initialize();
     }
+    public function getError()
+    {
+        return $this->error;
+    }
 }

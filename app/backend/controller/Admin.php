@@ -17,11 +17,13 @@ class Admin extends Common
 
     public function save(AdminModel $adminModel)
     {
-        $admin = $adminModel->saveNew($this->request->only(['username', 'password', 'display_name', 'status']));
-        if ($admin) {
-            return json(['userid'=>$admin], 201);
+        $result = $adminModel->saveNew($this->request->only(['username', 'password', 'display_name', 'status']));
+        if ($result == -1) {
+            return json(['code'=>'4091', 'error'=> $adminModel->getError()], 409);
+        } elseif ($result == 0) {
+            return json(['code'=>'4001', 'error'=> $adminModel->getError()], 400);
         } else {
-            return json(['code'=>'4001', 'error'=>'Save failed.'], 400);
+            return json()->code(201);
         }
     }
 
