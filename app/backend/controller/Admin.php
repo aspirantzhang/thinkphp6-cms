@@ -39,7 +39,7 @@ class Admin extends Common
     {
         $admin = AdminModel::where('id', $id)->update($this->request->only(['password', 'display_name', 'status']));
         if ($admin) {
-            return json()->code(200);
+            return json()->code(204);
         } else {
             return json(['code'=>'4003', 'error'=>'Update failed.'], 400);
         }
@@ -49,7 +49,7 @@ class Admin extends Common
     public function delete(AdminModel $adminModel, $id)
     {
         if ($adminModel->deleteByID($id)) {
-            return json()->code(200);
+            return json()->code(204);
         } else {
             return json(['code'=>'4004', 'error'=>'Delete failed.'], 400);
         }

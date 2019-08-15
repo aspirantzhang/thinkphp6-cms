@@ -36,9 +36,15 @@ class Admin extends Validate
         'index'         =>  ['create_time', 'page', 'per_page'],
         'save'          =>  ['username', 'password', 'display_name', 'status'],
         'read'          =>  ['id'],
-        'update'        =>  ['id', 'password', 'display_name', 'status'],
+        // 'update'        =>  ['id', 'password', 'display_name', 'status'],
         'delete'        =>  ['id'],
     ];
+
+    public function sceneUpdate()
+    {
+        $this->only(['id', 'password', 'display_name', 'status'])
+            ->remove('password', 'require');
+    }
 
     protected function checkDateTimeRange($value, $rule, $data=[])
     {
