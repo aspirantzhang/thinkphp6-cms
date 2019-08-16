@@ -8,34 +8,40 @@ use app\backend\service\Admin as AdminService;
 
 class Admin extends Common
 {
-
-    public function index(AdminService $adminService)
+    protected $adminService;
+    public function initialize()
     {
-        $result = $adminService->listApi($this->request->only($adminService->allowIndex));
+        $this->adminService = new AdminService;
+        parent::initialize();
+    }
+
+    public function index()
+    {
+        $result = $this->adminService->listApi($this->request->only($this->adminService->allowIndex));
         return json($result);
     }
 
-    public function save(AdminService $adminService)
+    public function save()
     {
-        $result = $adminService->saveApi($this->request->only($adminService->allowSave));
+        $result = $this->adminService->saveApi($this->request->only($this->adminService->allowSave));
         return $result;
     }
 
-    public function read(AdminService $adminService, $id)
+    public function read($id)
     {
-        $result = $adminService->readApi($id);
+        $result = $this->adminService->readApi($id);
         return $result;
     }
 
-    public function update(AdminService $adminService, $id)
+    public function update($id)
     {
-        $result = $adminService->updateApi($id, $this->request->only($adminService->allowUpdate));
+        $result = $this->adminService->updateApi($id, $this->request->only($this->adminService->allowUpdate));
         return $result;
     }
 
-    public function delete(AdminService $adminService, $id)
+    public function delete($id)
     {
-        $result = $adminService->deleteApi($id);
+        $result = $this->adminService->deleteApi($id);
         return $result;
     }
 

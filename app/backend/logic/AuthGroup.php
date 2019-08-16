@@ -3,9 +3,9 @@ declare (strict_types = 1);
 
 namespace app\backend\logic;
 
-use app\backend\model\Admin as AdminModel;
+use app\backend\model\AuthGroup as AuthGroupModel;
 
-class Admin extends AdminModel
+class AuthGroup extends AuthGroupModel
 {
 
     protected function getNormalList($data)
@@ -22,14 +22,10 @@ class Admin extends AdminModel
 
     public function saveNew($data)
     {
-        $ifExists = $this->withTrashed()->where('username', $data['username'])->find();
+        $ifExists = $this->withTrashed()->where('name', $data['name'])->find();
         if ($ifExists) {
-            $this->error = 'Sorry, that username already exists.';
+            $this->error = 'Sorry, that name already exists.';
             return -1;
-        }
-        // Display Name default value
-        if (!isset($data['display_name'])) {
-            $data['display_name'] = $data['username'];
         }
         $result = $this->allowField($this->allowSave)->save($data);
         if ($result) {
