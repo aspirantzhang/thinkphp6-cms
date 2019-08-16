@@ -6,18 +6,18 @@ namespace app\backend\model;
 use app\backend\model\Common;
 use think\model\concern\SoftDelete;
 
-class AuthGroup extends Common
+class AuthRule extends Common
 {
     use SoftDelete;
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'name', 'rules', 'status', 'create_time'];
-    public $allowList = ['id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
-    public $allowRead = ['id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
+    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'rule', 'name', 'type', 'condition', 'status', 'create_time'];
+    public $allowList = ['id', 'rule', 'name', 'type', 'condition', 'status' ,'create_time' ,'update_time'];
+    public $allowRead = ['id', 'rule', 'name', 'type', 'condition', 'status' ,'create_time' ,'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowSave = ['name', 'status'];
-    public $allowUpdate = ['id', 'name', 'status'];
-    public $allowSearch = ['id', 'name', 'status', 'create_time'];
+    public $allowSave = ['rule', 'name', 'type', 'condition' ,'status'];
+    public $allowUpdate = ['id', 'rule', 'name', 'type', 'condition', 'status'];
+    public $allowSearch = ['id', 'rule', 'name', 'type', 'status', 'create_time'];
 
     // Accessor
 
@@ -28,9 +28,17 @@ class AuthGroup extends Common
     {
         $query->where('id', $value);
     }
+    public function searchRuleAttr($query, $value, $data)
+    {
+        $query->where('rule', 'like', '%'. $value . '%');
+    }
     public function searchNameAttr($query, $value, $data)
     {
         $query->where('name', 'like', '%'. $value . '%');
+    }
+    public function searchTypeAttr($query, $value, $data)
+    {
+        $query->where('type', $value);
     }
     public function searchStatusAttr($query, $value, $data)
     {

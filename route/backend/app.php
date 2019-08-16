@@ -20,4 +20,8 @@ Route::resource('groups', 'AuthGroup')->except(['create', 'edit'])
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class)
         ->allowCrossDomain();
 
+Route::resource('rules', 'AuthRule')->except(['create', 'edit'])
+        ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthRule::class)
+        ->allowCrossDomain();
+
 
