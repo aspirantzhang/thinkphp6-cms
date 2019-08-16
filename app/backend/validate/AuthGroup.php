@@ -27,7 +27,6 @@ class AuthGroup extends Validate
     ];
 
     protected $scene = [
-        'login'         =>  ['username', 'password'],
         'index'         =>  ['create_time', 'page', 'per_page'],
         'save'          =>  ['name', 'status'],
         'read'          =>  ['id'],
