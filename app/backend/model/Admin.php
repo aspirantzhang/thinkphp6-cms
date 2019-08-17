@@ -21,6 +21,10 @@ class Admin extends Common
     public $allowLogin = ['username', 'password'];
 
     // Relation
+    public function groups()
+    {
+        return $this->belongsToMany(AuthGroup::class, 'auth_admin_group');
+    }
 
     // Accessor
 
