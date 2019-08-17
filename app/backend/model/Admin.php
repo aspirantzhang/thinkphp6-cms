@@ -23,7 +23,7 @@ class Admin extends Common
     // Relation
     public function groups()
     {
-        return $this->belongsToMany(AuthGroup::class, 'auth_admin_group');
+        return $this->belongsToMany(AuthGroup::class, 'auth_admin_group', 'group_id', 'admin_id');
     }
 
     // Accessor

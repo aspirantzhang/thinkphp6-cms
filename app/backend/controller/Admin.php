@@ -45,4 +45,12 @@ class Admin extends Common
         return $result;
     }
 
+    public function groups($id)
+    {
+        $admin = $this->adminService->with(['groups'=>function($query) {
+            $query->field('auth_group.id, auth_group.name')->where('auth_group.status', 1);
+        }])->find($id);
+        return json($admin->groups->hidden(['pivot']));
+    }
+
 }

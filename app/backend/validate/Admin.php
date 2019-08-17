@@ -38,6 +38,7 @@ class Admin extends Validate
         'read'          =>  ['id'],
         // 'update'        =>  ['id', 'password', 'display_name', 'status'],
         'delete'        =>  ['id'],
+        'groups'         =>  ['id'],
     ];
 
     public function sceneUpdate()

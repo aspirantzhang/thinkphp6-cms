@@ -16,6 +16,11 @@ Route::resource('admins', 'Admin')->except(['create', 'edit'])
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class)
         ->allowCrossDomain();
 
+Route::get('admins/:id/groups', 'Admin/groups')
+        ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class)
+        ->allowCrossDomain();
+
+
 Route::resource('groups', 'AuthGroup')->except(['create', 'edit'])
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class)
         ->allowCrossDomain();
@@ -23,5 +28,4 @@ Route::resource('groups', 'AuthGroup')->except(['create', 'edit'])
 Route::resource('rules', 'AuthRule')->except(['create', 'edit'])
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthRule::class)
         ->allowCrossDomain();
-
 
