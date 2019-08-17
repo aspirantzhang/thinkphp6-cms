@@ -20,6 +20,8 @@ class Admin extends Common
     public $allowSearch = ['id', 'username', 'display_name', 'status', 'create_time'];
     public $allowLogin = ['username', 'password'];
 
+    // Relation
+
     // Accessor
 
     // Mutator
