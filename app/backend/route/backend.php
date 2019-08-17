@@ -10,22 +10,37 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::post('login', 'Index/login')->validate(\app\backend\validate\Admin::class, 'login')->allowCrossDomain();
+Route::post('login', 'Index/login')->validate(\app\backend\validate\Admin::class, 'login')->allowCrossDomain([
+        'Access-Control-Allow-Origin'        => 'localhost:8000',
+        'Access-Control-Allow-Credentials'   => 'true'
+    ]);
 
 Route::resource('admins', 'Admin')->except(['create', 'edit'])
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class)
-        ->allowCrossDomain();
+        ->allowCrossDomain([
+        'Access-Control-Allow-Origin'        => 'localhost:8000',
+        'Access-Control-Allow-Credentials'   => 'true'
+    ]);
 
 Route::get('admins/:id/groups', 'Admin/groups')
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class)
-        ->allowCrossDomain();
+        ->allowCrossDomain([
+        'Access-Control-Allow-Origin'        => 'localhost:8000',
+        'Access-Control-Allow-Credentials'   => 'true'
+    ]);
 
 
 Route::resource('groups', 'AuthGroup')->except(['create', 'edit'])
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class)
-        ->allowCrossDomain();
+        ->allowCrossDomain([
+        'Access-Control-Allow-Origin'        => 'localhost:8000',
+        'Access-Control-Allow-Credentials'   => 'true'
+    ]);
 
 Route::resource('rules', 'AuthRule')->except(['create', 'edit'])
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthRule::class)
-        ->allowCrossDomain();
+        ->allowCrossDomain([
+        'Access-Control-Allow-Origin'        => 'localhost:8000',
+        'Access-Control-Allow-Credentials'   => 'true'
+    ]);
 

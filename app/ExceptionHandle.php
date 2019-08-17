@@ -63,7 +63,7 @@ class ExceptionHandle extends Handle
         // 添加自定义异常处理机制
         if ($e instanceof ValidateException) {
             return json(['code'=>'42201', 'error'=>$e->getError()])->code(422)->header([
-                'access-control-allow-origin' => '*',
+                'access-control-allow-origin' => 'localhost:8000',
                 'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE',
                 'access-control-allow-headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With',
                 'access-control-allow-credentials' => 'true',
