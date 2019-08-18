@@ -66,9 +66,9 @@ class Admin extends AdminLogic
     {
         $result = $this->checkPassword($data);
         if ($result === -1) {
-            return msg(4002, 'Invalid username or incorrect password.');
+            return msg(200, ['status'=>'error', 'type'=>'account', 'currentAuthority'=>'guest']);
         } elseif ($result == false) {
-            return msg(4002, 'Invalid username or incorrect password.');
+            return msg(200, ['status'=>'error', 'type'=>'account', 'currentAuthority'=>'guest']);
         } else {
             return msg(200, ['status'=>'ok', 'type'=>'account', 'currentAuthority'=>'admin']);
         }
