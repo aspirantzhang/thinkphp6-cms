@@ -32,6 +32,7 @@ class AuthGroup extends Validate
         'read'          =>  ['id'],
         'update'        =>  ['id', 'name', 'status'],
         'delete'        =>  ['id'],
+        'tree'          =>  [''],
     ];
 
     protected function checkDateTimeRange($value, $rule, $data=[])

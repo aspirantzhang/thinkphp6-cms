@@ -45,4 +45,10 @@ class AuthGroup extends Common
         return $result;
     }
 
+    public function tree()
+    {
+        $result = $this->authGroupService->printTree($this->request->only($this->authGroupService->allowIndex));
+        return json($result);
+    }
+
 }

@@ -11,13 +11,14 @@ class AuthGroup extends Common
     use SoftDelete;
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'name', 'rules', 'status', 'create_time'];
-    public $allowList = ['id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
-    public $allowRead = ['id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
+    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
+    public $allowList = ['id', 'parent_id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
+    public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowSave = ['name', 'status'];
-    public $allowUpdate = ['id', 'name', 'status'];
-    public $allowSearch = ['id', 'name', 'status', 'create_time'];
+    public $allowSave = ['parent_id', 'name', 'status'];
+    public $allowUpdate = ['id', 'parent_id', 'name', 'status'];
+    public $allowSearch = ['id', 'parent_id', 'name', 'status', 'create_time'];
+    public $allowTree = ['id', 'parent_id', 'name', 'rules'];
 
     // Accessor
 
