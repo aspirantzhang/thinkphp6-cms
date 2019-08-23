@@ -9,7 +9,11 @@ class Admin extends AdminLogic
 {
     public function listApi($data)
     {
-        return $this->getNormalList($data);
+        $list = $this->buildPageIndex();
+        $dataSource = $this->getNormalList($data)->toArray();
+        $list['table']['dataSource'] = $dataSource['dataSource'];
+        $list['table']['pagination'] = $dataSource['pagination'];
+        return $list;
     }
 
     public function saveApi($data)
