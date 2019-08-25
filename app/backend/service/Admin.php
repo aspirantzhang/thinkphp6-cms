@@ -44,6 +44,12 @@ class Admin extends AdminLogic
         }
     }
 
+    public function editApi()
+    {
+        $form = $this->buildPageEdit();
+        return $form;
+    }
+
     public function updateApi($id, $data)
     {
         $admin = $this->where('id', $id)->find();

@@ -35,8 +35,8 @@ class Admin extends Common
         $builder->page('admin-create', 'New Admin')
                 ->pageType('create')
                 // ->form('create')
-                ->sidebar('sidebar1', 'Sidebar Title 1')
-                ->sidebar('sidebar2', 'Sidebar Title 2');
+                ->sidebar('sidebar1')
+                ->sidebar('sidebar2');
 
         $builder->toForm('create')
                 ->addText('username', 'Admin Name')
@@ -60,9 +60,18 @@ class Admin extends Common
                 ->append([
                     'checkedChildren'   =>  'On',
                     'unCheckedChildren' =>  'Off',
-                    'default'           =>  'Checked',
+                    'default'           =>  'defaultChecked',
                 ]);
         $builder->toForm('create')
+                ->addButton('submit', 'Submit')
+                ->type('primary');
+
+
+        $builder->toSidebar1()
+                ->addText('sidebar-search', 'Sidebar Search')
+                ->placeholder('Enter Keywords');
+
+        $builder->toSidebar1()
                 ->addButton('submit', 'Submit')
                 ->type('primary');
 
@@ -76,8 +85,8 @@ class Admin extends Common
         $builder->page('admin-list', 'Admin List')
                 ->pageType('list')
                 ->table('tablename' ,'Table Title')
-                ->sidebar('sidebar1', 'Sidebar Title 1')
-                ->sidebar('sidebar2', 'Sidebar Title 2');
+                ->sidebar('sidebar1')
+                ->sidebar('sidebar2');
 
         $builder->titleBar();
         $builder->toolBar();
