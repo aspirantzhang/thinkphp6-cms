@@ -28,6 +28,47 @@ class Admin extends Common
     }
 
     // Page Builder
+
+    public function buildPageCreate()
+    {
+        $builder = new Builder;
+        $builder->page('admin-create', 'New Admin')
+                ->pageType('create')
+                // ->form('create')
+                ->sidebar('sidebar1', 'Sidebar Title 1')
+                ->sidebar('sidebar2', 'Sidebar Title 2');
+
+        $builder->toForm('create')
+                ->addText('username', 'Admin Name')
+                ->placeholder('Enter Admin Name');
+        $builder->toForm('create')
+                ->addRadio('sex', 'Sex')
+                ->option([
+                    1         =>  'Male',
+                    0         =>  'Female',
+                ], 0);
+        $builder->toForm('create')
+                ->addCheckbox('group', 'Group')
+                ->option([
+                    1         =>  'Group1',
+                    2         =>  'Group2',
+                    3         =>  'Group3',
+                    4         =>  'Group4',
+                ], 2);
+        $builder->toForm('create')
+                ->addSwitch('status', 'Status')
+                ->append([
+                    'checkedChildren'   =>  'On',
+                    'unCheckedChildren' =>  'Off',
+                    'default'           =>  'Checked',
+                ]);
+        $builder->toForm('create')
+                ->addButton('submit', 'Submit')
+                ->type('primary');
+
+        return $builder->build();
+    }
+
     public function buildPageIndex()
     {
         $builder = new Builder;
@@ -48,8 +89,8 @@ class Admin extends Common
                 ->addSelect('status', 'Status')
                 ->placeholder('Select Status')
                 ->option([
-                    'Disable'   =>  0,
-                    'Enable'    =>  1,
+                    0   =>  'Disable',
+                    1   =>  'Enable',
                 ]);
 
         $builder->advancedSearch()

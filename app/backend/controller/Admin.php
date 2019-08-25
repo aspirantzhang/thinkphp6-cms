@@ -21,6 +21,12 @@ class Admin extends Common
         return json($result);
     }
 
+    public function create()
+    {
+        $result = $this->adminService->createApi();
+        return json($result);
+    }
+
     public function save()
     {
         $result = $this->adminService->saveApi($this->request->only($this->adminService->allowSave));

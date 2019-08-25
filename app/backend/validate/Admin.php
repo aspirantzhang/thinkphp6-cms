@@ -36,9 +36,9 @@ class Admin extends Validate
         'index'         =>  ['create_time', 'page', 'per_page'],
         'save'          =>  ['username', 'password', 'display_name', 'status'],
         'read'          =>  ['id'],
-        // 'update'        =>  ['id', 'password', 'display_name', 'status'],
         'delete'        =>  ['id'],
-        'groups'         =>  ['id'],
+        'groups'        =>  ['id'],
+        'create'        =>  [''],
     ];
 
     public function sceneUpdate()

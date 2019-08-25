@@ -15,7 +15,7 @@ Route::post('login', 'Index/login')->validate(\app\backend\validate\Admin::class
         'Access-Control-Allow-Credentials'   => 'true'
     ]);
 
-Route::resource('admins', 'Admin')->except(['create', 'edit'])
+Route::resource('admins', 'Admin')
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class)
         ->allowCrossDomain([
         'Access-Control-Allow-Origin'        => 'http://localhost:8000',

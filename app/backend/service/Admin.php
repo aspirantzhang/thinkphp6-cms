@@ -16,6 +16,12 @@ class Admin extends AdminLogic
         return $list;
     }
 
+    public function createApi()
+    {
+        $form = $this->buildPageCreate();
+        return $form;
+    }
+
     public function saveApi($data)
     {
         $result = $this->saveNew($data);
