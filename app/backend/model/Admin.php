@@ -13,7 +13,7 @@ class Admin extends Common
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id', 'name'];
     public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time'];
-    public $allowList = ['id', 'username', 'display_name', 'status' ,'create_time' ,'update_time'];
+    public $allowList = ['id', 'username', 'display_name', 'status' ,'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status' ,'create_time' ,'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowSave = ['username', 'password', 'display_name', 'status'];
@@ -84,16 +84,14 @@ class Admin extends Common
 
         $builder->page('admin-list', 'Admin List')
                 ->pageType('list')
-                ->table('tablename' ,'Table Title')
-                ->sidebar('sidebar1')
-                ->sidebar('sidebar2');
+                ->table('table' ,'Administrator Manage');
 
         $builder->titleBar();
         $builder->toolBar();
 
         $builder->searchBar()
                 ->addText('username', 'Admin Name')
-                ->placeholder('Enter Admin Name');
+                ->placeholder('Search Admin Name');
         $builder->searchBar()
                 ->addSelect('status', 'Status')
                 ->placeholder('Select Status')
@@ -112,14 +110,23 @@ class Admin extends Common
                 ->addButton('search', 'Search')
                 ->type('primary');
 
-        $builder->bottomBar();
 
-        $builder->toTable('tablename')
+        $builder->toTable('table')
                 ->addColumn('id', 'ID');
-        $builder->toTable('tablename')
-                ->addColumn('name', 'Admin Name')
-                ->link('#/backend/admins/edit');
-        $builder->toTable('tablename')
+        $builder->toTable('table')
+                ->addColumn('username', 'Username')
+                ->columnLink('backend/admins/edit');
+        $builder->toTable('table')
+                ->addColumn('display_name', 'Display Name');
+        $builder->toTable('table')
+                ->addColumn('create_time', 'Create Time');
+        $builder->toTable('table')
+                ->addColumn('status', 'Status')
+                ->columTag([
+                    'Enable'    =>  'green',
+                    'Disable'   =>  'red'
+                ]);
+        $builder->toTable('table')
                 ->addColumn('action', 'Operation')
                 ->actionButton('edit', 'Edit', [
                     'onClick'   =>  [
@@ -138,11 +145,12 @@ class Admin extends Common
     }
 
 
-
-
-
-
     // Accessor
+    public function getStatusAttr($value)
+    {
+        $text = ['Disable', 'Enable'];
+        return $text[$value];
+    }
 
     // Mutator
     public function setPasswordAttr($value)
