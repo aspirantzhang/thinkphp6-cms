@@ -9,18 +9,30 @@ class AuthGroup extends AuthGroupLogic
 {
     public function listApi($data)
     {
-        return $this->getNormalList($data);
+        $list = $this->buildList();
+        $dataSource = $this->getListData($data)->toArray();
+        $list['table']['dataSource'] = $dataSource['dataSource'];
+        $list['table']['pagination'] = $dataSource['pagination'];
+        return $list;
+    }
+
+    public function createApi()
+    {
+        $form = $this->buildSingle();
+        return $form;
     }
 
     public function saveApi($data)
     {
         $result = $this->saveNew($data);
         if ($result == -1) {
-            return msg(4091, $this->error);
+            //already exists
+            return $this->error($this->error);
         } elseif ($result == 0) {
-            return msg(4001, $this->error);
+            // save failed
+            return $this->error($this->error);
         } else {
-            return msg(201);
+            return $this->success('Create completed successfully.');
         }
     }
 
@@ -28,9 +40,22 @@ class AuthGroup extends AuthGroupLogic
     {
         $result = $this->where('id', $id)->find();
         if ($result) {
-            return msg(200, $result->visible($this->allowRead));
+            $form = $result->visible($this->allowRead)->toArray();
+            return $form;
         } else {
-            return msg(4041, 'Group not found.');
+            return $this->error('Admin not found');
+        }
+    }
+
+    public function editApi($id)
+    {
+        $result = $this->where('id', $id)->find();
+        if ($result) {
+            $result = $result->visible($this->allowRead)->toArray();
+            $form = $this->buildSingle($result, 'edit');
+            return $form;
+        } else {
+            return $this->error('Admin not found');
         }
     }
 
@@ -39,26 +64,26 @@ class AuthGroup extends AuthGroupLogic
         $group = $this->where('id', $id)->find();
         if ($group) {
             if ($group->allowField($this->allowUpdate)->save($data)) {
-                return msg(204);
+                return $this->success('Update completed successfully.');
             } else {
-                return msg(4092, 'Update failed.');
+                return $this->error('Update failed.');
             }
         } else {
-            return msg(4041, 'Group not found.');
+            return $this->error('Admin not found.');
         }
     }
 
     public function deleteApi($id)
     {
-        $group = $this->find($id);
-        if ($group) {
-            if ($group->delete()) {
-                return msg(204);
+        $admin = $this->find($id);
+        if ($admin) {
+            if ($admin->delete()) {
+                return $this->success('Delete completed successfully.');
             } else {
-                return msg(4093, 'Delete failed.');
+                return $this->error('Delete failed.');
             }
         } else {
-            return msg(4101, 'That Group Does not exist.');
+            return $this->error('Admin not found.');
         }
     }
 

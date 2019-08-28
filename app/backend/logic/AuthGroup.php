@@ -10,7 +10,7 @@ use BlueM\Tree\Serializer\HierarchicalTreeJsonSerializer;
 class AuthGroup extends AuthGroupModel
 {
 
-    protected function getNormalList($data)
+    protected function getListData($data)
     {
         $search = getSearchParam($data, $this->allowSearch);
         $sort = getSortParam($data, $this->allowSort);

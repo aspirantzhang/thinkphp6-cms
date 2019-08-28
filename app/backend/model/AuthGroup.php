@@ -5,6 +5,7 @@ namespace app\backend\model;
 
 use app\backend\model\Common;
 use think\model\concern\SoftDelete;
+use aspirantzhang\TPAntdBuilder\Builder;
 
 class AuthGroup extends Common
 {
@@ -20,7 +21,111 @@ class AuthGroup extends Common
     public $allowSearch = ['id', 'parent_id', 'name', 'status', 'create_time'];
     public $allowTree = ['id', 'parent_id', 'name', 'rules'];
 
+    // Relation
+
+    // Page Builder
+    public function buildSingle($data=[], $type='create')
+    {
+        $builder = new Builder($data);
+        $builder->pageType($type)
+                ->pageTitle('group', [
+                    'create'    =>  'Add Group',
+                    'edit'      =>  'Edit Group',
+                ]);
+
+        $builder->toForm('create')
+                ->addText('parent_id', 'Parent ID')
+                ->placeholder('Enter Parent ID (X)');
+        $builder->toForm('create')
+                ->addText('name', 'Name')
+                ->placeholder('Enter Group Name');
+        $builder->toForm('create')
+                ->addText('rules', 'Rules')
+                ->placeholder('Enter Rules (X)');
+        $builder->toForm('create')
+                ->addSwitch('status', 'Status')
+                ->append([
+                    'checkedChildren'   =>  'Enable',
+                    'unCheckedChildren' =>  'Disable',
+                    'default'           =>  'Enable',
+                ]);
+        $builder->toForm('create')
+                ->addButton('submit', 'Submit')
+                ->type('primary');
+
+        return $builder->build();
+    }
+
+    public function buildList($data=[], $type='index')
+    {
+        $builder = new Builder;
+        $builder->pageType($type)
+                ->pageTitle('group', [
+                    'index' =>  'Group List',
+                ])
+                ->table('table' ,'Group Manage');
+
+        $builder->searchBar()
+                ->addText('name', 'Group Name')
+                ->placeholder('Search Group Name');
+        $builder->searchBar()
+                ->addSelect('status', 'Status')
+                ->placeholder('Select Status')
+                ->option([
+                    0   =>  'Disable',
+                    1   =>  'Enable',
+                ]);
+
+        $builder->advancedSearch()
+                ->addDatePicker('create_time', 'Create Time')
+                ->format('YYYY-MM-DD HH:mm:ss')
+                ->append([
+                    'showTime'  =>  true,
+                ]);
+        $builder->advancedSearch()
+                ->addButton('search', 'Search')
+                ->type('primary');
+
+
+        $builder->toTable('table')
+                ->addColumn('id', 'ID');
+        $builder->toTable('table')
+                ->addColumn('name', 'Name')
+                ->columnLink('backend/groups/edit');
+        $builder->toTable('table')
+                ->addColumn('rules', 'Rules Name');
+        $builder->toTable('table')
+                ->addColumn('create_time', 'Create Time');
+        $builder->toTable('table')
+                ->addColumn('status', 'Status')
+                ->columTag([
+                    'Enable'    =>  'green',
+                    'Disable'   =>  'red'
+                ]);
+        $builder->toTable('table')
+                ->addColumn('action', 'Operation')
+                ->actionButton('edit', 'Edit', [
+                    'onClick'   =>  [
+                        'name'  =>  'openModal',
+                        'url'   =>  'backend/groups/edit'
+                    ]
+                ])
+                ->actionButton('delete', 'Delete', [
+                    'onConfirm'   =>  [
+                        'name'  =>  'changeStatus',
+                        'url'   =>  'backend/groups/delete'
+                    ]
+                ]);
+
+        return $builder->build();
+    }
+
     // Accessor
+    public function getStatusAttr($value)
+    {
+        $text = ['Disable', 'Enable'];
+        return $text[$value];
+    }
 
     // Mutator
 

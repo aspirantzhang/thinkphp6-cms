@@ -21,28 +21,40 @@ class AuthGroup extends Common
         return json($result);
     }
 
+    public function create()
+    {
+        $result = $this->authGroupService->createApi();
+        return json($result);
+    }
+
     public function save()
     {
         $result = $this->authGroupService->saveApi($this->request->only($this->authGroupService->allowSave));
-        return $result;
+        return json($result);
     }
 
     public function read($id)
     {
         $result = $this->authGroupService->readApi($id);
-        return $result;
+        return json($result);
+    }
+
+    public function edit($id)
+    {
+        $result = $this->authGroupService->editApi($id);
+        return json($result);
     }
 
     public function update($id)
     {
         $result = $this->authGroupService->updateApi($id, $this->request->only($this->authGroupService->allowUpdate));
-        return $result;
+        return json($result);
     }
 
     public function delete($id)
     {
         $result = $this->authGroupService->deleteApi($id);
-        return $result;
+        return json($result);
     }
 
     public function tree()

@@ -60,7 +60,7 @@ class Admin extends Common
         return $builder->build();
     }
 
-    public function buildPageIndex($data=[], $type='index')
+    public function buildList($data=[], $type='index')
     {
         $builder = new Builder;
         $builder->pageType($type)

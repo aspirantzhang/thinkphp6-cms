@@ -8,7 +8,7 @@ use app\backend\model\Admin as AdminModel;
 class Admin extends AdminModel
 {
 
-    protected function getNormalList($data)
+    protected function getListData($data)
     {
         $search = getSearchParam($data, $this->allowSearch);
         $sort = getSortParam($data, $this->allowSort);

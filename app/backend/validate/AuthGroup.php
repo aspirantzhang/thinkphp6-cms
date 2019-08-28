@@ -30,6 +30,8 @@ class AuthGroup extends Validate
         'index'         =>  ['create_time', 'page', 'per_page'],
         'save'          =>  ['name', 'status'],
         'read'          =>  ['id'],
+        'edit'          =>  ['id'],
+        'create'        =>  [''],
         'update'        =>  ['id', 'name', 'status'],
         'delete'        =>  ['id'],
         'tree'          =>  [''],

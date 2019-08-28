@@ -30,7 +30,7 @@ Route::get('admins/:id/groups', 'Admin/groups')
     ]);
 
 
-Route::resource('groups', 'AuthGroup')->except(['create', 'edit'])
+Route::resource('groups', 'AuthGroup')
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class)
         ->allowCrossDomain([
         'Access-Control-Allow-Origin'        => 'http://localhost:8000',
@@ -44,7 +44,7 @@ Route::get('groups/tree', 'AuthGroup/tree')
         'Access-Control-Allow-Credentials'   => 'true'
     ]);
 
-Route::resource('rules', 'AuthRule')->except(['create', 'edit'])
+Route::resource('rules', 'AuthRule')
         ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthRule::class)
         ->allowCrossDomain([
         'Access-Control-Allow-Origin'        => 'http://localhost:8000',
