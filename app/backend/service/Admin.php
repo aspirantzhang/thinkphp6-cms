@@ -18,7 +18,7 @@ class Admin extends AdminLogic
 
     public function createApi()
     {
-        $form = $this->buildPageCreate();
+        $form = $this->buildSingle();
         return $form;
     }
 
@@ -26,11 +26,13 @@ class Admin extends AdminLogic
     {
         $result = $this->saveNew($data);
         if ($result == -1) {
-            return msg(4091, $this->error);
+            //already exists
+            return $this->error($this->error);
         } elseif ($result == 0) {
-            return msg(4001, $this->error);
+            // save failed
+            return $this->error($this->error);
         } else {
-            return msg(201);
+            return $this->success('Create completed successfully.');
         }
     }
 
@@ -38,16 +40,23 @@ class Admin extends AdminLogic
     {
         $result = $this->where('id', $id)->find();
         if ($result) {
-            return msg(200, $result->visible($this->allowRead));
+            $form = $result->visible($this->allowRead)->toArray();
+            return $form;
         } else {
-            return msg(4041, 'Admin not found.');
+            return $this->error('Admin not found');
         }
     }
 
-    public function editApi()
+    public function editApi($id)
     {
-        $form = $this->buildPageEdit();
-        return $form;
+        $result = $this->where('id', $id)->find();
+        if ($result) {
+            $result = $result->visible($this->allowRead)->toArray();
+            $form = $this->buildSingle($result, 'edit');
+            return $form;
+        } else {
+            return $this->error('Admin not found');
+        }
     }
 
     public function updateApi($id, $data)
@@ -55,12 +64,12 @@ class Admin extends AdminLogic
         $admin = $this->where('id', $id)->find();
         if ($admin) {
             if ($admin->allowField($this->allowUpdate)->save($data)) {
-                return msg(204);
+                return $this->success('Update completed successfully.');
             } else {
-                return msg(4092, 'Update failed.');
+                return $this->error('Update failed.');
             }
         } else {
-            return msg(4041, 'Admin not found.');
+            return $this->error('Admin not found.');
         }
     }
 
@@ -69,12 +78,12 @@ class Admin extends AdminLogic
         $admin = $this->find($id);
         if ($admin) {
             if ($admin->delete()) {
-                return msg(204);
+                return $this->success('Delete completed successfully.');
             } else {
-                return msg(4093, 'Delete failed.');
+                return $this->error('Delete failed.');
             }
         } else {
-            return msg(4101, 'That Admin Does not exist.');
+            return $this->error('Admin not found.');
         }
     }
 
@@ -82,11 +91,11 @@ class Admin extends AdminLogic
     {
         $result = $this->checkPassword($data);
         if ($result === -1) {
-            return msg(200, ['status'=>'error', 'type'=>'account', 'currentAuthority'=>'guest']);
+            return ['status'=>'error', 'type'=>'account', 'currentAuthority'=>'guest'];
         } elseif ($result == false) {
-            return msg(200, ['status'=>'error', 'type'=>'account', 'currentAuthority'=>'guest']);
+            return ['status'=>'error', 'type'=>'account', 'currentAuthority'=>'guest'];
         } else {
-            return msg(200, ['status'=>'ok', 'type'=>'account', 'currentAuthority'=>'admin']);
+            return ['status'=>'ok', 'type'=>'account', 'currentAuthority'=>'admin'];
         }
 
     }

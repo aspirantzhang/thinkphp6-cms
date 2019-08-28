@@ -19,7 +19,7 @@ class Index extends Common
     public function login(AdminService $adminService)
     {
         $result = $adminService->loginApi($this->request->only($adminService->allowLogin));
-        return $result;
+        return json($result);
     }
 
 

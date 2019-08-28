@@ -12,14 +12,14 @@ class Admin extends Common
     use SoftDelete;
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id', 'name'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time'];
-    public $allowList = ['id', 'username', 'display_name', 'status' ,'create_time'];
-    public $allowRead = ['id', 'username', 'display_name', 'status' ,'create_time' ,'update_time'];
-    public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowSave = ['username', 'password', 'display_name', 'status'];
+    public $allowIndex  = ['sort', 'order', 'page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time'];
+    public $allowList   = ['id', 'username', 'display_name', 'status' ,'create_time'];
+    public $allowSort   = ['sort', 'order', 'id', 'create_time'];
+    public $allowRead   = ['id', 'username', 'display_name', 'status' ,'create_time' ,'update_time'];
+    public $allowSave   = ['username', 'password', 'display_name', 'status'];
     public $allowUpdate = ['password', 'display_name', 'status'];
     public $allowSearch = ['id', 'username', 'display_name', 'status', 'create_time'];
-    public $allowLogin = ['username', 'password'];
+    public $allowLogin  = ['username', 'password'];
 
     // Relation
     public function groups()
@@ -28,66 +28,46 @@ class Admin extends Common
     }
 
     // Page Builder
-
-    public function buildPageCreate()
+    public function buildSingle($data=[], $type='create')
     {
-        $builder = new Builder;
-        $builder->page('admin-create', 'New Admin')
-                ->pageType('create')
-                // ->form('create')
-                ->sidebar('sidebar1')
-                ->sidebar('sidebar2');
+        $builder = new Builder($data);
+        $builder->pageType($type)
+                ->pageTitle('admin', [
+                    'create'    =>  'Add Admin',
+                    'edit'      =>  'Edit Admin',
+                ]);
 
         $builder->toForm('create')
-                ->addText('username', 'Admin Name')
-                ->placeholder('Enter Admin Name');
+                ->addText('username', 'Username')
+                ->placeholder('Enter Username');
         $builder->toForm('create')
-                ->addRadio('sex', 'Sex')
-                ->option([
-                    1         =>  'Male',
-                    0         =>  'Female',
-                ], 0);
+                ->addText('password', 'Password')
+                ->placeholder('Enter Password (6-32 characters)');
         $builder->toForm('create')
-                ->addCheckbox('group', 'Group')
-                ->option([
-                    1         =>  'Group1',
-                    2         =>  'Group2',
-                    3         =>  'Group3',
-                    4         =>  'Group4',
-                ], 2);
+                ->addText('display_name', 'Dipslay Name')
+                ->placeholder('Enter Display Name');
         $builder->toForm('create')
                 ->addSwitch('status', 'Status')
                 ->append([
-                    'checkedChildren'   =>  'On',
-                    'unCheckedChildren' =>  'Off',
-                    'default'           =>  'defaultChecked',
+                    'checkedChildren'   =>  'Enable',
+                    'unCheckedChildren' =>  'Disable',
+                    'default'           =>  'Enable',
                 ]);
         $builder->toForm('create')
-                ->addButton('submit', 'Submit')
-                ->type('primary');
-
-
-        $builder->toSidebar1()
-                ->addText('sidebar-search', 'Sidebar Search')
-                ->placeholder('Enter Keywords');
-
-        $builder->toSidebar1()
                 ->addButton('submit', 'Submit')
                 ->type('primary');
 
         return $builder->build();
     }
 
-    public function buildPageIndex()
+    public function buildPageIndex($data=[], $type='index')
     {
         $builder = new Builder;
-
-        $builder->page('admin-list', 'Admin List')
-                ->pageType('list')
+        $builder->pageType($type)
+                ->pageTitle('admin', [
+                    'index' =>  'Admin List',
+                ])
                 ->table('table' ,'Administrator Manage');
-
-        $builder->titleBar();
-        $builder->toolBar();
 
         $builder->searchBar()
                 ->addText('username', 'Admin Name')

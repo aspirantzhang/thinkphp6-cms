@@ -15,7 +15,6 @@ class Admin extends Common
         parent::initialize();
     }
 
-
     public function index()
     {
         $result = $this->adminService->listApi($this->request->only($this->adminService->allowIndex));
@@ -31,13 +30,13 @@ class Admin extends Common
     public function save()
     {
         $result = $this->adminService->saveApi($this->request->only($this->adminService->allowSave));
-        return $result;
+        return json($result);
     }
 
     public function read($id)
     {
         $result = $this->adminService->readApi($id);
-        return $result;
+        return json($result);
     }
 
     public function edit($id)
@@ -49,13 +48,13 @@ class Admin extends Common
     public function update($id)
     {
         $result = $this->adminService->updateApi($id, $this->request->only($this->adminService->allowUpdate));
-        return $result;
+        return json($result);
     }
 
     public function delete($id)
     {
         $result = $this->adminService->deleteApi($id);
-        return $result;
+        return json($result);
     }
 
     public function groups($id)

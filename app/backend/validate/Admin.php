@@ -36,6 +36,7 @@ class Admin extends Validate
         'index'         =>  ['create_time', 'page', 'per_page'],
         'save'          =>  ['username', 'password', 'display_name', 'status'],
         'read'          =>  ['id'],
+        'edit'          =>  ['id'],
         'delete'        =>  ['id'],
         'groups'        =>  ['id'],
         'create'        =>  [''],
