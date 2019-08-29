@@ -21,28 +21,40 @@ class AuthRule extends Common
         return json($result);
     }
 
+    public function create()
+    {
+        $result = $this->authRuleService->createApi();
+        return json($result);
+    }
+
     public function save()
     {
         $result = $this->authRuleService->saveApi($this->request->only($this->authRuleService->allowSave));
-        return $result;
+        return json($result);
     }
 
     public function read($id)
     {
         $result = $this->authRuleService->readApi($id);
-        return $result;
+        return json($result);
+    }
+
+    public function edit($id)
+    {
+        $result = $this->authRuleService->editApi($id);
+        return json($result);
     }
 
     public function update($id)
     {
         $result = $this->authRuleService->updateApi($id, $this->request->only($this->authRuleService->allowUpdate));
-        return $result;
+        return json($result);
     }
 
     public function delete($id)
     {
         $result = $this->authRuleService->deleteApi($id);
-        return $result;
+        return json($result);
     }
 
 }

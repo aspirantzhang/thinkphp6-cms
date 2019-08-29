@@ -43,7 +43,7 @@ class AuthGroup extends AuthGroupLogic
             $form = $result->visible($this->allowRead)->toArray();
             return $form;
         } else {
-            return $this->error('Admin not found');
+            return $this->error('Group not found');
         }
     }
 
@@ -55,7 +55,7 @@ class AuthGroup extends AuthGroupLogic
             $form = $this->buildSingle($result, 'edit');
             return $form;
         } else {
-            return $this->error('Admin not found');
+            return $this->error('Group not found');
         }
     }
 
@@ -69,7 +69,7 @@ class AuthGroup extends AuthGroupLogic
                 return $this->error('Update failed.');
             }
         } else {
-            return $this->error('Admin not found.');
+            return $this->error('Group not found.');
         }
     }
 
@@ -83,7 +83,7 @@ class AuthGroup extends AuthGroupLogic
                 return $this->error('Delete failed.');
             }
         } else {
-            return $this->error('Admin not found.');
+            return $this->error('Group not found.');
         }
     }
 

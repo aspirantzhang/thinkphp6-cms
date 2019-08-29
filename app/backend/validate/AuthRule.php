@@ -35,8 +35,10 @@ class AuthRule extends Validate
         'index'         =>  ['create_time', 'page', 'per_page'],
         'save'          =>  ['rule', 'name', 'type', 'status'],
         'read'          =>  ['id'],
+        'edit'          =>  ['id'],
         'update'        =>  ['id', 'rule', 'name', 'type', 'status'],
         'delete'        =>  ['id'],
+        'create'        =>  [''],
     ];
 
     protected function checkDateTimeRange($value, $rule, $data=[])
