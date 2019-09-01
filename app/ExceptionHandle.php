@@ -67,7 +67,7 @@ class ExceptionHandle extends Handle
                 'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE',
                 'access-control-allow-headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With',
                 'access-control-allow-credentials' => 'true',
-            ]);;
+            ]);
         }
 
         // 其他错误交给系统处理
