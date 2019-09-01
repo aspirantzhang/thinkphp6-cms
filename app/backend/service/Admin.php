@@ -38,7 +38,7 @@ class Admin extends AdminLogic
 
     public function readApi($id)
     {
-        $result = $this->where('id', $id)->find();
+        $result = $this->where('id', $id)->with('groups')->find();
         if ($result) {
             $form = $result->visible($this->allowRead)->toArray();
             return $form;
@@ -49,7 +49,9 @@ class Admin extends AdminLogic
 
     public function editApi($id)
     {
-        $result = $this->where('id', $id)->find();
+        $result = $this->where('id', $id)->with(['groups'=>function($query) {
+                        $query->field('auth_group.id, auth_group.name')->where('auth_group.status', 1)->hidden(['pivot']);
+                    }])->find();
         if ($result) {
             $result = $result->visible($this->allowRead)->toArray();
             $form = $this->buildSingle($result, 'edit');

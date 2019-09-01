@@ -92,5 +92,4 @@ class AuthGroup extends AuthGroupLogic
         return $this->getTreeList($data);
     }
 
-
 }

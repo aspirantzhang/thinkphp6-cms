@@ -7,6 +7,10 @@ use app\backend\model\Common;
 use think\model\concern\SoftDelete;
 use aspirantzhang\TPAntdBuilder\Builder;
 
+use app\backend\service\AuthGroup as AuthGroupService;
+use BlueM\Tree;
+use BlueM\Tree\Serializer\HierarchicalTreeJsonSerializer;
+
 class Admin extends Common
 {
     use SoftDelete;
@@ -30,6 +34,10 @@ class Admin extends Common
     // Page Builder
     public function buildSingle($data=[], $type='create')
     {
+
+        $groupService = new AuthGroupService;
+        $groups = $groupService->printTree(['order'=>'asc']);
+
         $builder = new Builder($data);
         $builder->pageType($type)
                 ->pageTitle('admin', [
@@ -46,6 +54,11 @@ class Admin extends Common
         $builder->toForm('create')
                 ->addText('display_name', 'Dipslay Name')
                 ->placeholder('Enter Display Name');
+        $builder->toForm('create')
+                ->addTree('groups', 'Groups')
+                ->append([
+                    'treeData'  => $groups
+                ]);
         $builder->toForm('create')
                 ->addSwitch('status', 'Status')
                 ->append([
@@ -73,8 +86,7 @@ class Admin extends Common
                 ->addText('username', 'Admin Name')
                 ->placeholder('Search Admin Name');
         $builder->searchBar()
-                ->addSelect('status', 'Status')
-                ->placeholder('Select Status')
+                ->addSwitch('status', 'Status')
                 ->option([
                     0   =>  'Disable',
                     1   =>  'Enable',
@@ -134,17 +146,6 @@ class Admin extends Common
         $text = ['Disable', 'Enable'];
         return $text[$value];
     }
-    // public function getGroupAttr($value)
-    // {
-    //     $group = [];
-    //     foreach ($this->groups->toArray() as $key => $value) {
-    //         $group[] = [
-    //             'id' => $value['id'],
-    //             'name' => $value['name']
-    //         ];
-    //     }
-    //     return $group;
-    // }
 
     // Mutator
     public function setPasswordAttr($value)

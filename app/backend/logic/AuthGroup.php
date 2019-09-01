@@ -38,7 +38,7 @@ class AuthGroup extends AuthGroupModel
         }
     }
 
-    protected function getTreeList($data)
+    public function getTreeList($data)
     {
         $search = getSearchParam($data, $this->allowSearch);
         $sort = getSortParam($data, $this->allowSort);
@@ -46,15 +46,25 @@ class AuthGroup extends AuthGroupModel
         $data = $this->withSearch(array_keys($search), $search)
                     ->order($sort['name'], $sort['order'])
                     ->visible($this->allowTree)
-                    ->select();
+                    ->select()
+                    ->toArray();
+
+        // Rename Key Name
+        $data = array_map(function($arr) {
+            return [
+                'id'        =>  $arr['id'],
+                'parent'    =>  $arr['parent_id'],
+                'title'     =>  $arr['name'],
+                'key'       =>  $arr['id']
+            ];
+        }, $data);
 
         $serializer = new HierarchicalTreeJsonSerializer();
 
-        $tree = new Tree($data->toArray(), ['rootId' => 0, 'id' => 'id', 'parent' => 'parent_id', 'jsonSerializer' => $serializer]);
+        $tree = new Tree($data, ['rootId' => 0, 'id' => 'id', 'parent' => 'parent', 'jsonSerializer' => $serializer]);
 
         return $tree;
     }
-
 
 
 }
