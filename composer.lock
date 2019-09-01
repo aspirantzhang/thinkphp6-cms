@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "901218b22415936e88a198e4c9333972",
+    "content-hash": "bb81847ade505daac73df01968a54568",
     "packages": [
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
@@ -239,6 +239,54 @@
             ],
             "description": "An adapter decorator to enable meta-data caching.",
             "time": "2018-07-09T20:51:04+00:00"
+        },
+        {
+            "name": "myttyy/thinkphp-auth",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myttyy/thinkphp-auth.git",
+                "reference": "d7710645c1e352d6637139156f26a52da7ccfe1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myttyy/thinkphp-auth/zipball/d7710645c1e352d6637139156f26a52da7ccfe1f",
+                "reference": "d7710645c1e352d6637139156f26a52da7ccfe1f",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1",
+                "topthink/framework": "6.0.*-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "myttyy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "myttyy",
+                    "email": "1297942619@qq.com"
+                }
+            ],
+            "description": "适用于thinkPHP框架的权限认证库,mAuthentication Library for ThinkPHP Framework",
+            "keywords": [
+                "auth",
+                "thinkphp",
+                "user"
+            ],
+            "time": "2019-05-22T03:22:18+00:00"
         },
         {
             "name": "nette/utils",
