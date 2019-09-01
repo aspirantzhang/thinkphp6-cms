@@ -14,7 +14,10 @@ class Admin extends AdminModel
         $sort = getSortParam($data, $this->allowSort);
         $perPage = getPerPageParam($data);
 
-        return $this->withSearch(array_keys($search), $search)
+        return $this->with(['groups'=>function($query) {
+                        $query->field('auth_group.id, auth_group.name')->where('auth_group.status', 1)->hidden(['pivot']);
+                    }])
+                    ->withSearch(array_keys($search), $search)
                     ->order($sort['name'], $sort['order'])
                     ->visible($this->allowList)
                     ->paginate($perPage);

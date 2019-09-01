@@ -13,7 +13,7 @@ class Admin extends Common
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id', 'name'];
     public $allowIndex  = ['sort', 'order', 'page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time'];
-    public $allowList   = ['id', 'username', 'display_name', 'status' ,'create_time'];
+    public $allowList   = ['id', 'username', 'display_name', 'status','create_time'];
     public $allowSort   = ['sort', 'order', 'id', 'create_time'];
     public $allowRead   = ['id', 'username', 'display_name', 'status' ,'create_time' ,'update_time'];
     public $allowSave   = ['username', 'password', 'display_name', 'status'];
@@ -95,7 +95,7 @@ class Admin extends Common
                 ->addColumn('id', 'ID');
         $builder->toTable('table')
                 ->addColumn('username', 'Username')
-                ->columnLink('backend/admins/edit');
+                ->columnLink('backend/admins/:id/edit');
         $builder->toTable('table')
                 ->addColumn('display_name', 'Display Name');
         $builder->toTable('table')
@@ -107,17 +107,20 @@ class Admin extends Common
                     'Disable'   =>  'red'
                 ]);
         $builder->toTable('table')
+                ->addColumn('groups', 'Groups')
+                ->columnLink('backend/groups/:id');
+        $builder->toTable('table')
                 ->addColumn('action', 'Operation')
                 ->actionButton('edit', 'Edit', [
                     'onClick'   =>  [
                         'name'  =>  'openModal',
-                        'url'   =>  'backend/admins/edit'
+                        'url'   =>  'backend/admins/:id/edit'
                     ]
                 ])
                 ->actionButton('delete', 'Delete', [
                     'onConfirm'   =>  [
                         'name'  =>  'changeStatus',
-                        'url'   =>  'backend/admins/delete'
+                        'url'   =>  'backend/admins/:id/delete'
                     ]
                 ]);
 
@@ -131,6 +134,17 @@ class Admin extends Common
         $text = ['Disable', 'Enable'];
         return $text[$value];
     }
+    // public function getGroupAttr($value)
+    // {
+    //     $group = [];
+    //     foreach ($this->groups->toArray() as $key => $value) {
+    //         $group[] = [
+    //             'id' => $value['id'],
+    //             'name' => $value['name']
+    //         ];
+    //     }
+    //     return $group;
+    // }
 
     // Mutator
     public function setPasswordAttr($value)
