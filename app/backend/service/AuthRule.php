@@ -86,6 +86,9 @@ class AuthRule extends AuthRuleLogic
             return $this->error('Rule not found.');
         }
     }
-
+    public function printTree($data)
+    {
+        return $this->getTreeList($data);
+    }
 
 }

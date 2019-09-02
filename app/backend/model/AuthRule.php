@@ -12,13 +12,14 @@ class AuthRule extends Common
     use SoftDelete;
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'rule', 'name', 'type', 'condition', 'status', 'create_time'];
-    public $allowList = ['id', 'rule', 'name', 'type', 'status' ,'create_time' ,'update_time'];
-    public $allowRead = ['id', 'rule', 'name', 'type', 'condition', 'status' ,'create_time' ,'update_time'];
-    public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowSave = ['rule', 'name', 'type', 'condition' ,'status'];
-    public $allowUpdate = ['id', 'rule', 'name', 'type', 'condition', 'status'];
-    public $allowSearch = ['id', 'rule', 'name', 'type', 'status', 'create_time'];
+    public $allowIndex  = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'rule', 'name', 'type', 'condition', 'status', 'create_time'];
+    public $allowList   = ['id', 'parent_id', 'rule', 'name', 'type', 'status' ,'create_time' ,'update_time'];
+    public $allowRead   = ['id', 'parent_id', 'rule', 'name', 'type', 'condition', 'status' ,'create_time' ,'update_time'];
+    public $allowSort   = ['sort', 'order', 'id', 'parent_id', 'create_time'];
+    public $allowSave   = ['parent_id', 'rule', 'name', 'type', 'condition' ,'status'];
+    public $allowUpdate = ['id', 'parent_id', 'rule', 'name', 'type', 'condition', 'status'];
+    public $allowSearch = ['id', 'parent_id', 'rule', 'name', 'type', 'status', 'create_time'];
+    public $allowTree   = ['id', 'parent_id', 'rule', 'name', 'type', 'condition'];
 
     // Relation
 
@@ -33,7 +34,10 @@ class AuthRule extends Common
                 ]);
 
         $builder->toForm('create')
-                ->addText('rule', 'rule')
+                ->addText('parent_id', 'Parent ID')
+                ->placeholder('Enter Parent ID');
+        $builder->toForm('create')
+                ->addText('rule', 'Rule')
                 ->placeholder('Enter Rule Expression');
         $builder->toForm('create')
                 ->addText('name', 'Name')
@@ -68,7 +72,6 @@ class AuthRule extends Common
                     'index' =>  'Rule List',
                 ])
                 ->table('table' ,'Rule Manage');
-
         $builder->searchBar()
                 ->addText('name', 'Rule Name')
                 ->placeholder('Search Rule Name');
@@ -93,6 +96,8 @@ class AuthRule extends Common
 
         $builder->toTable('table')
                 ->addColumn('id', 'ID');
+        $builder->toTable('table')
+                ->addColumn('parent_id', 'Parent ID');
         $builder->toTable('table')
                 ->addColumn('rule', 'Rules Expression')
                 ->columnLink('backend/rules/edit');

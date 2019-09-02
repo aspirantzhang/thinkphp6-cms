@@ -8,6 +8,7 @@ class AuthGroup extends Validate
 {
     protected $rule =   [
         'id'            =>  'require|number',
+        'parent_id'     =>  'number',
         'name'          =>  'require|length:4,32',
         'status'        =>  'in:0,1',
         'page'          =>  'number',
@@ -18,6 +19,7 @@ class AuthGroup extends Validate
     protected $message  =   [
         'id.require'                => 'ID field is empty.',
         'id.number'                 => 'ID must be numbers only.',
+        'parent_id.number'          => 'ParentID must be numbers only.',
         'name.require'              => 'The name field is empty.',
         'name.length'               => 'Name length should be between 4 and 32.',
         'status.in'                 => 'Status value should be 0 or 1.',
@@ -27,12 +29,12 @@ class AuthGroup extends Validate
     ];
 
     protected $scene = [
-        'index'         =>  ['create_time', 'page', 'per_page'],
-        'save'          =>  ['name', 'status'],
+        'index'         =>  ['parent_id', 'create_time', 'page', 'per_page'],
+        'save'          =>  ['parent_id', 'name', 'status'],
         'read'          =>  ['id'],
         'edit'          =>  ['id'],
         'create'        =>  [''],
-        'update'        =>  ['id', 'name', 'status'],
+        'update'        =>  ['id', 'parent_id', 'name', 'status'],
         'delete'        =>  ['id'],
         'tree'          =>  [''],
     ];

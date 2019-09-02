@@ -8,6 +8,7 @@ class AuthRule extends Validate
 {
     protected $rule =   [
         'id'            =>  'require|number',
+        'parent_id'     =>  'number',
         'rule'          =>  'require|length:4,32',
         'name'          =>  'require|length:4,32',
         'type'          =>  'in:0,1',
@@ -20,6 +21,7 @@ class AuthRule extends Validate
     protected $message  =   [
         'id.require'                => 'ID field is empty.',
         'id.number'                 => 'ID must be numbers only.',
+        'parent_id.number'          => 'ParentID must be numbers only.',
         'rule.require'              => 'The rule field is empty.',
         'rule.length'               => 'Rule length should be between 4 and 32.',
         'name.require'              => 'The name field is empty.',
@@ -32,11 +34,11 @@ class AuthRule extends Validate
     ];
 
     protected $scene = [
-        'index'         =>  ['create_time', 'page', 'per_page'],
-        'save'          =>  ['rule', 'name', 'type', 'status'],
+        'index'         =>  ['parent_id', 'create_time', 'page', 'per_page'],
+        'save'          =>  ['parent_id', 'rule', 'name', 'type', 'status'],
         'read'          =>  ['id'],
         'edit'          =>  ['id'],
-        'update'        =>  ['id', 'rule', 'name', 'type', 'status'],
+        'update'        =>  ['id', 'parent_id', 'rule', 'name', 'type', 'status'],
         'delete'        =>  ['id'],
         'create'        =>  [''],
     ];

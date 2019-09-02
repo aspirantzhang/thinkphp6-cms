@@ -3,11 +3,11 @@
 use think\migration\Migrator;
 use think\migration\db\Column;
 
-class GroupParentId extends Migrator
+class RuleParentId extends Migrator
 {
     public function change()
     {
-        $table = $this->table('auth_group');
+        $table = $this->table('auth_rule');
         $table->addColumn('parent_id', 'integer', ['signed' => false, 'after' => 'id'])
                 ->update();
     }

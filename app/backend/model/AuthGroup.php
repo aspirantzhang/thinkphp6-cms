@@ -7,25 +7,34 @@ use app\backend\model\Common;
 use think\model\concern\SoftDelete;
 use aspirantzhang\TPAntdBuilder\Builder;
 
+use app\backend\service\AuthRule as AuthRuleService;
+use BlueM\Tree;
+use BlueM\Tree\Serializer\HierarchicalTreeJsonSerializer;
+
+
 class AuthGroup extends Common
 {
     use SoftDelete;
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
-    public $allowList = ['id', 'parent_id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
-    public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
-    public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowSave = ['parent_id', 'name', 'status'];
+    public $allowIndex  = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
+    public $allowList   = ['id', 'parent_id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
+    public $allowRead   = ['id', 'parent_id', 'name', 'rules', 'status' ,'create_time' ,'update_time'];
+    public $allowSort   = ['sort', 'order', 'id', 'create_time'];
+    public $allowSave   = ['parent_id', 'name', 'status'];
     public $allowUpdate = ['id', 'parent_id', 'name', 'status'];
     public $allowSearch = ['id', 'parent_id', 'name', 'status', 'create_time'];
-    public $allowTree = ['id', 'parent_id', 'name', 'rules'];
+    public $allowTree   = ['id', 'parent_id', 'name', 'rules'];
 
     // Relation
 
     // Page Builder
     public function buildSingle($data=[], $type='create')
     {
+
+        $ruleService = new AuthRuleService;
+        $rules = $ruleService->printTree(['order'=>'asc']);
+
         $builder = new Builder($data);
         $builder->pageType($type)
                 ->pageTitle('group', [
@@ -40,8 +49,10 @@ class AuthGroup extends Common
                 ->addText('name', 'Name')
                 ->placeholder('Enter Group Name');
         $builder->toForm('create')
-                ->addText('rules', 'Rules')
-                ->placeholder('Enter Rules (X)');
+                ->addTree('rules', 'Rules')
+                ->append([
+                    'treeData'  => $rules
+                ]);
         $builder->toForm('create')
                 ->addSwitch('status', 'Status')
                 ->append([
@@ -89,6 +100,8 @@ class AuthGroup extends Common
 
         $builder->toTable('table')
                 ->addColumn('id', 'ID');
+        $builder->toTable('table')
+                ->addColumn('parent_id', 'Parent ID');
         $builder->toTable('table')
                 ->addColumn('name', 'Name')
                 ->columnLink('backend/groups/edit');

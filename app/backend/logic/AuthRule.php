@@ -4,6 +4,8 @@ declare (strict_types = 1);
 namespace app\backend\logic;
 
 use app\backend\model\AuthRule as AuthRuleModel;
+use BlueM\Tree;
+use BlueM\Tree\Serializer\HierarchicalTreeJsonSerializer;
 
 class AuthRule extends AuthRuleModel
 {
@@ -34,6 +36,37 @@ class AuthRule extends AuthRuleModel
             $this->error = 'Save failed.';
             return 0;
         }
+    }
+
+    public function getTreeList($data)
+    {
+        $search = getSearchParam($data, $this->allowSearch);
+        $sort = getSortParam($data, $this->allowSort);
+
+        $data = $this->withSearch(array_keys($search), $search)
+                    ->order($sort['name'], $sort['order'])
+                    ->visible($this->allowTree)
+                    ->select()
+                    ->toArray();
+
+        // Rename Key Name
+        $data = array_map(function($arr) {
+            return [
+                'id'        =>  $arr['id'],
+                'type'      =>  $arr['type'],
+                'parent'    =>  $arr['parent_id'],
+                'title'     =>  $arr['name'],
+                'key'       =>  $arr['id'],
+                'rule'      =>  $arr['rule'],
+                'condition' =>  $arr['condition'],
+            ];
+        }, $data);
+
+        $serializer = new HierarchicalTreeJsonSerializer();
+
+        $tree = new Tree($data, ['rootId' => 0, 'id' => 'id', 'parent' => 'parent', 'jsonSerializer' => $serializer]);
+
+        return $tree;
     }
 
 }
