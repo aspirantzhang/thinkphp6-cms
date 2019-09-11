@@ -24,7 +24,7 @@
         "bluem/tree": "^3.0",
         "nette/utils": "^3.0",
         "aspirantzhang/thinkphp-antdesign-builder": "dev-master",
-        "myttyy/thinkphp-auth": "2.*"
+        "aspirantzhang/thinkphp6-auth": "dev-master"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2"

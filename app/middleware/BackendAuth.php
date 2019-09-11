@@ -2,7 +2,7 @@
 
 namespace app\middleware;
 
-use myttyy\Auth;
+use aspirantzhang\TP6Auth\Auth;
 
 
 class BackendAuth
@@ -10,7 +10,6 @@ class BackendAuth
 
     protected $noNeedAuth = [
         'backend/index/login',
-        'backend/admin/index',
         'backend/admin/create',
         'backend/admin/save',
         'backend/admin/read',
