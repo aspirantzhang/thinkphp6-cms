@@ -5,6 +5,7 @@ namespace app\backend\controller;
 
 use app\backend\controller\Common;
 use app\backend\service\AuthRule as AuthRuleService;
+use think\facade\Route;
 
 class AuthRule extends Common
 {
@@ -54,6 +55,12 @@ class AuthRule extends Common
     public function delete($id)
     {
         $result = $this->authRuleService->deleteApi($id);
+        return json($result);
+    }
+
+    public function menus()
+    {
+        $result = $this->authRuleService->menuApi();
         return json($result);
     }
 

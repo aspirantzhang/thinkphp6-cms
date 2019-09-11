@@ -6,6 +6,7 @@ namespace app\backend\logic;
 use app\backend\model\AuthRule as AuthRuleModel;
 use BlueM\Tree;
 use BlueM\Tree\Serializer\HierarchicalTreeJsonSerializer;
+use think\facade\Route;
 
 class AuthRule extends AuthRuleModel
 {
@@ -43,14 +44,14 @@ class AuthRule extends AuthRuleModel
         $search = getSearchParam($data, $this->allowSearch);
         $sort = getSortParam($data, $this->allowSort);
 
-        $data = $this->withSearch(array_keys($search), $search)
+        $result = $this->withSearch(array_keys($search), $search)
                     ->order($sort['name'], $sort['order'])
                     ->visible($this->allowTree)
                     ->select()
                     ->toArray();
 
         // Rename Key Name
-        $data = array_map(function($arr) {
+        $result = array_map(function($arr) {
             return [
                 'id'        =>  $arr['id'],
                 'type'      =>  $arr['type'],
@@ -60,11 +61,11 @@ class AuthRule extends AuthRuleModel
                 'rule'      =>  $arr['rule'],
                 'condition' =>  $arr['condition'],
             ];
-        }, $data);
+        }, $result);
 
         $serializer = new HierarchicalTreeJsonSerializer();
 
-        $tree = new Tree($data, ['rootId' => 0, 'id' => 'id', 'parent' => 'parent', 'jsonSerializer' => $serializer]);
+        $tree = new Tree($result, ['rootId' => 0, 'id' => 'id', 'parent' => 'parent', 'jsonSerializer' => $serializer]);
 
         return $tree;
     }

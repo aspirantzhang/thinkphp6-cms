@@ -10,6 +10,7 @@ class BackendAuth
 
     protected $noNeedAuth = [
         'backend/index/login',
+        'backend/admin/index',
         'backend/admin/create',
         'backend/admin/save',
         'backend/admin/read',
@@ -31,6 +32,7 @@ class BackendAuth
         'backend/auth_rule/edit',
         'backend/auth_rule/update',
         'backend/auth_rule/delete',
+        'backend/auth_rule/menus',
     ];
 
     public function handle($request, \Closure $next)

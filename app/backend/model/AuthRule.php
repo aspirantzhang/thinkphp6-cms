@@ -12,13 +12,13 @@ class AuthRule extends Common
     use SoftDelete;
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
-    public $allowIndex  = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'rule', 'name', 'type', 'condition', 'status', 'create_time'];
-    public $allowList   = ['id', 'parent_id', 'rule', 'name', 'type', 'status' ,'create_time' ,'update_time'];
-    public $allowRead   = ['id', 'parent_id', 'rule', 'name', 'type', 'condition', 'status' ,'create_time' ,'update_time'];
+    public $allowIndex  = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status', 'create_time'];
+    public $allowList   = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'status' ,'create_time' ,'update_time'];
+    public $allowRead   = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status' ,'create_time' ,'update_time'];
     public $allowSort   = ['sort', 'order', 'id', 'parent_id', 'create_time'];
-    public $allowSave   = ['parent_id', 'rule', 'name', 'type', 'condition' ,'status'];
-    public $allowUpdate = ['id', 'parent_id', 'rule', 'name', 'type', 'condition', 'status'];
-    public $allowSearch = ['id', 'parent_id', 'rule', 'name', 'type', 'status', 'create_time'];
+    public $allowSave   = ['parent_id', 'is_menu', 'rule', 'name', 'type', 'condition' ,'status'];
+    public $allowUpdate = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status'];
+    public $allowSearch = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'status', 'create_time'];
     public $allowTree   = ['id', 'parent_id', 'rule', 'name', 'type', 'condition'];
 
     // Relation
@@ -37,6 +37,13 @@ class AuthRule extends Common
                 ->addText('parent_id', 'Parent ID')
                 ->placeholder('Enter Parent ID');
         $builder->toForm('create')
+                ->addSwitch('is_menu', 'Menu')
+                ->append([
+                    'checkedChildren'   =>  'Yes',
+                    'unCheckedChildren' =>  'No',
+                    'default'           =>  'Yes',
+                ]);
+        $builder->toForm('create')
                 ->addText('rule', 'Rule')
                 ->placeholder('Enter Rule Expression');
         $builder->toForm('create')
@@ -46,7 +53,7 @@ class AuthRule extends Common
                 ->addSelect('type', 'Type')
                 ->option([
                     1   =>  'Normal',
-                    2   =>  'Menu'
+                    0   =>  'Login'
                 ], 0);
         $builder->toForm('create')
                 ->addTextarea('condition', 'Condition');
@@ -99,6 +106,12 @@ class AuthRule extends Common
         $builder->toTable('table')
                 ->addColumn('parent_id', 'Parent ID');
         $builder->toTable('table')
+                ->addColumn('is_menu', 'Menu')
+                ->columTag([
+                    'Yes'   =>  'green',
+                    'No'    =>  'red'
+                ]);
+        $builder->toTable('table')
                 ->addColumn('rule', 'Rules Expression')
                 ->columnLink('backend/rules/edit');
         $builder->toTable('table')
@@ -133,6 +146,11 @@ class AuthRule extends Common
     }
 
     // Accessor
+    public function getIsMenuAttr($value)
+    {
+        $text = ['No', 'Yes'];
+        return $text[$value];
+    }
     public function getStatusAttr($value)
     {
         $text = ['Disable', 'Enable'];
@@ -140,7 +158,7 @@ class AuthRule extends Common
     }
     public function getTypeAttr($value)
     {
-        $text = ['Normal', 'Menu'];
+        $text = ['Login', 'Normal'];
         return $text[$value];
     }
 
@@ -150,6 +168,10 @@ class AuthRule extends Common
     public function searchIdAttr($query, $value, $data)
     {
         $query->where('id', $value);
+    }
+    public function searchIsMenuAttr($query, $value, $data)
+    {
+        $query->where('is_menu', $value);
     }
     public function searchRuleAttr($query, $value, $data)
     {

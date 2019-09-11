@@ -91,4 +91,9 @@ class AuthRule extends AuthRuleLogic
         return $this->getTreeList($data);
     }
 
+    public function menuApi()
+    {
+        return $this->getTreeList(['is_menu'=>1 , 'order'=>'asc']);
+    }
+
 }
