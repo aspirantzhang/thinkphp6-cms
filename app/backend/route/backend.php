@@ -10,44 +10,45 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::post('login', 'Index/login')->validate(\app\backend\validate\Admin::class, 'login')->allowCrossDomain([
-        'Access-Control-Allow-Origin'        => 'http://localhost:8000',
-        'Access-Control-Allow-Credentials'   => 'true'
-    ]);
+Route::group(function () {
 
-Route::resource('admins', 'Admin')
-        ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class)
-        ->allowCrossDomain([
-        'Access-Control-Allow-Origin'        => 'http://localhost:8000',
-        'Access-Control-Allow-Credentials'   => 'true'
-    ]);
+    Route::post('login', 'index/login')->validate(\app\backend\validate\Admin::class, 'login');
 
-Route::get('admins/:id/groups', 'Admin/groups')
-        ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class)
-        ->allowCrossDomain([
-        'Access-Control-Allow-Origin'        => 'http://localhost:8000',
-        'Access-Control-Allow-Credentials'   => 'true'
-    ]);
+    Route::group('admins', function() {
+        Route::get('', 'index');
+        Route::get('create', 'create');
+        Route::get('read/:id', 'read');
+        Route::get(':id/groups', 'groups');
+        Route::get('edit/:id', 'edit');
+        Route::post('save/:id', 'save');
+        Route::post('update/:id', 'update');
+        Route::post('delete/:id', 'delete');
+    })->prefix('admin/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class);
 
+    Route::group('groups', function() {
+        Route::get('', 'index');
+        Route::get('create', 'create');
+        Route::get('read/:id', 'read');
+        Route::get('edit/:id', 'edit');
+        Route::get('tree', 'tree');
+        Route::post('save/:id', 'save');
+        Route::post('update/:id', 'update');
+        Route::post('delete/:id', 'delete');
+    })->prefix('auth_group/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class);
 
-Route::resource('groups', 'AuthGroup')
-        ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class)
-        ->allowCrossDomain([
-        'Access-Control-Allow-Origin'        => 'http://localhost:8000',
-        'Access-Control-Allow-Credentials'   => 'true'
-    ]);
+    Route::group('rules', function() {
+        Route::get('', 'index');
+        Route::get('create', 'create');
+        Route::get('read/:id', 'read');
+        Route::get('edit/:id', 'edit');
+        Route::get('menus', 'menus');
+        Route::post('save/:id', 'save');
+        Route::post('update/:id', 'update');
+        Route::post('delete/:id', 'delete');
+    })->prefix('auth_rule/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthRule::class);
 
-Route::get('groups/tree', 'AuthGroup/tree')
-        ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class)
-        ->allowCrossDomain([
-        'Access-Control-Allow-Origin'        => 'http://localhost:8000',
-        'Access-Control-Allow-Credentials'   => 'true'
-    ]);
-
-Route::resource('rules', 'AuthRule')
-        ->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthRule::class)
-        ->allowCrossDomain([
-        'Access-Control-Allow-Origin'        => 'http://localhost:8000',
-        'Access-Control-Allow-Credentials'   => 'true'
-    ]);
+})->allowCrossDomain([
+    'Access-Control-Allow-Origin'        => 'http://localhost:8000',
+    'Access-Control-Allow-Credentials'   => 'true'
+]);
 
