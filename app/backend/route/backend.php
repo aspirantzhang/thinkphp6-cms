@@ -20,7 +20,7 @@ Route::group(function () {
         Route::get('read/:id', 'read');
         Route::get(':id/groups', 'groups');
         Route::get('edit/:id', 'edit');
-        Route::post('save/:id', 'save');
+        Route::post('save', 'save');
         Route::post('update/:id', 'update');
         Route::post('delete/:id', 'delete');
     })->prefix('admin/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class);
@@ -31,7 +31,7 @@ Route::group(function () {
         Route::get('read/:id', 'read');
         Route::get('edit/:id', 'edit');
         Route::get('tree', 'tree');
-        Route::post('save/:id', 'save');
+        Route::post('save', 'save');
         Route::post('update/:id', 'update');
         Route::post('delete/:id', 'delete');
     })->prefix('auth_group/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class);
@@ -42,7 +42,7 @@ Route::group(function () {
         Route::get('read/:id', 'read');
         Route::get('edit/:id', 'edit');
         Route::get('menus', 'menus');
-        Route::post('save/:id', 'save');
+        Route::post('save', 'save');
         Route::post('update/:id', 'update');
         Route::post('delete/:id', 'delete');
     })->prefix('auth_rule/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthRule::class);
