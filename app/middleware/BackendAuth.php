@@ -38,7 +38,7 @@ class BackendAuth
     public function handle($request, \Closure $next)
     {
 
-        $appName = parse_name($request->app());
+        $appName = parse_name(app('http')->getName());
         $controllerName = parse_name($request->controller());
         $actionName = parse_name($request->action());
         $fullPath = $appName.'/'.$controllerName.'/'.$actionName;

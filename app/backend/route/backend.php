@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
+
 Route::group(function () {
 
     Route::post('login', 'index/login')->validate(\app\backend\validate\Admin::class, 'login');
