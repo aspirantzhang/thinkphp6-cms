@@ -9,7 +9,7 @@ class Common extends GlobalModel
 {
     public function initialize()
     {
-        partent::initialize();
+        parent::initialize();
     }
 
     public function success($message, $uri='')
