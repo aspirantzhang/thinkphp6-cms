@@ -138,6 +138,7 @@
         },
         {
             "name": "league/flysystem",
+<<<<<<< HEAD
             "version": "1.0.69",
             "source": {
                 "type": "git",
@@ -148,6 +149,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/7106f78428a344bc4f643c233a94e48795f10967",
                 "reference": "7106f78428a344bc4f643c233a94e48795f10967",
+=======
+            "version": "1.0.68",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem.git",
+                "reference": "3e4198372276ec99ac3409a21d7c9d1ced9026e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3e4198372276ec99ac3409a21d7c9d1ced9026e4",
+                "reference": "3e4198372276ec99ac3409a21d7c9d1ced9026e4",
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
                 "shasum": "",
                 "mirrors": [
                     {
@@ -230,7 +243,11 @@
                     "type": "other"
                 }
             ],
+<<<<<<< HEAD
             "time": "2020-05-18T15:13:39+00:00"
+=======
+            "time": "2020-05-12T20:33:44+00:00"
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
         },
         {
             "name": "league/flysystem-cached-adapter",
@@ -875,12 +892,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
+<<<<<<< HEAD
                 "reference": "4530e47bbf414c0b43cc428e819245c1231bb56b"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/top-think/think-orm/zipball/4530e47bbf414c0b43cc428e819245c1231bb56b",
                 "reference": "4530e47bbf414c0b43cc428e819245c1231bb56b",
+=======
+                "reference": "9e7f8234122c5e3e36f54287460fb71a022ddddb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/9e7f8234122c5e3e36f54287460fb71a022ddddb",
+                "reference": "9e7f8234122c5e3e36f54287460fb71a022ddddb",
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
                 "shasum": "",
                 "mirrors": [
                     {
@@ -918,7 +944,11 @@
                 "database",
                 "orm"
             ],
+<<<<<<< HEAD
             "time": "2020-05-14T08:39:03+00:00"
+=======
+            "time": "2020-05-09T14:54:26+00:00"
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
         },
         {
             "name": "topthink/think-template",

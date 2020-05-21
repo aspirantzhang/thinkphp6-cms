@@ -1,6 +1,10 @@
 <?php
+<<<<<<< HEAD
 
 declare(strict_types=1);
+=======
+declare (strict_types = 1);
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
 
 namespace app\backend\logic;
 
@@ -8,18 +12,28 @@ use app\backend\model\Admin as AdminModel;
 
 class Admin extends AdminModel
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
     protected function getListData($data)
     {
         $search = getSearchParam($data, $this->allowSearch);
         $sort = getSortParam($data, $this->allowSort);
         $perPage = getPerPageParam($data);
 
+<<<<<<< HEAD
         
         // return $this->with(['groups' => function ($query) {
         //     $query->field('auth_group.name')->where('auth_group.status', 1)->hidden(['pivot']);
         // }])
 
         return $this->with(['groups'])
+=======
+        return $this->with(['groups'=>function($query) {
+                        $query->field('auth_group.id, auth_group.name')->where('auth_group.status', 1)->hidden(['pivot']);
+                    }])
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
                     ->withSearch(array_keys($search), $search)
                     ->order($sort['name'], $sort['order'])
                     ->visible($this->allowList)
@@ -31,7 +45,10 @@ class Admin extends AdminModel
         $ifExists = $this->withTrashed()->where('username', $data['username'])->find();
         if ($ifExists) {
             $this->error = 'Sorry, that username already exists.';
+<<<<<<< HEAD
 
+=======
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
             return -1;
         }
         // Display Name default value
@@ -43,7 +60,10 @@ class Admin extends AdminModel
             return $this->getData('id');
         } else {
             $this->error = 'Save failed.';
+<<<<<<< HEAD
 
+=======
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
             return 0;
         }
     }
@@ -57,4 +77,8 @@ class Admin extends AdminModel
             return -1;
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
 }

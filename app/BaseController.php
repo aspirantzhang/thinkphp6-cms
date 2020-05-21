@@ -8,8 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare(strict_types = 1)
-;
+declare (strict_types = 1);
 
 namespace app;
 
@@ -53,7 +52,11 @@ abstract class BaseController
      */
     public function __construct(App $app)
     {
+<<<<<<< HEAD
         $this->app = $app;
+=======
+        $this->app     = $app;
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
         $this->request = $this->app->request;
 
         // 控制器初始化
@@ -62,8 +65,12 @@ abstract class BaseController
 
     // 初始化
     protected function initialize()
+<<<<<<< HEAD
     {
     }
+=======
+    {}
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
 
     /**
      * 验证数据
@@ -86,7 +93,11 @@ abstract class BaseController
                 [$validate, $scene] = explode('.', $validate);
             }
             $class = false !== strpos($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
+<<<<<<< HEAD
             $v = new $class();
+=======
+            $v     = new $class();
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
             if (!empty($scene)) {
                 $v->scene($scene);
             }
@@ -101,4 +112,8 @@ abstract class BaseController
 
         return $v->failException(true)->check($data);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
 }

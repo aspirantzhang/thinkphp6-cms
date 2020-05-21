@@ -19,4 +19,11 @@ class AuthAdminGroup extends Pivot
     // Mutator
 
     // Searcher
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> b6480087703f4be4c8d74cd5b9cb0dd4101e42d5
 }
