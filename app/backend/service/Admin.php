@@ -8,10 +8,11 @@ use app\backend\logic\Admin as AdminLogic;
 
 class Admin extends AdminLogic
 {
-    public function listApi($data)
+    public function listApi($params)
     {
-        $list = $this->buildList()->toArray();
-        $listData = $this->getListData($data)->toArray();
+
+        $list = $this->buildList($params)->toArray();
+        $listData = $this->getListData($params)->toArray();
 
         $list['success'] = true;
         $list['message'] = '';

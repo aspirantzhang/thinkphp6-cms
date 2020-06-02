@@ -14,7 +14,7 @@ class Admin extends Common
     use SoftDelete;
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id', 'name'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time'];
+    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time', 'searchExpand'];
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];
@@ -70,7 +70,7 @@ class Admin extends Common
         return $builder->build();
     }
 
-    public function buildList()
+    public function buildList($params)
     {
         $tableToolBar = [
             Builder::button('Add')->type('primary')->onClick('modal')->action('addModal'),
@@ -91,7 +91,13 @@ class Admin extends Common
             ]),
         ];
 
-        return Builder::page('User List')->type('basicList')->searchBar(true)->tableColumn($tableColumn)->tableToolBar($tableToolBar)->batchToolBar($batchToolBar);
+        return Builder::page('User List')
+            ->type('basicList')
+            ->searchBar(true)
+            ->tableColumn($tableColumn)
+            ->tableToolBar($tableToolBar)
+            ->batchToolBar($batchToolBar)
+            ->params($params);
     }
 
     // public function buildList($data = [], $type = 'index')
