@@ -10,16 +10,16 @@ class Admin extends AdminLogic
 {
     public function listApi($params)
     {
-
         $list = $this->buildList($params)->toArray();
-        $listData = $this->getListData($params)->toArray();
+        $data = $this->getListData($params)->toArray();
 
-        $list['success'] = true;
-        $list['message'] = '';
-        $list['data']['dataSource'] = $listData['dataSource'];
-        $list['data']['meta'] = $listData['pagination'];
+        $result['success'] = true;
+        $result['message'] = '';
+        $result['data'] = $list;
+        $result['data']['dataSource'] = $data['dataSource'];
+        $result['data']['meta'] = $data['pagination'];
 
-        return $list;
+        return $result;
     }
 
     public function createApi()
