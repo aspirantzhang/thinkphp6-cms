@@ -96,8 +96,7 @@ class Admin extends Common
             ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
-            ->batchToolBar($batchToolBar)
-            ->params($params);
+            ->batchToolBar($batchToolBar);
     }
 
     // public function buildList($data = [], $type = 'index')
