@@ -8,7 +8,7 @@ Route::group(function () {
     Route::group('admins', function () {
         Route::get('', 'index');
         Route::get('create', 'create');
-        Route::get('read/:id', 'read');
+        Route::get(':id', 'read');
         Route::get(':id/groups', 'groups');
         Route::get('edit/:id', 'edit');
         Route::post('save', 'save');

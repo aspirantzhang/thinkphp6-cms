@@ -45,14 +45,31 @@ class Admin extends AdminLogic
 
     public function readApi($id)
     {
-        $result = $this->where('id', $id)->with('groups')->find();
-        if ($result) {
-            $form = $result->visible($this->allowRead)->toArray();
+        // $data = $this->getPageData($id)->toArray();
 
-            return $form;
+        $admin = $this->where('id', $id)->with('groups')->find();
+        if ($admin) {
+            $list = $this->buildPage($id)->toArray();
+            $data = $admin->visible($this->allowRead)->toArray();
+
+            $result['success'] = true;
+            $result['message'] = '';
+            $result['data'] = $list;
+            $result['data']['dataSource'] = $data;
+
+            return $result;
         } else {
             return $this->error('Admin not found');
         }
+
+        // $result = $this->where('id', $id)->with('groups')->find();
+        // if ($result) {
+        //     $form = $result->visible($this->allowRead)->toArray();
+
+        //     return $form;
+        // } else {
+        //     return $this->error('Admin not found');
+        // }
     }
 
     public function editApi($id)
