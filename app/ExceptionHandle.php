@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -21,12 +22,13 @@ use think\Response;
 use Throwable;
 
 /**
- * 应用异常处理类
+ * 应用异常处理类.
  */
 class ExceptionHandle extends Handle
 {
     /**
-     * 不需要记录信息（日志）的异常类列表
+     * 不需要记录信息（日志）的异常类列表.
+     *
      * @var array
      */
     protected $ignoreReport = [
@@ -38,10 +40,8 @@ class ExceptionHandle extends Handle
     ];
 
     /**
-     * 记录异常信息（包括日志或者其它方式记录）
+     * 记录异常信息（包括日志或者其它方式记录）.
      *
-     * @access public
-     * @param  Throwable $exception
      * @return void
      */
     public function report(Throwable $exception): void
@@ -53,18 +53,17 @@ class ExceptionHandle extends Handle
     /**
      * Render an exception into an HTTP response.
      *
-     * @access public
-     * @param \think\Request   $request
-     * @param Throwable $e
+     * @param \think\Request $request
+     *
      * @return Response
      */
     public function render($request, Throwable $e): Response
     {
         // 添加自定义异常处理机制
         if ($e instanceof ValidateException) {
-            return json(['status'=>'error', 'msg'=>$e->getError()])->header([
+            return json(['status' => 'error', 'msg' => $e->getError()])->header([
                 'access-control-allow-origin' => 'http://localhost:8000',
-                'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE',
+                'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
                 'access-control-allow-headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With',
                 'access-control-allow-credentials' => 'true',
             ]);

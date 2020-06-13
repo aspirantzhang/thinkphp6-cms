@@ -19,7 +19,7 @@ class Admin extends Common
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];
     public $allowSave = ['username', 'password', 'display_name', 'status'];
-    public $allowUpdate = ['password', 'display_name', 'status'];
+    public $allowUpdate = ['password', 'display_name', 'status', 'create_time'];
     public $allowSearch = ['id', 'username', 'display_name', 'status', 'create_time'];
     public $allowLogin = ['username', 'password'];
 
@@ -69,13 +69,19 @@ class Admin extends Common
     //     return $builder->build();
     // }
 
-    public function buildPage($id)
+    public function buildInner($id)
     {
         $pageLayout = [
-            Builder::column('username', 'Username')->type('text'),
-            Builder::column('display_name', 'Display Name')->type('text'),
-            Builder::column('create_time', 'Create Time')->type('datetime'),
-            Builder::column('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('username', 'Username')->type('text'),
+            Builder::field('display_name', 'Display Name')->type('text'),
+            Builder::field('create_time', 'Create Time')->type('datetime'),
+            Builder::field('update_time', 'Update Time')->type('datetime'),
+            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::action([
+                Builder::button('Reset')->type('dashed')->onClick('function')->action('reset'),
+                Builder::button('Cancel')->type('normal')->onClick('function')->action('cancel'),
+                Builder::button('Submit')->type('primary')->onClick('function')->action('submit'),
+            ]),
         ];
 
         return Builder::page('User')
@@ -94,14 +100,14 @@ class Admin extends Common
             Builder::button('Disable')->type('primary')->onClick('function')->action('batchDisableHandler'),
         ];
         $tableColumn = [
-            Builder::column('username', 'Username')->type('text'),
-            Builder::column('display_name', 'Display Name')->type('text'),
-            Builder::column('create_time', 'Create Time')->type('datetime'),
-            Builder::column('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
-            Builder::column('action', 'Action')->type('action')->action([
-                Builder::button('Edit')->type('primary')->onClick('modal')->action('http://www.test.com/backend/admins'),
-                Builder::button('Delete')->type('danger')->onClick('function')->action('deleteHandler'),
-            ]),
+            Builder::field('username', 'Username')->type('text'),
+            Builder::field('display_name', 'Display Name')->type('text'),
+            Builder::field('create_time', 'Create Time')->type('datetime'),
+            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::action([
+                Builder::button('Edit')->type('normal')->onClick('modal')->action('http://www.test.com/backend/admins'),
+                Builder::button('Delete')->type('normal')->onClick('function')->action('deleteHandler'),
+            ])->title('Action'),
         ];
 
         return Builder::page('User List')

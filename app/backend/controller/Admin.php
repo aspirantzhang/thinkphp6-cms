@@ -8,59 +8,66 @@ use app\backend\service\Admin as AdminService;
 
 class Admin extends Common
 {
-    protected $adminService;
+    protected $admin;
 
     public function initialize()
     {
-        $this->adminService = new AdminService();
+        $this->admin = new AdminService();
         parent::initialize();
     }
 
     public function index()
     {
-        $result = $this->adminService->listApi($this->request->only($this->adminService->allowIndex));
-        return json($result);
+        $result = $this->admin->listApi($this->request->only($this->admin->allowIndex));
+
+        return $result;
     }
 
     public function create()
     {
-        $result = $this->adminService->createApi();
+        $result = $this->admin->createApi();
+
         return json($result);
     }
 
     public function save()
     {
-        $result = $this->adminService->saveApi($this->request->only($this->adminService->allowSave));
+        $result = $this->admin->saveApi($this->request->only($this->admin->allowSave));
+
         return json($result);
     }
 
     public function read($id)
     {
-        $result = $this->adminService->readApi($id);
+        $result = $this->admin->readApi($id);
+
         return json($result);
     }
 
     public function edit($id)
     {
-        $result = $this->adminService->editApi($id);
+        $result = $this->admin->editApi($id);
+
         return json($result);
     }
 
     public function update($id)
     {
-        $result = $this->adminService->updateApi($id, $this->request->only($this->adminService->allowUpdate));
-        return json($result);
+        $result = $this->admin->updateApi($id, $this->request->only($this->admin->allowUpdate));
+
+        return $result;
     }
 
     public function delete($id)
     {
-        $result = $this->adminService->deleteApi($id);
+        $result = $this->admin->deleteApi($id);
+
         return json($result);
     }
 
     public function groups($id)
     {
-        $admin = $this->adminService->with(['groups' => function ($query) {
+        $admin = $this->admin->with(['groups' => function ($query) {
             $query->field('auth_group.id, auth_group.name')->where('auth_group.status', 1);
         }])->find($id);
 

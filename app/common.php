@@ -1,6 +1,6 @@
 <?php
 
-// 应用公共文件
+use think\Response;
 
 function validateDateTime($date, $format = 'Y-m-d H:i:s')
 {
@@ -55,5 +55,36 @@ function msg($errorCode, $message = null)
             return json(['code' => $errorCode, 'error' => $message])->code($passToCode);
         default:
             return null;
+    }
+}
+
+if (!function_exists('jsonCross')) {
+    function jsonCross($data = [], $code = 200, $header = [], $options = [])
+    {
+        $crossDomain = [
+                'access-control-allow-origin' => 'http://localhost:8000',
+                'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'access-control-allow-headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With',
+                'access-control-allow-credentials' => 'true',
+        ];
+
+        return Response::create($data, 'json', $code)->header(array_merge($crossDomain, $header))->options($options);
+    }
+}
+if (!function_exists('resJson')) {
+    /**
+     * Api Response Json.
+     *
+     * @return Response
+     */
+    function resJson(int $httpCode, array $data = [], string $errMsg = '', array $header = [])
+    {
+        $initBody = ['success' => true, 'message' => $errMsg, 'data' => $data];
+        if ($httpCode >= 300) {
+            $initBody['success'] = false;
+            $initBody['message'] = $errMsg;
+        }
+
+        return jsonCross($initBody, $httpCode, $header);
     }
 }

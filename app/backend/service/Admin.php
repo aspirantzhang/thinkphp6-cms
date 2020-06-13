@@ -10,16 +10,16 @@ class Admin extends AdminLogic
 {
     public function listApi($params)
     {
-        $list = $this->buildList($params)->toArray();
+        $page = $this->buildList($params)->toArray();
         $data = $this->getListData($params)->toArray();
 
-        $result['success'] = true;
-        $result['message'] = '';
-        $result['data'] = $list;
-        $result['data']['dataSource'] = $data['dataSource'];
-        $result['data']['meta'] = $data['pagination'];
+        if ($data) {
+            $result = $page;
+            $result['dataSource'] = $data['dataSource'];
+            $result['meta'] = $data['pagination'];
 
-        return $result;
+            return resJson(200, $result);
+        }
     }
 
     public function createApi()
@@ -49,7 +49,7 @@ class Admin extends AdminLogic
 
         $admin = $this->where('id', $id)->with('groups')->find();
         if ($admin) {
-            $list = $this->buildPage($id)->toArray();
+            $list = $this->buildInner($id)->toArray();
             $data = $admin->visible($this->allowRead)->toArray();
 
             $result['success'] = true;
@@ -92,12 +92,12 @@ class Admin extends AdminLogic
         $admin = $this->where('id', $id)->find();
         if ($admin) {
             if ($admin->allowField($this->allowUpdate)->save($data)) {
-                return $this->success('Update completed successfully.');
+                return resJson(204);
             } else {
-                return $this->error('Update failed.');
+                return resJson(400, [], 'Update failed.');
             }
         } else {
-            return $this->error('Admin not found.');
+            return resJson(404, [], 'User not found.');
         }
     }
 
