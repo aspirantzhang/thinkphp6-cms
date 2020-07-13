@@ -68,6 +68,7 @@ if (!function_exists('jsonCross')) {
                 'access-control-allow-credentials' => 'true',
         ];
 
+
         return Response::create($data, 'json', $code)->header(array_merge($crossDomain, $header))->options($options);
     }
 }

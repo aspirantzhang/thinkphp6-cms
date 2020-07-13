@@ -61,12 +61,13 @@ class ExceptionHandle extends Handle
     {
         // 添加自定义异常处理机制
         if ($e instanceof ValidateException) {
-            return json(['status' => 'error', 'msg' => $e->getError()])->header([
-                'access-control-allow-origin' => 'http://localhost:8000',
-                'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'access-control-allow-headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With',
-                'access-control-allow-credentials' => 'true',
-            ]);
+            return resError($e->getError());
+            // return json(['success' => false, 'message' => $e->getError()])->header([
+            //     'access-control-allow-origin' => 'http://localhost:8000',
+            //     'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+            //     'access-control-allow-headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With',
+            //     'access-control-allow-credentials' => 'true',
+            // ]);
         }
 
         // 其他错误交给系统处理

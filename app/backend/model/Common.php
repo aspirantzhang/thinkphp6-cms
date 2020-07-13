@@ -12,22 +12,4 @@ class Common extends GlobalModel
     {
         parent::initialize();
     }
-
-    public function success($message, $uri = '')
-    {
-        return [
-            'status' => 'success',
-            'msg' => $message,
-            'uri' => $uri,
-        ];
-    }
-
-    public function error($message, $uri = '')
-    {
-        return [
-            'status' => 'error',
-            'msg' => $message,
-            'uri' => $uri,
-        ];
-    }
 }

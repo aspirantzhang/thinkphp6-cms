@@ -11,7 +11,7 @@ class BackendAuth
     protected $noNeedAuth = [
         'backend/index/login',
         'backend/admin/index',
-        'backend/admin/create',
+        'backend/admin/add',
         'backend/admin/save',
         'backend/admin/read',
         'backend/admin/edit',
@@ -40,7 +40,7 @@ class BackendAuth
         $appName = parse_name(app('http')->getName());
         $controllerName = parse_name($request->controller());
         $actionName = parse_name($request->action());
-        $fullPath = $appName.'/'.$controllerName.'/'.$actionName;
+        $fullPath = $appName . '/' . $controllerName . '/' . $actionName;
 
         if (in_array($fullPath, $this->noNeedAuth)) {
             return $next($request);
@@ -51,10 +51,9 @@ class BackendAuth
                 return $next($request);
             } else {
                 $data = [
-                    'status' => 'error',
-                    'msg' => 'No permission.',
+                    'success' => false,
+                    'message' => 'No permission.',
                 ];
-
                 return json($data)->header([
                     'access-control-allow-origin' => 'http://localhost:8000',
                     'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',

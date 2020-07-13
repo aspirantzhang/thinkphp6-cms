@@ -25,25 +25,31 @@ class Admin extends AdminModel
                     ->paginate($perPage);
     }
 
-    public function saveNew($data)
+    protected function ifExists($username)
     {
-        $ifExists = $this->withTrashed()->where('username', $data['username'])->find();
-        if ($ifExists) {
-            $this->error = 'Sorry, that username already exists.';
+        $result = $this->withTrashed()->where('username', $username)->find();
+        if ($result) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-            return -1;
+    protected function saveNew($data)
+    {
+        if ($this->ifExists($data['username']) === false) {
+            $this->error = 'The username already exists.';
+            return false;
         }
-        // Display Name default value
-        if (!isset($data['display_name'])) {
-            $data['display_name'] = $data['username'];
-        }
-        $result = $this->allowField($this->allowSave)->save($data);
+        
+        $data['display_name'] = $data['display_name'] ?? $data['username'];
+
+        $result = $this->save($data);
         if ($result) {
             return $this->getData('id');
         } else {
             $this->error = 'Save failed.';
-
-            return 0;
+            return false;
         }
     }
 

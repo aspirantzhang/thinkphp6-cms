@@ -7,14 +7,15 @@ Route::group(function () {
 
     Route::group('admins', function () {
         Route::get('', 'index');
-        Route::get('create', 'create');
+        Route::get('add', 'add');
         Route::get(':id', 'read');
         Route::put(':id', 'update');
         Route::patch(':id', 'update');
-        Route::get(':id/groups', 'groups');
-        Route::get('edit/:id', 'edit');
-        Route::post('save', 'save');
-        Route::post('delete/:id', 'delete');
+        Route::post('', 'save');
+        Route::delete(':id', 'delete');
+
+        // Route::get(':id/groups', 'groups');
+        // Route::get('edit/:id', 'edit');
     })->prefix('admin/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class);
 
     Route::group('groups', function () {

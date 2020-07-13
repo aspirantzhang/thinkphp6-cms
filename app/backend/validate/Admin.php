@@ -11,10 +11,10 @@ class Admin extends Validate
         'username' => 'require|length:6,32',
         'password' => 'require|length:6,32',
         'display_name' => 'length:4,32',
-        'status' => 'in:0,1',
+        'status' => 'numberTag',
         'page' => 'number',
         'per_page' => 'number',
-        'create_time' => 'checkDateTimeRange',
+        'create_time' => 'date',
     ];
 
     protected $message = [
@@ -25,39 +25,57 @@ class Admin extends Validate
         'password.require' => 'The password field is empty.',
         'password.length' => 'Password length should be between 6 and 32.',
         'display_name.length' => 'Display Name length should be between 4 and 32.',
-        'status.in' => 'Status value should be 0 or 1.',
+        'status.numberTag' => 'Invalid status format.',
         'page.number' => 'Page must be numbers only.',
         'per_page.number' => 'Per_page must be numbers only.',
-        'create_time.checkDateTimeRange' => 'Invalid create time format.',
+        'create_time.date' => 'Invalid create time format.',
+        'create_time.dateTimeRange' => 'Invalid time range format.',
     ];
+
+    // index save read update delete
 
     protected $scene = [
-        'login' => ['username', 'password'],
-        'index' => ['create_time', 'page', 'per_page'],
-        'save' => ['username', 'password', 'display_name', 'status'],
+        'save' => ['username', 'password', 'display_name', 'create_time', 'status'],
+        'update' => ['id', 'username', 'password', 'display_name', 'create_time', 'status'],
         'read' => ['id'],
-        'edit' => ['id'],
         'delete' => ['id'],
-        'groups' => ['id'],
-        'create' => [''],
+        'add' => [''],
     ];
 
-    public function sceneUpdate()
+    public function sceneIndex()
     {
-        $this->only(['id', 'password', 'display_name', 'status'])
-            ->remove('password', 'require');
+        $this->only(['page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time'])
+            ->remove('id', 'require')
+            ->remove('username', 'require')
+            ->remove('create_time', 'date')
+            ->append('create_time', 'dateTimeRange');
     }
 
-    protected function checkDateTimeRange($value, $rule, $data = [])
+    protected function numberTag($value, $rule, $data = [])
     {
-        if (39 == strlen($value) && 19 == strpos($value, 'T')) {
-            // check length & symbol postion
-            $timeArray = explode('T', $value);
-            if (validateDateTime($timeArray[0]) && validateDateTime($timeArray[1])) {
+        if (strpos($value, ',')) {
+            $arr = explode(',', $value);
+            foreach ($arr as $val) {
+                if (!is_numeric($val)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            if (is_numeric($value)) {
                 return true;
             } else {
                 return false;
             }
+        }
+    }
+    
+    protected function dateTimeRange($value, $rule, $data = [])
+    {
+        $value = urldecode($value);
+        $valueArray = explode(',', $value);
+        if (count($valueArray) === 2 && validateDateTime($valueArray[0], 'Y-m-d\TH:i:s\Z') && validateDateTime($valueArray[1], 'Y-m-d\TH:i:s\Z')) {
+            return true;
         } else {
             return false;
         }

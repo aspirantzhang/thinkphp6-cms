@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace app\backend\model;
 
 use app\backend\service\AuthGroup as AuthGroupService;
-// use aspirantzhang\TPAntdBuilder\Builder;
 use aspirantzhang\TPAntdBuilder\Builder;
 use think\model\concern\SoftDelete;
 
 class Admin extends Common
 {
     use SoftDelete;
+
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id', 'name'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time', 'searchExpand'];
+    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time'];
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];
@@ -29,46 +29,28 @@ class Admin extends Common
         return $this->belongsToMany(AuthGroup::class, 'auth_admin_group', 'group_id', 'admin_id');
     }
 
-    // public function buildPage($id)
-    // {
-    //     $groupService = new AuthGroupService();
-    //     $groups = $groupService->printTree(['order' => 'asc']);
+    public function buildAdd()
+    {
+        $pageLayout = [
+            Builder::field('username', 'Username')->type('text'),
+            Builder::field('password', 'Password')->type('password'),
+            Builder::field('display_name', 'Display Name')->type('text'),
+            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::actions([
+                Builder::button('Reset')->type('dashed')->action('reset'),
+                Builder::button('Cancel')->type('normal')->action('cancel'),
+                Builder::button('Submit')->type('primary')->action('submit')
+                        ->uri('http://www.test.com/backend/admins')
+                        ->method('post'),
+            ]),
+        ];
 
-    //     $builder = new Builder($data);
-    //     $builder->pageType($type)
-    //             ->pageTitle('admin', [
-    //                 'create' => 'Add Admin',
-    //                 'edit' => 'Edit Admin',
-    //             ]);
+        return Builder::page('Add New User')
+            ->type('page')
+            ->layout($pageLayout);
+    }
 
-    //     $builder->toForm('create')
-    //             ->addText('username', 'Username')
-    //             ->placeholder('Enter Username');
-    //     $builder->toForm('create')
-    //             ->addText('password', 'Password')
-    //             ->placeholder('Enter Password (6-32 characters)');
-    //     $builder->toForm('create')
-    //             ->addText('display_name', 'Dipslay Name')
-    //             ->placeholder('Enter Display Name');
-    //     $builder->toForm('create')
-    //             ->addTree('groups', 'Groups')
-    //             ->append([
-    //                 'treeData' => $groups,
-    //             ]);
-    //     $builder->toForm('create')
-    //             ->addSwitch('status', 'Status')
-    //             ->append([
-    //                 'checkedChildren' => 'Enable',
-    //                 'unCheckedChildren' => 'Disable',
-    //                 'default' => 'Enable',
-    //             ]);
-    //     $builder->toForm('create')
-    //             ->addButton('submit', 'Submit')
-    //             ->type('primary');
-
-    //     return $builder->build();
-    // }
-
+    
     public function buildInner($id)
     {
         $pageLayout = [
@@ -77,14 +59,16 @@ class Admin extends Common
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
-            Builder::action([
-                Builder::button('Reset')->type('dashed')->onClick('function')->action('reset'),
-                Builder::button('Cancel')->type('normal')->onClick('function')->action('cancel'),
-                Builder::button('Submit')->type('primary')->onClick('function')->action('submit'),
+            Builder::actions([
+                Builder::button('Reset')->type('dashed')->action('reset'),
+                Builder::button('Cancel')->type('normal')->action('cancel'),
+                Builder::button('Submit')->type('primary')->action('submit')
+                        ->uri('http://www.test.com/backend/admins/' . $id)
+                        ->method('put'),
             ]),
         ];
 
-        return Builder::page('User')
+        return Builder::page('User Edit')
             ->type('page')
             ->layout($pageLayout);
     }
@@ -92,21 +76,24 @@ class Admin extends Common
     public function buildList($params)
     {
         $tableToolBar = [
-            Builder::button('Add')->type('primary')->onClick('modal')->action('addModal'),
-            Builder::button('Reload')->type('primary')->onClick('dispatch')->action('reload'),
+            Builder::button('Add')->type('primary')->action('modal')->uri('http://www.test.com/backend/admins/add'),
+            Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('primary')->onClick('function')->action('batchDeleteHandler'),
-            Builder::button('Disable')->type('primary')->onClick('function')->action('batchDisableHandler'),
+            Builder::button('Delete')->type('primary')->action('function')->uri('batchDeleteHandler'),
+            Builder::button('Disable')->type('primary')->action('function')->uri('batchDisableHandler'),
         ];
         $tableColumn = [
             Builder::field('username', 'Username')->type('text'),
             Builder::field('display_name', 'Display Name')->type('text'),
-            Builder::field('create_time', 'Create Time')->type('datetime'),
+            Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
-            Builder::action([
-                Builder::button('Edit')->type('normal')->onClick('modal')->action('http://www.test.com/backend/admins'),
-                Builder::button('Delete')->type('normal')->onClick('function')->action('deleteHandler'),
+            Builder::actions([
+                Builder::button('Edit')->type('normal')->action('modal')
+                        ->uri('http://www.test.com/backend/admins'),
+                Builder::button('Delete')->type('normal')->action('delete')
+                        ->uri('http://www.test.com/backend/admins')
+                        ->method('delete'),
             ])->title('Action'),
         ];
 
@@ -119,12 +106,18 @@ class Admin extends Common
     }
 
     // Accessor
-    // public function getStatusAttr($value)
-    // {
-    //     $text = ['Disable', 'Enable'];
-
-    //     return $text[$value];
-    // }
+    public function getCreateTimeAttr($value)
+    {
+        $date = new \DateTime($value);
+        // return $date->setTimezone(new \DateTimeZone('Europe/Amsterdam'))->format(\DateTime::ATOM);
+        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
+    }
+    public function getUpdateTimeAttr($value)
+    {
+        $date = new \DateTime($value);
+        // return $date->setTimezone(new \DateTimeZone('Europe/Amsterdam'))->format(\DateTime::ATOM);
+        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
+    }
 
     // Mutator
     public function setPasswordAttr($value)
@@ -140,24 +133,29 @@ class Admin extends Common
 
     public function searchUsernameAttr($query, $value, $data)
     {
-        $query->where('username', 'like', '%'.$value.'%');
+        $query->where('username', 'like', '%' . $value . '%');
     }
 
     public function searchDisplayNameAttr($query, $value, $data)
     {
-        $query->where('display_name', 'like', '%'.$value.'%');
+        $query->where('display_name', 'like', '%' . $value . '%');
     }
 
     public function searchStatusAttr($query, $value, $data)
     {
-        $query->where('status', $value);
+        if (strlen($value)) {
+            if (strpos($value, ',')) {
+                $query->whereIn('status', $value);
+            } else {
+                $query->where('status', $value);
+            }
+        }
     }
 
     public function searchCreateTimeAttr($query, $value, $data)
     {
-        $timeArray = explode('T', $value);
-        if (validateDateTime($timeArray[0]) && validateDateTime($timeArray[1])) {
-            $query->whereBetweenTime('create_time', $timeArray[0], $timeArray[1]);
-        }
+        $value = urldecode($value);
+        $valueArray = explode(',', $value);
+        $query->whereBetweenTime('create_time', $valueArray[0], $valueArray[1]);
     }
 }

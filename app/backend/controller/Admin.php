@@ -23,25 +23,23 @@ class Admin extends Common
         return $result;
     }
 
-    public function create()
+    public function add()
     {
-        $result = $this->admin->createApi();
+        $result = $this->admin->addApi();
 
-        return json($result);
+        return $result;
     }
 
     public function save()
     {
         $result = $this->admin->saveApi($this->request->only($this->admin->allowSave));
 
-        return json($result);
+        return $result;
     }
 
     public function read($id)
     {
-        $result = $this->admin->readApi($id);
-
-        return json($result);
+        return $this->admin->readApi($id);
     }
 
     public function edit($id)
@@ -62,7 +60,7 @@ class Admin extends Common
     {
         $result = $this->admin->deleteApi($id);
 
-        return json($result);
+        return $result;
     }
 
     public function groups($id)
