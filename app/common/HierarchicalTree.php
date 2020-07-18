@@ -54,4 +54,3 @@ class HierarchicalTree implements TreeJsonSerializerInterface
         return $nodeData;
     }
 }
-

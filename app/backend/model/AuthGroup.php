@@ -11,6 +11,7 @@ use think\model\concern\SoftDelete;
 class AuthGroup extends Common
 {
     use SoftDelete;
+
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
     public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
@@ -145,7 +146,7 @@ class AuthGroup extends Common
 
     public function searchNameAttr($query, $value, $data)
     {
-        $query->where('name', 'like', '%'.$value.'%');
+        $query->where('name', 'like', '%' . $value . '%');
     }
 
     public function searchStatusAttr($query, $value, $data)

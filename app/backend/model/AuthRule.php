@@ -10,6 +10,7 @@ use think\model\concern\SoftDelete;
 class AuthRule extends Common
 {
     use SoftDelete;
+
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
     public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status', 'create_time'];
@@ -180,12 +181,12 @@ class AuthRule extends Common
 
     public function searchRuleAttr($query, $value, $data)
     {
-        $query->where('rule', 'like', '%'.$value.'%');
+        $query->where('rule', 'like', '%' . $value . '%');
     }
 
     public function searchNameAttr($query, $value, $data)
     {
-        $query->where('name', 'like', '%'.$value.'%');
+        $query->where('name', 'like', '%' . $value . '%');
     }
 
     public function searchTypeAttr($query, $value, $data)
