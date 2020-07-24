@@ -76,6 +76,7 @@ class Admin extends Common
     public function buildList($params)
     {
         $tableToolBar = [
+            Builder::button('Full page add')->type('primary')->action('page')->uri('http://www.test.com/backend/admins/add'),
             Builder::button('Add')->type('primary')->action('modal')->uri('http://www.test.com/backend/admins/add'),
             Builder::button('Reload')->type('default')->action('reload'),
         ];
@@ -89,8 +90,11 @@ class Admin extends Common
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
+                Builder::button('Full page edit')->type('normal')->action('page')
+                        ->uri('http://www.test.com/backend/admins'),
                 Builder::button('Edit')->type('normal')->action('modal')
                         ->uri('http://www.test.com/backend/admins'),
+                        
                 Builder::button('Delete')->type('normal')->action('delete')
                         ->uri('http://www.test.com/backend/admins')
                         ->method('delete'),
