@@ -15,126 +15,97 @@ class AuthGroup extends Common
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
     public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
-    public $allowList = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time', 'update_time'];
+    public $allowList = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time', 'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowSave = ['parent_id', 'name', 'status'];
-    public $allowUpdate = ['id', 'parent_id', 'name', 'status'];
-    public $allowSearch = ['id', 'parent_id', 'name', 'status', 'create_time'];
+    public $allowSave = ['parent_id', 'name', 'rules', 'status'];
+    public $allowUpdate = ['id', 'parent_id', 'rules', 'name', 'status', 'create_time'];
+    public $allowSearch = ['id', 'parent_id', 'rules','name', 'status', 'create_time'];
     public $allowTree = ['id', 'parent_id', 'name', 'rules'];
 
     // Relation
 
-    // Page Builder
-    public function buildSingle($data = [], $type = 'create')
+    public function buildAdd()
     {
-        $ruleService = new AuthRuleService();
-        $rules = $ruleService->printTree(['order' => 'asc']);
+        $pageLayout = [
+            Builder::field('name', 'Group Name')->type('text'),
+            Builder::field('rules', 'Rules')->type('text'),
+            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::actions([
+                Builder::button('Reset')->type('dashed')->action('reset'),
+                Builder::button('Cancel')->type('normal')->action('cancel'),
+                Builder::button('Submit')->type('primary')->action('submit')
+                        ->uri('http://www.test.com/backend/groups')
+                        ->method('post'),
+            ]),
+        ];
 
-        $builder = new Builder($data);
-        $builder->pageType($type)
-                ->pageTitle('group', [
-                    'create' => 'Add Group',
-                    'edit' => 'Edit Group',
-                ]);
-
-        $builder->toForm('create')
-                ->addText('parent_id', 'Parent ID')
-                ->placeholder('Enter Parent ID (X)');
-        $builder->toForm('create')
-                ->addText('name', 'Name')
-                ->placeholder('Enter Group Name');
-        $builder->toForm('create')
-                ->addTree('rules', 'Rules')
-                ->append([
-                    'treeData' => $rules,
-                ]);
-        $builder->toForm('create')
-                ->addSwitch('status', 'Status')
-                ->append([
-                    'checkedChildren' => 'Enable',
-                    'unCheckedChildren' => 'Disable',
-                    'default' => 'Enable',
-                ]);
-        $builder->toForm('create')
-                ->addButton('submit', 'Submit')
-                ->type('primary');
-
-        return $builder->build();
+        return Builder::page('Add New Group')
+            ->type('page')
+            ->layout($pageLayout);
     }
 
-    public function buildList($data = [], $type = 'index')
+    
+    public function buildInner($id)
     {
-        $builder = new Builder();
-        $builder->pageType($type)
-                ->pageTitle('group', [
-                    'index' => 'Group List',
-                ])
-                ->table('table', 'Group Manage');
+        $pageLayout = [
+            Builder::field('name', 'Group Name')->type('text'),
+            Builder::field('rules', 'Rules')->type('text'),
+            Builder::field('create_time', 'Create Time')->type('datetime'),
+            Builder::field('update_time', 'Update Time')->type('datetime'),
+            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::actions([
+                Builder::button('Reset')->type('dashed')->action('reset'),
+                Builder::button('Cancel')->type('normal')->action('cancel'),
+                Builder::button('Submit')->type('primary')->action('submit')
+                        ->uri('http://www.test.com/backend/groups/' . $id)
+                        ->method('put'),
+            ]),
+        ];
 
-        $builder->searchBar()
-                ->addText('name', 'Group Name')
-                ->placeholder('Search Group Name');
-        $builder->searchBar()
-                ->addSelect('status', 'Status')
-                ->placeholder('Select Status')
-                ->option([
-                    0 => 'Disable',
-                    1 => 'Enable',
-                ]);
+        return Builder::page('Group Edit')
+            ->type('page')
+            ->layout($pageLayout);
+    }
 
-        $builder->advancedSearch()
-                ->addDatePicker('create_time', 'Create Time')
-                ->format('YYYY-MM-DD HH:mm:ss')
-                ->append([
-                    'showTime' => true,
-                ]);
-        $builder->advancedSearch()
-                ->addButton('search', 'Search')
-                ->type('primary');
+    public function buildList($params)
+    {
+        // ['parent_id', 'name', 'rules', 'status', 'create_time'];
+        $tableToolBar = [
+            Builder::button('Full page add')->type('primary')->action('page')->uri('http://www.test.com/backend/groups/add'),
+            Builder::button('Add')->type('primary')->action('modal')->uri('http://www.test.com/backend/groups/add'),
+            Builder::button('Reload')->type('default')->action('reload'),
+        ];
+        $batchToolBar = [
+            Builder::button('Delete')->type('primary')->action('function')->uri('batchDeleteHandler'),
+            Builder::button('Disable')->type('primary')->action('function')->uri('batchDisableHandler'),
+        ];
+        $tableColumn = [
+            Builder::field('name', 'Group Name')->type('text'),
+            Builder::field('rules', 'Rules')->type('text'),
+            Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
+            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::actions([
+                Builder::button('Full page edit')->type('normal')->action('page')
+                        ->uri('http://www.test.com/backend/groups'),
+                Builder::button('Edit')->type('normal')->action('modal')
+                        ->uri('http://www.test.com/backend/groups'),
+                        
+                Builder::button('Delete')->type('normal')->action('delete')
+                        ->uri('http://www.test.com/backend/groups')
+                        ->method('delete'),
+            ])->title('Action'),
+        ];
 
-        $builder->toTable('table')
-                ->addColumn('id', 'ID');
-        $builder->toTable('table')
-                ->addColumn('parent_id', 'Parent ID');
-        $builder->toTable('table')
-                ->addColumn('name', 'Name')
-                ->columnLink('backend/groups/edit');
-        $builder->toTable('table')
-                ->addColumn('rules', 'Rules Name');
-        $builder->toTable('table')
-                ->addColumn('create_time', 'Create Time');
-        $builder->toTable('table')
-                ->addColumn('status', 'Status')
-                ->columTag([
-                    'Enable' => 'green',
-                    'Disable' => 'red',
-                ]);
-        $builder->toTable('table')
-                ->addColumn('action', 'Operation')
-                ->actionButton('edit', 'Edit', [
-                    'onClick' => [
-                        'name' => 'openModal',
-                        'url' => 'backend/groups/edit',
-                    ],
-                ])
-                ->actionButton('delete', 'Delete', [
-                    'onConfirm' => [
-                        'name' => 'changeStatus',
-                        'url' => 'backend/groups/delete',
-                    ],
-                ]);
-
-        return $builder->build();
+        return Builder::page('Group List')
+            ->type('basicList')
+            ->searchBar(true)
+            ->tableColumn($tableColumn)
+            ->tableToolBar($tableToolBar)
+            ->batchToolBar($batchToolBar);
     }
 
     // Accessor
-    public function getStatusAttr($value)
-    {
-        $text = ['Disable', 'Enable'];
-
-        return $text[$value];
-    }
 
     // Mutator
 
@@ -149,16 +120,26 @@ class AuthGroup extends Common
         $query->where('name', 'like', '%' . $value . '%');
     }
 
+    public function searchRulesAttr($query, $value, $data)
+    {
+        $query->where('rules', 'like', '%' . $value . '%');
+    }
+
     public function searchStatusAttr($query, $value, $data)
     {
-        $query->where('status', $value);
+        if (strlen($value)) {
+            if (strpos($value, ',')) {
+                $query->whereIn('status', $value);
+            } else {
+                $query->where('status', $value);
+            }
+        }
     }
 
     public function searchCreateTimeAttr($query, $value, $data)
     {
-        $timeArray = explode('T', $value);
-        if (validateDateTime($timeArray[0]) && validateDateTime($timeArray[1])) {
-            $query->whereBetweenTime('create_time', $timeArray[0], $timeArray[1]);
-        }
+        $value = urldecode($value);
+        $valueArray = explode(',', $value);
+        $query->whereBetweenTime('create_time', $valueArray[0], $valueArray[1]);
     }
 }

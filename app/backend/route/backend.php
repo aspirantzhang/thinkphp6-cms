@@ -20,13 +20,13 @@ Route::group(function () {
 
     Route::group('groups', function () {
         Route::get('', 'index');
-        Route::get('create', 'create');
-        Route::get('read/:id', 'read');
-        Route::get('edit/:id', 'edit');
+        Route::get('add', 'add');
+        Route::get(':id', 'read');
+        Route::put(':id', 'update');
+        Route::patch(':id', 'update');
+        Route::post('', 'save');
+        Route::delete(':id', 'delete');
         Route::get('tree', 'tree');
-        Route::post('save', 'save');
-        Route::post('update/:id', 'update');
-        Route::post('delete/:id', 'delete');
     })->prefix('auth_group/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class);
 
     Route::group('rules', function () {

@@ -8,56 +8,61 @@ use app\backend\service\AuthGroup as AuthGroupService;
 
 class AuthGroup extends Common
 {
-    protected $authGroupService;
+    protected $authGroup;
 
     public function initialize()
     {
-        $this->authGroupService = new AuthGroupService();
+        $this->authGroup = new AuthGroupService();
         parent::initialize();
     }
 
     public function index()
     {
-        $result = $this->authGroupService->listApi($this->request->only($this->authGroupService->allowIndex));
-        return json($result);
+        $result = $this->authGroup->listApi($this->request->only($this->authGroup->allowIndex));
+
+        return $result;
     }
 
-    public function create()
+    public function add()
     {
-        $result = $this->authGroupService->createApi();
-        return json($result);
+        $result = $this->authGroup->addApi();
+
+        return $result;
     }
 
     public function save()
     {
-        $result = $this->authGroupService->saveApi($this->request->only($this->authGroupService->allowSave));
-        return json($result);
+        $result = $this->authGroup->saveApi($this->request->only($this->authGroup->allowSave));
+
+        return $result;
     }
 
     public function read($id)
     {
-        $result = $this->authGroupService->readApi($id);
-        return json($result);
+        return $this->authGroup->readApi($id);
     }
 
     public function edit($id)
     {
-        $result = $this->authGroupService->editApi($id);
+        $result = $this->authGroup->editApi($id);
+
         return json($result);
     }
 
     public function update($id)
     {
-        $result = $this->authGroupService->updateApi($id, $this->request->only($this->authGroupService->allowUpdate));
-        return json($result);
+        $result = $this->authGroup->updateApi($id, $this->request->only($this->authGroup->allowUpdate));
+
+        return $result;
     }
 
     public function delete($id)
     {
-        $result = $this->authGroupService->deleteApi($id);
-        return json($result);
-    }
+        $result = $this->authGroup->deleteApi($id);
 
+        return $result;
+    }
+    
     public function tree()
     {
         $result = $this->authGroupService->printTree($this->request->only($this->authGroupService->allowIndex));

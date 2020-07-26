@@ -8,69 +8,69 @@ use app\backend\logic\AuthGroup as AuthGroupLogic;
 
 class AuthGroup extends AuthGroupLogic
 {
-    public function listApi($data)
+    public function listApi($params)
     {
-        $list = $this->buildList();
-        $dataSource = $this->getListData($data)->toArray();
-        $list['table']['dataSource'] = $dataSource['dataSource'];
-        $list['table']['pagination'] = $dataSource['pagination'];
-        return $list;
+        $page = $this->buildList($params)->toArray();
+        $data = $this->getListData($params)->toArray();
+
+        if ($data) {
+            $result = $page;
+            $result['dataSource'] = $data['dataSource'];
+            $result['meta'] = $data['pagination'];
+            return resSuccess('', $result);
+        } else {
+            return resError('Get list failed.');
+        }
     }
 
-    public function createApi()
+    public function addApi()
     {
-        $form = $this->buildSingle();
-        return $form;
+        $page = $this->buildAdd()->toArray();
+        if ($page) {
+            return resSuccess('', $page);
+        } else {
+            return resError('Get page failed.');
+        }
     }
 
     public function saveApi($data)
     {
+        
         $result = $this->saveNew($data);
-        if (-1 == $result) {
-            //already exists
-            return $this->error($this->error);
-        } elseif (0 == $result) {
-            // save failed
-            return $this->error($this->error);
+        if ($result) {
+            return resSuccess('Add successfully.');
         } else {
-            return $this->success('Create completed successfully.');
+            return resError($this->error);
         }
     }
 
     public function readApi($id)
     {
-        $result = $this->where('id', $id)->find();
-        if ($result) {
-            $form = $result->visible($this->allowRead)->toArray();
-            return $form;
-        } else {
-            return $this->error('Group not found');
-        }
-    }
+        $group = $this->where('id', $id)->find();
+        if ($group) {
+            $list = $this->buildInner($id)->toArray();
+            $data = $group->visible($this->allowRead)->toArray();
 
-    public function editApi($id)
-    {
-        $result = $this->where('id', $id)->find();
-        if ($result) {
-            $result = $result->visible($this->allowRead)->toArray();
-            $form = $this->buildSingle($result, 'edit');
-            return $form;
+            $result = $list;
+            $result['dataSource'] = $data;
+
+            return resSuccess('', $result);
         } else {
-            return $this->error('Group not found');
+            return resError('Group not found.');
         }
     }
 
     public function updateApi($id, $data)
     {
-        $group = $this->where('id', $id)->find();
-        if ($group) {
-            if ($group->allowField($this->allowUpdate)->save($data)) {
-                return $this->success('Update completed successfully.');
+        $admin = $this->where('id', $id)->find();
+        if ($admin) {
+            if ($admin->allowField($this->allowUpdate)->save($data)) {
+                return resSuccess('Update successfully.');
             } else {
-                return $this->error('Update failed.');
+                return resError('Update failed.');
             }
         } else {
-            return $this->error('Group not found.');
+            return resError('Admin not found.');
         }
     }
 
@@ -79,12 +79,12 @@ class AuthGroup extends AuthGroupLogic
         $admin = $this->find($id);
         if ($admin) {
             if ($admin->delete()) {
-                return $this->success('Delete completed successfully.');
+                return resSuccess('Delete completed successfully.');
             } else {
-                return $this->error('Delete failed.');
+                return resError('Delete failed.');
             }
         } else {
-            return $this->error('Group not found.');
+            return resError('Admin not found.');
         }
     }
 

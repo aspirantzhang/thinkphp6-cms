@@ -44,9 +44,8 @@ class Admin extends Validate
 
     public function sceneIndex()
     {
-        $this->only(['page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time'])
+        $this->only(['page', 'per_page', 'id', 'status', 'create_time'])
             ->remove('id', 'require')
-            ->remove('username', 'require')
             ->remove('create_time', 'date')
             ->append('create_time', 'dateTimeRange');
     }

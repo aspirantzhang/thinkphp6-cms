@@ -28,7 +28,7 @@ class Admin extends Common
     {
         return $this->belongsToMany(AuthGroup::class, 'auth_admin_group', 'group_id', 'admin_id');
     }
-
+    
     public function buildAdd()
     {
         $pageLayout = [
