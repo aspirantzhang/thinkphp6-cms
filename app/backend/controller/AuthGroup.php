@@ -18,7 +18,14 @@ class AuthGroup extends Common
 
     public function index()
     {
-        $result = $this->authGroup->listApi($this->request->only($this->authGroup->allowIndex));
+        $result = $this->authGroup->treeListApi($this->request->only($this->authGroup->allowIndex));
+
+        return $result;
+    }
+
+    public function tree()
+    {
+        $result = $this->authGroup->treeListApi($this->request->only($this->authGroup->allowIndex));
 
         return $result;
     }
@@ -61,12 +68,5 @@ class AuthGroup extends Common
         $result = $this->authGroup->deleteApi($id);
 
         return $result;
-    }
-    
-    public function tree()
-    {
-        $result = $this->authGroupService->printTree($this->request->only($this->authGroupService->allowIndex));
-
-        return json($result);
     }
 }

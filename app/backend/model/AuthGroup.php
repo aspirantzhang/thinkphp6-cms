@@ -21,7 +21,6 @@ class AuthGroup extends Common
     public $allowSave = ['parent_id', 'name', 'rules', 'status'];
     public $allowUpdate = ['id', 'parent_id', 'rules', 'name', 'status', 'create_time'];
     public $allowSearch = ['id', 'parent_id', 'rules','name', 'status', 'create_time'];
-    public $allowTree = ['id', 'parent_id', 'name', 'rules'];
 
     // Relation
 
@@ -50,6 +49,7 @@ class AuthGroup extends Common
     {
         $pageLayout = [
             Builder::field('name', 'Group Name')->type('text'),
+            Builder::field('parent_id', 'Parent')->type('text'),
             Builder::field('rules', 'Rules')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),

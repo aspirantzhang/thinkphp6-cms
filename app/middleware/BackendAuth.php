@@ -25,6 +25,7 @@ class BackendAuth
         'backend/auth_group/edit',
         'backend/auth_group/update',
         'backend/auth_group/delete',
+        'backend/auth_group/tree',
         'backend/auth_rule/index',
         'backend/auth_rule/create',
         'backend/auth_rule/save',

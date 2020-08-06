@@ -89,3 +89,35 @@ if (!function_exists('resJson')) {
         return jsonCross($initBody, $httpCode, $header);
     }
 }
+
+if (!function_exists('createTreeBranch')) {
+    /* Recursive branch extrusion */
+    function createTreeBranch(&$parents, $children)
+    {
+        $tree = array();
+        foreach ($children as $child) {
+            if (isset($parents[$child['id']])) {
+                $child['children'] =
+                createTreeBranch($parents, $parents[$child['id']]);
+            }
+            $tree[] = $child;
+        }
+        return $tree;
+    }
+}
+
+if (!function_exists('arrayToTree')) {
+    /**
+     * convert Array to Tree structure
+     * @link https://stackoverflow.com/a/22020668/8819175
+     * @return array
+     */
+    function arrayToTree($flat, $root = 0)
+    {
+        $parents = array();
+        foreach ($flat as $a) {
+            $parents[$a['parent_id']][] = $a;
+        }
+        return createTreeBranch($parents, $parents[$root]);
+    }
+}

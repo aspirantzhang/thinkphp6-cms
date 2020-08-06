@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73f354f19821ed4cd04c9a9b0b47dcb5",
+    "content-hash": "acb1a4b92efb1a128bdf2c39546508cc",
     "packages": [
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
@@ -85,69 +85,17 @@
             "time": "2019-09-11T06:49:30+00:00"
         },
         {
-            "name": "bluem/tree",
-            "version": "3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BlueM/Tree.git",
-                "reference": "e520150cc713b4318c6ceae05d578462d930bc59"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/BlueM/Tree/zipball/e520150cc713b4318c6ceae05d578462d930bc59",
-                "reference": "e520150cc713b4318c6ceae05d578462d930bc59",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "ext-json": "*",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "doctrine/instantiator": "1.0.*",
-                "phpunit/phpunit": "6.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "BlueM\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Carsten Blüm",
-                    "email": "carsten@bluem.net"
-                }
-            ],
-            "description": "Library for handling tree structures based on parent IDs",
-            "homepage": "https://github.com/BlueM/Tree",
-            "keywords": [
-                "hierarchical",
-                "tree"
-            ],
-            "time": "2019-09-15T06:11:51+00:00"
-        },
-        {
             "name": "league/flysystem",
-            "version": "1.0.69",
+            "version": "1.0.70",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "7106f78428a344bc4f643c233a94e48795f10967"
+                "reference": "585824702f534f8d3cf7fab7225e8466cc4b7493"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/7106f78428a344bc4f643c233a94e48795f10967",
-                "reference": "7106f78428a344bc4f643c233a94e48795f10967",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/585824702f534f8d3cf7fab7225e8466cc4b7493",
+                "reference": "585824702f534f8d3cf7fab7225e8466cc4b7493",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -164,7 +112,7 @@
                 "league/flysystem-sftp": "<1.0.6"
             },
             "require-dev": {
-                "phpspec/phpspec": "^3.4",
+                "phpspec/phpspec": "^3.4 || ^4.0 || ^5.0 || ^6.0",
                 "phpunit/phpunit": "^5.7.26"
             },
             "suggest": {
@@ -230,20 +178,20 @@
                     "type": "other"
                 }
             ],
-            "time": "2020-05-18T15:13:39+00:00"
+            "time": "2020-07-26T07:20:36+00:00"
         },
         {
             "name": "league/flysystem-cached-adapter",
-            "version": "1.0.9",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-cached-adapter.git",
-                "reference": "08ef74e9be88100807a3b92cc9048a312bf01d6f"
+                "reference": "d1925efb2207ac4be3ad0c40b8277175f99ffaff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-cached-adapter/zipball/08ef74e9be88100807a3b92cc9048a312bf01d6f",
-                "reference": "08ef74e9be88100807a3b92cc9048a312bf01d6f",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-cached-adapter/zipball/d1925efb2207ac4be3ad0c40b8277175f99ffaff",
+                "reference": "d1925efb2207ac4be3ad0c40b8277175f99ffaff",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -283,7 +231,7 @@
                 }
             ],
             "description": "An adapter decorator to enable meta-data caching.",
-            "time": "2018-07-09T20:51:04+00:00"
+            "time": "2020-07-25T15:56:04+00:00"
         },
         {
             "name": "nette/utils",
@@ -875,12 +823,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "6738a32cf227840c0297c3eea905a7b9d43dd11d"
+                "reference": "9e709e62d2f3c1fe2c1637c27cb4b5d2f2256667"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/6738a32cf227840c0297c3eea905a7b9d43dd11d",
-                "reference": "6738a32cf227840c0297c3eea905a7b9d43dd11d",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/9e709e62d2f3c1fe2c1637c27cb4b5d2f2256667",
+                "reference": "9e709e62d2f3c1fe2c1637c27cb4b5d2f2256667",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -918,7 +866,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2020-07-14T06:40:45+00:00"
+            "time": "2020-08-04T13:22:12+00:00"
         },
         {
             "name": "topthink/think-template",
@@ -1010,7 +958,7 @@
     "packages-dev": [
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.18.0",
+            "version": "v1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -1093,7 +1041,7 @@
         },
         {
             "name": "symfony/polyfill-php72",
-            "version": "v1.18.0",
+            "version": "v1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
@@ -1172,7 +1120,7 @@
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.18.0",
+            "version": "v1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
@@ -1258,16 +1206,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.4.10",
+            "version": "v4.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "56b3aa5eab0ac6720dcd559fd1d590ce301594ac"
+                "reference": "2125805a1a4e57f2340bc566c3013ca94d2722dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/56b3aa5eab0ac6720dcd559fd1d590ce301594ac",
-                "reference": "56b3aa5eab0ac6720dcd559fd1d590ce301594ac",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/2125805a1a4e57f2340bc566c3013ca94d2722dc",
+                "reference": "2125805a1a4e57f2340bc566c3013ca94d2722dc",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1351,7 +1299,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-30T20:06:45+00:00"
+            "time": "2020-06-24T13:34:53+00:00"
         }
     ],
     "aliases": [],

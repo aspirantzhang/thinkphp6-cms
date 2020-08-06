@@ -21,7 +21,6 @@
         "topthink/think-orm": "2.0.*-dev",
         "topthink/think-view": "^1.0",
         "topthink/think-migration": "^3.0",
-        "bluem/tree": "^3.0",
         "nette/utils": "^3.0",
         "aspirantzhang/thinkphp-antdesign-builder": "dev-master",
         "aspirantzhang/thinkphp6-auth": "dev-master",

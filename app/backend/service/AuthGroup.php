@@ -23,6 +23,25 @@ class AuthGroup extends AuthGroupLogic
         }
     }
 
+    public function treeListApi($params)
+    {
+        $page = $this->buildList($params)->toArray();
+        $data = $this->getTreeListData($params);
+
+        if ($data) {
+            $result = $page;
+            $result['dataSource'] = $data;
+            $result['meta'] = [
+                'total' => 0,
+                'per_page' => 10,
+                'page' => 1,
+            ];
+            return resSuccess('', $result);
+        } else {
+            return resError('Get list failed.');
+        }
+    }
+
     public function addApi()
     {
         $page = $this->buildAdd()->toArray();
@@ -86,10 +105,5 @@ class AuthGroup extends AuthGroupLogic
         } else {
             return resError('Admin not found.');
         }
-    }
-
-    public function printTree($data)
-    {
-        return $this->getTreeList($data);
     }
 }
