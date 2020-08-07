@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\backend\logic;
 
 use app\backend\model\Admin as AdminModel;
+use app\backend\service\AuthGroup;
 
 class Admin extends AdminModel
 {
@@ -18,7 +19,9 @@ class Admin extends AdminModel
         //     $query->field('auth_group.name')->where('auth_group.status', 1)->hidden(['pivot']);
         // }])
 
-        return $this->with(['groups'])
+        return $this->with(['groups' => function ($query) {
+                        $query->where('auth_group.status', 1)->hidden(['pivot']);
+        }])
                     ->withSearch(array_keys($search), $search)
                     ->order($sort['name'], $sort['order'])
                     ->visible($this->allowList)
@@ -44,13 +47,36 @@ class Admin extends AdminModel
         
         $data['display_name'] = $data['display_name'] ?? $data['username'];
 
-        $result = $this->save($data);
-        if ($result) {
+        $this->startTrans();
+        try {
+            $this->save($data);
+            if (count($data['groups'])) {
+                $this->groups()->attach($data['groups']);
+            }
+            $this->commit();
             return $this->getData('id');
-        } else {
+        } catch (\Exception $e) {
+            $this->rollback();
             $this->error = 'Save failed.';
             return false;
         }
+    }
+
+    protected function getAllGroups()
+    {
+        $group = new AuthGroup();
+        $groupsData = $group->treeDataApi();
+        $groupsData = array_map(function ($group) {
+            return array(
+                'id' => $group['id'],
+                'key' => $group['id'],
+                'value' => $group['id'],
+                'title' => $group['name'],
+                'parent_id' => $group['parent_id'],
+            );
+        }, $groupsData);
+
+        return $groupsData;
     }
 
     public function checkPassword($data)

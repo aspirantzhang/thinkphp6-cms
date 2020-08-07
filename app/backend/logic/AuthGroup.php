@@ -24,11 +24,10 @@ class AuthGroup extends AuthGroupModel
                     ->paginate($perPage);
     }
 
-    public function getTreeListData($data)
+    public function getAllData($data)
     {
         $search = getSearchParam($data, $this->allowSearch);
         $sort = getSortParam($data, $this->allowSort);
-        // $perPage = getPerPageParam($data);
 
         $normalListData = $this->withSearch(array_keys($search), $search)
                     ->order($sort['name'], $sort['order'])
@@ -36,8 +35,9 @@ class AuthGroup extends AuthGroupModel
                     ->select()
                     ->toArray();
 
-        return arrayToTree($normalListData);
+        return $normalListData;
     }
+
 
     protected function saveNew($data)
     {

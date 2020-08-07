@@ -26,11 +26,11 @@ class AuthGroup extends AuthGroupLogic
     public function treeListApi($params)
     {
         $page = $this->buildList($params)->toArray();
-        $data = $this->getTreeListData($params);
+        $data = $this->getAllData($params);
 
         if ($data) {
             $result = $page;
-            $result['dataSource'] = $data;
+            $result['dataSource'] = arrayToTree($data);
             $result['meta'] = [
                 'total' => 0,
                 'per_page' => 10,
@@ -40,6 +40,11 @@ class AuthGroup extends AuthGroupLogic
         } else {
             return resError('Get list failed.');
         }
+    }
+
+    public function treeDataApi($params = [])
+    {
+        return $this->getAllData($params);
     }
 
     public function addApi()

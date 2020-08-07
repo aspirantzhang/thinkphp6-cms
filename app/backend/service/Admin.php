@@ -25,7 +25,7 @@ class Admin extends AdminLogic
 
     public function addApi()
     {
-        $page = $this->buildAdd()->toArray();
+        $page = $this->buildAdd(['groups' => arrayToTree($this->getAllGroups())])->toArray();
         if ($page) {
             return resSuccess('', $page);
         } else {
@@ -35,7 +35,6 @@ class Admin extends AdminLogic
 
     public function saveApi($data)
     {
-        
         $result = $this->saveNew($data);
         if ($result) {
             return resSuccess('Add successfully.');
@@ -46,10 +45,24 @@ class Admin extends AdminLogic
 
     public function readApi($id)
     {
-        $admin = $this->where('id', $id)->with('groups')->find();
+        $admin = $this->where('id', $id)->with(['groups' => function ($query) {
+            $query->where('auth_group.status', 1)->visible(['id']);
+        }])->visible($this->allowRead)->find();
+
+        $admin = $admin->hidden(['groups.pivot'])->toArray();
+
+        $groupsArr = [];
+        if (!empty($admin['groups'])) {
+            foreach ($admin['groups'] as $group) {
+                $groupsArr[] = $group['id'];
+            }
+        }
+        $admin['groups'] = $groupsArr;
+
         if ($admin) {
-            $list = $this->buildInner($id)->toArray();
-            $data = $admin->visible($this->allowRead)->toArray();
+            $list = $this->buildInner($id, ['groups' => arrayToTree($this->getAllGroups())])->toArray();
+            $data = $admin;
+            // $data = $admin->toArray();
 
             $result = $list;
             $result['dataSource'] = $data;
@@ -65,9 +78,17 @@ class Admin extends AdminLogic
     {
         $admin = $this->where('id', $id)->find();
         if ($admin) {
-            if ($admin->allowField($this->allowUpdate)->save($data)) {
+            $admin->startTrans();
+            try {
+                $admin->groups()->detach();
+                if (count($data['groups'])) {
+                    $admin->groups()->attach($data['groups']);
+                }
+                $admin->allowField($this->allowUpdate)->save($data);
+                $admin->commit();
                 return resSuccess('Update successfully.');
-            } else {
+            } catch (\Exception $e) {
+                $admin->rollback();
                 return resError('Update failed.');
             }
         } else {

@@ -18,8 +18,8 @@ class Admin extends Common
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];
-    public $allowSave = ['username', 'password', 'display_name', 'status'];
-    public $allowUpdate = ['password', 'display_name', 'status', 'create_time'];
+    public $allowSave = ['username', 'password', 'groups' , 'display_name', 'status'];
+    public $allowUpdate = ['password', 'display_name', 'groups', 'status', 'create_time'];
     public $allowSearch = ['id', 'username', 'display_name', 'status', 'create_time'];
     public $allowLogin = ['username', 'password'];
 
@@ -29,12 +29,14 @@ class Admin extends Common
         return $this->belongsToMany(AuthGroup::class, 'auth_admin_group', 'group_id', 'admin_id');
     }
     
-    public function buildAdd()
+    public function buildAdd($addonData = [])
     {
         $pageLayout = [
             Builder::field('username', 'Username')->type('text'),
             Builder::field('password', 'Password')->type('password'),
             Builder::field('display_name', 'Display Name')->type('text'),
+            Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
+            Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
@@ -51,11 +53,12 @@ class Admin extends Common
     }
 
     
-    public function buildInner($id)
+    public function buildInner($id, $addonData = [])
     {
         $pageLayout = [
             Builder::field('username', 'Username')->type('text'),
             Builder::field('display_name', 'Display Name')->type('text'),
+            Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),

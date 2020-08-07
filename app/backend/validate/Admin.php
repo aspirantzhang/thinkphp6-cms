@@ -14,7 +14,7 @@ class Admin extends Validate
         'status' => 'numberTag',
         'page' => 'number',
         'per_page' => 'number',
-        'create_time' => 'date',
+        'create_time' => 'require|dateTimeRange',
     ];
 
     protected $message = [
@@ -28,15 +28,15 @@ class Admin extends Validate
         'status.numberTag' => 'Invalid status format.',
         'page.number' => 'Page must be numbers only.',
         'per_page.number' => 'Per_page must be numbers only.',
-        'create_time.date' => 'Invalid create time format.',
-        'create_time.dateTimeRange' => 'Invalid time range format.',
+        'create_time.require' => 'Create time is empty.',
+        'create_time.dateTimeRange' => 'Invalid create time format.',
     ];
 
     // index save read update delete
 
     protected $scene = [
         'save' => ['username', 'password', 'display_name', 'create_time', 'status'],
-        'update' => ['id', 'username', 'display_name', 'create_time', 'status'],
+        'update' => ['id', 'display_name', 'create_time', 'status'],
         'read' => ['id'],
         'delete' => ['id'],
         'add' => [''],
@@ -46,8 +46,7 @@ class Admin extends Validate
     {
         $this->only(['page', 'per_page', 'id', 'status', 'create_time'])
             ->remove('id', 'require')
-            ->remove('create_time', 'date')
-            ->append('create_time', 'dateTimeRange');
+            ->remove('create_time', 'require');
     }
 
     protected function numberTag($value, $rule, $data = [])
@@ -71,6 +70,9 @@ class Admin extends Validate
     
     protected function dateTimeRange($value, $rule, $data = [])
     {
+        if (validateDateTime($value, \DateTime::ATOM)) {
+            return true;
+        }
         $value = urldecode($value);
         $valueArray = explode(',', $value);
         if (count($valueArray) === 2 && validateDateTime($valueArray[0], 'Y-m-d\TH:i:s\Z') && validateDateTime($valueArray[1], 'Y-m-d\TH:i:s\Z')) {
