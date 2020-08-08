@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\backend\model;
 
-use app\backend\service\AuthGroup as AuthGroupService;
 use aspirantzhang\TPAntdBuilder\Builder;
 use think\model\concern\SoftDelete;
+use app\backend\service\AuthGroup;
 
 class Admin extends Common
 {
@@ -14,13 +14,13 @@ class Admin extends Common
 
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id', 'name'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'username', 'display_name', 'status', 'create_time'];
+    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'groups', 'id', 'username', 'display_name', 'status', 'create_time'];
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];
     public $allowSave = ['username', 'password', 'groups' , 'display_name', 'status'];
     public $allowUpdate = ['password', 'display_name', 'groups', 'status', 'create_time'];
-    public $allowSearch = ['id', 'username', 'display_name', 'status', 'create_time'];
+    public $allowSearch = ['groups', 'id', 'username', 'display_name', 'status', 'create_time'];
     public $allowLogin = ['username', 'password'];
 
     // Relation
@@ -76,7 +76,7 @@ class Admin extends Common
             ->layout($pageLayout);
     }
 
-    public function buildList($params)
+    public function buildList($params, $addonData = [])
     {
         $tableToolBar = [
             Builder::button('Full page add')->type('primary')->action('page')->uri('http://www.test.com/backend/admins/add'),
@@ -89,6 +89,7 @@ class Admin extends Common
         ];
         $tableColumn = [
             Builder::field('username', 'Username')->type('text'),
+            Builder::field('groups', 'Groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
@@ -164,5 +165,12 @@ class Admin extends Common
         $value = urldecode($value);
         $valueArray = explode(',', $value);
         $query->whereBetweenTime('create_time', $valueArray[0], $valueArray[1]);
+    }
+
+    public function searchGroupsAttr($query, $value, $data)
+    {
+        $group = new AuthGroup();
+        $adminIDs = $group->getUserIDsByGroups((array)explode(',', $value));
+        $query->whereIn('id', $adminIDs);
     }
 }

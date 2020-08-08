@@ -111,4 +111,16 @@ class AuthGroup extends AuthGroupLogic
             return resError('Admin not found.');
         }
     }
+
+    public function getUserIDsByGroups(array $groupIDs = []): array
+    {
+        $groups = $this->whereIn('id', $groupIDs)->with(['admins'])->hidden(['admins.pivot'])->select();
+
+        if (!$groups->isEmpty()) {
+            $adminIDs = getUniqueValuesInArray($groups->toArray(), 'admins', 'id');
+            return $adminIDs;
+        }
+
+        return [];
+    }
 }

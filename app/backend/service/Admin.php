@@ -10,7 +10,7 @@ class Admin extends AdminLogic
 {
     public function listApi($params)
     {
-        $page = $this->buildList($params)->toArray();
+        $page = $this->buildList($params, ['groups' => arrayToTree($this->getAllGroups())])->toArray();
         $data = $this->getListData($params)->toArray();
 
         if ($data) {

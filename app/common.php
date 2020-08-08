@@ -121,3 +121,19 @@ if (!function_exists('arrayToTree')) {
         return createTreeBranch($parents, $parents[$root]);
     }
 }
+
+if (!function_exists('getUniqueValuesInArray')) {
+    function getUniqueValuesInArray(array $array, string $parentKeyName, string $targetKeyName)
+    {
+        $result = [];
+        if (count($array)) {
+            foreach ($array as $key => $value) {
+                if (count($value[$parentKeyName])) {
+                    $result = array_merge($result, array_column($value[$parentKeyName], $targetKeyName));
+                }
+            }
+            return $result;
+        }
+        return [];
+    }
+}

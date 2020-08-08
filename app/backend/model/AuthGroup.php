@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace app\backend\model;
 
-use app\backend\service\AuthRule as AuthRuleService;
+use app\backend\service\AuthRule;
+use app\backend\service\Admin;
 use aspirantzhang\TPAntdBuilder\Builder;
 use think\model\concern\SoftDelete;
 
@@ -23,6 +24,10 @@ class AuthGroup extends Common
     public $allowSearch = ['id', 'parent_id', 'rules','name', 'status', 'create_time'];
 
     // Relation
+    public function admins()
+    {
+        return $this->belongsToMany(Admin::class, 'auth_admin_group', 'admin_id', 'group_id');
+    }
 
     public function buildAdd()
     {

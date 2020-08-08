@@ -69,4 +69,11 @@ class AuthGroup extends Common
 
         return $result;
     }
+
+    public function test()
+    {
+        $result = $this->authGroup->getUserIDsByGroups([23]);
+
+        return json($result);
+    }
 }

@@ -38,6 +38,7 @@ class AuthGroup extends Validate
         'delete' => ['id'],
         'add' => [''],
         'tree' => [''],
+        'test' => [''],
     ];
 
     public function sceneIndex()

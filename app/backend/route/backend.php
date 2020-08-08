@@ -22,6 +22,7 @@ Route::group(function () {
         Route::get('', 'index');
         Route::get('add', 'add');
         Route::get('tree', 'tree');
+        Route::get('test', 'test');
         Route::get(':id', 'read');
         Route::put(':id', 'update');
         Route::patch(':id', 'update');
