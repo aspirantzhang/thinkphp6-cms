@@ -79,13 +79,15 @@ class Admin extends Common
     public function buildList($params, $addonData = [])
     {
         $tableToolBar = [
-            Builder::button('Full page add')->type('primary')->action('page')->uri('http://www.test.com/backend/admins/add'),
             Builder::button('Add')->type('primary')->action('modal')->uri('http://www.test.com/backend/admins/add'),
+            Builder::button('Full page add')->type('default')->action('page')->uri('http://www.test.com/backend/admins/add'),
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('primary')->action('function')->uri('batchDeleteHandler'),
-            Builder::button('Disable')->type('primary')->action('function')->uri('batchDisableHandler'),
+            Builder::button('Delete')->type('default')->action('batchDelete')
+                    ->uri('http://www.test.com/backend/admins/batch-delete')
+                    ->method('delete'),
+            Builder::button('Disable')->type('default')->action('batchDisable'),
         ];
         $tableColumn = [
             Builder::field('username', 'Username')->type('text'),
@@ -94,12 +96,11 @@ class Admin extends Common
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
-                Builder::button('Full page edit')->type('normal')->action('page')
+                Builder::button('Edit')->type('primary')->action('modal')
                         ->uri('http://www.test.com/backend/admins'),
-                Builder::button('Edit')->type('normal')->action('modal')
+                Builder::button('Full page edit')->type('default')->action('page')
                         ->uri('http://www.test.com/backend/admins'),
-                        
-                Builder::button('Delete')->type('normal')->action('delete')
+                Builder::button('Delete')->type('default')->action('delete')
                         ->uri('http://www.test.com/backend/admins')
                         ->method('delete'),
             ])->title('Action'),

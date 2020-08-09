@@ -40,6 +40,7 @@ class Admin extends Validate
         'read' => ['id'],
         'delete' => ['id'],
         'add' => [''],
+        'batch_delete' => [''],
     ];
 
     public function sceneIndex()

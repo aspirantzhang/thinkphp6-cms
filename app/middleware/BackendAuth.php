@@ -17,6 +17,7 @@ class BackendAuth
         'backend/admin/edit',
         'backend/admin/update',
         'backend/admin/delete',
+        'backend/admin/batch_delete',
         'backend/admin/groups',
         'backend/auth_group/index',
         'backend/auth_group/add',
@@ -42,6 +43,9 @@ class BackendAuth
         $appName = parse_name(app('http')->getName());
         $controllerName = parse_name($request->controller());
         $actionName = parse_name($request->action());
+
+        // echo $appName . '/' . $controllerName . '/' . $actionName;
+
         $fullPath = $appName . '/' . $controllerName . '/' . $actionName;
 
         if (in_array($fullPath, $this->noNeedAuth)) {

@@ -63,6 +63,13 @@ class Admin extends Common
         return $result;
     }
 
+    public function batchDelete()
+    {
+        $result = $this->admin->batchDeleteApi($this->request->param('idArray'));
+        
+        return $result;
+    }
+
     public function groups($id)
     {
         $admin = $this->admin->with(['groups' => function ($query) {

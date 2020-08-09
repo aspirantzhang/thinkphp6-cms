@@ -6,6 +6,7 @@ Route::group(function () {
     Route::post('login', 'index/login')->validate(\app\backend\validate\Admin::class, 'login');
 
     Route::group('admins', function () {
+        Route::delete('batch-delete', 'batchDelete');
         Route::get('', 'index');
         Route::get('add', 'add');
         Route::get(':id', 'read');

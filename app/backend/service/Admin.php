@@ -110,6 +110,21 @@ class Admin extends AdminLogic
         }
     }
 
+    public function batchDeleteApi($idArray)
+    {
+        // halt($idArray);
+        if (count($idArray)) {
+            $result = $this->whereIn('id', $idArray)->select()->delete();
+            if ($result) {
+                return resSuccess('Delete completed successfully.');
+            } else {
+                return resError('Delete failed.');
+            }
+        } else {
+            return resError('Nothing to do.');
+        }
+    }
+
     public function loginApi($data)
     {
         $result = $this->checkPassword($data);
