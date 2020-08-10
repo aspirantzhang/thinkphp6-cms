@@ -11,14 +11,14 @@ use app\backend\service\AuthGroup;
 class Admin extends Common
 {
     use SoftDelete;
-
+    
     protected $deleteTime = 'delete_time';
-    protected $readonly = ['id', 'name'];
+    protected $readonly = ['id', 'username'];
     public $allowIndex = ['sort', 'order', 'page', 'per_page', 'groups', 'id', 'username', 'display_name', 'status', 'create_time'];
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];
-    public $allowSave = ['username', 'password', 'groups' , 'display_name', 'status'];
+    public $allowSave = ['username', 'password', 'groups' , 'display_name', 'status', 'create_time'];
     public $allowUpdate = ['password', 'display_name', 'groups', 'status', 'create_time'];
     public $allowSearch = ['groups', 'id', 'username', 'display_name', 'status', 'create_time'];
     public $allowLogin = ['username', 'password'];

@@ -44,15 +44,14 @@ class Admin extends AdminModel
             $this->error = 'The username already exists.';
             return false;
         }
-        
-        $data['display_name'] = $data['display_name'] ?? $data['username'];
 
+        $data['display_name'] = $data['display_name'] ?? $data['username'];
+        $data['groups'] = $data['groups'] ?? [];
+        
         $this->startTrans();
         try {
             $this->save($data);
-            if (count($data['groups'])) {
-                $this->groups()->attach($data['groups']);
-            }
+            $this->groups()->saveAll($data['groups']);
             $this->commit();
             return $this->getData('id');
         } catch (\Exception $e) {
