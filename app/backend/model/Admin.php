@@ -56,7 +56,7 @@ class Admin extends Common
     public function buildInner($id, $addonData = [])
     {
         $pageLayout = [
-            Builder::field('username', 'Username')->type('text'),
+            Builder::field('username', 'Username')->type('text')->disabled(true),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
