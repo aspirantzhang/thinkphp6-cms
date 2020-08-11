@@ -49,7 +49,7 @@ class AuthGroup extends AuthGroupLogic
 
     public function addApi()
     {
-        $page = $this->buildAdd()->toArray();
+        $page = $this->buildAdd(['parent' => arrayToTree($this->getParentData(), -1)])->toArray();
         if ($page) {
             return resSuccess('', $page);
         } else {
@@ -72,7 +72,7 @@ class AuthGroup extends AuthGroupLogic
     {
         $group = $this->where('id', $id)->find();
         if ($group) {
-            $list = $this->buildInner($id)->toArray();
+            $list = $this->buildInner($id, ['parent' => arrayToTree($this->getParentData($id), -1)])->toArray();
             $data = $group->visible($this->allowRead)->toArray();
 
             $result = $list;
@@ -122,5 +122,10 @@ class AuthGroup extends AuthGroupLogic
         }
 
         return [];
+    }
+
+    public function getParentAPI()
+    {
+        return $this->getParentData();
     }
 }

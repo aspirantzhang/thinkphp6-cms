@@ -29,11 +29,13 @@ class AuthGroup extends Common
         return $this->belongsToMany(Admin::class, 'auth_admin_group', 'admin_id', 'group_id');
     }
 
-    public function buildAdd()
+    public function buildAdd($addonData = [])
     {
         $pageLayout = [
             Builder::field('name', 'Group Name')->type('text'),
+            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent']),
             Builder::field('rules', 'Rules')->type('text'),
+            Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
@@ -50,11 +52,11 @@ class AuthGroup extends Common
     }
 
     
-    public function buildInner($id)
+    public function buildInner($id, $addonData = [])
     {
         $pageLayout = [
             Builder::field('name', 'Group Name')->type('text'),
-            Builder::field('parent_id', 'Parent')->type('text'),
+            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent']),
             Builder::field('rules', 'Rules')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),

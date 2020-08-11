@@ -72,7 +72,7 @@ class AuthGroup extends Common
 
     public function test()
     {
-        $result = $this->authGroup->getUserIDsByGroups([23]);
+        $result = $this->authGroup->getParentAPI();
 
         return json($result);
     }
