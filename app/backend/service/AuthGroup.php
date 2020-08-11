@@ -128,4 +128,9 @@ class AuthGroup extends AuthGroupLogic
     {
         return $this->getParentData();
     }
+
+    public function testAPI()
+    {
+        return $this->getAllData([]);
+    }
 }

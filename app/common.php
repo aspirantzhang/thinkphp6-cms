@@ -92,13 +92,15 @@ if (!function_exists('resJson')) {
 
 if (!function_exists('createTreeBranch')) {
     /* Recursive branch extrusion */
-    function createTreeBranch(&$parents, $children)
+    function createTreeBranch(&$parents, $children, $depth = 0)
     {
-        $tree = array();
+        $tree = [];
+        $depth++;
         foreach ($children as $child) {
+            $child['depth'] = $depth;
             if (isset($parents[$child['id']])) {
                 $child['children'] =
-                createTreeBranch($parents, $parents[$child['id']]);
+                createTreeBranch($parents, $parents[$child['id']], $depth);
             }
             $tree[] = $child;
         }
@@ -114,7 +116,7 @@ if (!function_exists('arrayToTree')) {
      */
     function arrayToTree($flat, $root = 0)
     {
-        $parents = array();
+        $parents = [];
         foreach ($flat as $a) {
             $parents[$a['parent_id']][] = $a;
         }
