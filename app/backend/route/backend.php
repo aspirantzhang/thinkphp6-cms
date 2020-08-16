@@ -20,6 +20,7 @@ Route::group(function () {
     })->prefix('admin/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class);
 
     Route::group('groups', function () {
+        Route::delete('batch-delete', 'batchDelete');
         Route::get('', 'index');
         Route::get('add', 'add');
         Route::get('tree', 'tree');

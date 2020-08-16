@@ -70,6 +70,13 @@ class AuthGroup extends Common
         return $result;
     }
 
+    public function batchDelete()
+    {
+        $result = $this->admin->batchDeleteApi($this->request->param('idArray'));
+        
+        return $result;
+    }
+
     public function test()
     {
         $result = arrayToTree($this->authGroup->testAPI());

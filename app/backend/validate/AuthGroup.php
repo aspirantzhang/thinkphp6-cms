@@ -13,7 +13,7 @@ class AuthGroup extends Validate
         'status' => 'numberTag',
         'page' => 'number',
         'per_page' => 'number',
-        'create_time' => 'date',
+        'create_time' => 'require|dateTimeRange',
     ];
 
     protected $message = [
@@ -25,8 +25,8 @@ class AuthGroup extends Validate
         'status.numberTag' => 'Invalid status format.',
         'page.number' => 'Page must be numbers only.',
         'per_page.number' => 'Per_page must be numbers only.',
-        'create_time.date' => 'Invalid create time format.',
-        'create_time.dateTimeRange' => 'Invalid time range format.',
+        'create_time.require' => 'Create time is empty.',
+        'create_time.dateTimeRange' => 'Invalid create time format.',
     ];
 
     // index save read update delete
@@ -39,43 +39,13 @@ class AuthGroup extends Validate
         'add' => [''],
         'tree' => [''],
         'test' => [''],
+        'batch_delete' => [''],
     ];
 
     public function sceneIndex()
     {
         $this->only(['page', 'per_page', 'id', 'status', 'create_time'])
             ->remove('id', 'require')
-            ->remove('create_time', 'date')
-            ->append('create_time', 'dateTimeRange');
-    }
-
-    protected function numberTag($value, $rule, $data = [])
-    {
-        if (strpos($value, ',')) {
-            $arr = explode(',', $value);
-            foreach ($arr as $val) {
-                if (!is_numeric($val)) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            if (is_numeric($value)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-    
-    protected function dateTimeRange($value, $rule, $data = [])
-    {
-        $value = urldecode($value);
-        $valueArray = explode(',', $value);
-        if (count($valueArray) === 2 && validateDateTime($valueArray[0], 'Y-m-d\TH:i:s\Z') && validateDateTime($valueArray[1], 'Y-m-d\TH:i:s\Z')) {
-            return true;
-        } else {
-            return false;
-        }
+            ->remove('create_time', 'require');
     }
 }

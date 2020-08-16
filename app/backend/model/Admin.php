@@ -84,10 +84,10 @@ class Admin extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('default')->action('batchDelete')
+            Builder::button('Delete')->type('dashed')->action('batchDelete')
                     ->uri('http://www.test.com/backend/admins/batch-delete')
                     ->method('delete'),
-            Builder::button('Disable')->type('default')->action('batchDisable'),
+            Builder::button('Disable')->type('dashed')->action('batchDisable'),
         ];
         $tableColumn = [
             Builder::field('username', 'Username')->type('text'),

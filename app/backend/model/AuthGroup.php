@@ -55,7 +55,7 @@ class AuthGroup extends Common
     public function buildInner($id, $addonData = [])
     {
         $pageLayout = [
-            Builder::field('name', 'Group Name')->type('text'),
+            Builder::field('name', 'Group Name')->type('text')->disabled(true),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent']),
             Builder::field('rules', 'Rules')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
@@ -77,15 +77,16 @@ class AuthGroup extends Common
 
     public function buildList($params)
     {
-        // ['parent_id', 'name', 'rules', 'status', 'create_time'];
         $tableToolBar = [
-            Builder::button('Full page add')->type('primary')->action('page')->uri('http://www.test.com/backend/groups/add'),
             Builder::button('Add')->type('primary')->action('modal')->uri('http://www.test.com/backend/groups/add'),
+            Builder::button('Full page add')->type('primary')->action('page')->uri('http://www.test.com/backend/groups/add'),
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('primary')->action('function')->uri('batchDeleteHandler'),
-            Builder::button('Disable')->type('primary')->action('function')->uri('batchDisableHandler'),
+            Builder::button('Delete')->type('dashed')->action('batchDelete')
+                    ->uri('http://www.test.com/backend/groups/batch-delete')
+                    ->method('delete'),
+            Builder::button('Disable')->type('dashed')->action('function')->uri('batchDisableHandler'),
         ];
         $tableColumn = [
             Builder::field('name', 'Group Name')->type('text'),
@@ -93,11 +94,10 @@ class AuthGroup extends Common
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
-                Builder::button('Full page edit')->type('normal')->action('page')
-                        ->uri('http://www.test.com/backend/groups'),
                 Builder::button('Edit')->type('normal')->action('modal')
                         ->uri('http://www.test.com/backend/groups'),
-                        
+                Builder::button('Full page edit')->type('normal')->action('page')
+                        ->uri('http://www.test.com/backend/groups'),
                 Builder::button('Delete')->type('normal')->action('delete')
                         ->uri('http://www.test.com/backend/groups')
                         ->method('delete'),
@@ -113,6 +113,18 @@ class AuthGroup extends Common
     }
 
     // Accessor
+    public function getCreateTimeAttr($value)
+    {
+        $date = new \DateTime($value);
+        // return $date->setTimezone(new \DateTimeZone('Europe/Amsterdam'))->format(\DateTime::ATOM);
+        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
+    }
+    public function getUpdateTimeAttr($value)
+    {
+        $date = new \DateTime($value);
+        // return $date->setTimezone(new \DateTimeZone('Europe/Amsterdam'))->format(\DateTime::ATOM);
+        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
+    }
 
     // Mutator
 
