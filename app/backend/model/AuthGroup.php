@@ -36,10 +36,10 @@ class AuthGroup extends Common
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent']),
             Builder::field('rules', 'Rules')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('normal')->action('cancel'),
+                Builder::button('Cancel')->type('default')->action('cancel'),
                 Builder::button('Submit')->type('primary')->action('submit')
                         ->uri('http://www.test.com/backend/groups')
                         ->method('post'),
@@ -52,18 +52,18 @@ class AuthGroup extends Common
     }
 
     
-    public function buildInner($id, $addonData = [])
+    public function buildEdit($id, $addonData = [])
     {
         $pageLayout = [
-            Builder::field('name', 'Group Name')->type('text')->disabled(true),
+            Builder::field('name', 'Group Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent']),
             Builder::field('rules', 'Rules')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('normal')->action('cancel'),
+                Builder::button('Cancel')->type('default')->action('cancel'),
                 Builder::button('Submit')->type('primary')->action('submit')
                         ->uri('http://www.test.com/backend/groups/' . $id)
                         ->method('put'),
@@ -92,13 +92,13 @@ class AuthGroup extends Common
             Builder::field('name', 'Group Name')->type('text'),
             Builder::field('rules', 'Rules')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
-                Builder::button('Edit')->type('normal')->action('modal')
+                Builder::button('Edit')->type('default')->action('modal')
                         ->uri('http://www.test.com/backend/groups'),
-                Builder::button('Full page edit')->type('normal')->action('page')
+                Builder::button('Full page edit')->type('default')->action('page')
                         ->uri('http://www.test.com/backend/groups'),
-                Builder::button('Delete')->type('normal')->action('delete')
+                Builder::button('Delete')->type('default')->action('delete')
                         ->uri('http://www.test.com/backend/groups')
                         ->method('delete'),
             ])->title('Action'),
@@ -146,6 +146,7 @@ class AuthGroup extends Common
 
     public function searchStatusAttr($query, $value, $data)
     {
+        $value = (string)$value;
         if (strlen($value)) {
             if (strpos($value, ',')) {
                 $query->whereIn('status', $value);

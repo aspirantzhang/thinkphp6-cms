@@ -72,7 +72,7 @@ class AuthGroup extends AuthGroupLogic
     {
         $group = $this->where('id', $id)->find();
         if ($group) {
-            $list = $this->buildInner($id, ['parent' => arrayToTree($this->getParentData($id), -1)])->toArray();
+            $list = $this->buildEdit($id, ['parent' => arrayToTree($this->getParentData($id), -1)])->toArray();
             $data = $group->visible($this->allowRead)->toArray();
 
             $result = $list;

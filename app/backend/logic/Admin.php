@@ -9,15 +9,11 @@ use app\backend\service\AuthGroup;
 
 class Admin extends AdminModel
 {
-    protected function getListData($data)
+    protected function getListData($requestParams)
     {
-        $search = getSearchParam($data, $this->allowSearch);
-        $sort = getSortParam($data, $this->allowSort);
-        $perPage = getPerPageParam($data);
-
-        // return $this->with(['groups' => function ($query) {
-        //     $query->field('auth_group.name')->where('auth_group.status', 1)->hidden(['pivot']);
-        // }])
+        $search = getSearchParam($requestParams, $this->allowSearch);
+        $sort = getSortParam($requestParams, $this->allowSort);
+        $perPage = getPerPageParam($requestParams);
 
         return $this->with(['groups' => function ($query) {
                         $query->where('auth_group.status', 1)->hidden(['pivot']);
@@ -28,7 +24,7 @@ class Admin extends AdminModel
                     ->paginate($perPage);
     }
 
-    protected function ifExists($username)
+    protected function ifUsernameExists(string $username)
     {
         $result = $this->withTrashed()->where('username', $username)->find();
         if ($result) {
@@ -40,7 +36,7 @@ class Admin extends AdminModel
 
     protected function saveNew($data)
     {
-        if ($this->ifExists($data['username']) === false) {
+        if ($this->ifUsernameExists($data['username']) === false) {
             $this->error = 'The username already exists.';
             return false;
         }
@@ -64,7 +60,7 @@ class Admin extends AdminModel
     protected function getAllGroups()
     {
         $group = new AuthGroup();
-        $groupsData = $group->treeDataApi();
+        $groupsData = $group->treeDataApi(['status' => 1]);
         $groupsData = array_map(function ($group) {
             return array(
                 'id' => $group['id'],

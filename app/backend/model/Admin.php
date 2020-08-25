@@ -40,7 +40,7 @@ class Admin extends Common
             Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('normal')->action('cancel'),
+                Builder::button('Cancel')->type('default')->action('cancel'),
                 Builder::button('Submit')->type('primary')->action('submit')
                         ->uri('http://www.test.com/backend/admins')
                         ->method('post'),
@@ -53,7 +53,7 @@ class Admin extends Common
     }
 
     
-    public function buildInner($id, $addonData = [])
+    public function buildEdit($id, $addonData = [])
     {
         $pageLayout = [
             Builder::field('username', 'Username')->type('text')->disabled(true),
@@ -64,7 +64,7 @@ class Admin extends Common
             Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('normal')->action('cancel'),
+                Builder::button('Cancel')->type('default')->action('cancel'),
                 Builder::button('Submit')->type('primary')->action('submit')
                         ->uri('http://www.test.com/backend/admins/' . $id)
                         ->method('put'),
@@ -152,6 +152,7 @@ class Admin extends Common
 
     public function searchStatusAttr($query, $value, $data)
     {
+        $value = (string)$value;
         if (strlen($value)) {
             if (strpos($value, ',')) {
                 $query->whereIn('status', $value);

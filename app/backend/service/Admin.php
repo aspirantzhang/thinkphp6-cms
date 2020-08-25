@@ -8,24 +8,26 @@ use app\backend\logic\Admin as AdminLogic;
 
 class Admin extends AdminLogic
 {
-    public function listApi($params)
+    public function listAPI($requestParams)
     {
-        $page = $this->buildList($params, ['groups' => arrayToTree($this->getAllGroups())])->toArray();
-        $data = $this->getListData($params)->toArray();
+        $data = $this->getListData($requestParams)->toArray();
 
         if ($data) {
-            $result = $page;
-            $result['dataSource'] = $data['dataSource'];
-            $result['meta'] = $data['pagination'];
-            return resSuccess('', $result);
+            $layout = $this->buildList($requestParams, ['groups' => arrayToTree($this->getAllGroups())])->toArray();
+
+            $layout['dataSource'] = $data['dataSource'];
+            $layout['meta'] = $data['pagination'];
+
+            return resSuccess('', $layout);
         } else {
             return resError('Get list failed.');
         }
     }
 
-    public function addApi()
+    public function addAPI()
     {
         $page = $this->buildAdd(['groups' => arrayToTree($this->getAllGroups())])->toArray();
+        
         if ($page) {
             return resSuccess('', $page);
         } else {
@@ -33,7 +35,7 @@ class Admin extends AdminLogic
         }
     }
 
-    public function saveApi($data)
+    public function saveAPI($data)
     {
         $result = $this->saveNew($data);
         if ($result) {
@@ -43,38 +45,27 @@ class Admin extends AdminLogic
         }
     }
 
-    public function readApi($id)
+    public function readAPI($id)
     {
         $admin = $this->where('id', $id)->with(['groups' => function ($query) {
             $query->where('auth_group.status', 1)->visible(['id']);
         }])->visible($this->allowRead)->find();
 
-        $admin = $admin->hidden(['groups.pivot'])->toArray();
-
-        $groupsArr = [];
-        if (!empty($admin['groups'])) {
-            foreach ($admin['groups'] as $group) {
-                $groupsArr[] = $group['id'];
-            }
-        }
-        $admin['groups'] = $groupsArr;
-
         if ($admin) {
-            $list = $this->buildInner($id, ['groups' => arrayToTree($this->getAllGroups())])->toArray();
-            $data = $admin;
-            // $data = $admin->toArray();
+            $admin = $admin->hidden(['groups.pivot'])->toArray();
+            $admin['groups'] = extractFromAssocToIndexed($admin['groups'], 'id');
 
-            $result = $list;
-            $result['dataSource'] = $data;
+            $layout = $this->buildEdit($id, ['groups' => arrayToTree($this->getAllGroups())])->toArray();
+            $layout['dataSource'] = $admin;
 
-            return resSuccess('', $result);
+            return resSuccess('', $layout);
         } else {
             return resError('Admin not found.');
         }
     }
 
 
-    public function updateApi($id, $data)
+    public function updateAPI($id, $data)
     {
         $admin = $this->where('id', $id)->find();
         if ($admin) {
@@ -96,7 +87,7 @@ class Admin extends AdminLogic
         }
     }
 
-    public function deleteApi($id)
+    public function deleteAPI($id)
     {
         $admin = $this->find($id);
         if ($admin) {
@@ -110,9 +101,8 @@ class Admin extends AdminLogic
         }
     }
 
-    public function batchDeleteApi($idArray)
+    public function batchDeleteAPI($idArray)
     {
-        // halt($idArray);
         if (count($idArray)) {
             $result = $this->whereIn('id', $idArray)->select()->delete();
             if ($result) {
@@ -125,7 +115,7 @@ class Admin extends AdminLogic
         }
     }
 
-    public function loginApi($data)
+    public function loginAPI($data)
     {
         $result = $this->checkPassword($data);
         if (-1 === $result) {

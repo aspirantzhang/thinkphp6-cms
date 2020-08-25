@@ -18,54 +18,54 @@ class Admin extends Common
 
     public function index()
     {
-        $result = $this->admin->listApi($this->request->only($this->admin->allowIndex));
+        $result = $this->admin->listAPI($this->request->only($this->admin->allowIndex));
 
         return $result;
     }
 
     public function add()
     {
-        $result = $this->admin->addApi();
+        $result = $this->admin->addAPI();
 
         return $result;
     }
 
     public function save()
     {
-        $result = $this->admin->saveApi($this->request->only($this->admin->allowSave));
+        $result = $this->admin->saveAPI($this->request->only($this->admin->allowSave));
 
         return $result;
     }
 
     public function read($id)
     {
-        return $this->admin->readApi($id);
+        return $this->admin->readAPI($id);
     }
 
     public function edit($id)
     {
-        $result = $this->admin->editApi($id);
+        $result = $this->admin->editAPI($id);
 
         return json($result);
     }
 
     public function update($id)
     {
-        $result = $this->admin->updateApi($id, $this->request->only($this->admin->allowUpdate));
+        $result = $this->admin->updateAPI($id, $this->request->only($this->admin->allowUpdate));
 
         return $result;
     }
 
     public function delete($id)
     {
-        $result = $this->admin->deleteApi($id);
+        $result = $this->admin->deleteAPI($id);
 
         return $result;
     }
 
     public function batchDelete()
     {
-        $result = $this->admin->batchDeleteApi($this->request->param('idArray'));
+        $result = $this->admin->batchDeleteAPI($this->request->param('idArray'));
         
         return $result;
     }
