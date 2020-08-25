@@ -24,7 +24,7 @@ class ValidateExtend extends \think\Service
                 }
             });
 
-            $validate->extend('numberTag', function ($value, $rule, $data = []) {
+            $validate->extend('numberTag', function ($value) {
                 if (strpos($value, ',')) {
                     $arr = explode(',', $value);
                     foreach ($arr as $val) {
