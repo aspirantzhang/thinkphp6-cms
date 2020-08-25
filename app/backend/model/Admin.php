@@ -37,7 +37,7 @@ class Admin extends Common
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
                 Builder::button('Cancel')->type('normal')->action('cancel'),
@@ -61,7 +61,7 @@ class Admin extends Common
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
                 Builder::button('Cancel')->type('normal')->action('cancel'),
@@ -94,7 +94,7 @@ class Admin extends Common
             Builder::field('groups', 'Groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('tag')->values([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')
                         ->uri('http://www.test.com/backend/admins'),
