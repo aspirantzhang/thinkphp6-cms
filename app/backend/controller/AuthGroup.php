@@ -18,61 +18,54 @@ class AuthGroup extends Common
 
     public function index()
     {
-        $result = $this->authGroup->treeListApi($this->request->only($this->authGroup->allowIndex));
-
-        return $result;
-    }
-
-    public function tree()
-    {
-        $result = $this->authGroup->treeListApi($this->request->only($this->authGroup->allowIndex));
+        $result = $this->authGroup->treeListAPI($this->request->only($this->authGroup->allowIndex));
 
         return $result;
     }
 
     public function add()
     {
-        $result = $this->authGroup->addApi();
+        $result = $this->authGroup->addAPI();
 
         return $result;
     }
 
     public function save()
     {
-        $result = $this->authGroup->saveApi($this->request->only($this->authGroup->allowSave));
+        $result = $this->authGroup->saveAPI($this->request->only($this->authGroup->allowSave));
 
         return $result;
     }
 
     public function read($id)
     {
-        return $this->authGroup->readApi($id);
+        return $this->authGroup->readAPI($id);
     }
 
     public function edit($id)
     {
-        $result = $this->authGroup->editApi($id);
+        $result = $this->authGroup->editAPI($id);
 
         return json($result);
     }
 
     public function update($id)
     {
-        $result = $this->authGroup->updateApi($id, $this->request->only($this->authGroup->allowUpdate));
+        $result = $this->authGroup->updateAPI($id, $this->request->only($this->authGroup->allowUpdate));
 
         return $result;
     }
 
     public function delete($id)
     {
-        $result = $this->authGroup->deleteApi($id);
+        $result = $this->authGroup->deleteAPI($id);
 
         return $result;
     }
 
     public function batchDelete()
     {
-        $result = $this->admin->batchDeleteApi($this->request->param('idArray'));
+        $result = $this->admin->batchDeleteAPI($this->request->param('idArray'));
         
         return $result;
     }

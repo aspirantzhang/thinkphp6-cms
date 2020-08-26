@@ -8,48 +8,35 @@ use app\backend\logic\AuthGroup as AuthGroupLogic;
 
 class AuthGroup extends AuthGroupLogic
 {
-    public function listApi($params)
+    public function treeListAPI($params)
     {
-        $page = $this->buildList($params)->toArray();
-        $data = $this->getListData($params)->toArray();
-
-        if ($data) {
-            $result = $page;
-            $result['dataSource'] = $data['dataSource'];
-            $result['meta'] = $data['pagination'];
-            return resSuccess('', $result);
-        } else {
-            return resError('Get list failed.');
-        }
-    }
-
-    public function treeListApi($params)
-    {
-        $page = $this->buildList($params)->toArray();
         $data = $this->getAllData($params);
 
         if ($data) {
-            $result = $page;
-            $result['dataSource'] = arrayToTree($data);
-            $result['meta'] = [
+            $layout = $this->buildList($params)->toArray();
+
+            $layout['dataSource'] = arrayToTree($data);
+            $layout['meta'] = [
                 'total' => 0,
                 'per_page' => 10,
                 'page' => 1,
             ];
-            return resSuccess('', $result);
+
+            return resSuccess('', $layout);
         } else {
             return resError('Get list failed.');
         }
     }
 
-    public function treeDataApi($params = [])
+    public function treeDataAPI($params = [])
     {
         return $this->getAllData($params);
     }
 
-    public function addApi()
+    public function addAPI()
     {
         $page = $this->buildAdd(['parent' => arrayToTree($this->getParentData(), -1)])->toArray();
+
         if ($page) {
             return resSuccess('', $page);
         } else {
@@ -57,9 +44,8 @@ class AuthGroup extends AuthGroupLogic
         }
     }
 
-    public function saveApi($data)
+    public function saveAPI($data)
     {
-        
         $result = $this->saveNew($data);
         if ($result) {
             return resSuccess('Add successfully.');
@@ -68,47 +54,46 @@ class AuthGroup extends AuthGroupLogic
         }
     }
 
-    public function readApi($id)
+    public function readAPI($id)
     {
         $group = $this->where('id', $id)->find();
         if ($group) {
-            $list = $this->buildEdit($id, ['parent' => arrayToTree($this->getParentData($id), -1)])->toArray();
-            $data = $group->visible($this->allowRead)->toArray();
+            $group = $group->visible($this->allowRead)->toArray();
+            $layout = $this->buildEdit($id, ['parent' => arrayToTree($this->getParentData($id), -1)])->toArray();
 
-            $result = $list;
-            $result['dataSource'] = $data;
+            $layout['dataSource'] = $group;
 
-            return resSuccess('', $result);
+            return resSuccess('', $layout);
         } else {
             return resError('Group not found.');
         }
     }
 
-    public function updateApi($id, $data)
+    public function updateAPI($id, $data)
     {
-        $admin = $this->where('id', $id)->find();
-        if ($admin) {
-            if ($admin->allowField($this->allowUpdate)->save($data)) {
+        $group = $this->where('id', $id)->find();
+        if ($group) {
+            if ($group->allowField($this->allowUpdate)->save($data)) {
                 return resSuccess('Update successfully.');
             } else {
                 return resError('Update failed.');
             }
         } else {
-            return resError('Admin not found.');
+            return resError('Group not found.');
         }
     }
 
-    public function deleteApi($id)
+    public function deleteAPI($id)
     {
-        $admin = $this->find($id);
-        if ($admin) {
-            if ($admin->delete()) {
+        $group = $this->find($id);
+        if ($group) {
+            if ($group->delete()) {
                 return resSuccess('Delete completed successfully.');
             } else {
                 return resError('Delete failed.');
             }
         } else {
-            return resError('Admin not found.');
+            return resError('Group not found.');
         }
     }
 
@@ -117,7 +102,7 @@ class AuthGroup extends AuthGroupLogic
         $groups = $this->whereIn('id', $groupIDs)->with(['admins'])->hidden(['admins.pivot'])->select();
 
         if (!$groups->isEmpty()) {
-            $adminIDs = getUniqueValuesInArray($groups->toArray(), 'admins', 'id');
+            $adminIDs = extractUniqueValuesInArray($groups->toArray(), 'admins', 'id');
             return $adminIDs;
         }
 

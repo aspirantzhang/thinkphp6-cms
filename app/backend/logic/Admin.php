@@ -60,7 +60,7 @@ class Admin extends AdminModel
     protected function getAllGroups()
     {
         $group = new AuthGroup();
-        $groupsData = $group->treeDataApi(['status' => 1]);
+        $groupsData = $group->treeDataAPI(['status' => 1]);
         $groupsData = array_map(function ($group) {
             return array(
                 'id' => $group['id'],

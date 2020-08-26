@@ -6,29 +6,25 @@ Route::group(function () {
     Route::post('login', 'index/login')->validate(\app\backend\validate\Admin::class, 'login');
 
     Route::group('admins', function () {
-        Route::delete('batch-delete', 'batchDelete');
         Route::get('', 'index');
         Route::get('add', 'add');
         Route::get(':id', 'read');
         Route::put(':id', 'update');
         Route::patch(':id', 'update');
         Route::post('', 'save');
+        Route::delete('batch-delete', 'batchDelete');
         Route::delete(':id', 'delete');
-
-        // Route::get(':id/groups', 'groups');
-        // Route::get('edit/:id', 'edit');
     })->prefix('admin/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\Admin::class);
 
     Route::group('groups', function () {
-        Route::delete('batch-delete', 'batchDelete');
         Route::get('', 'index');
         Route::get('add', 'add');
-        Route::get('tree', 'tree');
         Route::get('test', 'test');
         Route::get(':id', 'read');
         Route::put(':id', 'update');
         Route::patch(':id', 'update');
         Route::post('', 'save');
+        Route::delete('batch-delete', 'batchDelete');
         Route::delete(':id', 'delete');
     })->prefix('auth_group/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class);
 

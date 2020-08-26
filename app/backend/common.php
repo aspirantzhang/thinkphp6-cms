@@ -133,7 +133,7 @@ function arrayToTree($flat, $root = 0)
     return createTreeBranch($parents, $parents[$root]);
 }
 
-function getUniqueValuesInArray(array $array, string $parentKeyName, string $targetKeyName)
+function extractUniqueValuesInArray(array $array, string $parentKeyName, string $targetKeyName)
 {
     $result = [];
     if (count($array)) {
