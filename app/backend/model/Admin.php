@@ -37,12 +37,12 @@ class Admin extends Common
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
                 Builder::button('Cancel')->type('default')->action('cancel'),
                 Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('http://www.test.com/backend/admins')
+                        ->uri('/backend/admins')
                         ->method('post'),
             ]),
         ];
@@ -61,12 +61,12 @@ class Admin extends Common
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
                 Builder::button('Cancel')->type('default')->action('cancel'),
                 Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('http://www.test.com/backend/admins/' . $id)
+                        ->uri('/backend/admins/' . $id)
                         ->method('put'),
             ]),
         ];
@@ -76,16 +76,16 @@ class Admin extends Common
             ->layout($pageLayout);
     }
 
-    public function buildList($params, $addonData = [])
+    public function buildList($addonData = [])
     {
         $tableToolBar = [
-            Builder::button('Add')->type('primary')->action('modal')->uri('http://www.test.com/backend/admins/add'),
-            Builder::button('Full page add')->type('default')->action('page')->uri('http://www.test.com/backend/admins/add'),
+            Builder::button('Add')->type('primary')->action('modal')->uri('/backend/admins/add'),
+            Builder::button('Full page add')->type('default')->action('page')->uri('/backend/admins/add'),
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
             Builder::button('Delete')->type('dashed')->action('batchDelete')
-                    ->uri('http://www.test.com/backend/admins/batch-delete')
+                    ->uri('/backend/admins/batch-delete')
                     ->method('delete'),
             Builder::button('Disable')->type('dashed')->action('batchDisable'),
         ];
@@ -94,14 +94,14 @@ class Admin extends Common
             Builder::field('groups', 'Groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('tag')->data([0 => 'Disabled', 1 => 'Enabled']),
+            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')
-                        ->uri('http://www.test.com/backend/admins'),
+                        ->uri('/backend/admins'),
                 Builder::button('Full page edit')->type('default')->action('page')
-                        ->uri('http://www.test.com/backend/admins'),
+                        ->uri('/backend/admins'),
                 Builder::button('Delete')->type('default')->action('delete')
-                        ->uri('http://www.test.com/backend/admins')
+                        ->uri('/backend/admins')
                         ->method('delete'),
             ])->title('Action'),
         ];

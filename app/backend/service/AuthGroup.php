@@ -8,12 +8,16 @@ use app\backend\logic\AuthGroup as AuthGroupLogic;
 
 class AuthGroup extends AuthGroupLogic
 {
-    public function treeListAPI($params)
+    public function treeListAPI($requestParams)
     {
-        $data = $this->getAllData($params);
+        $data = $this->getAllData($requestParams);
 
         if ($data) {
-            $layout = $this->buildList($params)->toArray();
+            $addonData = [
+                'status' => [0 => 'Disabled', 1 => 'Enabled']
+            ];
+
+            $layout = $this->buildList($addonData)->toArray();
 
             $layout['dataSource'] = arrayToTree($data);
             $layout['meta'] = [
@@ -35,7 +39,11 @@ class AuthGroup extends AuthGroupLogic
 
     public function addAPI()
     {
-        $page = $this->buildAdd(['parent' => arrayToTree($this->getParentData(), -1)])->toArray();
+        $addonData = [
+            'parent_id' => arrayToTree($this->getParentData(), -1),
+            'status' => [0 => 'Disabled', 1 => 'Enabled']
+        ];
+        $page = $this->buildAdd($addonData)->toArray();
 
         if ($page) {
             return resSuccess('', $page);
@@ -59,8 +67,13 @@ class AuthGroup extends AuthGroupLogic
         $group = $this->where('id', $id)->find();
         if ($group) {
             $group = $group->visible($this->allowRead)->toArray();
-            $layout = $this->buildEdit($id, ['parent' => arrayToTree($this->getParentData($id), -1)])->toArray();
 
+            $addonData = [
+                'parent_id' => arrayToTree($this->getParentData($id), -1),
+                'status' => [0 => 'Disabled', 1 => 'Enabled']
+            ];
+            
+            $layout = $this->buildEdit($id, $addonData)->toArray();
             $layout['dataSource'] = $group;
 
             return resSuccess('', $layout);
@@ -94,6 +107,20 @@ class AuthGroup extends AuthGroupLogic
             }
         } else {
             return resError('Group not found.');
+        }
+    }
+
+    public function batchDeleteAPI($idArray)
+    {
+        if (count($idArray)) {
+            $result = $this->whereIn('id', $idArray)->select()->delete();
+            if ($result) {
+                return resSuccess('Delete completed successfully.');
+            } else {
+                return resError('Delete failed.');
+            }
+        } else {
+            return resError('Nothing to do.');
         }
     }
 

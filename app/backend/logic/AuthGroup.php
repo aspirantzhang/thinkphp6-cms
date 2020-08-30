@@ -8,15 +8,11 @@ use app\backend\model\AuthGroup as AuthGroupModel;
 
 class AuthGroup extends AuthGroupModel
 {
-    protected function getListData($data)
+    protected function getListData($requestParams)
     {
-        $search = getSearchParam($data, $this->allowSearch);
-        $sort = getSortParam($data, $this->allowSort);
-        $perPage = getPerPageParam($data);
-
-        // return $this->with(['groups' => function ($query) {
-        //     $query->field('auth_group.name')->where('auth_group.status', 1)->hidden(['pivot']);
-        // }])
+        $search = getSearchParam($requestParams, $this->allowSearch);
+        $sort = getSortParam($requestParams, $this->allowSort);
+        $perPage = getPerPageParam($requestParams);
 
         return $this->withSearch(array_keys($search), $search)
                     ->order($sort['name'], $sort['order'])

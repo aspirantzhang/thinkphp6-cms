@@ -13,7 +13,12 @@ class Admin extends AdminLogic
         $data = $this->getListData($requestParams)->toArray();
 
         if ($data) {
-            $layout = $this->buildList($requestParams, ['groups' => arrayToTree($this->getAllGroups())])->toArray();
+            $addonData = [
+                'groups' => arrayToTree($this->getAllGroups()),
+                'status' => [0 => 'Disabled', 1 => 'Enabled']
+            ];
+
+            $layout = $this->buildList($addonData)->toArray();
 
             $layout['dataSource'] = $data['dataSource'];
             $layout['meta'] = $data['pagination'];
@@ -26,7 +31,11 @@ class Admin extends AdminLogic
 
     public function addAPI()
     {
-        $page = $this->buildAdd(['groups' => arrayToTree($this->getAllGroups())])->toArray();
+        $addonData = [
+            'groups' => arrayToTree($this->getAllGroups()),
+            'status' => [0 => 'Disabled', 1 => 'Enabled']
+        ];
+        $page = $this->buildAdd($addonData)->toArray();
         
         if ($page) {
             return resSuccess('', $page);
@@ -55,7 +64,12 @@ class Admin extends AdminLogic
             $admin = $admin->hidden(['groups.pivot'])->toArray();
             $admin['groups'] = extractFromAssocToIndexed($admin['groups'], 'id');
 
-            $layout = $this->buildEdit($id, ['groups' => arrayToTree($this->getAllGroups())])->toArray();
+            $addonData = [
+                'groups' => arrayToTree($this->getAllGroups()),
+                'status' => [0 => 'Disabled', 1 => 'Enabled']
+            ];
+
+            $layout = $this->buildEdit($id, $addonData)->toArray();
             $layout['dataSource'] = $admin;
 
             return resSuccess('', $layout);
