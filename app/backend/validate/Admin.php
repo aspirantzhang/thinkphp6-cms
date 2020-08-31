@@ -35,6 +35,7 @@ class Admin extends Validate
     // index save read update delete
 
     protected $scene = [
+        'test' => [''],
         'save' => ['username', 'password', 'display_name', 'create_time', 'status'],
         'update' => ['id', 'display_name', 'create_time', 'status'],
         'read' => ['id'],

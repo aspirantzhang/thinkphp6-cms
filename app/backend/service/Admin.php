@@ -140,4 +140,9 @@ class Admin extends AdminLogic
             return ['status' => 'ok', 'type' => 'account', 'currentAuthority' => 'admin'];
         }
     }
+
+    public function testAPI($params)
+    {
+        return $this->testList($params);
+    }
 }

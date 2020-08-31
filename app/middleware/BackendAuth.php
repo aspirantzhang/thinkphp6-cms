@@ -19,6 +19,7 @@ class BackendAuth
         'backend/admin/delete',
         'backend/admin/batch_delete',
         'backend/admin/groups',
+        'backend/admin/test',
         'backend/auth_group/index',
         'backend/auth_group/add',
         'backend/auth_group/save',

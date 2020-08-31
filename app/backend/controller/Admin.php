@@ -78,4 +78,9 @@ class Admin extends Common
 
         return json($admin->groups->hidden(['pivot']));
     }
+
+    public function test()
+    {
+        return json($this->admin->testAPI([]));
+    }
 }
