@@ -83,10 +83,10 @@ class AuthGroup extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('dashed')->action('batchDelete')
+            Builder::button('Delete')->type('danger')->action('batchDelete')
                     ->uri('/backend/groups/batch-delete')
                     ->method('delete'),
-            Builder::button('Disable')->type('dashed')->action('function')->uri('batchDisableHandler'),
+            Builder::button('Disable')->type('default')->action('function')->uri('batchDisableHandler'),
         ];
         $tableColumn = [
             Builder::field('name', 'Group Name')->type('text'),
