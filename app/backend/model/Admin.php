@@ -16,7 +16,7 @@ class Admin extends Common
     protected $readonly = ['id', 'username'];
 
     // Whitelist Fields Index/List/Sort/Read/Save/Update/Search etc...
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'groups', 'id', 'username', 'display_name', 'status', 'create_time'];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'groups', 'id', 'username', 'display_name', 'status', 'create_time'];
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time', 'groups'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];

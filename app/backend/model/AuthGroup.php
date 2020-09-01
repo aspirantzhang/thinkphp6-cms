@@ -15,7 +15,7 @@ class AuthGroup extends Common
 
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowList = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time', 'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];

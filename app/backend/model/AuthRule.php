@@ -13,7 +13,7 @@ class AuthRule extends Common
 
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
-    public $allowIndex = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status', 'create_time'];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status', 'create_time'];
     public $allowList = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'status', 'create_time', 'update_time'];
     public $allowRead = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status', 'create_time', 'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'parent_id', 'create_time'];

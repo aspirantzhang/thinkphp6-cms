@@ -18,7 +18,7 @@ class Admin extends Common
 
     public function home()
     {
-        $result = $this->admin->listAPI($this->request->only($this->admin->allowIndex));
+        $result = $this->admin->listAPI($this->request->only($this->admin->allowHome));
 
         return $result;
     }

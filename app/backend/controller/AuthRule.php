@@ -18,7 +18,7 @@ class AuthRule extends Common
 
     public function home()
     {
-        $result = $this->authRuleService->listApi($this->request->only($this->authRuleService->allowIndex));
+        $result = $this->authRuleService->listApi($this->request->only($this->authRuleService->allowHome));
         return json($result);
     }
 
