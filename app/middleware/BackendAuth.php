@@ -10,7 +10,7 @@ class BackendAuth
 {
     protected $noNeedAuth = [
         'backend/index/login',
-        'backend/admin/index',
+        'backend/admin/home',
         'backend/admin/add',
         'backend/admin/save',
         'backend/admin/read',
@@ -20,7 +20,7 @@ class BackendAuth
         'backend/admin/batch_delete',
         'backend/admin/groups',
         'backend/admin/test',
-        'backend/auth_group/index',
+        'backend/auth_group/home',
         'backend/auth_group/add',
         'backend/auth_group/save',
         'backend/auth_group/read',
@@ -30,7 +30,7 @@ class BackendAuth
         'backend/auth_group/tree',
         'backend/auth_group/batch_delete',
         'backend/auth_group/test',
-        'backend/auth_rule/index',
+        'backend/auth_rule/home',
         'backend/auth_rule/create',
         'backend/auth_rule/save',
         'backend/auth_rule/read',

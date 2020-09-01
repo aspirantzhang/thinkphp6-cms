@@ -8,7 +8,7 @@ Route::group(function () {
     Route::group('admins', function () {
         Route::get('test', 'test');
 
-        Route::get('', 'index');
+        Route::get('', 'home');
         Route::get('add', 'add');
         Route::get(':id', 'read');
         Route::put(':id', 'update');
@@ -21,7 +21,7 @@ Route::group(function () {
     Route::group('groups', function () {
         Route::get('test', 'test');
 
-        Route::get('', 'index');
+        Route::get('', 'home');
         Route::get('add', 'add');
         Route::get(':id', 'read');
         Route::put(':id', 'update');
@@ -32,7 +32,7 @@ Route::group(function () {
     })->prefix('auth_group/')->middleware(\app\middleware\RouterValidate::class, \app\backend\validate\AuthGroup::class);
 
     Route::group('rules', function () {
-        Route::get('', 'index');
+        Route::get('', 'home');
         Route::get('create', 'create');
         Route::get('read/:id', 'read');
         Route::get('edit/:id', 'edit');

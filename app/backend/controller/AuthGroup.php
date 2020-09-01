@@ -16,7 +16,7 @@ class AuthGroup extends Common
         parent::initialize();
     }
 
-    public function index()
+    public function home()
     {
         $result = $this->authGroup->treeListAPI($this->request->only($this->authGroup->allowIndex));
 

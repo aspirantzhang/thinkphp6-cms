@@ -16,7 +16,7 @@ class Admin extends Common
         parent::initialize();
     }
 
-    public function index()
+    public function home()
     {
         $result = $this->admin->listAPI($this->request->only($this->admin->allowIndex));
 

@@ -148,7 +148,7 @@ function extractUniqueValuesInArray(array $array, string $parentKeyName, string 
 }
 
 /**
- * Extract a particular key's value from a associated array to indexed array
+ * Extract a particular key's value from a associated array to a indexed array
  * @param array $assocArray
  * @param string $key Key Name
  * @return array return a indexed array

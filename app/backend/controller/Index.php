@@ -13,7 +13,7 @@ class Index extends Common
         parent::initialize();
     }
 
-    public function index()
+    public function home()
     {
         return 'backend controller index';
     }

@@ -44,7 +44,7 @@ class Admin extends Validate
         'batch_delete' => [''],
     ];
 
-    public function sceneIndex()
+    public function sceneHome()
     {
         $this->only(['page', 'per_page', 'id', 'status', 'create_time'])
             ->remove('id', 'require')

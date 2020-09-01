@@ -16,7 +16,7 @@ class AuthRule extends Common
         parent::initialize();
     }
 
-    public function index()
+    public function home()
     {
         $result = $this->authRuleService->listApi($this->request->only($this->authRuleService->allowIndex));
         return json($result);
