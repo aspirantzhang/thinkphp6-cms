@@ -15,7 +15,7 @@ class Admin extends Common
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id', 'username'];
 
-    // Whitelist Fields Index/List/Sort/Read/Save/Update/Search etc...
+    // Whitelist Fields Home/List/Sort/Read/Save/Update/Search etc...
     public $allowHome = ['sort', 'order', 'page', 'per_page', 'groups', 'id', 'username', 'display_name', 'status', 'create_time'];
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time', 'groups'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];

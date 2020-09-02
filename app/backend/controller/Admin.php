@@ -42,13 +42,6 @@ class Admin extends Common
         return $this->admin->readAPI($id);
     }
 
-    public function edit($id)
-    {
-        $result = $this->admin->editAPI($id);
-
-        return json($result);
-    }
-
     public function update($id)
     {
         $result = $this->admin->updateAPI($id, $this->request->only($this->admin->allowUpdate));
@@ -68,15 +61,6 @@ class Admin extends Common
         $result = $this->admin->batchDeleteAPI($this->request->param('idArray'));
         
         return $result;
-    }
-
-    public function groups($id)
-    {
-        $admin = $this->admin->with(['groups' => function ($query) {
-            $query->field('auth_group.id, auth_group.name')->where('auth_group.status', 1);
-        }])->find($id);
-
-        return json($admin->groups->hidden(['pivot']));
     }
 
     public function test()

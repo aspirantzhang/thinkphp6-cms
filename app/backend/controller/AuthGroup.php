@@ -42,13 +42,6 @@ class AuthGroup extends Common
         return $this->authGroup->readAPI($id);
     }
 
-    public function edit($id)
-    {
-        $result = $this->authGroup->editAPI($id);
-
-        return json($result);
-    }
-
     public function update($id)
     {
         $result = $this->authGroup->updateAPI($id, $this->request->only($this->authGroup->allowUpdate));
