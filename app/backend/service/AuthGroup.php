@@ -52,16 +52,6 @@ class AuthGroup extends AuthGroupLogic
         }
     }
 
-    public function saveAPI($data)
-    {
-        $result = $this->saveNew($data);
-        if ($result) {
-            return resSuccess('Add successfully.');
-        } else {
-            return resError($this->error);
-        }
-    }
-
     public function readAPI($id)
     {
         $group = $this->where('id', $id)->find();

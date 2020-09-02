@@ -8,17 +8,6 @@ use app\backend\model\AuthGroup as AuthGroupModel;
 
 class AuthGroup extends AuthGroupModel
 {
-    protected function getListData($requestParams)
-    {
-        $search = getSearchParam($requestParams, $this->allowSearch);
-        $sort = getSortParam($requestParams, $this->allowSort);
-        $perPage = getPerPageParam($requestParams);
-
-        return $this->withSearch(array_keys($search), $search)
-                    ->order($sort['name'], $sort['order'])
-                    ->visible($this->allowList)
-                    ->paginate($perPage);
-    }
 
     public function getAllData($requestParam = [])
     {
@@ -33,7 +22,6 @@ class AuthGroup extends AuthGroupModel
 
         return $normalListData;
     }
-
 
     protected function saveNew($data)
     {

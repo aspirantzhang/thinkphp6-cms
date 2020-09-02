@@ -10,7 +10,7 @@ class Admin extends AdminLogic
 {
     public function listAPI($requestParams)
     {
-        $data = $this->getListData($requestParams)->toArray();
+        $data = $this->getPaginatedListData($requestParams, ['groups']);
 
         if ($data) {
             $addonData = [

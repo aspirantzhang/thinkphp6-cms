@@ -9,31 +9,9 @@ use app\backend\service\AuthGroup;
 
 class Admin extends AdminModel
 {
-    protected function getListData($requestParams)
-    {
-        $search = getSearchParam($requestParams, $this->allowSearch);
-        $sort = getSortParam($requestParams, $this->allowSort);
-        $perPage = getPerPageParam($requestParams);
-        return $this->with(['groups'])
-                    ->withSearch(array_keys($search), $search)
-                    ->order($sort['name'], $sort['order'])
-                    ->visible($this->allowList)
-                    ->paginate($perPage);
-    }
-
-    protected function ifUsernameExists(string $username)
-    {
-        $result = $this->withTrashed()->where('username', $username)->find();
-        if ($result) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     protected function saveNew($data)
     {
-        if ($this->ifUsernameExists($data['username']) === false) {
+        if ($this->ifExists('username', $data['username'])) {
             $this->error = 'The username already exists.';
             return false;
         }
