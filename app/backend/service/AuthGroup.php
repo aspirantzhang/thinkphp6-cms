@@ -86,34 +86,6 @@ class AuthGroup extends AuthGroupLogic
         }
     }
 
-    public function deleteAPI($id)
-    {
-        $group = $this->find($id);
-        if ($group) {
-            if ($group->delete()) {
-                return resSuccess('Delete completed successfully.');
-            } else {
-                return resError('Delete failed.');
-            }
-        } else {
-            return resError('Group not found.');
-        }
-    }
-
-    public function batchDeleteAPI($idArray)
-    {
-        if (count($idArray)) {
-            $result = $this->whereIn('id', $idArray)->select()->delete();
-            if ($result) {
-                return resSuccess('Delete completed successfully.');
-            } else {
-                return resError('Delete failed.');
-            }
-        } else {
-            return resError('Nothing to do.');
-        }
-    }
-
     public function getUserIDsByGroups(array $groupIDs = []): array
     {
         $groups = $this->whereIn('id', $groupIDs)->with(['admins'])->hidden(['admins.pivot'])->select();

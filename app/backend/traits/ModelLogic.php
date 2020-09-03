@@ -27,6 +27,26 @@ trait ModelLogic
     }
 
     /**
+     * Check the values of the unique fields.
+     * @param mixed $data Request data
+     * @param mixed $uniqueFields Associative array of unique fields. Default: $this->unique
+     * @return bool
+     */
+    protected function checkUniqueFields($data, $uniqueFields = []): bool
+    {
+        $uniqueFields = $this->unique ?? [];
+        if (is_array($uniqueFields) && count($uniqueFields)) {
+            foreach ($this->unique as $field => $title) {
+                if ($this->ifExists($field, $data[$field])) {
+                    $this->error = 'The ' . $title . ' already exists.';
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Check whether a value already exists.
      * @param string $fieldName
      * @param mixed $value
@@ -36,5 +56,25 @@ trait ModelLogic
     {
         $result = $this->withTrashed()->where($fieldName, $value)->find();
         return (bool)$result;
+    }
+
+    /**
+     * Save a new record. No transaction!!!
+     * @param mixed $data
+     * @return mixed False or new record's id.
+     */
+    protected function saveNew($data)
+    {
+        if ($this->checkUniqueFields($data) === false) {
+            return false;
+        }
+
+        $result = $this->save($data);
+        if ($result) {
+            return $this->getData('id');
+        } else {
+            $this->error = 'Save failed.';
+            return false;
+        }
     }
 }

@@ -44,16 +44,6 @@ class Admin extends AdminLogic
         }
     }
 
-    public function saveAPI($data)
-    {
-        $result = $this->saveNew($data);
-        if ($result) {
-            return resSuccess('Add successfully.');
-        } else {
-            return resError($this->error);
-        }
-    }
-
     public function readAPI($id)
     {
         $admin = $this->where('id', $id)->with(['groups' => function ($query) {
@@ -98,34 +88,6 @@ class Admin extends AdminLogic
             }
         } else {
             return resError('Admin not found.');
-        }
-    }
-
-    public function deleteAPI($id)
-    {
-        $admin = $this->find($id);
-        if ($admin) {
-            if ($admin->delete()) {
-                return resSuccess('Delete completed successfully.');
-            } else {
-                return resError('Delete failed.');
-            }
-        } else {
-            return resError('Admin not found.');
-        }
-    }
-
-    public function batchDeleteAPI($idArray)
-    {
-        if (count($idArray)) {
-            $result = $this->whereIn('id', $idArray)->select()->delete();
-            if ($result) {
-                return resSuccess('Delete completed successfully.');
-            } else {
-                return resError('Delete failed.');
-            }
-        } else {
-            return resError('Nothing to do.');
         }
     }
 

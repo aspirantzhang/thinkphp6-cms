@@ -11,8 +11,7 @@ class Admin extends AdminModel
 {
     protected function saveNew($data)
     {
-        if ($this->ifExists('username', $data['username'])) {
-            $this->error = 'The username already exists.';
+        if ($this->checkUniqueFields($data) === false) {
             return false;
         }
 

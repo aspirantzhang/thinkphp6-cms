@@ -23,17 +23,6 @@ class AuthGroup extends AuthGroupModel
         return $normalListData;
     }
 
-    protected function saveNew($data)
-    {
-        $result = $this->save($data);
-        if ($result) {
-            return $this->getData('id');
-        } else {
-            $this->error = 'Save failed.';
-            return false;
-        }
-    }
-
     public function getParentData($exceptID = 23)
     {
         $groupsData = $this->getAllData();
