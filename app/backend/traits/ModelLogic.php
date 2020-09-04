@@ -6,13 +6,33 @@ namespace app\backend\traits;
 
 trait ModelLogic
 {
+    
     /**
-     * Get the data of a paginated list.
+     * Get the list data.
      * @param mixed $requestParams Request parameters used for search, sort, pagination etc.
      * @param array $withRelation Relational model array used for Model->with() argument.
      * @return array
      */
-    protected function getPaginatedListData($requestParams, array $withRelation = []): array
+    protected function getListData($requestParams = [], array $withRelation = []): array
+    {
+        $search = getSearchParam($requestParams, $this->allowSearch);
+        $sort = getSortParam($requestParams, $this->allowSort);
+        
+        return $this->with($withRelation)
+                    ->withSearch(array_keys($search), $search)
+                    ->order($sort['name'], $sort['order'])
+                    ->visible($this->allowList)
+                    ->select()
+                    ->toArray();
+    }
+
+    /**
+     * Get the list data with pagination.
+     * @param mixed $requestParams Request parameters used for search, sort, pagination etc.
+     * @param array $withRelation Relational model array used for Model->with() argument.
+     * @return array
+     */
+    protected function getPaginatedListData($requestParams = [], array $withRelation = []): array
     {
         $search = getSearchParam($requestParams, $this->allowSearch);
         $sort = getSortParam($requestParams, $this->allowSort);
@@ -24,6 +44,57 @@ trait ModelLogic
                     ->visible($this->allowList)
                     ->paginate($perPage)
                     ->toArray();
+    }
+
+    protected function getParentData($exceptID = 0)
+    {
+        $data = $this->getListData();
+        $data = array_map(function ($model) use ($exceptID) {
+            if ($model['id'] != $exceptID) {
+                return [
+                    'id' => $model['id'],
+                    'key' => $model['id'],
+                    'value' => $model['id'],
+                    'title' => $model['name'],
+                    'parent_id' => $model['parent_id'],
+                ];
+            } else {
+                return null;
+            }
+        }, $data);
+
+        $data[] = [
+            'id' => 0,
+            'key' => 0,
+            'value' => 0,
+            'title' => 'Top',
+            'parent_id' => -1,
+        ];
+
+        // filter null
+        return array_filter($data);
+    }
+
+    /**
+     * Get the tree structure of the list data of a particular model.
+     * @param mixed $modelInstance
+     * @param mixed $conditions Default: ['status' => 1]
+     * @return array
+     */
+    protected function getModelTreeData($modelInstance, $conditions = ['status' => 1])
+    {
+        $modelData = $modelInstance->listAPI($conditions);
+        $modelData = array_map(function ($model) {
+            return array(
+                'id' => $model['id'],
+                'key' => $model['id'],
+                'value' => $model['id'],
+                'title' => $model['name'],
+                'parent_id' => $model['parent_id'],
+            );
+        }, $modelData);
+
+        return arrayToTree($modelData);
     }
 
     /**

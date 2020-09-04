@@ -18,7 +18,7 @@ class Admin extends Common
 
     public function home()
     {
-        $result = $this->admin->listAPI($this->request->only($this->admin->allowHome));
+        $result = $this->admin->paginatedListAPI($this->request->only($this->admin->allowHome), ['groups']);
 
         return $result;
     }

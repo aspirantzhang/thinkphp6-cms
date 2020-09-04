@@ -31,23 +31,6 @@ class Admin extends AdminModel
         }
     }
 
-    protected function getAllGroups()
-    {
-        $group = new AuthGroup();
-        $groupsData = $group->treeDataAPI(['status' => 1]);
-        $groupsData = array_map(function ($group) {
-            return array(
-                'id' => $group['id'],
-                'key' => $group['id'],
-                'value' => $group['id'],
-                'title' => $group['name'],
-                'parent_id' => $group['parent_id'],
-            );
-        }, $groupsData);
-
-        return $groupsData;
-    }
-
     public function checkPassword($data)
     {
         $admin = $this->where('username', $data['username'])->where('status', 1)->find();
