@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace app\backend\model;
 
 use aspirantzhang\TPAntdBuilder\Builder;
-use think\model\concern\SoftDelete;
 use app\backend\service\AuthGroup;
 
 class Admin extends Common
 {
-    use SoftDelete;
-    
+
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id', 'username'];
     protected $unique = [ 'username' => 'Username' ];
@@ -116,20 +114,8 @@ class Admin extends Common
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar);
     }
-
+    
     // Accessor
-    public function getCreateTimeAttr($value)
-    {
-        $date = new \DateTime($value);
-        // return $date->setTimezone(new \DateTimeZone('Europe/Amsterdam'))->format(\DateTime::ATOM);
-        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
-    }
-    public function getUpdateTimeAttr($value)
-    {
-        $date = new \DateTime($value);
-        // return $date->setTimezone(new \DateTimeZone('Europe/Amsterdam'))->format(\DateTime::ATOM);
-        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
-    }
 
     // Mutator
     public function setPasswordAttr($value)
@@ -138,11 +124,6 @@ class Admin extends Common
     }
 
     // Searcher
-    public function searchIdAttr($query, $value, $data)
-    {
-        $query->where('id', $value);
-    }
-
     public function searchUsernameAttr($query, $value, $data)
     {
         $query->where('username', 'like', '%' . $value . '%');
@@ -151,25 +132,6 @@ class Admin extends Common
     public function searchDisplayNameAttr($query, $value, $data)
     {
         $query->where('display_name', 'like', '%' . $value . '%');
-    }
-
-    public function searchStatusAttr($query, $value, $data)
-    {
-        $value = (string)$value;
-        if (strlen($value)) {
-            if (strpos($value, ',')) {
-                $query->whereIn('status', $value);
-            } else {
-                $query->where('status', $value);
-            }
-        }
-    }
-
-    public function searchCreateTimeAttr($query, $value, $data)
-    {
-        $value = urldecode($value);
-        $valueArray = explode(',', $value);
-        $query->whereBetweenTime('create_time', $valueArray[0], $valueArray[1]);
     }
 
     public function searchGroupsAttr($query, $value, $data)

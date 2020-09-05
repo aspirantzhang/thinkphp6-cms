@@ -7,14 +7,13 @@ namespace app\backend\model;
 use app\backend\service\AuthRule;
 use app\backend\service\Admin;
 use aspirantzhang\TPAntdBuilder\Builder;
-use think\model\concern\SoftDelete;
 
 class AuthGroup extends Common
 {
-    use SoftDelete;
-
     protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
+    
+    // Whitelist Fields Home/List/Sort/Read/Save/Update/Search etc...
     public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowList = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time', 'update_time'];
@@ -113,27 +112,10 @@ class AuthGroup extends Common
     }
 
     // Accessor
-    public function getCreateTimeAttr($value)
-    {
-        $date = new \DateTime($value);
-        // return $date->setTimezone(new \DateTimeZone('Europe/Amsterdam'))->format(\DateTime::ATOM);
-        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
-    }
-    public function getUpdateTimeAttr($value)
-    {
-        $date = new \DateTime($value);
-        // return $date->setTimezone(new \DateTimeZone('Europe/Amsterdam'))->format(\DateTime::ATOM);
-        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
-    }
 
     // Mutator
 
     // Searcher
-    public function searchIdAttr($query, $value, $data)
-    {
-        $query->where('id', $value);
-    }
-
     public function searchNameAttr($query, $value, $data)
     {
         $query->where('name', 'like', '%' . $value . '%');
@@ -144,22 +126,4 @@ class AuthGroup extends Common
         $query->where('rules', 'like', '%' . $value . '%');
     }
 
-    public function searchStatusAttr($query, $value, $data)
-    {
-        $value = (string)$value;
-        if (strlen($value)) {
-            if (strpos($value, ',')) {
-                $query->whereIn('status', $value);
-            } else {
-                $query->where('status', $value);
-            }
-        }
-    }
-
-    public function searchCreateTimeAttr($query, $value, $data)
-    {
-        $value = urldecode($value);
-        $valueArray = explode(',', $value);
-        $query->whereBetweenTime('create_time', $valueArray[0], $valueArray[1]);
-    }
 }
