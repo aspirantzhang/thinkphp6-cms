@@ -175,7 +175,8 @@ class Admin extends Common
     public function searchGroupsAttr($query, $value, $data)
     {
         $group = new AuthGroup();
-        $adminIDs = $group->getUserIDsByGroups((array)explode(',', $value));
+        // $adminIDs = $group->getUserIDsByGroupsAPI((array)explode(',', $value));
+        $adminIDs = $group->getIDsByRelationIDsAPI((array)explode(',', $value), 'admins');
         $query->whereIn('id', $adminIDs);
     }
 }

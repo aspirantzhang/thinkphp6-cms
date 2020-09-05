@@ -124,4 +124,14 @@ trait ModelService
             return resError('Nothing to do.');
         }
     }
+    
+    public function getIDsByRelationIDsAPI(array $relationModelIDs = [], string $selfModelName = ''): array
+    {
+        $relationModel = $this->whereIn('id', $relationModelIDs)->with([$selfModelName])->select();
+        if (!$relationModel->isEmpty()) {
+            $IDs = extractUniqueValuesInArray($relationModel->toArray(), $selfModelName, 'id');
+            return $IDs;
+        }
+        return [];
+    }
 }

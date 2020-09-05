@@ -9,14 +9,6 @@ use app\backend\service\AuthGroup;
 
 class Admin extends AdminLogic
 {
-    public function getAddonData()
-    {
-        return [
-            'groups' => $this->getModelTreeData(new AuthGroup()),
-            'status' => [0 => 'Disabled', 1 => 'Enabled']
-        ];
-    }
-
     public function readAPI($id)
     {
         $admin = $this->where('id', $id)->with(['groups' => function ($query) {
