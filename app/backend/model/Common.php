@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace app\backend\model;
 
 use app\common\model\GlobalModel;
-use app\backend\traits\ModelLogic as ModelLogicTrait;
-use app\backend\traits\ModelService as ModelServiceTrait;
+use app\backend\traits\Model as ModelTrait;
+use app\backend\traits\Logic as LogicTrait;
+use app\backend\traits\Service as ServiceTrait;
 
 class Common extends GlobalModel
 {
-    use ModelLogicTrait;
-    use ModelServiceTrait;
+    use ModelTrait;
+    use LogicTrait;
+    use ServiceTrait;
 
     public function initialize()
     {

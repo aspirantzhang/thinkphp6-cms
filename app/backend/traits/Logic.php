@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\backend\traits;
 
-trait ModelLogic
+trait Logic
 {
     
     /**
