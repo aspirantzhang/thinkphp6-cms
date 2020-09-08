@@ -16,14 +16,14 @@ trait Service
         $data = $this->getPaginatedListData($requestParams, $withRelation);
 
         if ($data) {
-            $layout = $this->buildList($this->getAddonData())->toArray();
+            $layout = $this->buildList($this->getAddonData());
 
             $layout['dataSource'] = $data['dataSource'];
             $layout['meta'] = $data['pagination'];
 
             return resSuccess('', $layout);
         } else {
-            return resError('Get list failed.');
+            return resError('Get list data failed.');
         }
     }
 
@@ -32,7 +32,7 @@ trait Service
         $data = $this->getListData($requestParams, $withRelation);
 
         if ($data) {
-            $layout = $this->buildList($this->getAddonData())->toArray();
+            $layout = $this->buildList($this->getAddonData());
 
             $layout['dataSource'] = arrayToTree($data);
             $layout['meta'] = [
@@ -43,18 +43,18 @@ trait Service
 
             return resSuccess('', $layout);
         } else {
-            return resError('Get list failed.');
+            return resError('Get list data failed.');
         }
     }
 
     public function addAPI()
     {
-        $page = $this->buildAdd($this->getAddonData())->toArray();
+        $page = $this->buildAdd($this->getAddonData());
         
         if ($page) {
             return resSuccess('', $page);
         } else {
-            return resError('Get page failed.');
+            return resError('Get page data failed.');
         }
     }
 
@@ -74,7 +74,7 @@ trait Service
         if ($model) {
             $model = $model->visible($this->allowRead)->toArray();
            
-            $layout = $this->buildEdit($id, $this->getAddonData())->toArray();
+            $layout = $this->buildEdit($id, $this->getAddonData());
             $layout['dataSource'] = $model;
 
             return resSuccess('', $layout);
@@ -102,7 +102,7 @@ trait Service
         $model = $this->find($id);
         if ($model) {
             if ($model->delete()) {
-                return resSuccess('Delete completed successfully.');
+                return resSuccess('Delete successfully.');
             } else {
                 return resError('Delete failed.');
             }
@@ -116,7 +116,7 @@ trait Service
         if (count($idArray)) {
             $result = $this->whereIn('id', $idArray)->select()->delete();
             if ($result) {
-                return resSuccess('Delete completed successfully.');
+                return resSuccess('Delete successfully.');
             } else {
                 return resError('Delete failed.');
             }

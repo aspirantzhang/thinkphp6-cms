@@ -10,7 +10,6 @@ use aspirantzhang\TPAntdBuilder\Builder;
 
 class AuthGroup extends Common
 {
-    protected $deleteTime = 'delete_time';
     protected $readonly = ['id'];
     
     // Whitelist Fields Home/List/Sort/Read/Save/Update/Search etc...
@@ -47,7 +46,8 @@ class AuthGroup extends Common
 
         return Builder::page('Add New Group')
             ->type('page')
-            ->layout($pageLayout);
+            ->layout($pageLayout)
+            ->toArray();
     }
 
     
@@ -71,7 +71,8 @@ class AuthGroup extends Common
 
         return Builder::page('Group Edit')
             ->type('page')
-            ->layout($pageLayout);
+            ->layout($pageLayout)
+            ->toArray();
     }
 
     public function buildList($addonData = [])
@@ -108,7 +109,8 @@ class AuthGroup extends Common
             ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
-            ->batchToolBar($batchToolBar);
+            ->batchToolBar($batchToolBar)
+            ->toArray();
     }
 
     // Accessor
@@ -125,5 +127,4 @@ class AuthGroup extends Common
     {
         $query->where('rules', 'like', '%' . $value . '%');
     }
-
 }

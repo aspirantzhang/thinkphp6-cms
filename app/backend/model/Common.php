@@ -17,6 +17,8 @@ class Common extends GlobalModel
     use LogicTrait;
     use ServiceTrait;
 
+    protected $deleteTime = 'delete_time';
+
     public function initialize()
     {
         parent::initialize();

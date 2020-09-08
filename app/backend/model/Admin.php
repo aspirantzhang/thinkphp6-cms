@@ -9,8 +9,6 @@ use app\backend\service\AuthGroup;
 
 class Admin extends Common
 {
-
-    protected $deleteTime = 'delete_time';
     protected $readonly = ['id', 'username'];
     protected $unique = [ 'username' => 'Username' ];
 
@@ -50,7 +48,8 @@ class Admin extends Common
 
         return Builder::page('Add New User')
             ->type('page')
-            ->layout($pageLayout);
+            ->layout($pageLayout)
+            ->toArray();
     }
 
     
@@ -74,7 +73,8 @@ class Admin extends Common
 
         return Builder::page('User Edit')
             ->type('page')
-            ->layout($pageLayout);
+            ->layout($pageLayout)
+            ->toArray();
     }
 
     public function buildList($addonData = [])
@@ -112,7 +112,8 @@ class Admin extends Common
             ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
-            ->batchToolBar($batchToolBar);
+            ->batchToolBar($batchToolBar)
+            ->toArray();
     }
     
     // Accessor
