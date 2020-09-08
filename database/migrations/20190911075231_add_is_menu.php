@@ -1,9 +1,12 @@
 <?php
 
-use think\migration\Migrator;
-use think\migration\db\Column;
+declare(strict_types=1);
 
-class AddIsMenu extends Migrator
+namespace DbMigrations;
+
+use Phinx\Migration\AbstractMigration;
+
+class AddIsMenu extends AbstractMigration
 {
     public function change()
     {

@@ -1,11 +1,15 @@
 <?php
 
-use think\migration\Migrator;
-use think\migration\db\Column;
+declare(strict_types=1);
 
-class AdminInsert1 extends Migrator
+namespace DbMigrations;
+
+use Phinx\Migration\AbstractMigration;
+
+class AdminInsert1 extends AbstractMigration
 {
-    public function up() {
+    public function up()
+    {
         // inserting only one row
         $singleRow = [
             'id'    =>  1,
@@ -19,10 +23,9 @@ class AdminInsert1 extends Migrator
         $table = $this->table('admin');
         $table->insert($singleRow);
         $table->saveData();
-
     }
 
-    public function down () {
-
+    public function down()
+    {
     }
 }

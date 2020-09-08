@@ -1,9 +1,12 @@
 <?php
 
-use think\migration\Migrator;
-use think\migration\db\Column;
+declare(strict_types=1);
 
-class AdminGroupBasic extends Migrator
+namespace DbMigrations;
+
+use Phinx\Migration\AbstractMigration;
+
+class AdminGroupBasic extends AbstractMigration
 {
     /**
      * Change Method.

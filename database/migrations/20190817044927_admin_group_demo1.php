@@ -1,11 +1,15 @@
 <?php
 
-use think\migration\Migrator;
-use think\migration\db\Column;
+declare(strict_types=1);
 
-class AdminGroupDemo1 extends Migrator
+namespace DbMigrations;
+
+use Phinx\Migration\AbstractMigration;
+
+class AdminGroupDemo1 extends AbstractMigration
 {
-    public function up() {
+    public function up()
+    {
 
         $rows = [
             [
@@ -25,10 +29,9 @@ class AdminGroupDemo1 extends Migrator
         ];
 
         $this->table('auth_admin_group')->insert($rows)->save();
-
     }
 
-    public function down () {
-
+    public function down()
+    {
     }
 }

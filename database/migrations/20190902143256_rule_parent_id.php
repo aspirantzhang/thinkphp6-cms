@@ -1,9 +1,12 @@
 <?php
 
-use think\migration\Migrator;
-use think\migration\db\Column;
+declare(strict_types=1);
 
-class RuleParentId extends Migrator
+namespace DbMigrations;
+
+use Phinx\Migration\AbstractMigration;
+
+class RuleParentId extends AbstractMigration
 {
     public function change()
     {

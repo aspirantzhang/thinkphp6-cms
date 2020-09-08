@@ -1,10 +1,12 @@
 <?php
 
-use think\migration\Migrator;
-use think\migration\db\Column;
-use Phinx\Db\Adapter\MysqlAdapter;
+declare(strict_types=1);
 
-class Admin extends Migrator
+namespace DbMigrations;
+
+use Phinx\Migration\AbstractMigration;
+
+class Admin extends AbstractMigration
 {
     /**
      * Change Method.
