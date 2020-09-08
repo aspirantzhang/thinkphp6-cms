@@ -20,7 +20,7 @@ class Admin extends AdminLogic
             $admin['groups'] = extractFromAssocToIndexed($admin['groups'], 'id');
 
 
-            $layout = $this->buildEdit($id, $this->getAddonData())->toArray();
+            $layout = $this->buildEdit($id, $this->getAddonData());
             $layout['dataSource'] = $admin;
 
             return resSuccess('', $layout);
