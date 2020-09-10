@@ -24,7 +24,8 @@
         "aspirantzhang/thinkphp-antdesign-builder": "dev-master",
         "aspirantzhang/thinkphp6-auth": "dev-master",
         "topthink/think-multi-app": "^1.0",
-        "nhzex/think-phinx": "^1.1"
+        "nhzex/think-phinx": "^1.1",
+        "aspirantzhang/thinkphp6-fast-command": "dev-master"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2"

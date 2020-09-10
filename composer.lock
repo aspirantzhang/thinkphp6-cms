@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39f5754bcffbc2d1ef638cd5af109a95",
+    "content-hash": "1cd43afe6e89a3048ea6d96cbb180bcf",
     "packages": [
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
@@ -83,6 +83,56 @@
             ],
             "description": "Classcial auth package for thinkphp6",
             "time": "2019-09-11T06:49:30+00:00"
+        },
+        {
+            "name": "aspirantzhang/thinkphp6-fast-command",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/thinkphp6-fast-command.git",
+                "reference": "399d7b2e894991643869850f80c23b56eb1580ad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-fast-command/zipball/399d7b2e894991643869850f80c23b56eb1580ad",
+                "reference": "399d7b2e894991643869850f80c23b56eb1580ad",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "topthink/framework": "^6.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "aspirantzhang\\thinkphp6FastCommand\\Service"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "aspirantzhang\\thinkphp6FastCommand\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                }
+            ],
+            "description": "Fast backend file generator based on thinkphp6",
+            "time": "2020-09-10T14:57:53+00:00"
         },
         {
             "name": "cakephp/core",
@@ -2524,7 +2574,8 @@
     "stability-flags": {
         "topthink/think-orm": 20,
         "aspirantzhang/thinkphp-antdesign-builder": 20,
-        "aspirantzhang/thinkphp6-auth": 20
+        "aspirantzhang/thinkphp6-auth": 20,
+        "aspirantzhang/thinkphp6-fast-command": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
