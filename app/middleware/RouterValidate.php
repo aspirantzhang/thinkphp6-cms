@@ -8,8 +8,10 @@ class RouterValidate
 {
     public function handle($request, \Closure $next, $name)
     {
-        $v = new $name();
-        $v->failException(true)->scene(parse_name($request->action()))->check($request->param());
+        $appName = parse_name(app('http')->getName());
+        $validateClassName = 'app\\' . $appName . '\validate\\' . $name;
+        $validateClass = new $validateClassName();
+        $validateClass->failException(true)->scene(parse_name($request->action()))->check($request->param());
 
         return $next($request);
     }

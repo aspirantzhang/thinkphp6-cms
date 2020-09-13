@@ -1,24 +1,18 @@
 <?php
 
 use think\Response;
+use think\facade\Config;
 
-function jsonCross($data = [], $code = 200, $header = [], $options = [])
+function buildResponse($data = [], $code = 200, $header = [], $options = [])
 {
-    $crossDomain = [
-            'access-control-allow-origin' => 'http://localhost:8000',
-            'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            'access-control-allow-headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With',
-            'access-control-allow-credentials' => 'true',
-    ];
-
-    return Response::create($data, 'json', $code)->header(array_merge($crossDomain, $header))->options($options);
+    return Response::create($data, 'json', $code)->header(array_merge(Config::get('route.default_header'), $header))->options($options);
 }
 
-    /**
-     * Api Response Json.
-     *
-     * @return Response
-     */
+/**
+* Api Response Json.
+*
+* @return Response
+*/
 function resJson(int $httpCode, array $data = [], string $errMsg = '', array $header = [])
 {
     $initBody = ['success' => true, 'message' => $errMsg, 'data' => $data];
@@ -27,21 +21,21 @@ function resJson(int $httpCode, array $data = [], string $errMsg = '', array $he
         $initBody['message'] = $errMsg;
     }
 
-    return jsonCross($initBody, $httpCode, $header);
+    return buildResponse($initBody, $httpCode, $header);
 }
 
 
 function resSuccess(string $message = '', array $data = [], array $header = [])
 {
     $httpBody = ['success' => true, 'message' => $message, 'data' => $data];
-    return jsonCross($httpBody, 200, $header);
+    return buildResponse($httpBody, 200, $header);
 }
 
 
 function resError(string $message = '', array $data = [], array $header = [])
 {
     $httpBody = ['success' => false, 'message' => $message, 'data' => $data];
-    return jsonCross($httpBody, 200, $header);
+    return buildResponse($httpBody, 200, $header);
 }
 
 
@@ -103,7 +97,7 @@ function msg($errorCode, $message = null)
     }
 }
 
-    /* Recursive branch extrusion */
+/* Recursive branch extrusion */
 function createTreeBranch(&$parents, $children, $depth = 0)
 {
     $tree = [];
