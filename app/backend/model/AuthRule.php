@@ -115,5 +115,4 @@ class AuthRule extends Common
     // Mutator
 
     // Searcher
-    
 }
