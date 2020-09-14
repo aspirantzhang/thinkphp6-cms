@@ -9,16 +9,7 @@ use app\backend\service\AuthGroup;
 
 class Admin extends AdminModel
 {
-    protected $unique = [ 'username' => 'Username' ];
-
-    protected function getAddonData()
-    {
-        return [
-            'groups' => $this->getModelTreeData(new AuthGroup()),
-            'status' => [0 => 'Disabled', 1 => 'Enabled']
-        ];
-    }
-    
+   
     protected function saveNew($data)
     {
         if ($this->checkUniqueFields($data) === false) {

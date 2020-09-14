@@ -9,10 +9,14 @@ use app\backend\service\AuthGroup;
 
 class Admin extends Common
 {
+    /**
+     * Fields Configuration
+     * @example protected $readonly
+     * @example protected $unique
+     * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
+     */
     protected $readonly = ['id', 'username'];
     protected $unique = [ 'username' => 'Username' ];
-
-    // Whitelist Fields Home/List/Sort/Read/Save/Update/Search etc...
     public $allowHome = ['sort', 'order', 'page', 'per_page', 'groups', 'id', 'username', 'display_name', 'status', 'create_time'];
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time', 'groups'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
@@ -20,7 +24,14 @@ class Admin extends Common
     public $allowSave = ['username', 'password', 'groups' , 'display_name', 'status', 'create_time'];
     public $allowUpdate = ['password', 'display_name', 'groups', 'status', 'create_time'];
     public $allowSearch = ['groups', 'id', 'username', 'display_name', 'status', 'create_time'];
-    public $allowLogin = ['username', 'password'];
+
+    protected function getAddonData()
+    {
+        return [
+            'groups' => $this->getModelTreeData(new AuthGroup()),
+            'status' => [0 => 'Disabled', 1 => 'Enabled']
+        ];
+    }
 
     // Relation
     public function groups()
@@ -28,6 +39,12 @@ class Admin extends Common
         return $this->belongsToMany(AuthGroup::class, 'auth_admin_group', 'group_id', 'admin_id');
     }
     
+    /**
+     * Page Builder
+     * @example public function buildAdd
+     * @example public function buildEdit
+     * @example public function buildList
+     */
     public function buildAdd($addonData = [])
     {
         $pageLayout = [
@@ -51,7 +68,6 @@ class Admin extends Common
             ->layout($pageLayout)
             ->toArray();
     }
-
     
     public function buildEdit($id, $addonData = [])
     {

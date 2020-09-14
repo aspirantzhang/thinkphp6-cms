@@ -17,11 +17,4 @@ class Index extends Common
     {
         return 'backend controller index';
     }
-
-    public function login(AdminService $adminService)
-    {
-        $result = $adminService->loginApi($this->request->only($adminService->allowLogin));
-
-        return json($result);
-    }
 }

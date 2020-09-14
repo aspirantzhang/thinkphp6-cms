@@ -10,9 +10,14 @@ use aspirantzhang\TPAntdBuilder\Builder;
 
 class AuthGroup extends Common
 {
+    /**
+     * Fields Configuration
+     * @example protected $readonly
+     * @example protected $unique
+     * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
+     */
     protected $readonly = ['id'];
-    
-    // Whitelist Fields Home/List/Sort/Read/Save/Update/Search etc...
+    protected $unique = [];
     public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowList = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time', 'update_time'];
@@ -20,6 +25,14 @@ class AuthGroup extends Common
     public $allowSave = ['parent_id', 'name', 'rules', 'status'];
     public $allowUpdate = ['id', 'parent_id', 'rules', 'name', 'status', 'create_time'];
     public $allowSearch = ['id', 'parent_id', 'rules','name', 'status', 'create_time'];
+    
+    protected function getAddonData()
+    {
+        return [
+            'parent_id' => arrayToTree($this->getParentData(), -1),
+            'status' => [0 => 'Disabled', 1 => 'Enabled']
+        ];
+    }
 
     // Relation
     public function admins()
@@ -27,6 +40,12 @@ class AuthGroup extends Common
         return $this->belongsToMany(Admin::class, 'auth_admin_group', 'admin_id', 'group_id');
     }
 
+    /**
+     * Page Builder
+     * @example public function buildAdd
+     * @example public function buildEdit
+     * @example public function buildList
+     */
     public function buildAdd($addonData = [])
     {
         $pageLayout = [
@@ -49,7 +68,6 @@ class AuthGroup extends Common
             ->layout($pageLayout)
             ->toArray();
     }
-
     
     public function buildEdit($id, $addonData = [])
     {
