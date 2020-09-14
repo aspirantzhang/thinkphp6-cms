@@ -5,203 +5,115 @@ declare(strict_types=1);
 namespace app\backend\model;
 
 use aspirantzhang\TPAntdBuilder\Builder;
-use think\model\concern\SoftDelete;
 
 class AuthRule extends Common
 {
-    use SoftDelete;
-
-    protected $deleteTime = 'delete_time';
+    /**
+     * Fields Configuration
+     * @example protected $readonly
+     * @example protected $unique
+     * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
+     */
     protected $readonly = ['id'];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status', 'create_time'];
-    public $allowList = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'status', 'create_time', 'update_time'];
-    public $allowRead = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status', 'create_time', 'update_time'];
-    public $allowSort = ['sort', 'order', 'id', 'parent_id', 'create_time'];
-    public $allowSave = ['parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status'];
-    public $allowUpdate = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'condition', 'status'];
-    public $allowSearch = ['id', 'parent_id', 'is_menu', 'rule', 'name', 'type', 'status', 'create_time'];
-    public $allowTree = ['id', 'parent_id', 'rule', 'name', 'type', 'condition'];
+    protected $unique = [];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'create_time'];
+    public $allowList = ['id', 'create_time'];
+    public $allowSort = ['sort', 'order', 'id', 'create_time'];
+    public $allowRead = ['id', 'create_time', 'update_time'];
+    public $allowSave = ['create_time'];
+    public $allowUpdate = ['create_time'];
+    public $allowSearch = ['id', 'create_time'];
+
+    protected function getAddonData()
+    {
+        return [];
+    }
 
     // Relation
-
-    // Page Builder
-    public function buildSingle($data = [], $type = 'create')
+    
+    /**
+     * Page Builder
+     * @example public function buildAdd
+     * @example public function buildEdit
+     * @example public function buildList
+     */
+    public function buildAdd($addonData = [])
     {
-        $builder = new Builder($data);
-        $builder->pageType($type)
-                ->pageTitle('rule', [
-                    'create' => 'Add Rule',
-                    'edit' => 'Edit Rule',
-                ]);
+        $pageLayout = [
+            Builder::actions([
+                Builder::button('Reset')->type('dashed')->action('reset'),
+                Builder::button('Cancel')->type('default')->action('cancel'),
+                Builder::button('Submit')->type('primary')->action('submit')
+                        ->uri('/backend/rules')
+                        ->method('post'),
+            ]),
+        ];
 
-        $builder->toForm('create')
-                ->addText('parent_id', 'Parent ID')
-                ->placeholder('Enter Parent ID');
-        $builder->toForm('create')
-                ->addSwitch('is_menu', 'Menu')
-                ->append([
-                    'checkedChildren' => 'Yes',
-                    'unCheckedChildren' => 'No',
-                    'default' => 'Yes',
-                ]);
-        $builder->toForm('create')
-                ->addText('rule', 'Rule')
-                ->placeholder('Enter Rule Expression');
-        $builder->toForm('create')
-                ->addText('name', 'Name')
-                ->placeholder('Enter Rule Name');
-        $builder->toForm('create')
-                ->addSelect('type', 'Type')
-                ->option([
-                    1 => 'Normal',
-                    0 => 'Login',
-                ], 0);
-        $builder->toForm('create')
-                ->addTextarea('condition', 'Condition');
-        $builder->toForm('create')
-                ->addSwitch('status', 'Status')
-                ->append([
-                    'checkedChildren' => 'Enable',
-                    'unCheckedChildren' => 'Disable',
-                    'default' => 'Enable',
-                ]);
-        $builder->toForm('create')
-                ->addButton('submit', 'Submit')
-                ->type('primary');
-
-        return $builder->build();
+        return Builder::page('Add New AuthRule')
+            ->type('page')
+            ->layout($pageLayout)
+            ->toArray();
     }
 
-    public function buildList($data = [], $type = 'index')
+    public function buildEdit($id, $addonData = [])
     {
-        $builder = new Builder();
-        $builder->pageType($type)
-                ->pageTitle('rule', [
-                    'index' => 'Rule List',
-                ])
-                ->table('table', 'Rule Manage');
-        $builder->searchBar()
-                ->addText('name', 'Rule Name')
-                ->placeholder('Search Rule Name');
-        $builder->searchBar()
-                ->addSelect('status', 'Status')
-                ->placeholder('Select Status')
-                ->option([
-                    0 => 'Disable',
-                    1 => 'Enable',
-                ]);
+        $pageLayout = [
+            Builder::field('create_time', 'Create Time')->type('datetime'),
+            Builder::field('update_time', 'Update Time')->type('datetime'),
+            Builder::actions([
+                Builder::button('Reset')->type('dashed')->action('reset'),
+                Builder::button('Cancel')->type('default')->action('cancel'),
+                Builder::button('Submit')->type('primary')->action('submit')
+                        ->uri('/backend/rules/' . $id)
+                        ->method('put'),
+            ]),
+        ];
 
-        $builder->advancedSearch()
-                ->addDatePicker('create_time', 'Create Time')
-                ->format('YYYY-MM-DD HH:mm:ss')
-                ->append([
-                    'showTime' => true,
-                ]);
-        $builder->advancedSearch()
-                ->addButton('search', 'Search')
-                ->type('primary');
-
-        $builder->toTable('table')
-                ->addColumn('id', 'ID');
-        $builder->toTable('table')
-                ->addColumn('parent_id', 'Parent ID');
-        $builder->toTable('table')
-                ->addColumn('is_menu', 'Menu')
-                ->columTag([
-                    'Yes' => 'green',
-                    'No' => 'red',
-                ]);
-        $builder->toTable('table')
-                ->addColumn('rule', 'Rules Expression')
-                ->columnLink('backend/rules/edit');
-        $builder->toTable('table')
-                ->addColumn('name', 'Name')
-                ->columnLink('backend/rules/edit');
-        $builder->toTable('table')
-                ->addColumn('type', 'Type');
-        $builder->toTable('table')
-                ->addColumn('create_time', 'Create Time');
-        $builder->toTable('table')
-                ->addColumn('status', 'Status')
-                ->columTag([
-                    'Enable' => 'green',
-                    'Disable' => 'red',
-                ]);
-        $builder->toTable('table')
-                ->addColumn('action', 'Operation')
-                ->actionButton('edit', 'Edit', [
-                    'onClick' => [
-                        'name' => 'openModal',
-                        'url' => 'backend/rules/edit',
-                    ],
-                ])
-                ->actionButton('delete', 'Delete', [
-                    'onConfirm' => [
-                        'name' => 'changeStatus',
-                        'url' => 'backend/rules/delete',
-                    ],
-                ]);
-
-        return $builder->build();
+        return Builder::page('AuthRule Edit')
+            ->type('page')
+            ->layout($pageLayout)
+            ->toArray();
     }
 
+    public function buildList($addonData = [])
+    {
+        $tableToolBar = [
+            Builder::button('Add')->type('primary')->action('modal')->uri('/backend/rules/add'),
+            Builder::button('Full page add')->type('default')->action('page')->uri('/backend/rules/add'),
+            Builder::button('Reload')->type('default')->action('reload'),
+        ];
+        $batchToolBar = [
+            Builder::button('Delete')->type('danger')->action('batchDelete')
+                    ->uri('/backend/rules/batch-delete')
+                    ->method('delete'),
+            Builder::button('Disable')->type('default')->action('batchDisable'),
+        ];
+        $tableColumn = [
+            Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
+            Builder::actions([
+                Builder::button('Edit')->type('primary')->action('modal')
+                        ->uri('/backend/rules'),
+                Builder::button('Full page edit')->type('default')->action('page')
+                        ->uri('/backend/rules'),
+                Builder::button('Delete')->type('default')->action('delete')
+                        ->uri('/backend/rules')
+                        ->method('delete'),
+            ])->title('Action'),
+        ];
+
+        return Builder::page('AuthRule List')
+            ->type('basicList')
+            ->searchBar(true)
+            ->tableColumn($tableColumn)
+            ->tableToolBar($tableToolBar)
+            ->batchToolBar($batchToolBar)
+            ->toArray();
+    }
+    
     // Accessor
-    public function getIsMenuAttr($value)
-    {
-        $text = ['No', 'Yes'];
-
-        return $text[$value];
-    }
-
-    public function getStatusAttr($value)
-    {
-        $text = ['Disable', 'Enable'];
-
-        return $text[$value];
-    }
-
-    public function getTypeAttr($value)
-    {
-        $text = ['Login', 'Normal'];
-
-        return $text[$value];
-    }
 
     // Mutator
 
     // Searcher
-    public function searchIdAttr($query, $value, $data)
-    {
-        $query->where('id', $value);
-    }
-    public function searchIsMenuAttr($query, $value, $data)
-    {
-        $query->where('is_menu', $value);
-    }
-
-    public function searchRuleAttr($query, $value, $data)
-    {
-        $query->where('rule', 'like', '%' . $value . '%');
-    }
-
-    public function searchNameAttr($query, $value, $data)
-    {
-        $query->where('name', 'like', '%' . $value . '%');
-    }
-
-    public function searchTypeAttr($query, $value, $data)
-    {
-        $query->where('type', $value);
-    }
-    public function searchStatusAttr($query, $value, $data)
-    {
-        $query->where('status', $value);
-    }
-    public function searchCreateTimeAttr($query, $value, $data)
-    {
-        $timeArray = explode('T', $value);
-        if (validateDateTime($timeArray[0]) && validateDateTime($timeArray[1])) {
-            $query->whereBetweenTime('create_time', $timeArray[0], $timeArray[1]);
-        }
-    }
+    
 }

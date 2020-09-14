@@ -8,60 +8,58 @@ use app\backend\service\AuthRule as AuthRuleService;
 
 class AuthRule extends Common
 {
-    protected $authRuleService;
+    protected $authRule;
 
     public function initialize()
     {
-        $this->authRuleService = new AuthRuleService();
+        $this->authRule = new AuthRuleService();
         parent::initialize();
     }
 
     public function home()
     {
-        $result = $this->authRuleService->listApi($this->request->only($this->authRuleService->allowHome));
-        return json($result);
+        $result = $this->authRule->paginatedListAPI($this->request->only($this->authRule->allowHome));
+
+        return $result;
     }
 
-    public function create()
+    public function add()
     {
-        $result = $this->authRuleService->createApi();
-        return json($result);
+        $result = $this->authRule->addAPI();
+
+        return $result;
     }
 
     public function save()
     {
-        $result = $this->authRuleService->saveApi($this->request->only($this->authRuleService->allowSave));
-        return json($result);
+        $result = $this->authRule->saveAPI($this->request->only($this->authRule->allowSave));
+
+        return $result;
     }
 
     public function read($id)
     {
-        $result = $this->authRuleService->readApi($id);
-        return json($result);
-    }
-
-    public function edit($id)
-    {
-        $result = $this->authRuleService->editApi($id);
-        return json($result);
+        return $this->authRule->readAPI($id);
     }
 
     public function update($id)
     {
-        $result = $this->authRuleService->updateApi($id, $this->request->only($this->authRuleService->allowUpdate));
-        return json($result);
+        $result = $this->authRule->updateAPI($id, $this->request->only($this->authRule->allowUpdate));
+
+        return $result;
     }
 
     public function delete($id)
     {
-        $result = $this->authRuleService->deleteApi($id);
-        return json($result);
+        $result = $this->authRule->deleteAPI($id);
+
+        return $result;
     }
 
-    public function menus()
+    public function batchDelete()
     {
-        $result = $this->authRuleService->menuApi();
-
-        return json($result);
+        $result = $this->authRule->batchDeleteAPI($this->request->param('idArray'));
+        
+        return $result;
     }
 }
