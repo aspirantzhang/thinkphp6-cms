@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\backend\model;
 
+use app\backend\service\AuthGroup;
 use aspirantzhang\TPAntdBuilder\Builder;
 
 class AuthRule extends Common
@@ -16,21 +17,29 @@ class AuthRule extends Common
      */
     protected $readonly = ['id'];
     protected $unique = [];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'create_time'];
-    public $allowList = ['id', 'create_time'];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
+    public $allowList = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowRead = ['id', 'create_time', 'update_time'];
-    public $allowSave = ['create_time'];
-    public $allowUpdate = ['create_time'];
-    public $allowSearch = ['id', 'create_time'];
+    public $allowRead = ['id', 'create_time', 'update_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
+    public $allowSave = ['create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
+    public $allowUpdate = ['create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
+    public $allowSearch = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
 
     protected function getAddonData()
     {
-        return [];
+        return [
+            'parent_id' => arrayToTree($this->getParentData(), -1),
+            'is_menu' => [0 => 'No', 1 => 'Yes'],
+            'status' => [0 => 'Disabled', 1 => 'Enabled']
+        ];
     }
 
     // Relation
-    
+    public function groups()
+    {
+        return $this->belongsToMany(AuthGroup::class, 'auth_group_rule', 'group_id', 'rule_id');
+    }
+
     /**
      * Page Builder
      * @example public function buildAdd
@@ -40,6 +49,14 @@ class AuthRule extends Common
     public function buildAdd($addonData = [])
     {
         $pageLayout = [
+            Builder::field('name', 'Rule Name')->type('text'),
+            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
+            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
+            Builder::field('rule', 'Rule')->type('text'),
+            Builder::field('type', 'Type')->type('text'),
+            Builder::field('condition', 'Condition')->type('text'),
+            Builder::field('create_time', 'Create Time')->type('datetime'),
+            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([
                 Builder::button('Reset')->type('dashed')->action('reset'),
                 Builder::button('Cancel')->type('default')->action('cancel'),
@@ -58,6 +75,13 @@ class AuthRule extends Common
     public function buildEdit($id, $addonData = [])
     {
         $pageLayout = [
+            Builder::field('name', 'Rule Name')->type('text'),
+            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
+            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
+            Builder::field('rule', 'Rule')->type('text'),
+            Builder::field('type', 'Type')->type('text'),
+            Builder::field('condition', 'Condition')->type('text'),
+            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::actions([
@@ -89,7 +113,10 @@ class AuthRule extends Common
             Builder::button('Disable')->type('default')->action('batchDisable'),
         ];
         $tableColumn = [
+            Builder::field('name', 'Rule Name')->type('text'),
+            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
+            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')
                         ->uri('/backend/rules'),

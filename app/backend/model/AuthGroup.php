@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace app\backend\model;
 
-use app\backend\service\AuthRule;
 use app\backend\service\Admin;
+use app\backend\service\AuthRule;
 use aspirantzhang\TPAntdBuilder\Builder;
 
 class AuthGroup extends Common
@@ -23,8 +23,8 @@ class AuthGroup extends Common
     public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time', 'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowSave = ['parent_id', 'name', 'rules', 'status'];
-    public $allowUpdate = ['id', 'parent_id', 'rules', 'name', 'status', 'create_time'];
-    public $allowSearch = ['id', 'parent_id', 'rules','name', 'status', 'create_time'];
+    public $allowUpdate = ['parent_id', 'rules', 'name', 'status', 'create_time'];
+    public $allowSearch = ['id', 'parent_id', 'rules', 'name', 'status', 'create_time'];
     
     protected function getAddonData()
     {
@@ -40,6 +40,11 @@ class AuthGroup extends Common
         return $this->belongsToMany(Admin::class, 'auth_admin_group', 'admin_id', 'group_id');
     }
 
+    public function rules()
+    {
+        return $this->belongsToMany(AuthRule::class, 'auth_group_rule', 'rule_id', 'group_id');
+    }
+
     /**
      * Page Builder
      * @example public function buildAdd
@@ -51,7 +56,6 @@ class AuthGroup extends Common
         $pageLayout = [
             Builder::field('name', 'Group Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rules', 'Rules')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([
@@ -74,7 +78,6 @@ class AuthGroup extends Common
         $pageLayout = [
             Builder::field('name', 'Group Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rules', 'Rules')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
@@ -108,7 +111,6 @@ class AuthGroup extends Common
         ];
         $tableColumn = [
             Builder::field('name', 'Group Name')->type('text'),
-            Builder::field('rules', 'Rules')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([

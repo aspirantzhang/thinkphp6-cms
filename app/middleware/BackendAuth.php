@@ -31,13 +31,14 @@ class BackendAuth
         'backend/auth_group/batch_delete',
         'backend/auth_group/test',
         'backend/auth_rule/home',
-        'backend/auth_rule/create',
+        'backend/auth_rule/add',
         'backend/auth_rule/save',
         'backend/auth_rule/read',
         'backend/auth_rule/edit',
         'backend/auth_rule/update',
         'backend/auth_rule/delete',
-        'backend/auth_rule/menus',
+        'backend/auth_rule/tree',
+        'backend/auth_rule/batch_delete',
     ];
 
     public function handle($request, \Closure $next)

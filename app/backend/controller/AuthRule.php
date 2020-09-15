@@ -18,7 +18,7 @@ class AuthRule extends Common
 
     public function home()
     {
-        $result = $this->authRule->paginatedListAPI($this->request->only($this->authRule->allowHome));
+        $result = $this->authRule->treeListAPI($this->request->only($this->authRule->allowHome));
 
         return $result;
     }
