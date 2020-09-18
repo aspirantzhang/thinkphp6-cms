@@ -127,6 +127,15 @@ function arrayToTree($flat, $root = 0)
     return createTreeBranch($parents, $parents[$root]);
 }
 
+function extractUniqueValues(array $array = [], string $keyName = 'id')
+{
+    $result = [];
+    if ($array) {
+        return array_column($array, $keyName);
+    }
+    return [];
+}
+
 function extractUniqueValuesInArray(array $array, string $parentKeyName, string $targetKeyName)
 {
     $result = [];

@@ -29,6 +29,7 @@ class AuthGroup extends Common
     protected function getAddonData()
     {
         return [
+            'rules' => $this->getModelTreeData(new AuthRule()),
             'parent_id' => arrayToTree($this->getParentData(), -1),
             'status' => [0 => 'Disabled', 1 => 'Enabled']
         ];
@@ -56,6 +57,7 @@ class AuthGroup extends Common
         $pageLayout = [
             Builder::field('name', 'Group Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
+            Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([
@@ -78,6 +80,7 @@ class AuthGroup extends Common
         $pageLayout = [
             Builder::field('name', 'Group Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
+            Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),

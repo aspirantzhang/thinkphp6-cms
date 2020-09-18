@@ -18,7 +18,7 @@ class AuthGroup extends Common
 
     public function home()
     {
-        $result = $this->authGroup->treeListAPI($this->request->only($this->authGroup->allowHome));
+        $result = $this->authGroup->treeListAPI($this->request->only($this->authGroup->allowHome), ['rules']);
 
         return $result;
     }
