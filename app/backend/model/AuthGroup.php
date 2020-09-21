@@ -22,7 +22,7 @@ class AuthGroup extends Common
     public $allowList = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time', 'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowSave = ['parent_id', 'name', 'rules', 'status'];
+    public $allowSave = ['parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowUpdate = ['parent_id', 'rules', 'name', 'status', 'create_time'];
     public $allowSearch = ['id', 'parent_id', 'rules', 'name', 'status', 'create_time'];
     

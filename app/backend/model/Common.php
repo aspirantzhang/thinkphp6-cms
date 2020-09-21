@@ -18,9 +18,16 @@ class Common extends GlobalModel
     use ServiceTrait;
 
     protected $deleteTime = 'delete_time';
+    
 
     public function initialize()
     {
         parent::initialize();
+    }
+
+    public function scopeStatus($query)
+    {
+        $tableName = parse_name($this->name);
+        $query->where($tableName . '.status', 1);
     }
 }

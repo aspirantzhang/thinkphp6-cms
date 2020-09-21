@@ -58,22 +58,51 @@ trait Service
         }
     }
 
-    public function saveAPI($data)
+    public function saveAPI($data, array $relationModel = [])
     {
-        $result = $this->saveNew($data);
-        if ($result) {
+        if ($this->checkUniqueFields($data) === false) {
+            return false;
+        }
+        $this->startTrans();
+        try {
+            $this->allowField($this->allowSave)->save($data);
+            if ($relationModel) {
+                foreach ($relationModel as $relation) {
+                    $data[$relation] = $data[$relation] ?? [];
+                    $this->$relation()->sync($data[$relation]);
+                }
+            }
+            $this->commit();
             return resSuccess('Add successfully.');
-        } else {
-            return resError($this->error);
+        } catch (\Exception $e) {
+            $this->rollback();
+            return resError('Save failed.');
         }
     }
     
-    public function readAPI($id)
+    public function readAPI($id, $relationModel = [])
     {
-        $model = $this->where('id', $id)->find();
+        $relationArray = [];
+
+        if ($relationModel) {
+            foreach ($relationModel as $relation) {
+                $relationArray[$relation] = function ($query) {
+                    $query->scope('status')->visible(['id']);
+                };
+            }
+        }
+
+        $model = $this->where('id', $id)->with($relationArray)->visible($this->allowRead)->find();
+
         if ($model) {
-            $model = $model->visible($this->allowRead)->toArray();
-           
+            $model = $model->toArray();
+            
+            if ($relationModel) {
+                foreach ($relationModel as $relation) {
+                    $model[$relation] = extractAssocValueToIndexed($model[$relation], 'id');
+                }
+            }
+
             $layout = $this->buildEdit($id, $this->getAddonData());
             $layout['dataSource'] = $model;
 
@@ -83,13 +112,24 @@ trait Service
         }
     }
 
-    public function updateAPI($id, $data)
+    public function updateAPI($id, $data, array $relationModel = [])
     {
         $model = $this->where('id', $id)->find();
         if ($model) {
-            if ($model->allowField($this->allowUpdate)->save($data)) {
+            $model->startTrans();
+            try {
+                $model->allowField($this->allowUpdate)->save($data);
+                if ($relationModel) {
+                    foreach ($relationModel as $relation) {
+                        $model->$relation()->sync($data[$relation]);
+                    }
+                }
+                $model->commit();
+
                 return resSuccess('Update successfully.');
-            } else {
+            } catch (\Exception $e) {
+                $model->rollback();
+
                 return resError('Update failed.');
             }
         } else {
@@ -99,7 +139,7 @@ trait Service
 
     public function deleteAPI($id)
     {
-        $model = $this->find($id);
+        $model = $this->scope('status')->find($id);
         if ($model) {
             if ($model->delete()) {
                 return resSuccess('Delete successfully.');

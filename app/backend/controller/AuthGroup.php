@@ -32,19 +32,19 @@ class AuthGroup extends Common
 
     public function save()
     {
-        $result = $this->authGroup->saveAPI($this->request->only($this->authGroup->allowSave));
+        $result = $this->authGroup->saveAPI($this->request->only($this->authGroup->allowSave), ['rules']);
 
         return $result;
     }
 
     public function read($id)
     {
-        return $this->authGroup->readAPI($id);
+        return $this->authGroup->readAPI($id, ['rules']);
     }
 
     public function update($id)
     {
-        $result = $this->authGroup->updateAPI($id, $this->request->only($this->authGroup->allowUpdate));
+        $result = $this->authGroup->updateAPI($id, $this->request->only($this->authGroup->allowUpdate), ['rules']);
 
         return $result;
     }

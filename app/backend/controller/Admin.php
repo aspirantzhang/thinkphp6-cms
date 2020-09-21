@@ -32,19 +32,19 @@ class Admin extends Common
 
     public function save()
     {
-        $result = $this->admin->saveAPI($this->request->only($this->admin->allowSave));
+        $result = $this->admin->saveAPI($this->request->only($this->admin->allowSave), ['groups']);
 
         return $result;
     }
 
     public function read($id)
     {
-        return $this->admin->readAPI($id);
+        return $this->admin->readAPI($id, ['groups']);
     }
 
     public function update($id)
     {
-        $result = $this->admin->updateAPI($id, $this->request->only($this->admin->allowUpdate));
+        $result = $this->admin->updateAPI($id, $this->request->only($this->admin->allowUpdate), ['groups']);
 
         return $result;
     }

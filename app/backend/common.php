@@ -156,7 +156,7 @@ function extractUniqueValuesInArray(array $array, string $parentKeyName, string 
  * @param string $key Key Name
  * @return array return a indexed array
  */
-function extractFromAssocToIndexed(array $assocArray, string $key): array
+function extractAssocValueToIndexed(array $assocArray, string $key): array
 {
     $indexed = [];
     if (!empty($assocArray)) {

@@ -21,7 +21,7 @@ class Admin extends Common
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time', 'groups'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];
-    public $allowSave = ['username', 'password', 'groups' , 'display_name', 'status', 'create_time'];
+    public $allowSave = ['username', 'password', 'groups', 'display_name', 'status', 'create_time'];
     public $allowUpdate = ['password', 'display_name', 'groups', 'status', 'create_time'];
     public $allowSearch = ['groups', 'id', 'username', 'display_name', 'status', 'create_time'];
 

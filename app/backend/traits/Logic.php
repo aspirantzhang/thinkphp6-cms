@@ -128,24 +128,4 @@ trait Logic
         $result = $this->withTrashed()->where($fieldName, $value)->find();
         return (bool)$result;
     }
-
-    /**
-     * Save a new record. No transaction!!!
-     * @param mixed $data
-     * @return mixed False or new record's id.
-     */
-    protected function saveNew($data)
-    {
-        if ($this->checkUniqueFields($data) === false) {
-            return false;
-        }
-
-        $result = $this->save($data);
-        if ($result) {
-            return $this->getData('id');
-        } else {
-            $this->error = 'Save failed.';
-            return false;
-        }
-    }
 }
