@@ -127,42 +127,58 @@ function arrayToTree($flat, $root = 0)
     return createTreeBranch($parents, $parents[$root]);
 }
 
-function extractUniqueValues(array $array = [], string $keyName = 'id')
+
+function isMultiArray($array)
 {
-    $result = [];
-    if ($array) {
-        return array_column($array, $keyName);
-    }
-    return [];
+    $multiCount = array_filter($array, 'is_array');
+    return count($multiCount) > 0;
 }
 
-function extractUniqueValuesInArray(array $array, string $parentKeyName, string $targetKeyName)
+/**
+ * Extract particular key/column values ​​from an array.
+ * @param array $array
+ * @param string $targetKeyName
+ * @param string $parentKeyName
+ * @param bool $unique
+ * @return array
+ */
+function extractValues(array $array = [], string $targetKeyName = 'id', string $parentKeyName = '', bool $unique = true)
 {
-    $result = [];
-    if (count($array)) {
-        foreach ($array as $key => $value) {
-            if (count($value[$parentKeyName])) {
-                $result = array_merge($result, array_column($value[$parentKeyName], $targetKeyName));
+    // Depth: level two
+    if ($parentKeyName) {
+        $result = [];
+        if ($array) {
+            foreach ($array as $key => $value) {
+                if ($value[$parentKeyName]) {
+                    if (isset($value[$parentKeyName][$targetKeyName])) {
+                        $result[] = $value[$parentKeyName][$targetKeyName];
+                    } elseif (is_array($value[$parentKeyName])) {
+                        $result = array_merge($result, array_column($value[$parentKeyName], $targetKeyName));
+                    }
+                }
+            }
+            if (!$unique) {
+                return $result;
+            }
+            if (isMultiArray($result)) {
+                return array_unique($result, SORT_REGULAR);
+            } else {
+                return array_unique($result);
             }
         }
         return $result;
     }
-    return [];
-}
 
-/**
- * Extract a particular key's value from a associated array to a indexed array
- * @param array $assocArray
- * @param string $key Key Name
- * @return array return a indexed array
- */
-function extractAssocValueToIndexed(array $assocArray, string $key): array
-{
-    $indexed = [];
-    if (!empty($assocArray)) {
-        foreach ($assocArray as $assoc) {
-            $indexed[] = $assoc[$key];
+    // Depth: level 1
+    if ($array) {
+        if (!$unique) {
+            return array_column($array, $targetKeyName);
+        }
+        if (isMultiArray($array)) {
+            return array_unique(array_column($array, $targetKeyName), SORT_REGULAR);
+        } else {
+            return array_unique(array_column($array, $targetKeyName));
         }
     }
-    return $indexed;
+    return [];
 }

@@ -99,7 +99,7 @@ trait Service
             
             if ($relationModel) {
                 foreach ($relationModel as $relation) {
-                    $model[$relation] = extractAssocValueToIndexed($model[$relation], 'id');
+                    $model[$relation] = extractValues($model[$relation], 'id');
                 }
             }
 
@@ -178,7 +178,7 @@ trait Service
             }
         } else {
             $relation = $this->where($fieldName, $fieldValue)->with($relationModelName)->find();
-            if (!$relation->isEmpty()) {
+            if ($relation) {
                 return $relation->toArray()[$relationModelName];
             }
         }
@@ -190,7 +190,7 @@ trait Service
     {
         $relation = $this->where('id', $id)->with($relationModelName)->select();
         if (!$relation->isEmpty()) {
-            return extractUniqueValuesInArray($relation->toArray(), $relationModelName, $fieldName);
+            return extractValues($relation->toArray(), $fieldName, $relationModelName);
         }
         return [];
     }
@@ -199,7 +199,7 @@ trait Service
     {
         $relationModel = $this->whereIn('id', $relationModelIDs)->with([$selfModelName])->select();
         if (!$relationModel->isEmpty()) {
-            $IDs = extractUniqueValuesInArray($relationModel->toArray(), $selfModelName, 'id');
+            $IDs = extractValues($relationModel->toArray(), 'id', $selfModelName);
             return $IDs;
         }
         return [];
