@@ -29,7 +29,7 @@ class AuthGroup extends Common
     protected function getAddonData()
     {
         return [
-            'rules' => $this->getModelTreeData(new AuthRule()),
+            'rules' => (new AuthRule())->treeDataAPI(['status' => 1]),
             'parent_id' => arrayToTree($this->getParentData(), -1),
             'status' => [0 => 'Disabled', 1 => 'Enabled']
         ];

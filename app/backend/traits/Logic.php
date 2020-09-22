@@ -76,28 +76,6 @@ trait Logic
     }
 
     /**
-     * Get the tree structure of the list data of a particular model.
-     * @param mixed $modelInstance
-     * @param mixed $conditions Default: ['status' => 1]
-     * @return array
-     */
-    protected function getModelTreeData($modelInstance, $conditions = ['status' => 1])
-    {
-        $modelData = $modelInstance->listAPI($conditions);
-        $modelData = array_map(function ($model) {
-            return array(
-                'id' => $model['id'],
-                'key' => $model['id'],
-                'value' => $model['id'],
-                'title' => $model['name'],
-                'parent_id' => $model['parent_id'],
-            );
-        }, $modelData);
-
-        return arrayToTree($modelData);
-    }
-
-    /**
      * Check the values of the unique fields.
      * @param mixed $data Request data
      * @param mixed $uniqueFields Associative array of unique fields. Default: $this->unique

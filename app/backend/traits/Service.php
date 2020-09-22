@@ -29,12 +29,12 @@ trait Service
 
     public function treeListAPI($requestParams, $withRelation = [])
     {
-        $data = $this->getListData($requestParams, $withRelation);
+        $data = $this->treeDataAPI($requestParams, $withRelation);
 
         if ($data) {
             $layout = $this->buildList($this->getAddonData());
 
-            $layout['dataSource'] = arrayToTree($data);
+            $layout['dataSource'] = $data;
             $layout['meta'] = [
                 'total' => 0,
                 'per_page' => 10,
@@ -45,6 +45,29 @@ trait Service
         } else {
             return resError('Get list data failed.');
         }
+    }
+
+    /**
+     * Get the tree structure of the list data of a particular model.
+     * @param mixed $requestParams e.g.: ['status' => 1]
+     * @return array
+     */
+    protected function treeDataAPI($requestParams = [], $withRelation = [])
+    {
+        $data = $this->getListData($requestParams, $withRelation);
+        if ($data) {
+            $data = array_map(function ($model) {
+                return array(
+                    'id' => $model['id'],
+                    'key' => $model['id'],
+                    'value' => $model['id'],
+                    'title' => $model['name'],
+                    'parent_id' => $model['parent_id'],
+                );
+            }, $data);
+            return arrayToTree($data);
+        }
+        return [];
     }
 
     public function addAPI()

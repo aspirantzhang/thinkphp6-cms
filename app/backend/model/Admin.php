@@ -28,7 +28,7 @@ class Admin extends Common
     protected function getAddonData()
     {
         return [
-            'groups' => $this->getModelTreeData(new AuthGroup()),
+            'groups' => (new AuthGroup())->treeDataAPI(['status' => 1]),
             'status' => [0 => 'Disabled', 1 => 'Enabled']
         ];
     }
