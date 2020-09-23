@@ -11,6 +11,8 @@ class AuthRule extends Validate
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
+        'name' => 'require',
+        'rule' => 'require',
     ];
 
     protected $message = [
@@ -20,11 +22,13 @@ class AuthRule extends Validate
         'per_page.number' => 'Per_page must be numbers only.',
         'create_time.require' => 'Create time is empty.',
         'create_time.dateTimeRange' => 'Invalid create time format.',
+        'name.require' => 'Name field is empty.',
+        'rule.require' => 'Rule field is empty.',
     ];
 
     protected $scene = [
-        'save' => ['create_time'],
-        'update' => ['id', 'create_time'],
+        'save' => ['create_time', 'name', 'rule'],
+        'update' => ['id', 'create_time', 'name', 'rule'],
         'read' => ['id'],
         'delete' => ['id'],
         'add' => [''],

@@ -29,12 +29,12 @@ trait Service
 
     public function treeListAPI($requestParams, $withRelation = [])
     {
-        $data = $this->treeDataAPI($requestParams, $withRelation);
+        $data = $this->getListData($requestParams, $withRelation);
 
         if ($data) {
             $layout = $this->buildList($this->getAddonData());
 
-            $layout['dataSource'] = $data;
+            $layout['dataSource'] = arrayToTree($data);
             $layout['meta'] = [
                 'total' => 0,
                 'per_page' => 10,
@@ -52,7 +52,7 @@ trait Service
      * @param mixed $requestParams e.g.: ['status' => 1]
      * @return array
      */
-    protected function treeDataAPI($requestParams = [], $withRelation = [])
+    public function treeDataAPI($requestParams = [], $withRelation = [])
     {
         $data = $this->getListData($requestParams, $withRelation);
         if ($data) {
@@ -84,7 +84,7 @@ trait Service
     public function saveAPI($data, array $relationModel = [])
     {
         if ($this->checkUniqueFields($data) === false) {
-            return false;
+            return resError($this->error);
         }
         $this->startTrans();
         try {
@@ -139,6 +139,9 @@ trait Service
     {
         $model = $this->where('id', $id)->find();
         if ($model) {
+            if ($this->checkUniqueFields($data) === false) {
+                return resError($this->error);
+            }
             $model->startTrans();
             try {
                 $model->allowField($this->allowUpdate)->save($data);

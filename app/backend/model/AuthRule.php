@@ -16,7 +16,7 @@ class AuthRule extends Common
      * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
      */
     protected $readonly = ['id'];
-    protected $unique = [];
+    protected $unique = ['rule' => 'Rule'];
     public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
     public $allowList = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
