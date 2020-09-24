@@ -5,6 +5,7 @@ use think\facade\Route;
 Route::group('admins', function () {
     Route::get('', 'home');
     Route::get('add', 'add');
+    Route::get('trash', 'trash');
     Route::get(':id', 'read');
     Route::put(':id', 'update');
     Route::patch(':id', 'update');

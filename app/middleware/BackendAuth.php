@@ -11,6 +11,8 @@ class BackendAuth
 {
     protected $noNeedAuth = [
         'backend/index/login',
+        'backend/admin/home',
+        'backend/admin/trash',
         'backend/auth_group/home',
         'backend/auth_group/add',
         'backend/auth_group/save',

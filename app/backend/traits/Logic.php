@@ -30,14 +30,26 @@ trait Logic
      * Get the list data with pagination.
      * @param mixed $requestParams Request parameters used for search, sort, pagination etc.
      * @param array $withRelation Relational model array used for Model->with() argument.
+     * @param string $trash Option: withoutTrash(empty, default), withTrashed, onlyTrashed
      * @return array
      */
-    protected function getPaginatedListData($requestParams = [], array $withRelation = []): array
+    protected function getPaginatedListData($requestParams = [], array $withRelation = [], $trash = ''): array
     {
         $search = getSearchParam($requestParams, $this->allowSearch);
         $sort = getSortParam($requestParams, $this->allowSort);
         $perPage = getPerPageParam($requestParams);
         
+
+        if ($trash) {
+            $trashConfig = $trash = 'onlyTrashed' ?: 'withTrashed';
+            return $this->$trashConfig()
+                        ->with($withRelation)
+                        ->withSearch(array_keys($search), $search)
+                        ->order($sort['name'], $sort['order'])
+                        ->visible($this->allowList)
+                        ->paginate($perPage)
+                        ->toArray();
+        }
         return $this->with($withRelation)
                     ->withSearch(array_keys($search), $search)
                     ->order($sort['name'], $sort['order'])

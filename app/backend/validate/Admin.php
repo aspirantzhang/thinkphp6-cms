@@ -35,7 +35,6 @@ class Admin extends Validate
     // index save read update delete
 
     protected $scene = [
-        'test' => [''],
         'save' => ['username', 'password', 'display_name', 'create_time', 'status'],
         'update' => ['id', 'display_name', 'create_time', 'status'],
         'read' => ['id'],
@@ -45,6 +44,13 @@ class Admin extends Validate
     ];
 
     public function sceneHome()
+    {
+        $this->only(['page', 'per_page', 'id', 'status', 'create_time'])
+            ->remove('id', 'require')
+            ->remove('create_time', 'require');
+    }
+
+    public function sceneTrash()
     {
         $this->only(['page', 'per_page', 'id', 'status', 'create_time'])
             ->remove('id', 'require')
