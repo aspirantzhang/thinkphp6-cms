@@ -6,17 +6,20 @@ namespace app\backend\traits;
 
 trait Service
 {
-    public function listAPI($requestParams = [], $withRelation = [])
+    public function listAPI($params = [], $withRelation = [])
     {
-        return $this->getListData($requestParams, $withRelation);
+        return $this->getListData($params, $withRelation);
     }
 
-    public function paginatedListAPI($requestParams, $withRelation = [])
+    public function paginatedListAPI($params, $withRelation = [])
     {
-        $data = $this->getPaginatedListData($requestParams, $withRelation);
+        $params['trash'] = $params['trash'] ?? 'withoutTrashed';
+        $data = $this->getPaginatedListData($params, $withRelation);
 
         if ($data) {
             $layout = $this->buildList($this->getAddonData());
+            $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
+            
             $layout['dataSource'] = $data['dataSource'];
             $layout['meta'] = $data['pagination'];
 
@@ -26,12 +29,14 @@ trait Service
         }
     }
 
-    public function treeListAPI($requestParams, $withRelation = [])
+    public function treeListAPI($params, $withRelation = [])
     {
-        $data = $this->getListData($requestParams, $withRelation);
+        $params['trash'] = $params['trash'] ?? 'withoutTrashed';
+        $data = $this->getListData($params, $withRelation);
 
         if ($data) {
             $layout = $this->buildList($this->getAddonData());
+            $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
 
             $layout['dataSource'] = arrayToTree($data);
             $layout['meta'] = [
@@ -48,12 +53,13 @@ trait Service
 
     /**
      * Get the tree structure of the list data of a particular model.
-     * @param mixed $requestParams e.g.: ['status' => 1]
+     * @param mixed $params e.g.: ['status' => 1]
      * @return array
      */
-    public function treeDataAPI($requestParams = [], $withRelation = [])
+    public function treeDataAPI($params = [], $withRelation = [])
     {
-        $data = $this->getListData($requestParams, $withRelation);
+        $params['trash'] = $params['trash'] ?? 'withoutTrashed';
+        $data = $this->getListData($params, $withRelation);
         if ($data) {
             $data = array_map(function ($model) {
                 return array(
@@ -176,10 +182,18 @@ trait Service
         }
     }
 
-    public function batchDeleteAPI($idArray)
+    public function batchDeleteAPI($idArray = [], $type = 'delete')
     {
-        if (count($idArray)) {
-            $result = $this->whereIn('id', $idArray)->select()->delete();
+        if ($idArray) {
+            if ($type === 'deletePermanently') {
+                $resultSet = $this->withTrashed()->whereIn('id', $idArray)->select();
+                foreach ($resultSet as $result) {
+                    $result->force()->delete();
+                }
+                $result = true;
+            } else {
+                $result = $this->withTrashed()->whereIn('id', $idArray)->select()->delete();
+            }
             if ($result) {
                 return resSuccess('Delete successfully.');
             } else {

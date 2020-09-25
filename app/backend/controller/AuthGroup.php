@@ -58,7 +58,7 @@ class AuthGroup extends Common
 
     public function batchDelete()
     {
-        $result = $this->admin->batchDeleteAPI($this->request->param('idArray'));
+        $result = $this->admin->batchDeleteAPI($this->request->param('idArray'), $this->request->param('type'));
         
         return $result;
     }

@@ -58,7 +58,7 @@ class AuthRule extends Common
 
     public function batchDelete()
     {
-        $result = $this->authRule->batchDeleteAPI($this->request->param('idArray'));
+        $result = $this->authRule->batchDeleteAPI($this->request->param('idArray'), $this->request->param('type'));
         
         return $result;
     }

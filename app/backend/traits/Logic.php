@@ -15,10 +15,11 @@ trait Logic
      */
     protected function getListData($params = [], array $withRelation = []): array
     {
+        $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         $search = getSearchParam($params, $this->allowSearch);
         $sort = getSortParam($params, $this->allowSort);
 
-        if (isset($params['trash']) && $params['trash'] !== 'withoutTrashed') {
+        if ($params['trash'] !== 'withoutTrashed') {
             $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
 
             return $this->$trashConfig()
@@ -50,8 +51,7 @@ trait Logic
         $sort = getSortParam($params, $this->allowSort);
         $perPage = getPerPageParam($params);
        
-
-        if (isset($params['trash']) && $params['trash'] !== 'withoutTrashed') {
+        if ($params['trash'] !== 'withoutTrashed') {
             $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
             
             return $this->$trashConfig()

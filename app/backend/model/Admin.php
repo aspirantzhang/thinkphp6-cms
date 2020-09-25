@@ -119,7 +119,7 @@ class Admin extends Common
                 Builder::button('Delete')->type('default')->action('delete')->uri('/backend/admins')->method('delete'),
             ])->title('Action'),
         ];
-
+ 
         return Builder::page('User List')
             ->type('basicList')
             ->searchBar(true)
