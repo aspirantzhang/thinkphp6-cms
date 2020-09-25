@@ -49,11 +49,4 @@ class Admin extends Validate
             ->remove('id', 'require')
             ->remove('create_time', 'require');
     }
-
-    public function sceneTrash()
-    {
-        $this->only(['page', 'per_page', 'id', 'status', 'create_time'])
-            ->remove('id', 'require')
-            ->remove('create_time', 'require');
-    }
 }

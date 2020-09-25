@@ -18,7 +18,7 @@ class AuthGroup extends Common
      */
     protected $readonly = ['id'];
     protected $unique = [];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowList = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
     public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time', 'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
@@ -116,6 +116,7 @@ class AuthGroup extends Common
             Builder::field('name', 'Group Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')
                         ->uri('/backend/groups'),

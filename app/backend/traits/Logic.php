@@ -9,39 +9,51 @@ trait Logic
     
     /**
      * Get the list data.
-     * @param mixed $requestParams Request parameters used for search, sort, pagination etc.
+     * @param mixed $params Request parameters used for search, sort, pagination etc.
      * @param array $withRelation Relational model array used for Model->with() argument.
      * @return array
      */
-    protected function getListData($requestParams = [], array $withRelation = []): array
+    protected function getListData($params = [], array $withRelation = []): array
     {
-        $search = getSearchParam($requestParams, $this->allowSearch);
-        $sort = getSortParam($requestParams, $this->allowSort);
-        
-        return $this->with($withRelation)
-                    ->withSearch(array_keys($search), $search)
-                    ->order($sort['name'], $sort['order'])
-                    ->visible($this->allowList)
-                    ->select()
-                    ->toArray();
+        $search = getSearchParam($params, $this->allowSearch);
+        $sort = getSortParam($params, $this->allowSort);
+
+        if (isset($params['trash']) && $params['trash'] !== 'withoutTrashed') {
+            $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
+
+            return $this->$trashConfig()
+                        ->with($withRelation)
+                        ->withSearch(array_keys($search), $search)
+                        ->order($sort['name'], $sort['order'])
+                        ->visible($this->allowList)
+                        ->select()
+                        ->toArray();
+        } else {
+            return $this->with($withRelation)
+                        ->withSearch(array_keys($search), $search)
+                        ->order($sort['name'], $sort['order'])
+                        ->visible($this->allowList)
+                        ->select()
+                        ->toArray();
+        }
     }
 
     /**
      * Get the list data with pagination.
-     * @param mixed $requestParams Request parameters used for search, sort, pagination etc.
+     * @param mixed $params Request parameters used for search, sort, pagination etc.
      * @param array $withRelation Relational model array used for Model->with() argument.
-     * @param string $trash Option: withoutTrash(empty, default), withTrashed, onlyTrashed
      * @return array
      */
-    protected function getPaginatedListData($requestParams = [], array $withRelation = [], $trash = ''): array
+    protected function getPaginatedListData($params = [], array $withRelation = []): array
     {
-        $search = getSearchParam($requestParams, $this->allowSearch);
-        $sort = getSortParam($requestParams, $this->allowSort);
-        $perPage = getPerPageParam($requestParams);
-        
+        $search = getSearchParam($params, $this->allowSearch);
+        $sort = getSortParam($params, $this->allowSort);
+        $perPage = getPerPageParam($params);
+       
 
-        if ($trash) {
-            $trashConfig = $trash = 'onlyTrashed' ?: 'withTrashed';
+        if (isset($params['trash']) && $params['trash'] !== 'withoutTrashed') {
+            $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
+            
             return $this->$trashConfig()
                         ->with($withRelation)
                         ->withSearch(array_keys($search), $search)

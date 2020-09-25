@@ -62,11 +62,4 @@ class AuthGroup extends Common
         
         return $result;
     }
-
-    public function test()
-    {
-        $result = arrayToTree($this->authGroup->testAPI());
-
-        return json($result);
-    }
 }

@@ -62,11 +62,4 @@ class Admin extends Common
         
         return $result;
     }
-
-    public function trash()
-    {
-        $result = $this->admin->paginatedListAPI($this->request->only($this->admin->allowHome), ['groups'], 'onlyTrashed');
-
-        return $result;
-    }
 }

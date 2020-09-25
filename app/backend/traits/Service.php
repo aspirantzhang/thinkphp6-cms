@@ -11,13 +11,12 @@ trait Service
         return $this->getListData($requestParams, $withRelation);
     }
 
-    public function paginatedListAPI($requestParams, $withRelation = [], $trash = '')
+    public function paginatedListAPI($requestParams, $withRelation = [])
     {
-        $data = $this->getPaginatedListData($requestParams, $withRelation, $trash);
+        $data = $this->getPaginatedListData($requestParams, $withRelation);
 
         if ($data) {
             $layout = $this->buildList($this->getAddonData());
-            $layout['page']['trash'] = $trash;
             $layout['dataSource'] = $data['dataSource'];
             $layout['meta'] = $data['pagination'];
 

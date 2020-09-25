@@ -17,7 +17,7 @@ class Admin extends Common
      */
     protected $readonly = ['id', 'username'];
     protected $unique = [ 'username' => 'Username' ];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'groups', 'id', 'username', 'display_name', 'status', 'create_time'];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'groups', 'id', 'username', 'display_name', 'status', 'create_time'];
     public $allowList = ['id', 'username', 'display_name', 'status', 'create_time', 'groups'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];
@@ -112,14 +112,11 @@ class Admin extends Common
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
-                Builder::button('Edit')->type('primary')->action('modal')
-                        ->uri('/backend/admins'),
-                Builder::button('Full page edit')->type('default')->action('page')
-                        ->uri('/backend/admins'),
-                Builder::button('Delete')->type('default')->action('delete')
-                        ->uri('/backend/admins')
-                        ->method('delete'),
+                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/admins'),
+                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/admins'),
+                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/admins')->method('delete'),
             ])->title('Action'),
         ];
 

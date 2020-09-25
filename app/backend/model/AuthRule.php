@@ -17,7 +17,7 @@ class AuthRule extends Common
      */
     protected $readonly = ['id'];
     protected $unique = ['rule' => 'Rule'];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
     public $allowList = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowRead = ['id', 'create_time', 'update_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
@@ -117,6 +117,7 @@ class AuthRule extends Common
             Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')
                         ->uri('/backend/rules'),
