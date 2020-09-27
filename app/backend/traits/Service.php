@@ -182,17 +182,32 @@ trait Service
         }
     }
 
-    public function batchDeleteAPI($idArray = [], $type = 'delete')
+    public function batchDeleteAPI($ids = [], $type = 'delete')
     {
-        if ($idArray) {
+        
+        if ($ids) {
+            $allIds = [];
+            // handle descendant
+            $tree = $this->treeDataAPI(['trash' => 'withTrashed']);
+            if (is_array($ids)) {
+                $allIds = [];
+                foreach ($ids as $id) {
+                    $allIds[] = (int)$id;
+                    $allIds = array_merge($allIds, getDescendantSet('id', 'id', $id, $tree));
+                }
+            } else {
+                $allIds[] = (int)$ids;
+                $allIds = array_merge($allIds, getDescendantSet('id', 'id', $ids, $tree));
+            }
+
             if ($type === 'deletePermanently') {
-                $resultSet = $this->withTrashed()->whereIn('id', $idArray)->select();
+                $resultSet = $this->withTrashed()->whereIn('id', $ids)->select();
                 foreach ($resultSet as $result) {
                     $result->force()->delete();
                 }
                 $result = true;
             } else {
-                $result = $this->withTrashed()->whereIn('id', $idArray)->select()->delete();
+                $result = $this->withTrashed()->whereIn('id', $ids)->select()->delete();
             }
             if ($result) {
                 return resSuccess('Delete successfully.');
