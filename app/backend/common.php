@@ -186,7 +186,9 @@ function extractValues(array $array = [], string $targetKeyName = 'id', string $
 
 function getDescendantSet(string $targetKey, string $findFieldName, $findValue, $treeStructureArray = [], $descendant = true)
 {
-
+    if (!$treeStructureArray) {
+        return [];
+    }
     $array = findSubArray($findValue, $findFieldName, $treeStructureArray);
     if (!$descendant) {
         if (isset($array['children'])) {
@@ -196,7 +198,7 @@ function getDescendantSet(string $targetKey, string $findFieldName, $findValue, 
         }
     }
     if (!isset($array['children'])) {
-        return $array[$targetKey];
+        return [$array[$targetKey]];
     }
 
     return findFieldInDescendant($targetKey, $array['children']);
@@ -206,7 +208,6 @@ function findSubArray($value, string $field, $treeStructureArray = [])
 {
 
     $array = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($treeStructureArray));
-
 
     $result = [];
     foreach ($array as $subArray) {

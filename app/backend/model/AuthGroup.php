@@ -107,9 +107,7 @@ class AuthGroup extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('batchDelete')
-                    ->uri('/backend/groups/batch-delete')
-                    ->method('delete'),
+            Builder::button('Delete')->type('danger')->action('batchDelete')->uri('/backend/groups')->method('delete'),
             Builder::button('Disable')->type('default')->action('function')->uri('batchDisableHandler'),
         ];
         $tableColumn = [
@@ -118,13 +116,9 @@ class AuthGroup extends Common
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
-                Builder::button('Edit')->type('primary')->action('modal')
-                        ->uri('/backend/groups'),
-                Builder::button('Full page edit')->type('default')->action('page')
-                        ->uri('/backend/groups'),
-                Builder::button('Delete')->type('default')->action('delete')
-                        ->uri('/backend/groups')
-                        ->method('delete'),
+                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/groups'),
+                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/groups'),
+                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/groups')->method('delete'),
             ])->title('Action'),
         ];
 

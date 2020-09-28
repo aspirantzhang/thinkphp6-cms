@@ -61,7 +61,11 @@ trait Service
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         $data = $this->getListData($params, $withRelation);
         if ($data) {
+            if (!isset($data[0]['parent_id'])) {
+                return [];
+            }
             $data = array_map(function ($model) {
+
                 return array(
                     'id' => $model['id'],
                     'key' => $model['id'],
@@ -70,6 +74,7 @@ trait Service
                     'parent_id' => $model['parent_id'],
                 );
             }, $data);
+
             return arrayToTree($data);
         }
         return [];
@@ -168,23 +173,8 @@ trait Service
         }
     }
 
-    public function deleteAPI($id)
+    public function deleteAPI($ids = [], $type = 'delete')
     {
-        $model = $this->scope('status')->find($id);
-        if ($model) {
-            if ($model->delete()) {
-                return resSuccess('Delete successfully.');
-            } else {
-                return resError('Delete failed.');
-            }
-        } else {
-            return resError('Target not found.');
-        }
-    }
-
-    public function batchDeleteAPI($ids = [], $type = 'delete')
-    {
-        
         if ($ids) {
             $allIds = [];
             // handle descendant
@@ -201,13 +191,13 @@ trait Service
             }
 
             if ($type === 'deletePermanently') {
-                $resultSet = $this->withTrashed()->whereIn('id', $ids)->select();
-                foreach ($resultSet as $result) {
-                    $result->force()->delete();
+                $dataSet = $this->withTrashed()->whereIn('id', array_unique($allIds))->select();
+                foreach ($dataSet as $item) {
+                    $item->force()->delete();
                 }
                 $result = true;
             } else {
-                $result = $this->withTrashed()->whereIn('id', $ids)->select()->delete();
+                $result = $this->withTrashed()->whereIn('id', array_unique($allIds))->select()->delete();
             }
             if ($result) {
                 return resSuccess('Delete successfully.');

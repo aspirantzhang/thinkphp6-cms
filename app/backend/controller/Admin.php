@@ -49,16 +49,9 @@ class Admin extends Common
         return $result;
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $result = $this->admin->deleteAPI($id);
-
-        return $result;
-    }
-
-    public function batchDelete()
-    {
-        $result = $this->admin->batchDeleteAPI($this->request->param('ids'), $this->request->param('type'));
+        $result = $this->admin->deleteAPI($this->request->param('ids'), $this->request->param('type'));
         
         return $result;
     }

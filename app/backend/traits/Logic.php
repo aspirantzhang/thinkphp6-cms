@@ -108,9 +108,9 @@ trait Logic
     protected function checkUniqueFields($data, $uniqueFields = []): bool
     {
         $uniqueFields = $this->unique ?? [];
-        if (is_array($uniqueFields) && count($uniqueFields)) {
+        if (is_array($uniqueFields) && $uniqueFields) {
             foreach ($this->unique as $field => $title) {
-                if ($this->ifExists($field, $data[$field])) {
+                if (isset($data[$field]) && $this->ifExists($field, $data[$field])) {
                     $this->error = 'The ' . $title . ' already exists.';
                     return false;
                 }

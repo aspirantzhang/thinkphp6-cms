@@ -8,6 +8,7 @@ class AuthRule extends Validate
 {
     protected $rule = [
         'id' => 'require|number',
+        'ids' => 'require|numberArray',
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
@@ -18,6 +19,8 @@ class AuthRule extends Validate
     protected $message = [
         'id.require' => 'ID field is empty.',
         'id.number' => 'ID must be numbers only.',
+        'ids.require' => 'IDs field is empty.',
+        'ids.numberArray' => 'IDs must be a number array.',
         'page.number' => 'Page must be numbers only.',
         'per_page.number' => 'Per_page must be numbers only.',
         'create_time.require' => 'Create time is empty.',
@@ -30,9 +33,8 @@ class AuthRule extends Validate
         'save' => ['create_time', 'name', 'rule'],
         'update' => ['id', 'create_time', 'name', 'rule'],
         'read' => ['id'],
-        'delete' => ['id'],
+        'delete' => ['ids'],
         'add' => [''],
-        'batch_delete' => [''],
     ];
 
     public function sceneHome()

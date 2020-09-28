@@ -101,9 +101,7 @@ class Admin extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('batchDelete')
-                    ->uri('/backend/admins/batch-delete')
-                    ->method('delete'),
+            Builder::button('Delete')->type('danger')->action('batchDelete')->uri('/backend/admins')->method('delete'),
             Builder::button('Disable')->type('default')->action('batchDisable'),
         ];
         $tableColumn = [

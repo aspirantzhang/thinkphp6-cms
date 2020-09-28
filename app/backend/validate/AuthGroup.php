@@ -8,6 +8,7 @@ class AuthGroup extends Validate
 {
     protected $rule = [
         'id' => 'require|number',
+        'ids' => 'require|numberArray',
         'name' => 'require|length:6,32',
         'rules' => 'length:0,255',
         'status' => 'numberTag',
@@ -19,6 +20,8 @@ class AuthGroup extends Validate
     protected $message = [
         'id.require' => 'ID field is empty.',
         'id.number' => 'ID must be numbers only.',
+        'ids.require' => 'IDs field is empty.',
+        'ids.numberArray' => 'IDs must be a number array.',
         'name.require' => 'The group name field is empty.',
         'name.length' => 'Group name length should be between 6 and 32.',
         'rules.length' => 'Rules length should be between 0 and 255.',
@@ -35,11 +38,8 @@ class AuthGroup extends Validate
         'save' => ['name', 'rules', 'create_time', 'status'],
         'update' => ['id', 'name', 'rules', 'create_time', 'status'],
         'read' => ['id'],
-        'delete' => ['id'],
+        'delete' => ['ids'],
         'add' => [''],
-        'tree' => [''],
-        'test' => [''],
-        'batch_delete' => [''],
     ];
 
     public function sceneHome()

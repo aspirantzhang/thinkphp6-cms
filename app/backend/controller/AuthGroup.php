@@ -49,16 +49,9 @@ class AuthGroup extends Common
         return $result;
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $result = $this->authGroup->deleteAPI($id);
-
-        return $result;
-    }
-
-    public function batchDelete()
-    {
-        $result = $this->authGroup->batchDeleteAPI($this->request->param('ids'), $this->request->param('type'));
+        $result = $this->authGroup->deleteAPI($this->request->param('ids'), $this->request->param('type'));
         
         return $result;
     }

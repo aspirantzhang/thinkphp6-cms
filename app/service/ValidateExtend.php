@@ -41,6 +41,19 @@ class ValidateExtend extends \think\Service
                     }
                 }
             });
+
+            $validate->extend('numberArray', function ($value) {
+                if (is_array($value)) {
+                    foreach ($value as $val) {
+                        if (!is_numeric($val)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            });
         });
     }
 }
