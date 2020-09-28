@@ -14,41 +14,44 @@ trait Service
     public function paginatedListAPI($params, $withRelation = [])
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
-        $data = $this->getPaginatedListData($params, $withRelation);
 
+        $layout = $this->buildList($this->getAddonData());
+        $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
+        $layout['dataSource'] = [];
+        $layout['meta'] = [
+            'total' => 0,
+            'per_page' => 10,
+            'page' => 1,
+        ];
+
+        $data = $this->getPaginatedListData($params, $withRelation);
         if ($data) {
-            $layout = $this->buildList($this->getAddonData());
-            $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
-            
             $layout['dataSource'] = $data['dataSource'];
             $layout['meta'] = $data['pagination'];
-
-            return resSuccess('', $layout);
-        } else {
-            return resError('Get list data failed.');
         }
+
+        return resSuccess('', $layout);
     }
 
     public function treeListAPI($params, $withRelation = [])
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
+        
+        $layout = $this->buildList($this->getAddonData());
+        $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
+        $layout['dataSource'] = [];
+        $layout['meta'] = [
+            'total' => 0,
+            'per_page' => 10,
+            'page' => 1,
+        ];
+
         $data = $this->getListData($params, $withRelation);
-
         if ($data) {
-            $layout = $this->buildList($this->getAddonData());
-            $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
-
             $layout['dataSource'] = arrayToTree($data);
-            $layout['meta'] = [
-                'total' => 0,
-                'per_page' => 10,
-                'page' => 1,
-            ];
-
-            return resSuccess('', $layout);
-        } else {
-            return resError('Get list data failed.');
         }
+        
+        return resSuccess('', $layout);
     }
 
     /**
