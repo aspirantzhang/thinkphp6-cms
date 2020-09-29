@@ -15,7 +15,7 @@ trait Service
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
 
-        $layout = $this->buildList($this->getAddonData());
+        $layout = $this->buildList($this->getAddonData(), $params);
         $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
         $layout['dataSource'] = [];
         $layout['meta'] = [
@@ -37,7 +37,7 @@ trait Service
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         
-        $layout = $this->buildList($this->getAddonData());
+        $layout = $this->buildList($this->getAddonData(), $params);
         $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
         $layout['dataSource'] = [];
         $layout['meta'] = [
