@@ -16,6 +16,7 @@ class Admin extends Validate
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
+        'groups' => 'numberTag',
     ];
 
     protected $message = [
@@ -33,6 +34,7 @@ class Admin extends Validate
         'per_page.number' => 'Per_page must be numbers only.',
         'create_time.require' => 'Create time is empty.',
         'create_time.dateTimeRange' => 'Invalid create time format.',
+        'groups.numberTag' => 'Invalid groups format.',
     ];
 
     protected $scene = [
@@ -45,7 +47,7 @@ class Admin extends Validate
 
     public function sceneHome()
     {
-        $this->only(['page', 'per_page', 'id', 'status', 'create_time'])
+        $this->only(['page', 'per_page', 'id', 'status', 'create_time', 'groups'])
             ->remove('id', 'require')
             ->remove('create_time', 'require');
     }

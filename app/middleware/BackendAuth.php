@@ -10,9 +10,7 @@ use aspirantzhang\TP6Auth\Auth;
 class BackendAuth
 {
     protected $noNeedAuth = [
-        'backend/index/login',
-        'backend/admin/home',
-        'backend/admin/trash',
+        // 'backend/index/login',
         'backend/auth_group/home',
         'backend/auth_group/add',
         'backend/auth_group/save',
@@ -42,7 +40,7 @@ class BackendAuth
         } else {
             $auth = new Auth();
 
-            if ($auth->check($fullPath, 1)) {
+            if ($auth->check($fullPath, 199)) {
                 return $next($request);
             } else {
                 $data = [
