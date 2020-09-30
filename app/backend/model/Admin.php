@@ -101,13 +101,13 @@ class Admin extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('batchDelete')->uri('/backend/admins')->method('delete'),
+            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/admins')->method('delete'),
             Builder::button('Disable')->type('default')->action('batchDisable'),
         ];
         if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
             $batchToolBar = [
                 Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/admins')->method('delete'),
-                Builder::button('Disable')->type('default')->action('batchDisable'),
+                Builder::button('Restore')->type('default')->action('restore')->uri('/backend/admins/restore')->method('post'),
             ];
         }
         $tableColumn = [

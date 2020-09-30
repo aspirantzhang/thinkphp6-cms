@@ -9,4 +9,5 @@ Route::group('admins', function () {
     Route::put(':id', 'update');
     Route::post('', 'save');
     Route::delete('', 'delete');
+    Route::post('restore', 'restore');
 })->prefix('admin/')->middleware(app\middleware\RouterValidate::class, 'Admin');

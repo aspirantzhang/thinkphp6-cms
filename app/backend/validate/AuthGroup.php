@@ -39,6 +39,7 @@ class AuthGroup extends Validate
         'update' => ['id', 'name', 'rules', 'create_time', 'status'],
         'read' => ['id'],
         'delete' => ['ids'],
+        'restore' => ['ids'],
         'add' => [''],
     ];
 

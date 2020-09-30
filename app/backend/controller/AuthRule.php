@@ -55,4 +55,11 @@ class AuthRule extends Common
         
         return $result;
     }
+
+    public function restore()
+    {
+        $result = $this->authRule->restoreAPI($this->request->param('ids'));
+        
+        return $result;
+    }
 }

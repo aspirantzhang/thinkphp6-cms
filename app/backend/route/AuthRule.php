@@ -9,4 +9,5 @@ Route::group('rules', function () {
     Route::put(':id', 'update');
     Route::post('', 'save');
     Route::delete('', 'delete');
+    Route::post('restore', 'restore');
 })->prefix('auth_rule/')->middleware(app\middleware\RouterValidate::class, 'AuthRule');

@@ -55,4 +55,11 @@ class Admin extends Common
         
         return $result;
     }
+
+    public function restore()
+    {
+        $result = $this->admin->restoreAPI($this->request->param('ids'));
+        
+        return $result;
+    }
 }

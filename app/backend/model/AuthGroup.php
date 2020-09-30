@@ -99,7 +99,7 @@ class AuthGroup extends Common
             ->toArray();
     }
 
-    public function buildList($addonData = [])
+    public function buildList($addonData = [], $params = [])
     {
         $tableToolBar = [
             Builder::button('Add')->type('primary')->action('modal')->uri('/backend/groups/add'),
@@ -107,9 +107,15 @@ class AuthGroup extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('batchDelete')->uri('/backend/groups')->method('delete'),
+            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/groups')->method('delete'),
             Builder::button('Disable')->type('default')->action('function')->uri('batchDisableHandler'),
         ];
+        if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
+            $batchToolBar = [
+                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/groups')->method('delete'),
+                Builder::button('Restore')->type('default')->action('restore')->uri('/backend/groups/restore')->method('post'),
+            ];
+        }
         $tableColumn = [
             Builder::field('name', 'Group Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),

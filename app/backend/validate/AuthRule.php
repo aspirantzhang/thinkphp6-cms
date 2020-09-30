@@ -32,6 +32,7 @@ class AuthRule extends Validate
         'update' => ['id', 'create_time', 'name'],
         'read' => ['id'],
         'delete' => ['ids'],
+        'restore' => ['ids'],
         'add' => [''],
     ];
 

@@ -42,6 +42,7 @@ class Admin extends Validate
         'update' => ['id', 'display_name', 'create_time', 'status'],
         'read' => ['id'],
         'delete' => ['ids'],
+        'restore' => ['ids'],
         'add' => [''],
     ];
 

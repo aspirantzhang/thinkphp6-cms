@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace app\backend\traits;
 
+use think\facade\Db;
+
 trait Service
 {
     public function listAPI($params = [], $withRelation = [])
@@ -15,7 +17,7 @@ trait Service
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
 
-        $layout = $this->buildList($this->getAddonData(), $params);
+        $layout = $this->buildList($this->getAddonData($params), $params);
         $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
         $layout['dataSource'] = [];
         $layout['meta'] = [
@@ -139,7 +141,7 @@ trait Service
                 }
             }
 
-            $layout = $this->buildEdit($id, $this->getAddonData());
+            $layout = $this->buildEdit($id, $this->getAddonData(['id' => $id]));
             $layout['dataSource'] = $model;
 
             return resSuccess('', $layout);
@@ -182,15 +184,10 @@ trait Service
             $allIds = [];
             // handle descendant
             $tree = $this->treeDataAPI(['trash' => 'withTrashed']);
-            if (is_array($ids)) {
-                $allIds = [];
-                foreach ($ids as $id) {
-                    $allIds[] = (int)$id;
-                    $allIds = array_merge($allIds, getDescendantSet('id', 'id', $id, $tree));
-                }
-            } else {
-                $allIds[] = (int)$ids;
-                $allIds = array_merge($allIds, getDescendantSet('id', 'id', $ids, $tree));
+            $allIds = [];
+            foreach ($ids as $id) {
+                $allIds[] = (int)$id;
+                $allIds = array_merge($allIds, getDescendantSet('id', 'id', $id, $tree));
             }
 
             if ($type === 'deletePermanently') {
@@ -202,11 +199,49 @@ trait Service
             } else {
                 $result = $this->withTrashed()->whereIn('id', array_unique($allIds))->select()->delete();
             }
+
             if ($result) {
                 return resSuccess('Delete successfully.');
             } else {
                 return resError('Delete failed.');
             }
+        } else {
+            return resError('Nothing to do.');
+        }
+    }
+
+    public function restoreAPI($ids = [])
+    {
+        if ($ids) {
+            $dataSet = $this->withTrashed()->whereIn('id', array_unique($ids))->select();
+            if (!$dataSet->isEmpty()) {
+                $tree = $this->treeDataAPI(['trash' => 'withTrashed']);
+
+                foreach ($dataSet as $item) {
+                    $item->restore();
+                    // is children
+                    if (isset($item['parent_id']) && $item['parent_id'] != 0 && !in_array($item['parent_id'], $ids)) {
+                        $trashedParent = $this->onlyTrashed()->find($item['parent_id']);
+                        if ($trashedParent) {
+                            $item->parent_id = 0;
+                            $item->save();
+                        }
+                    }
+
+                    // is parent
+                    $childIds = getDescendantSet('id', 'id', $item['id'], $tree, false);
+                    if ($childIds) {
+                        $exceptChildIds = array_diff($childIds, $ids);
+                        if ($exceptChildIds) {
+                            foreach ($exceptChildIds as $id) {
+                                $this->clearParentId($id);
+                            }
+                        }
+                    }
+                }
+                return resSuccess('Restore successfully.');
+            }
+            return resError('Nothing to do.');
         } else {
             return resError('Nothing to do.');
         }

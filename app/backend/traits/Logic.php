@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace app\backend\traits;
 
+use think\facade\Db;
+
 trait Logic
 {
     
@@ -129,5 +131,13 @@ trait Logic
     {
         $result = $this->withTrashed()->where($fieldName, $value)->find();
         return (bool)$result;
+    }
+
+    protected function clearParentId($id)
+    {
+        Db::table(parse_name($this->name))
+            ->where('id', $id)
+            ->update(['parent_id' => 0]);
+        return true;
     }
 }

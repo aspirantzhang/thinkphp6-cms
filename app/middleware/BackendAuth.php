@@ -17,14 +17,14 @@ class BackendAuth
         'backend/auth_group/read',
         'backend/auth_group/update',
         'backend/auth_group/delete',
-        'backend/auth_group/batch_delete',
+        'backend/auth_group/restore',
         'backend/auth_rule/home',
         'backend/auth_rule/add',
         'backend/auth_rule/save',
         'backend/auth_rule/read',
         'backend/auth_rule/update',
         'backend/auth_rule/delete',
-        'backend/auth_rule/batch_delete',
+        'backend/auth_rule/restore',
     ];
 
     public function handle($request, \Closure $next)

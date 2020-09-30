@@ -9,4 +9,5 @@ Route::group('groups', function () {
     Route::put(':id', 'update');
     Route::post('', 'save');
     Route::delete('', 'delete');
+    Route::post('restore', 'restore');
 })->prefix('auth_group/')->middleware(app\middleware\RouterValidate::class, 'AuthGroup');

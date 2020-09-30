@@ -55,4 +55,11 @@ class AuthGroup extends Common
         
         return $result;
     }
+
+    public function restore()
+    {
+        $result = $this->authGroup->restoreAPI($this->request->param('ids'));
+        
+        return $result;
+    }
 }

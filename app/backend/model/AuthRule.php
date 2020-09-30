@@ -16,7 +16,7 @@ class AuthRule extends Common
      * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
      */
     protected $readonly = ['id'];
-    protected $unique = ['rule' => 'Rule'];
+    protected $unique = [];
     public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
     public $allowList = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
@@ -25,10 +25,10 @@ class AuthRule extends Common
     public $allowUpdate = ['create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
     public $allowSearch = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
 
-    protected function getAddonData()
+    protected function getAddonData($params = [])
     {
         return [
-            'parent_id' => arrayToTree($this->getParentData(), -1),
+            'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
             'is_menu' => [0 => 'No', 1 => 'Yes'],
             'status' => [0 => 'Disabled', 1 => 'Enabled']
         ];
@@ -99,7 +99,7 @@ class AuthRule extends Common
             ->toArray();
     }
 
-    public function buildList($addonData = [])
+    public function buildList($addonData = [], $params = [])
     {
         $tableToolBar = [
             Builder::button('Add')->type('primary')->action('modal')->uri('/backend/rules/add'),
@@ -107,9 +107,15 @@ class AuthRule extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('batchDelete')->uri('/backend/rules')->method('delete'),
+            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/rules')->method('delete'),
             Builder::button('Disable')->type('default')->action('batchDisable'),
         ];
+        if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
+            $batchToolBar = [
+                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/rules')->method('delete'),
+                Builder::button('Restore')->type('default')->action('restore')->uri('/backend/rules/restore')->method('post'),
+            ];
+        }
         $tableColumn = [
             Builder::field('name', 'Rule Name')->type('text'),
             Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
