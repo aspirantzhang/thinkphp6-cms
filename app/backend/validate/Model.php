@@ -8,6 +8,7 @@ class Model extends Validate
 {
 
     protected $scene = [
+        'home' => [],
         'save' => [],
     ];
 }

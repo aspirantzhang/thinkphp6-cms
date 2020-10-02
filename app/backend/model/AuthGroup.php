@@ -26,11 +26,11 @@ class AuthGroup extends Common
     public $allowUpdate = ['parent_id', 'rules', 'name', 'status', 'create_time'];
     public $allowSearch = ['id', 'parent_id', 'rules', 'name', 'status', 'create_time'];
     
-    protected function getAddonData()
+    protected function getAddonData($params = [])
     {
         return [
             'rules' => (new AuthRule())->treeDataAPI(['status' => 1]),
-            'parent_id' => arrayToTree($this->getParentData(), -1),
+            'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
             'status' => [0 => 'Disabled', 1 => 'Enabled']
         ];
     }

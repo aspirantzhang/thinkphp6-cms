@@ -4,13 +4,32 @@ declare(strict_types=1);
 
 namespace app\backend\controller;
 
-use app\backend\model\Model as ModelModel;
+use app\backend\service\Model as ModelService;
+use think\facade\Db;
 
 class Model extends Common
 {
     public function initialize()
     {
+        $this->model = new ModelService();
         parent::initialize();
+    }
+
+    public function home()
+    {
+        $models = Db::name('model')->where('status', 1)->select()->toArray();
+        $models = array_map(function ($models) {
+            return array(
+                'path' => $models['path'],
+                'name' => $models['name'],
+                'icon' => $models['icon'],
+                'component' => $models['component'],
+            );
+        }, $models);
+
+        // halt($models);
+
+        return json($models);
     }
 
     public function save()

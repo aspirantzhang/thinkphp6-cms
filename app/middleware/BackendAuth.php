@@ -9,7 +9,9 @@ use aspirantzhang\TP6Auth\Auth;
 
 class BackendAuth
 {
-    protected $noNeedAuth = [];
+    protected $noNeedAuth = [
+        'backend/model/home'
+    ];
 
     public function handle($request, \Closure $next)
     {

@@ -64,9 +64,10 @@ function getSortParam($data, $allowSort)
 }
 
 
-function getSearchParam($data, $allowSearch)
+function getSearchParam($data = [], $allowSearch = [])
 {
-    return array_intersect_key($data, array_flip($allowSearch));
+    unset($data['trash']);
+    return $data ?? array_intersect_key($data, array_flip($allowSearch));
 }
 
 function getPerPageParam($data)

@@ -25,7 +25,7 @@ class Admin extends Common
     public $allowUpdate = ['password', 'display_name', 'groups', 'status', 'create_time'];
     public $allowSearch = ['groups', 'id', 'username', 'display_name', 'status', 'create_time'];
 
-    protected function getAddonData()
+    protected function getAddonData($params = [])
     {
         return [
             'groups' => (new AuthGroup())->treeDataAPI(['status' => 1]),
