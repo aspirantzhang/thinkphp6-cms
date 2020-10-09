@@ -62,35 +62,16 @@ class Model extends Common
         
         return $result;
     }
+    
+    public function design($id)
+    {
+        return $this->model->designAPI($id);
+    }
+    
+    public function designUpdate($id)
+    {
+        $result = $this->model->updateAPI($id, $this->request->only($this->model->allowUpdate));
 
-    // public function home()
-    // {
-    //     $models = Db::name('model')->where('status', 1)->select()->toArray();
-    //     $models = array_map(function ($models) {
-    //         return array(
-    //             'path' => $models['path'],
-    //             'name' => $models['name'],
-    //             'icon' => $models['icon'],
-    //             'component' => $models['component'],
-    //         );
-    //     }, $models);
-
-    //     // halt($models);
-
-    //     return json($models);
-    // }
-
-    // public function save()
-    // {
-    //     $data = $this->request->param('data');
-    //     // halt($data);
-    //     $model = new ModelModel();
-    //     $model->title = $data['title'];
-    //     $model->name = $data['name'];
-    //     $model->icon = $data['icon'];
-    //     $model->component = $data['component'];
-    //     $model->data = $data;
-    //     $model->save();
-    //     return resSuccess('Add Successfully.');
-    // }
+        return $result;
+    }
 }

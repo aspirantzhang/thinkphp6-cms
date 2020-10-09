@@ -39,6 +39,8 @@ class Model extends Validate
         'delete' => ['ids'],
         'restore' => ['ids'],
         'add' => [''],
+        'design' => [''],
+        'design_update' => [''],
     ];
 
     public function sceneHome()

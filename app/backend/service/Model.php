@@ -8,5 +8,9 @@ use app\backend\logic\Model as ModelLogic;
 
 class Model extends ModelLogic
 {
-
+    public function designAPI($id)
+    {
+        $result = $this->field('data')->find($id)->toArray();
+        return resSuccess('', $result);
+    }
 }

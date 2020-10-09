@@ -69,6 +69,9 @@ class Model extends Common
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
         ];
+        $dataTab = [
+            Builder::field('data', 'Model Data')->type('text'),
+        ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
             Builder::button('Cancel')->type('default')->action('cancel'),
@@ -80,6 +83,7 @@ class Model extends Common
         return Builder::page('Model Edit')
                         ->type('page')
                         ->tab($main)
+                        ->tab($dataTab, 'data-tab', 'Data')
                         ->action($action)
                         ->toArray();
     }
@@ -109,6 +113,7 @@ class Model extends Common
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/models'),
+                Builder::button('Design')->type('primary')->action('modelDesign')->uri('/backend/models/design'),
                 Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/models'),
                 Builder::button('Delete')->type('default')->action('delete')->uri('/backend/models')->method('delete'),
             ])->title('Action'),
