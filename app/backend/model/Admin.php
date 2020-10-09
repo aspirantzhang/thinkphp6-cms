@@ -47,50 +47,53 @@ class Admin extends Common
      */
     public function buildAdd($addonData = [])
     {
-        $pageLayout = [
+        $main = [
             Builder::field('username', 'Username')->type('text'),
-            Builder::field('password', 'Password')->type('password'),
+            Builder::field('password', 'Password')->type('text'),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
+            Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
-            Builder::actions([
-                Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('default')->action('cancel'),
-                Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('/backend/admins')
-                        ->method('post'),
-            ]),
+        ];
+        $action = [
+            Builder::button('Reset')->type('dashed')->action('reset'),
+            Builder::button('Cancel')->type('default')->action('cancel'),
+            Builder::button('Submit')->type('primary')->action('submit')
+                    ->uri('/backend/admins')
+                    ->method('post'),
         ];
 
-        return Builder::page('Add New User')
-            ->type('page')
-            ->layout($pageLayout)
-            ->toArray();
+        return Builder::page('User Add')
+                        ->type('page')
+                        ->tab($main, 'basic', 'Basic')
+                        ->action($action)
+                        ->toArray();
     }
     
     public function buildEdit($id, $addonData = [])
     {
-        $pageLayout = [
+        $main = [
             Builder::field('username', 'Username')->type('text')->disabled(true),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
-            Builder::actions([
-                Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('default')->action('cancel'),
-                Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('/backend/admins/' . $id)
-                        ->method('put'),
-            ]),
+        ];
+        $action = [
+            Builder::button('Reset')->type('dashed')->action('reset'),
+            Builder::button('Cancel')->type('default')->action('cancel'),
+            Builder::button('Submit')->type('primary')->action('submit')
+                    ->uri('/backend/admins/' . $id)
+                    ->method('put'),
         ];
 
         return Builder::page('User Edit')
-            ->type('page')
-            ->layout($pageLayout)
-            ->toArray();
+                        ->type('page')
+                        ->tab($main)
+                        ->action($action)
+                        ->toArray();
     }
 
     public function buildList($addonData = [], $params = [])

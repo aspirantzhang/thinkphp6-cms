@@ -54,48 +54,51 @@ class AuthGroup extends Common
      */
     public function buildAdd($addonData = [])
     {
-        $pageLayout = [
-            Builder::field('name', 'Group Name')->type('text'),
-            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
-            Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
-            Builder::actions([
-                Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('default')->action('cancel'),
-                Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('/backend/groups')
-                        ->method('post'),
-            ]),
-        ];
-
-        return Builder::page('Add New Group')
-            ->type('page')
-            ->layout($pageLayout)
-            ->toArray();
-    }
-    
-    public function buildEdit($id, $addonData = [])
-    {
-        $pageLayout = [
+        $main = [
             Builder::field('name', 'Group Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
-            Builder::actions([
-                Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('default')->action('cancel'),
-                Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('/backend/groups/' . $id)
-                        ->method('put'),
-            ]),
+        ];
+        $action = [
+            Builder::button('Reset')->type('dashed')->action('reset'),
+            Builder::button('Cancel')->type('default')->action('cancel'),
+            Builder::button('Submit')->type('primary')->action('submit')
+                    ->uri('/backend/groups')
+                    ->method('post'),
+        ];
+
+        return Builder::page('Group Add')
+            ->type('page')
+            ->tab($main)
+            ->action($action)
+            ->toArray();
+    }
+    
+    public function buildEdit($id, $addonData = [])
+    {
+        $main = [
+            Builder::field('name', 'Group Name')->type('text'),
+            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
+            Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
+            Builder::field('create_time', 'Create Time')->type('datetime'),
+            Builder::field('update_time', 'Update Time')->type('datetime'),
+            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+        ];
+        $action = [
+            Builder::button('Reset')->type('dashed')->action('reset'),
+            Builder::button('Cancel')->type('default')->action('cancel'),
+            Builder::button('Submit')->type('primary')->action('submit')
+                    ->uri('/backend/groups/' . $id)
+                    ->method('put'),
         ];
 
         return Builder::page('Group Edit')
             ->type('page')
-            ->layout($pageLayout)
+            ->tab($main)
+            ->action($action)
             ->toArray();
     }
 

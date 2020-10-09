@@ -39,47 +39,49 @@ class Model extends Common
      */
     public function buildAdd($addonData = [])
     {
-        $pageLayout = [
+        $main = [
             Builder::field('title', 'Model Title')->type('text'),
             Builder::field('name', 'Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
-            Builder::actions([
-                Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('default')->action('cancel'),
-                Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('/backend/models')
-                        ->method('post'),
-            ]),
+        ];
+        $action = [
+            Builder::button('Reset')->type('dashed')->action('reset'),
+            Builder::button('Cancel')->type('default')->action('cancel'),
+            Builder::button('Submit')->type('primary')->action('submit')
+                    ->uri('/backend/models')
+                    ->method('post'),
         ];
 
-        return Builder::page('Add New Model')
-            ->type('page')
-            ->layout($pageLayout)
-            ->toArray();
+        return Builder::page('Model Add')
+                        ->type('page')
+                        ->tab($main)
+                        ->action($action)
+                        ->toArray();
     }
     
     public function buildEdit($id, $addonData = [])
     {
-        $pageLayout = [
+        $main = [
             Builder::field('title', 'Model Title')->type('text'),
             Builder::field('name', 'Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
-            Builder::actions([
-                Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('default')->action('cancel'),
-                Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('/backend/models/' . $id)
-                        ->method('put'),
-            ]),
+        ];
+        $action = [
+            Builder::button('Reset')->type('dashed')->action('reset'),
+            Builder::button('Cancel')->type('default')->action('cancel'),
+            Builder::button('Submit')->type('primary')->action('submit')
+                    ->uri('/backend/models/' . $id)
+                    ->method('put'),
         ];
 
         return Builder::page('Model Edit')
-            ->type('page')
-            ->layout($pageLayout)
-            ->toArray();
+                        ->type('page')
+                        ->tab($main)
+                        ->action($action)
+                        ->toArray();
     }
 
     public function buildList($addonData = [], $params = [])

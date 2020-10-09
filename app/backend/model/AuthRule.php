@@ -18,12 +18,12 @@ class AuthRule extends Common
     protected $readonly = ['id'];
     protected $unique = [];
     public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
-    public $allowList = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
+    public $allowList = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowRead = ['id', 'create_time', 'update_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
-    public $allowSave = ['create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
-    public $allowUpdate = ['create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
-    public $allowSearch = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
+    public $allowRead = ['id', 'create_time', 'update_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
+    public $allowSave = ['create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
+    public $allowUpdate = ['create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
+    public $allowSearch = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
 
     protected function getAddonData($params = [])
     {
@@ -48,7 +48,7 @@ class AuthRule extends Common
      */
     public function buildAdd($addonData = [])
     {
-        $pageLayout = [
+        $main = [
             Builder::field('name', 'Rule Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
@@ -57,24 +57,32 @@ class AuthRule extends Common
             Builder::field('condition', 'Condition')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
-            Builder::actions([
-                Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('default')->action('cancel'),
-                Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('/backend/rules')
-                        ->method('post'),
-            ]),
+        ];
+        $menu = [
+            Builder::field('icon', 'Icon')->type('text'),
+            Builder::field('path', 'Path')->type('text'),
+            Builder::field('component', 'Component')->type('text'),
+            Builder::field('access', 'Access')->type('text'),
+        ];
+        $action = [
+            Builder::button('Reset')->type('dashed')->action('reset'),
+            Builder::button('Cancel')->type('default')->action('cancel'),
+            Builder::button('Submit')->type('primary')->action('submit')
+                    ->uri('/backend/rules')
+                    ->method('post'),
         ];
 
-        return Builder::page('Add New AuthRule')
-            ->type('page')
-            ->layout($pageLayout)
-            ->toArray();
+        return Builder::page('Add New Rule')
+                        ->type('page')
+                        ->tab($main, 'basic', 'Basic')
+                        ->sidebar($menu, 'menu', 'Menu')
+                        ->action($action)
+                        ->toArray();
     }
 
     public function buildEdit($id, $addonData = [])
     {
-        $pageLayout = [
+        $main = [
             Builder::field('name', 'Rule Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
@@ -84,19 +92,27 @@ class AuthRule extends Common
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::actions([
-                Builder::button('Reset')->type('dashed')->action('reset'),
-                Builder::button('Cancel')->type('default')->action('cancel'),
-                Builder::button('Submit')->type('primary')->action('submit')
-                        ->uri('/backend/rules/' . $id)
-                        ->method('put'),
-            ]),
+        ];
+        $menu = [
+            Builder::field('icon', 'Icon')->type('text'),
+            Builder::field('path', 'Path')->type('text'),
+            Builder::field('component', 'Component')->type('text'),
+            Builder::field('access', 'Access')->type('text'),
+        ];
+        $action = [
+            Builder::button('Reset')->type('dashed')->action('reset'),
+            Builder::button('Cancel')->type('default')->action('cancel'),
+            Builder::button('Submit')->type('primary')->action('submit')
+                    ->uri('/backend/rules/' . $id)
+                    ->method('put'),
         ];
 
-        return Builder::page('AuthRule Edit')
-            ->type('page')
-            ->layout($pageLayout)
-            ->toArray();
+        return Builder::page('Rule Edit')
+                        ->type('page')
+                        ->tab($main)
+                        ->sidebar($menu, 'menu', 'Menu')
+                        ->action($action)
+                        ->toArray();
     }
 
     public function buildList($addonData = [], $params = [])
