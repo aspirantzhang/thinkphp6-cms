@@ -10,7 +10,11 @@ class Model extends ModelLogic
 {
     public function designAPI($id)
     {
-        $result = $this->field('data')->find($id)->toArray();
-        return resSuccess('', $result);
+        $result = $this->field('data')->find($id);
+        if ($result) {
+            return resSuccess('', $result->toArray());
+        } else {
+            return resError('Target not found.');
+        }
     }
 }
