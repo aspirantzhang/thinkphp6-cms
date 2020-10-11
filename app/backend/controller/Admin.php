@@ -20,46 +20,48 @@ class Admin extends Common
     {
         $result = $this->admin->paginatedListAPI($this->request->only($this->admin->allowHome), ['groups']);
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function add()
     {
         $result = $this->admin->addAPI();
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function save()
     {
         $result = $this->admin->saveAPI($this->request->only($this->admin->allowSave), ['groups']);
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function read($id)
     {
-        return $this->admin->readAPI($id, ['groups']);
+        $result = $this->admin->readAPI($id, ['groups']);
+        
+        return $this->json(...$result);
     }
 
     public function update($id)
     {
         $result = $this->admin->updateAPI($id, $this->request->only($this->admin->allowUpdate), ['groups']);
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function delete()
     {
         $result = $this->admin->deleteAPI($this->request->param('ids'), $this->request->param('type'));
         
-        return $result;
+        return $this->json(...$result);
     }
 
     public function restore()
     {
         $result = $this->admin->restoreAPI($this->request->param('ids'));
         
-        return $result;
+        return $this->json(...$result);
     }
 }

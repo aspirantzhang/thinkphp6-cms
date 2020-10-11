@@ -12,9 +12,9 @@ class Model extends ModelLogic
     {
         $result = $this->field('data')->find($id);
         if ($result) {
-            return resSuccess('', $result->toArray());
+            return $this->success('', $result->toArray());
         } else {
-            return resError('Target not found.');
+            return $this->error('Target not found.');
         }
     }
 }

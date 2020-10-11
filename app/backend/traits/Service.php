@@ -32,7 +32,7 @@ trait Service
             $layout['meta'] = $data['pagination'];
         }
 
-        return resSuccess('', $layout);
+        return $this->success('', $layout);
     }
 
     public function treeListAPI($params, $withRelation = [])
@@ -53,7 +53,7 @@ trait Service
             $layout['dataSource'] = arrayToTree($data);
         }
         
-        return resSuccess('', $layout);
+        return $this->success('', $layout);
     }
 
     /**
@@ -90,16 +90,16 @@ trait Service
         $page = $this->buildAdd($this->getAddonData());
         
         if ($page) {
-            return resSuccess('', $page);
+            return $this->success('', $page);
         } else {
-            return resError('Get page data failed.');
+            return $this->error('Get page data failed.');
         }
     }
 
     public function saveAPI($data, array $relationModel = [])
     {
         if ($this->checkUniqueFields($data) === false) {
-            return resError($this->error);
+            return $this->error($this->error);
         }
         $this->startTrans();
         try {
@@ -111,10 +111,10 @@ trait Service
                 }
             }
             $this->commit();
-            return resSuccess('Add successfully.');
+            return $this->success('Add successfully.');
         } catch (\Exception $e) {
             $this->rollback();
-            return resError('Save failed.');
+            return $this->error('Save failed.');
         }
     }
     
@@ -144,9 +144,9 @@ trait Service
             $layout = $this->buildEdit($id, $this->getAddonData(['id' => $id]));
             $layout['dataSource'] = $model;
 
-            return resSuccess('', $layout);
+            return $this->success('', $layout);
         } else {
-            return resError('Target not found.');
+            return $this->error('Target not found.');
         }
     }
 
@@ -155,7 +155,7 @@ trait Service
         $model = $this->where('id', $id)->find();
         if ($model) {
             if ($this->checkUniqueFields($data) === false) {
-                return resError($this->error);
+                return $this->error($this->error);
             }
             $model->startTrans();
             try {
@@ -167,14 +167,14 @@ trait Service
                 }
                 $model->commit();
 
-                return resSuccess('Update successfully.');
+                return $this->success('Update successfully.');
             } catch (\Exception $e) {
                 $model->rollback();
 
-                return resError('Update failed.');
+                return $this->error('Update failed.');
             }
         } else {
-            return resError('Target not found.');
+            return $this->error('Target not found.');
         }
     }
 
@@ -201,12 +201,12 @@ trait Service
             }
 
             if ($result) {
-                return resSuccess('Delete successfully.');
+                return $this->success('Delete successfully.');
             } else {
-                return resError('Delete failed.');
+                return $this->error('Delete failed.');
             }
         } else {
-            return resError('Nothing to do.');
+            return $this->error('Nothing to do.');
         }
     }
 
@@ -239,11 +239,11 @@ trait Service
                         }
                     }
                 }
-                return resSuccess('Restore successfully.');
+                return $this->success('Restore successfully.');
             }
-            return resError('Nothing to do.');
+            return $this->error('Nothing to do.');
         } else {
-            return resError('Nothing to do.');
+            return $this->error('Nothing to do.');
         }
     }
 

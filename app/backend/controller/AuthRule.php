@@ -20,46 +20,48 @@ class AuthRule extends Common
     {
         $result = $this->authRule->treeListAPI($this->request->only($this->authRule->allowHome));
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function add()
     {
         $result = $this->authRule->addAPI();
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function save()
     {
         $result = $this->authRule->saveAPI($this->request->only($this->authRule->allowSave));
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function read($id)
     {
-        return $this->authRule->readAPI($id);
+        $result = $this->authRule->readAPI($id);
+
+        return $this->json(...$result);
     }
 
     public function update($id)
     {
         $result = $this->authRule->updateAPI($id, $this->request->only($this->authRule->allowUpdate));
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function delete()
     {
         $result = $this->authRule->deleteAPI($this->request->param('ids'), $this->request->param('type'));
         
-        return $result;
+        return $this->json(...$result);
     }
 
     public function restore()
     {
         $result = $this->authRule->restoreAPI($this->request->param('ids'));
         
-        return $result;
+        return $this->json(...$result);
     }
 }

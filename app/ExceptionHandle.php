@@ -20,6 +20,7 @@ use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Response;
 use Throwable;
+use think\facade\Config;
 
 /**
  * 应用异常处理类.
@@ -61,13 +62,8 @@ class ExceptionHandle extends Handle
     {
         // 添加自定义异常处理机制
         if ($e instanceof ValidateException) {
-            return resError($e->getError());
-            // return json(['success' => false, 'message' => $e->getError()])->header([
-            //     'access-control-allow-origin' => 'http://localhost:8000',
-            //     'access-control-allow-methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            //     'access-control-allow-headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With',
-            //     'access-control-allow-credentials' => 'true',
-            // ]);
+            $returnBody = ['success' => false, 'message' => $e->getError()];
+            return Response::create($returnBody, 'json', 200)->header(Config::get('route.default_header'));
         }
 
         // 其他错误交给系统处理

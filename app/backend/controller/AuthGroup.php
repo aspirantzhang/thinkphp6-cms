@@ -20,46 +20,48 @@ class AuthGroup extends Common
     {
         $result = $this->authGroup->treeListAPI($this->request->only($this->authGroup->allowHome), ['rules']);
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function add()
     {
         $result = $this->authGroup->addAPI();
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function save()
     {
         $result = $this->authGroup->saveAPI($this->request->only($this->authGroup->allowSave), ['rules']);
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function read($id)
     {
-        return $this->authGroup->readAPI($id, ['rules']);
+        $result = $this->authGroup->readAPI($id, ['rules']);
+
+        return $this->json(...$result);
     }
 
     public function update($id)
     {
         $result = $this->authGroup->updateAPI($id, $this->request->only($this->authGroup->allowUpdate), ['rules']);
 
-        return $result;
+        return $this->json(...$result);
     }
 
     public function delete()
     {
         $result = $this->authGroup->deleteAPI($this->request->param('ids'), $this->request->param('type'));
         
-        return $result;
+        return $this->json(...$result);
     }
 
     public function restore()
     {
         $result = $this->authGroup->restoreAPI($this->request->param('ids'));
         
-        return $result;
+        return $this->json(...$result);
     }
 }
