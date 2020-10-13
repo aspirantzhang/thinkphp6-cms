@@ -30,6 +30,9 @@ class AuthRule extends Common
         return [
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
             'is_menu' => [0 => 'No', 1 => 'Yes'],
+            'hideInMenu' => [0 => 'No', 1 => 'Yes'],
+            'hideChildrenInMenu' => [0 => 'No', 1 => 'Yes'],
+            'flatMenu' => [0 => 'No', 1 => 'Yes'],
             'status' => [0 => 'Disabled', 1 => 'Enabled']
         ];
     }
@@ -51,7 +54,6 @@ class AuthRule extends Common
         $main = [
             Builder::field('name', 'Rule Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
             Builder::field('rule', 'Rule')->type('text'),
             Builder::field('type', 'Type')->type('text'),
             Builder::field('condition', 'Condition')->type('text'),
@@ -59,10 +61,12 @@ class AuthRule extends Common
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
         ];
         $menu = [
+            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
-            Builder::field('component', 'Component')->type('text'),
-            Builder::field('access', 'Access')->type('text'),
+            Builder::field('hideInMenu', 'Hide')->type('tag')->data($addonData['hideInMenu']),
+            Builder::field('hideChildrenInMenu', 'Hide Children')->type('tag')->data($addonData['hideChildrenInMenu']),
+            Builder::field('flatMenu', 'Flat')->type('tag')->data($addonData['flatMenu']),
         ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
@@ -85,7 +89,6 @@ class AuthRule extends Common
         $main = [
             Builder::field('name', 'Rule Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
             Builder::field('rule', 'Rule')->type('text'),
             Builder::field('type', 'Type')->type('text'),
             Builder::field('condition', 'Condition')->type('text'),
@@ -94,10 +97,12 @@ class AuthRule extends Common
             Builder::field('update_time', 'Update Time')->type('datetime'),
         ];
         $menu = [
+            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
-            Builder::field('component', 'Component')->type('text'),
-            Builder::field('access', 'Access')->type('text'),
+            Builder::field('hideInMenu', 'Hide')->type('tag')->data($addonData['hideInMenu']),
+            Builder::field('hideChildrenInMenu', 'Hide Children')->type('tag')->data($addonData['hideChildrenInMenu']),
+            Builder::field('flatMenu', 'Flat')->type('tag')->data($addonData['flatMenu']),
         ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
