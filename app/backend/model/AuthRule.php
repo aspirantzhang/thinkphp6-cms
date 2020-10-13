@@ -17,13 +17,13 @@ class AuthRule extends Common
      */
     protected $readonly = ['id'];
     protected $unique = [];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition'];
-    public $allowList = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowList = ['id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowRead = ['id', 'create_time', 'update_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
-    public $allowSave = ['create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
-    public $allowUpdate = ['create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
-    public $allowSearch = ['id', 'create_time', 'status', 'parent_id', 'is_menu', 'name', 'rule', 'type', 'condition', 'icon', 'path', 'component', 'access'];
+    public $allowRead = ['id', 'create_time', 'update_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowSave = ['create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowUpdate = ['create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowSearch = ['id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
 
     protected function getAddonData($params = [])
     {
@@ -62,6 +62,7 @@ class AuthRule extends Common
         ];
         $menu = [
             Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
+            Builder::field('menu_name', 'Menu Name')->type('text'),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
             Builder::field('hideInMenu', 'Hide')->type('tag')->data($addonData['hideInMenu']),
@@ -98,6 +99,7 @@ class AuthRule extends Common
         ];
         $menu = [
             Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
+            Builder::field('menu_name', 'Menu Name')->type('text'),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
             Builder::field('hideInMenu', 'Hide')->type('tag')->data($addonData['hideInMenu']),
