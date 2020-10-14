@@ -29,7 +29,7 @@ class Admin extends Common
     {
         return [
             'groups' => (new AuthGroup())->treeDataAPI(['status' => 1]),
-            'status' => [0 => 'Disabled', 1 => 'Enabled']
+            'status' => getSingleChoiceValue(),
         ];
     }
 

@@ -31,7 +31,7 @@ class AuthGroup extends Common
         return [
             'rules' => (new AuthRule())->treeDataAPI(['status' => 1]),
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
-            'status' => [0 => 'Disabled', 1 => 'Enabled']
+            'status' => getSingleChoiceValue(),
         ];
     }
 

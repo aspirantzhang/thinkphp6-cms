@@ -1,44 +1,5 @@
 <?php
 
-use think\Response;
-use think\facade\Config;
-
-function buildResponse($data = [], $code = 200, $header = [], $options = [])
-{
-    return Response::create($data, 'json', $code)->header(array_merge(Config::get('route.default_header'), $header))->options($options);
-}
-
-/**
-* Api Response Json.
-*
-* @return Response
-*/
-function resJson(int $httpCode, array $data = [], string $errMsg = '', array $header = [])
-{
-    $initBody = ['success' => true, 'message' => $errMsg, 'data' => $data];
-    if ($httpCode >= 300) {
-        $initBody['success'] = false;
-        $initBody['message'] = $errMsg;
-    }
-
-    return buildResponse($initBody, $httpCode, $header);
-}
-
-
-function resSuccess(string $message = '', array $data = [], array $header = [])
-{
-    $httpBody = ['success' => true, 'message' => $message, 'data' => $data];
-    return buildResponse($httpBody, 200, $header);
-}
-
-
-function resError(string $message = '', array $data = [], array $header = [])
-{
-    $httpBody = ['success' => false, 'message' => $message, 'data' => $data];
-    return buildResponse($httpBody, 200, $header);
-}
-
-
 function validateDateTime($date, $format = 'Y-m-d H:i:s')
 {
     $d = DateTime::createFromFormat($format, $date);
@@ -234,4 +195,9 @@ function findFieldInDescendant(string $field, $array = [])
     }
     
     return $result;
+}
+
+function getSingleChoiceValue($trueText = 'Enabled', $falseText = 'Disabled')
+{
+    return [0 => $falseText, 1 => $trueText];
 }

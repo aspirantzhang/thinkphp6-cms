@@ -28,7 +28,7 @@ class Model extends Common
     protected function getAddonData($params = [])
     {
         return [
-            'status' => [0 => 'Disabled', 1 => 'Enabled']
+            'status' => getSingleChoiceValue(),
         ];
     }
         /**

@@ -29,11 +29,11 @@ class AuthRule extends Common
     {
         return [
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
-            'is_menu' => [0 => 'No', 1 => 'Yes'],
-            'hideInMenu' => [0 => 'No', 1 => 'Yes'],
-            'hideChildrenInMenu' => [0 => 'No', 1 => 'Yes'],
-            'flatMenu' => [0 => 'No', 1 => 'Yes'],
-            'status' => [0 => 'Disabled', 1 => 'Enabled']
+            'is_menu' => getSingleChoiceValue(),
+            'hideInMenu' => getSingleChoiceValue(),
+            'hideChildrenInMenu' => getSingleChoiceValue(),
+            'flatMenu' => getSingleChoiceValue(),
+            'status' => getSingleChoiceValue(),
         ];
     }
 
