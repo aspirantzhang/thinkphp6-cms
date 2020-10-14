@@ -64,4 +64,11 @@ class Menu extends Common
         
         return $this->json(...$result);
     }
+
+    public function backend()
+    {
+        $result = $this->menu->treeDataAPI(['order' => 'asc']);
+
+        return json($result);
+    }
 }

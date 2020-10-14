@@ -29,6 +29,7 @@ class Menu extends Validate
         'delete' => ['ids'],
         'restore' => ['ids'],
         'add' => [''],
+        'backend' => [''],
     ];
 
     public function sceneHome()

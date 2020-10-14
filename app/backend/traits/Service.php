@@ -72,14 +72,13 @@ trait Service
                 return [];
             }
             $data = array_map(function ($model) {
-
-                return array(
+                $treeMenu = [
                     'id' => $model['id'],
-                    'key' => $model['id'],
                     'value' => $model['id'],
                     'title' => $model['name'],
                     'parent_id' => $model['parent_id'],
-                );
+                ];
+                return array_merge($model, $treeMenu);
             }, $data);
 
             return arrayToTree($data);
