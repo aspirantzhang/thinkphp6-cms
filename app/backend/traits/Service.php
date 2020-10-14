@@ -38,7 +38,7 @@ trait Service
     public function treeListAPI($params, $withRelation = [])
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
-        
+       
         $layout = $this->buildList($this->getAddonData(), $params);
         $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
         $layout['dataSource'] = [];
@@ -47,12 +47,14 @@ trait Service
             'per_page' => 10,
             'page' => 1,
         ];
-
         $data = $this->getListData($params, $withRelation);
         if ($data) {
-            $layout['dataSource'] = arrayToTree($data);
+            if (isTreeArray($data)) {
+                $layout['dataSource'] = arrayToTree($data);
+            } else {
+                return $this->error('Data loading error.');
+            }
         }
-        
         return $this->success('', $layout);
     }
 

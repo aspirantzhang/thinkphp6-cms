@@ -17,13 +17,13 @@ class AuthRule extends Common
      */
     protected $readonly = ['id'];
     protected $unique = [];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
-    public $allowList = ['id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowList = ['id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowRead = ['id', 'create_time', 'update_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
-    public $allowSave = ['create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
-    public $allowUpdate = ['create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
-    public $allowSearch = ['id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition', 'is_menu', 'menu_name', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowRead = ['id', 'create_time', 'update_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowSave = ['create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowUpdate = ['create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowSearch = ['id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
 
     protected function getAddonData($params = [])
     {

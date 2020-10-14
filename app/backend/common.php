@@ -84,11 +84,30 @@ function createTreeBranch(&$parents, $children, $depth = 0)
 */
 function arrayToTree($flat, $root = 0)
 {
-    $parents = [];
-    foreach ($flat as $a) {
-        $parents[$a['parent_id']][] = $a;
+    if ($flat) {
+        $parents = [];
+        foreach ($flat as $a) {
+            $parents[$a['parent_id']][] = $a;
+        }
+        return createTreeBranch($parents, $parents[$root]);
     }
-    return createTreeBranch($parents, $parents[$root]);
+    return [];
+}
+
+function isTreeArray($array = [])
+{
+    if ($array && !isset($array[0]['parent_id'])) {
+        return false;
+    }
+    return true;
+}
+
+function isParentArray($array = [])
+{
+    if ($array && !isset($array[0]['parent_id']) || !isset($array[0]['id']) || !isset($array[0]['name'])) {
+        return false;
+    }
+    return true;
 }
 
 

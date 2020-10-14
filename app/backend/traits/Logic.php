@@ -75,6 +75,10 @@ trait Logic
     protected function getParentData($exceptID = 0)
     {
         $data = $this->getListData();
+        if (!isParentArray($data)) {
+            $this->error = 'No parent_id';
+            return [];
+        }
         $data = array_map(function ($model) use ($exceptID) {
             if ($model['id'] != $exceptID) {
                 return [
