@@ -89,6 +89,14 @@ function arrayToTree($flat, $root = 0)
         foreach ($flat as $a) {
             $parents[$a['parent_id']][] = $a;
         }
+        // fix no parent to zero
+        if (!isset($parents[$root])) {
+            $newParents[0] = [];
+            foreach ($parents as $parent) {
+                $newParents[0] = array_merge($newParents[0], $parent);
+            }
+            $parents = $newParents;
+        }
         return createTreeBranch($parents, $parents[$root]);
     }
     return [];
