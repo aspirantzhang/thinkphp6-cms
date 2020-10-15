@@ -70,7 +70,7 @@ class Model extends Common
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
         ];
         $dataTab = [
-            Builder::field('data', 'Model Data')->type('text'),
+            Builder::field('data', 'Model Data')->type('textarea'),
         ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
