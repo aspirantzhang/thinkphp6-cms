@@ -10,7 +10,7 @@ class Model extends Validate
     protected $rule = [
         'id' => 'require|number',
         'ids' => 'require|numberArray',
-        'name' => 'require|length:6,32',
+        'name' => 'require|length:2,32',
         'rules' => 'length:0,255',
         'status' => 'numberTag',
         'page' => 'number',
@@ -24,7 +24,7 @@ class Model extends Validate
         'ids.require' => 'IDs field is empty.',
         'ids.numberArray' => 'IDs must be a number array.',
         'name.require' => 'The model name field is empty.',
-        'name.length' => 'Model name length should be between 6 and 32.',
+        'name.length' => 'Model name length should be between 2 and 32.',
         'status.numberTag' => 'Invalid status format.',
         'page.number' => 'Page must be numbers only.',
         'per_page.number' => 'Per_page must be numbers only.',

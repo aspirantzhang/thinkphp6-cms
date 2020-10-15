@@ -95,27 +95,17 @@ class Model extends Common
             Builder::button('Full page add')->type('default')->action('page')->uri('/backend/models/add'),
             Builder::button('Reload')->type('default')->action('reload'),
         ];
-        $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/models')->method('delete'),
-            Builder::button('Disable')->type('default')->action('function')->uri('batchDisableHandler'),
-        ];
-        if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
-            $batchToolBar = [
-                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/models')->method('delete'),
-                Builder::button('Restore')->type('default')->action('restore')->uri('/backend/models/restore')->method('post'),
-            ];
-        }
+        $batchToolBar = [];
         $tableColumn = [
             Builder::field('title', 'Model Title')->type('text'),
             Builder::field('name', 'Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
-            Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/models'),
                 Builder::button('Design')->type('primary')->action('modelDesign')->uri('/backend/models/design'),
                 Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/models'),
-                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/models')->method('delete'),
+                Builder::button('Delete Permanently')->type('default')->action('deletePermanently')->uri('/backend/models')->method('delete'),
             ])->title('Action'),
         ];
 

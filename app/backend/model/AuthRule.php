@@ -29,7 +29,6 @@ class AuthRule extends Common
     {
         return [
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
-            'is_menu' => getSingleChoiceValue(),
             'hideInMenu' => getSingleChoiceValue(),
             'hideChildrenInMenu' => getSingleChoiceValue(),
             'flatMenu' => getSingleChoiceValue(),
@@ -60,15 +59,6 @@ class AuthRule extends Common
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
         ];
-        $menu = [
-            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
-            Builder::field('menu_name', 'Menu Name')->type('text'),
-            Builder::field('icon', 'Icon')->type('text'),
-            Builder::field('path', 'Path')->type('text'),
-            Builder::field('hideInMenu', 'Hide')->type('tag')->data($addonData['hideInMenu']),
-            Builder::field('hideChildrenInMenu', 'Hide Children')->type('tag')->data($addonData['hideChildrenInMenu']),
-            Builder::field('flatMenu', 'Flat')->type('tag')->data($addonData['flatMenu']),
-        ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
             Builder::button('Cancel')->type('default')->action('cancel'),
@@ -80,7 +70,6 @@ class AuthRule extends Common
         return Builder::page('Add New Rule')
                         ->type('page')
                         ->tab($main, 'basic', 'Basic')
-                        ->sidebar($menu, 'menu', 'Menu')
                         ->action($action)
                         ->toArray();
     }
@@ -97,15 +86,6 @@ class AuthRule extends Common
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
         ];
-        $menu = [
-            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
-            Builder::field('menu_name', 'Menu Name')->type('text'),
-            Builder::field('icon', 'Icon')->type('text'),
-            Builder::field('path', 'Path')->type('text'),
-            Builder::field('hideInMenu', 'Hide')->type('tag')->data($addonData['hideInMenu']),
-            Builder::field('hideChildrenInMenu', 'Hide Children')->type('tag')->data($addonData['hideChildrenInMenu']),
-            Builder::field('flatMenu', 'Flat')->type('tag')->data($addonData['flatMenu']),
-        ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
             Builder::button('Cancel')->type('default')->action('cancel'),
@@ -117,7 +97,6 @@ class AuthRule extends Common
         return Builder::page('Rule Edit')
                         ->type('page')
                         ->tab($main)
-                        ->sidebar($menu, 'menu', 'Menu')
                         ->action($action)
                         ->toArray();
     }
@@ -141,7 +120,7 @@ class AuthRule extends Common
         }
         $tableColumn = [
             Builder::field('name', 'Rule Name')->type('text'),
-            Builder::field('is_menu', 'Is Menu')->type('tag')->data($addonData['is_menu']),
+            Builder::field('rule', 'Rule')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
