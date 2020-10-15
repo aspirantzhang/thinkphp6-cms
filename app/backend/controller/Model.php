@@ -73,7 +73,7 @@ class Model extends Common
                 // Add Menus
                 $parentMenu = MenuService::create([
                     'parent_id' => 0,
-                    'name' => $tableTitle,
+                    'name' => $tableName . '-list',
                     'icon' => 'icon-project',
                     'path' => '/basic-list/backend/' . $tableName . 's',
                     'create_time' => $currentTime,
