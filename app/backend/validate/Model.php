@@ -34,7 +34,7 @@ class Model extends Validate
 
     protected $scene = [
         'save' => ['title', 'name', 'create_time', 'status'],
-        'update' => ['id', 'title', 'name', 'create_time', 'status'],
+        'update' => ['id'],
         'read' => ['id'],
         'delete' => ['ids'],
         'restore' => ['ids'],
