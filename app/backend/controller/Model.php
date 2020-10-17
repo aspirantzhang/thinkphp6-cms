@@ -52,10 +52,10 @@ class Model extends Common
 
                 // Add Rules
                 $parentRule = RuleService::create([
-                    'parent_id' => 0,
-                    'name' => $tableTitle,
-                    'create_time' => $currentTime,
-                    'update_time' => $currentTime,
+                'parent_id' => 0,
+                'name' => $tableTitle,
+                'create_time' => $currentTime,
+                'update_time' => $currentTime,
                 ]);
                 $parentRuleId = $parentRule->id;
                 $rule = new RuleService();
@@ -72,12 +72,12 @@ class Model extends Common
 
                 // Add Menus
                 $parentMenu = MenuService::create([
-                    'parent_id' => 0,
-                    'name' => $tableName . '-list',
-                    'icon' => 'icon-project',
-                    'path' => '/basic-list/backend/' . $tableName . 's',
-                    'create_time' => $currentTime,
-                    'update_time' => $currentTime,
+                'parent_id' => 0,
+                'name' => $tableName . '-list',
+                'icon' => 'icon-project',
+                'path' => '/basic-list/backend/' . $tableName . 's',
+                'create_time' => $currentTime,
+                'update_time' => $currentTime,
                 ]);
                 $parentMenuId = $parentMenu->id;
                 $menu = new MenuService();
@@ -136,7 +136,7 @@ class Model extends Common
             }
 
             // Delete Parent Menu
-            $parentMenu = MenuService::where('name', $tableName)->find();
+            $parentMenu = MenuService::where('name', $tableName . '-list')->find();
             $parentMenuId = $parentMenu->id;
             $parentMenu->force()->delete();
             // Delete Children Menu
@@ -168,8 +168,95 @@ class Model extends Common
     
     public function designUpdate($id)
     {
-        $result = $this->model->updateAPI($id, $this->request->only($this->model->allowUpdate));
+        $tableName = ModelService::where('id', $id)->value('name');
 
-        return $this->json(...$result);
+        // Build-in model check.
+        $buildInField = ['admin', 'auth_group', 'auth_admin_group', 'auth_rule', 'auth_group_rule', 'menu', 'migrations', 'model'];
+        if (in_array($tableName, $buildInField)) {
+            return $this->error('Build-in model, operation not allowed.');
+        }
+
+        // Check table exists.
+        try {
+            Db::query("select 1 from `$tableName` LIMIT 1");
+        } catch (\Exception $e) {
+            return $this->error('Table not found.');
+        }
+
+        // Build fields sql statement.
+        $data = $this->request->param('data');
+        if ($data) {
+            // Get all exist fields
+            $existingFields = [];
+            $columnsQuery = Db::query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '$tableName';");
+            if ($columnsQuery) {
+                $existingFields = extractValues($columnsQuery, 'COLUMN_NAME');
+            }
+            // Get this fields
+            $thisFields = extractValues($data['fields'], 'name');
+            // Exclude build-in fields
+            $buildInField = ['id', 'create_time', 'update_time', 'delete_time'];
+            $thisFields = array_diff($thisFields, $buildInField);
+
+            // Get fields group by types
+            $delete = array_diff($existingFields, $thisFields);
+            $add = array_diff($thisFields, $existingFields);
+            $change = array_intersect($thisFields, $existingFields);
+
+            $fieldSqlArray = [];
+            foreach ($data['fields'] as $field) {
+                $type = 'VARCHAR';
+                $typeAddon = '(255)';
+                $default = '';
+                switch ($field['type']) {
+                    case 'number':
+                        $type = 'INT';
+                        $typeAddon = ' UNSIGNED';
+                        break;
+                    case 'datetime':
+                        $type = 'DATETIME';
+                        $typeAddon = '';
+                        break;
+                    case 'tag':
+                    case 'switch':
+                        $type = 'TINYINT';
+                        $typeAddon = '(1)';
+                        $default = 'DEFAULT 1';
+                        break;
+                    case 'longtext':
+                        $type = 'LONGTEXT';
+                        $typeAddon = '';
+                        break;
+                    default:
+                        break;
+                }
+
+                if (in_array($field['name'], $add)) {
+                    $method = 'ADD';
+                    $fieldSqlArray[] = " $method `${field['name']}` $type$typeAddon NOT NULL $default";
+                }
+                
+                if (in_array($field['name'], $change)) {
+                    $method = 'CHANGE';
+                    $fieldSqlArray[] = " $method `${field['name']}` `${field['name']}` $type$typeAddon NOT NULL $default";
+                }
+                foreach ($delete as $field) {
+                    $method = 'DROP IF EXISTS';
+                    if (!in_array($field, $buildInField)) {
+                        $fieldSqlArray[] = " $method `$field`";
+                    }
+                }
+            }
+
+            $alterTableSql = 'ALTER TABLE `' . $tableName . '` ' . implode(',', $fieldSqlArray) . '; ';
+
+            // exit($alterTableSql);
+
+            Db::query($alterTableSql);
+
+            $result = $this->model->updateAPI($id, $this->request->only($this->model->allowUpdate));
+
+            return $this->json(...$result);
+        }
     }
 }
