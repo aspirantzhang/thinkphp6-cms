@@ -6,6 +6,7 @@ namespace app\backend\controller;
 
 use app\backend\service\Model as ModelService;
 use think\facade\Db;
+use think\facade\Config;
 use think\facade\Console;
 use app\backend\service\AuthRule as RuleService;
 use app\backend\service\Menu as MenuService;
@@ -34,14 +35,22 @@ class Model extends Common
 
     public function save()
     {
+        $tableName = strtolower($this->request->param('name'));
+        $tableTitle = $this->request->param('title');
+        $currentTime = date("Y-m-d H:i:s");
+
+        if (in_array($tableName, Config::get('model.reserved_table'))) {
+            return $this->error('Reserved table name.');
+        }
+
+        if ($this->existsTable($tableName)) {
+            return $this->error('Table already exists.');
+        }
+
         $result = $this->model->saveAPI($this->request->only($this->model->allowSave));
         [ $httpBody ] = $result;
         
         if ($httpBody['success'] === true) {
-            $tableName = $this->request->param('name');
-            $tableTitle = $this->request->param('title');
-            $currentTime = date("Y-m-d H:i:s");
-
             // Create Files
             Console::call('make:buildModel', [$tableTitle]);
 
@@ -170,17 +179,14 @@ class Model extends Common
     {
         $tableName = ModelService::where('id', $id)->value('name');
 
-        // Build-in model check.
-        $buildInField = ['admin', 'auth_group', 'auth_admin_group', 'auth_rule', 'auth_group_rule', 'menu', 'migrations', 'model'];
-        if (in_array($tableName, $buildInField)) {
-            return $this->error('Build-in model, operation not allowed.');
+        // Reserved model check
+        if (in_array($tableName, Config::get('model.reserved_table'))) {
+            return $this->error('Reserved model, operation not allowed.');
         }
 
-        // Check table exists.
-        try {
-            Db::query("select 1 from `$tableName` LIMIT 1");
-        } catch (\Exception $e) {
-            return $this->error('Table not found.');
+        // Check table exists
+        if (!$this->existsTable($tableName)) {
+            return $this->error($this->error);
         }
 
         // Build fields sql statement.
@@ -194,9 +200,8 @@ class Model extends Common
             }
             // Get this fields
             $thisFields = extractValues($data['fields'], 'name');
-            // Exclude build-in fields
-            $buildInField = ['id', 'create_time', 'update_time', 'delete_time'];
-            $thisFields = array_diff($thisFields, $buildInField);
+            // Exclude reserved fields
+            $thisFields = array_diff($thisFields, Config::get('model.reserved_field'));
 
             // Get fields group by types
             $delete = array_diff($existingFields, $thisFields);
@@ -240,17 +245,16 @@ class Model extends Common
                     $method = 'CHANGE';
                     $fieldSqlArray[] = " $method `${field['name']}` `${field['name']}` $type$typeAddon NOT NULL $default";
                 }
-                foreach ($delete as $field) {
-                    $method = 'DROP IF EXISTS';
-                    if (!in_array($field, $buildInField)) {
-                        $fieldSqlArray[] = " $method `$field`";
-                    }
+            }
+
+            foreach ($delete as $field) {
+                $method = 'DROP IF EXISTS';
+                if (!in_array($field, Config::get('model.reserved_field'))) {
+                    $fieldSqlArray[] = " $method `$field`";
                 }
             }
 
             $alterTableSql = 'ALTER TABLE `' . $tableName . '` ' . implode(',', $fieldSqlArray) . '; ';
-
-            // exit($alterTableSql);
 
             Db::query($alterTableSql);
 
@@ -258,5 +262,6 @@ class Model extends Common
 
             return $this->json(...$result);
         }
+        return $this->error('Nothing to do.');
     }
 }

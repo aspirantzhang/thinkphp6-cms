@@ -15,14 +15,14 @@ class Model extends Common
      * @example protected $unique
      * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
      */
-    protected $readonly = ['id'];
-    protected $unique = [];
+    protected $readonly = ['id', 'name'];
+    protected $unique = ['name' => 'Table Name'];
     public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'title', 'name', 'data', 'status', 'create_time'];
     public $allowList = ['id', 'title', 'name', 'data', 'status', 'create_time'];
     public $allowRead = ['id', 'title', 'name', 'data', 'status', 'create_time', 'update_time'];
     public $allowSort = ['sort', 'order', 'id', 'create_time'];
     public $allowSave = ['title', 'name', 'data', 'status', 'create_time'];
-    public $allowUpdate = ['title', 'name', 'data', 'status', 'create_time'];
+    public $allowUpdate = ['title', 'data', 'status', 'create_time'];
     public $allowSearch = ['id', 'title', 'name', 'status', 'create_time'];
 
     protected function getAddonData($params = [])
@@ -64,7 +64,7 @@ class Model extends Common
     {
         $main = [
             Builder::field('title', 'Model Title')->type('text'),
-            Builder::field('name', 'Name')->type('text'),
+            Builder::field('name', 'Name')->type('text')->disabled(true),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
@@ -116,5 +116,11 @@ class Model extends Common
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)
             ->toArray();
+    }
+
+    // Mutator
+    public function setNameAttr($value)
+    {
+        return strtolower($value);
     }
 }
