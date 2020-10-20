@@ -17,7 +17,7 @@ trait Service
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
 
-        $layout = $this->buildList($this->getAddonData($params), $params);
+        $layout = $this->listBuilder($this->getAddonData($params), $params);
         $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
         $layout['dataSource'] = [];
         $layout['meta'] = [
@@ -39,7 +39,7 @@ trait Service
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
        
-        $layout = $this->buildList($this->getAddonData(), $params);
+        $layout = $this->listBuilder($this->getAddonData(), $params);
         $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
         $layout['dataSource'] = [];
         $layout['meta'] = [
@@ -88,7 +88,7 @@ trait Service
 
     public function addAPI()
     {
-        $page = $this->buildAdd($this->getAddonData());
+        $page = $this->addBuilder($this->getAddonData());
         
         if ($page) {
             return $this->success('', $page);
@@ -142,7 +142,7 @@ trait Service
                 }
             }
 
-            $layout = $this->buildEdit($id, $this->getAddonData(['id' => $id]));
+            $layout = $this->editBuilder($id, $this->getAddonData(['id' => $id]));
             $layout['dataSource'] = $model;
 
             return $this->success('', $layout);

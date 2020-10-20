@@ -6,7 +6,7 @@ namespace app\backend\traits;
 
 trait Model
 {
-        // Accessor
+    // Accessor
     public function getCreateTimeAttr($value)
     {
         $date = new \DateTime($value);

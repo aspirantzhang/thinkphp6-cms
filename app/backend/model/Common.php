@@ -9,6 +9,7 @@ use think\model\concern\SoftDelete;
 use app\backend\traits\Model as ModelTrait;
 use app\backend\traits\Logic as LogicTrait;
 use app\backend\traits\Service as ServiceTrait;
+use app\backend\traits\View as ViewTrait;
 
 class Common extends GlobalModel
 {
@@ -16,6 +17,7 @@ class Common extends GlobalModel
     use ModelTrait;
     use LogicTrait;
     use ServiceTrait;
+    use ViewTrait;
 
     protected $deleteTime = 'delete_time';
     
