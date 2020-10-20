@@ -42,15 +42,10 @@ class AuthRule extends Common
         return $this->belongsToMany(AuthGroup::class, 'auth_group_rule', 'group_id', 'rule_id');
     }
 
-    /**
-     * Page Builder
-     * @example public function buildAdd
-     * @example public function buildEdit
-     * @example public function buildList
-     */
-    public function buildAdd($addonData = [])
+
+    public function addBuilder($addonData = [])
     {
-        $main = [
+        $basic = [
             Builder::field('name', 'Rule Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('rule', 'Rule')->type('text'),
@@ -69,14 +64,14 @@ class AuthRule extends Common
 
         return Builder::page('Add New Rule')
                         ->type('page')
-                        ->tab($main, 'basic', 'Basic')
+                        ->tab($basic)
                         ->action($action)
                         ->toArray();
     }
 
-    public function buildEdit($id, $addonData = [])
+    public function editBuilder($id, $addonData = [])
     {
-        $main = [
+        $basic = [
             Builder::field('name', 'Rule Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('rule', 'Rule')->type('text'),
@@ -96,12 +91,12 @@ class AuthRule extends Common
 
         return Builder::page('Rule Edit')
                         ->type('page')
-                        ->tab($main)
+                        ->tab($basic)
                         ->action($action)
                         ->toArray();
     }
 
-    public function buildList($addonData = [], $params = [])
+    public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
             Builder::button('Add')->type('primary')->action('modal')->uri('/backend/rules/add'),

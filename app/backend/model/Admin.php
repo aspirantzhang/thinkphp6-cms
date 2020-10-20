@@ -39,15 +39,10 @@ class Admin extends Common
         return $this->belongsToMany(AuthGroup::class, 'auth_admin_group', 'group_id', 'admin_id');
     }
     
-    /**
-     * Page Builder
-     * @example public function buildAdd
-     * @example public function buildEdit
-     * @example public function buildList
-     */
-    public function buildAdd($addonData = [])
+
+    public function addBuilder($addonData = [])
     {
-        $main = [
+        $basic = [
             Builder::field('username', 'Username')->type('text'),
             Builder::field('password', 'Password')->type('text'),
             Builder::field('display_name', 'Display Name')->type('text'),
@@ -66,14 +61,14 @@ class Admin extends Common
 
         return Builder::page('User Add')
                         ->type('page')
-                        ->tab($main, 'basic', 'Basic')
+                        ->tab($basic)
                         ->action($action)
                         ->toArray();
     }
     
-    public function buildEdit($id, $addonData = [])
+    public function editBuilder($id, $addonData = [])
     {
-        $main = [
+        $basic = [
             Builder::field('username', 'Username')->type('text')->disabled(true),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
@@ -91,12 +86,12 @@ class Admin extends Common
 
         return Builder::page('User Edit')
                         ->type('page')
-                        ->tab($main)
+                        ->tab($basic)
                         ->action($action)
                         ->toArray();
     }
 
-    public function buildList($addonData = [], $params = [])
+    public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
             Builder::button('Add')->type('primary')->action('modal')->uri('/backend/admins/add'),

@@ -31,15 +31,10 @@ class Model extends Common
             'status' => getSingleChoiceValue(),
         ];
     }
-        /**
-     * Page Builder
-     * @example public function buildAdd
-     * @example public function buildEdit
-     * @example public function buildList
-     */
-    public function buildAdd($addonData = [])
+    
+    public function addBuilder($addonData = [])
     {
-        $main = [
+        $basic = [
             Builder::field('title', 'Model Title')->type('text'),
             Builder::field('name', 'Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
@@ -55,14 +50,14 @@ class Model extends Common
 
         return Builder::page('Model Add')
                         ->type('page')
-                        ->tab($main)
+                        ->tab($basic)
                         ->action($action)
                         ->toArray();
     }
     
-    public function buildEdit($id, $addonData = [])
+    public function editBuilder($id, $addonData = [])
     {
-        $main = [
+        $basic = [
             Builder::field('title', 'Model Title')->type('text'),
             Builder::field('name', 'Name')->type('text')->disabled(true),
             Builder::field('create_time', 'Create Time')->type('datetime'),
@@ -82,13 +77,13 @@ class Model extends Common
 
         return Builder::page('Model Edit')
                         ->type('page')
-                        ->tab($main)
+                        ->tab($basic)
                         ->tab($dataTab, 'data-tab', 'Data')
                         ->action($action)
                         ->toArray();
     }
 
-    public function buildList($addonData = [], $params = [])
+    public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
             Builder::button('Add')->type('primary')->action('modal')->uri('/backend/models/add'),

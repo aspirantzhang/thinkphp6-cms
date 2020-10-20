@@ -37,15 +37,10 @@ class Menu extends Common
 
     // Relation
     
-    /**
-     * Page Builder
-     * @example public function buildAdd
-     * @example public function buildEdit
-     * @example public function buildList
-     */
-    public function buildAdd($addonData = [])
+
+    public function addBuilder($addonData = [])
     {
-        $main = [
+        $basic = [
             Builder::field('name', 'Menu Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('icon', 'Icon')->type('text'),
@@ -66,14 +61,14 @@ class Menu extends Common
 
         return Builder::page('Menu Add')
                         ->type('page')
-                        ->tab($main)
+                        ->tab($basic)
                         ->action($action)
                         ->toArray();
     }
 
-    public function buildEdit($id, $addonData = [])
+    public function editBuilder($id, $addonData = [])
     {
-        $main = [
+        $basic = [
             Builder::field('name', 'Menu Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('icon', 'Icon')->type('text'),
@@ -95,12 +90,12 @@ class Menu extends Common
 
         return Builder::page('Menu Edit')
                         ->type('page')
-                        ->tab($main)
+                        ->tab($basic)
                         ->action($action)
                         ->toArray();
     }
 
-    public function buildList($addonData = [], $params = [])
+    public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
             Builder::button('Add')->type('primary')->action('modal')->uri('/backend/menus/add'),
