@@ -10,6 +10,7 @@ use app\backend\traits\Model as ModelTrait;
 use app\backend\traits\Logic as LogicTrait;
 use app\backend\traits\Service as ServiceTrait;
 use app\backend\traits\View as ViewTrait;
+use app\backend\traits\AllowField as AllowFieldTrait;
 
 class Common extends GlobalModel
 {
@@ -18,6 +19,7 @@ class Common extends GlobalModel
     use LogicTrait;
     use ServiceTrait;
     use ViewTrait;
+    use AllowFieldTrait;
 
     protected $deleteTime = 'delete_time';
     
