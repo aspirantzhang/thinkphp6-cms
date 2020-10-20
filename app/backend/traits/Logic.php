@@ -18,8 +18,8 @@ trait Logic
     protected function getListData($params = [], array $withRelation = []): array
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
-        $search = getSearchParam($params, $this->allowSearch);
-        $sort = getSortParam($params, $this->allowSort);
+        $search = getSearchParam($params, $this->getAllowSearch());
+        $sort = getSortParam($params, $this->getAllowSort());
 
         if ($params['trash'] !== 'withoutTrashed') {
             $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
@@ -28,14 +28,14 @@ trait Logic
                         ->with($withRelation)
                         ->withSearch(array_keys($search), $search)
                         ->order($sort['name'], $sort['order'])
-                        ->visible($this->allowList)
+                        ->visible($this->getAllowList())
                         ->select()
                         ->toArray();
         } else {
             return $this->with($withRelation)
                         ->withSearch(array_keys($search), $search)
                         ->order($sort['name'], $sort['order'])
-                        ->visible($this->allowList)
+                        ->visible($this->getAllowList())
                         ->select()
                         ->toArray();
         }
@@ -49,8 +49,8 @@ trait Logic
      */
     protected function getPaginatedListData($params = [], array $withRelation = []): array
     {
-        $search = getSearchParam($params, $this->allowSearch);
-        $sort = getSortParam($params, $this->allowSort);
+        $search = getSearchParam($params, $this->getAllowSearch());
+        $sort = getSortParam($params, $this->getAllowSort());
         $perPage = getPerPageParam($params);
        
         if ($params['trash'] !== 'withoutTrashed') {
@@ -60,14 +60,14 @@ trait Logic
                         ->with($withRelation)
                         ->withSearch(array_keys($search), $search)
                         ->order($sort['name'], $sort['order'])
-                        ->visible($this->allowList)
+                        ->visible($this->getAllowList())
                         ->paginate($perPage)
                         ->toArray();
         }
         return $this->with($withRelation)
                     ->withSearch(array_keys($search), $search)
                     ->order($sort['name'], $sort['order'])
-                    ->visible($this->allowList)
+                    ->visible($this->getAllowList())
                     ->paginate($perPage)
                     ->toArray();
     }

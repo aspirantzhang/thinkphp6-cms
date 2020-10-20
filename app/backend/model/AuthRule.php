@@ -9,30 +9,20 @@ use aspirantzhang\TPAntdBuilder\Builder;
 
 class AuthRule extends Common
 {
-    /**
-     * Fields Configuration
-     * @example protected $readonly
-     * @example protected $unique
-     * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
-     */
     protected $readonly = ['id'];
     protected $unique = [];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowList = ['id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowRead = ['id', 'create_time', 'update_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowSave = ['create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowUpdate = ['create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowSearch = ['id', 'create_time', 'status', 'parent_id', 'name', 'rule', 'type', 'condition'];
 
-    protected function getAddonData($params = [])
+    public $allowHome = ['parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowList = ['parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowRead = ['parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowSave = ['parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowUpdate = ['parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowSearch = ['parent_id', 'name', 'rule', 'type', 'condition'];
+
+    protected function setAddonData($params = [])
     {
         return [
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
-            'hideInMenu' => getSingleChoiceValue(),
-            'hideChildrenInMenu' => getSingleChoiceValue(),
-            'flatMenu' => getSingleChoiceValue(),
-            'status' => getSingleChoiceValue(),
         ];
     }
 
@@ -41,7 +31,6 @@ class AuthRule extends Common
     {
         return $this->belongsToMany(AuthGroup::class, 'auth_group_rule', 'group_id', 'rule_id');
     }
-
 
     public function addBuilder($addonData = [])
     {

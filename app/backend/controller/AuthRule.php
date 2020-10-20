@@ -18,7 +18,7 @@ class AuthRule extends Common
 
     public function home()
     {
-        $result = $this->authRule->treeListAPI($this->request->only($this->authRule->allowHome));
+        $result = $this->authRule->treeListAPI($this->request->only($this->authRule->getAllowHome()));
 
         return $this->json(...$result);
     }
@@ -32,7 +32,7 @@ class AuthRule extends Common
 
     public function save()
     {
-        $result = $this->authRule->saveAPI($this->request->only($this->authRule->allowSave));
+        $result = $this->authRule->saveAPI($this->request->only($this->authRule->getAllowSave()));
 
         return $this->json(...$result);
     }
@@ -46,7 +46,7 @@ class AuthRule extends Common
 
     public function update($id)
     {
-        $result = $this->authRule->updateAPI($id, $this->request->only($this->authRule->allowUpdate));
+        $result = $this->authRule->updateAPI($id, $this->request->only($this->authRule->getAllowUpdate()));
 
         return $this->json(...$result);
     }

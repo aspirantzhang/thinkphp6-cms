@@ -10,28 +10,21 @@ use aspirantzhang\TPAntdBuilder\Builder;
 
 class AuthGroup extends Common
 {
-    /**
-     * Fields Configuration
-     * @example protected $readonly
-     * @example protected $unique
-     * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
-     */
     protected $readonly = ['id'];
     protected $unique = [];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
-    public $allowList = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time'];
-    public $allowRead = ['id', 'parent_id', 'name', 'rules', 'status', 'create_time', 'update_time'];
-    public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowSave = ['parent_id', 'name', 'rules', 'status', 'create_time'];
-    public $allowUpdate = ['parent_id', 'rules', 'name', 'status', 'create_time'];
-    public $allowSearch = ['id', 'parent_id', 'rules', 'name', 'status', 'create_time'];
+
+    public $allowHome = ['parent_id', 'name', 'rules'];
+    public $allowList = ['parent_id', 'name', 'rules'];
+    public $allowRead = ['parent_id', 'name', 'rules'];
+    public $allowSave = ['parent_id', 'name', 'rules'];
+    public $allowUpdate = ['parent_id', 'name', 'rules'];
+    public $allowSearch = ['parent_id', 'name', 'rules'];
     
-    protected function getAddonData($params = [])
+    protected function setAddonData($params = [])
     {
         return [
             'rules' => (new AuthRule())->treeDataAPI(['status' => 1]),
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
-            'status' => getSingleChoiceValue(),
         ];
     }
 
@@ -45,7 +38,6 @@ class AuthGroup extends Common
     {
         return $this->belongsToMany(AuthRule::class, 'auth_group_rule', 'rule_id', 'group_id');
     }
-
 
     public function addBuilder($addonData = [])
     {

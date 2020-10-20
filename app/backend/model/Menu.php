@@ -8,28 +8,21 @@ use aspirantzhang\TPAntdBuilder\Builder;
 
 class Menu extends Common
 {
-    /**
-     * Fields Configuration
-     * @example protected $readonly
-     * @example protected $unique
-     * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
-     */
     protected $readonly = ['id'];
     protected $unique = [];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'create_time', 'name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu', 'status'];
-    public $allowList = ['id', 'create_time', 'name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu', 'status'];
-    public $allowSort = ['sort', 'order', 'id', 'create_time', 'name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu', 'status'];
-    public $allowRead = ['id', 'create_time', 'update_time', 'name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu', 'status'];
-    public $allowSave = ['create_time', 'name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu', 'status'];
-    public $allowUpdate = ['create_time', 'name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu', 'status'];
-    public $allowSearch = ['id', 'create_time', 'name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu', 'status'];
 
-    protected function getAddonData($params = [])
+    public $allowHome = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowList = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowRead = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowSave = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowUpdate = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowSearch = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+
+    protected function setAddonData($params = [])
     {
         return [
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
-            'status' => getSingleChoiceValue(),
-            'hideInMenu' => getSingleChoiceValue(),
+            'hideInMenu' => getSingleChoiceValue('Hide', 'Show'),
             'hideChildrenInMenu' => getSingleChoiceValue(),
             'flatMenu' => getSingleChoiceValue(),
         ];
@@ -37,7 +30,6 @@ class Menu extends Common
 
     // Relation
     
-
     public function addBuilder($addonData = [])
     {
         $basic = [

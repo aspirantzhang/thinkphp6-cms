@@ -18,7 +18,7 @@ class Admin extends Common
 
     public function home()
     {
-        $result = $this->admin->paginatedListAPI($this->request->only($this->admin->allowHome), ['groups']);
+        $result = $this->admin->paginatedListAPI($this->request->only($this->admin->getAllowHome()), ['groups']);
 
         return $this->json(...$result);
     }
@@ -32,7 +32,7 @@ class Admin extends Common
 
     public function save()
     {
-        $result = $this->admin->saveAPI($this->request->only($this->admin->allowSave), ['groups']);
+        $result = $this->admin->saveAPI($this->request->only($this->admin->getAllowSave()), ['groups']);
 
         return $this->json(...$result);
     }
@@ -46,7 +46,7 @@ class Admin extends Common
 
     public function update($id)
     {
-        $result = $this->admin->updateAPI($id, $this->request->only($this->admin->allowUpdate), ['groups']);
+        $result = $this->admin->updateAPI($id, $this->request->only($this->admin->getAllowUpdate()), ['groups']);
 
         return $this->json(...$result);
     }

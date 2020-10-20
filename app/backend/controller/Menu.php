@@ -18,7 +18,7 @@ class Menu extends Common
 
     public function home()
     {
-        $result = $this->menu->treeListAPI($this->request->only($this->menu->allowHome));
+        $result = $this->menu->treeListAPI($this->request->only($this->menu->getAllowHome()));
 
         return $this->json(...$result);
     }
@@ -32,7 +32,7 @@ class Menu extends Common
 
     public function save()
     {
-        $result = $this->menu->saveAPI($this->request->only($this->menu->allowSave));
+        $result = $this->menu->saveAPI($this->request->only($this->menu->getAllowSave()));
 
         return $this->json(...$result);
     }
@@ -46,7 +46,7 @@ class Menu extends Common
 
     public function update($id)
     {
-        $result = $this->menu->updateAPI($id, $this->request->only($this->menu->allowUpdate));
+        $result = $this->menu->updateAPI($id, $this->request->only($this->menu->getAllowUpdate()));
 
         return $this->json(...$result);
     }

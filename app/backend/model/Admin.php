@@ -9,27 +9,20 @@ use app\backend\service\AuthGroup;
 
 class Admin extends Common
 {
-    /**
-     * Fields Configuration
-     * @example protected $readonly
-     * @example protected $unique
-     * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
-     */
     protected $readonly = ['id', 'username'];
     protected $unique = [ 'username' => 'Username' ];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'groups', 'id', 'username', 'display_name', 'status', 'create_time'];
-    public $allowList = ['id', 'username', 'display_name', 'status', 'create_time', 'groups'];
-    public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowRead = ['id', 'username', 'display_name', 'status', 'create_time', 'update_time'];
-    public $allowSave = ['username', 'password', 'groups', 'display_name', 'status', 'create_time'];
-    public $allowUpdate = ['password', 'display_name', 'groups', 'status', 'create_time'];
-    public $allowSearch = ['groups', 'id', 'username', 'display_name', 'status', 'create_time'];
+    
+    public $allowHome = ['groups', 'username', 'display_name'];
+    public $allowList = ['groups', 'username', 'display_name'];
+    public $allowRead = ['username', 'display_name'];
+    public $allowSave = ['username', 'password', 'groups', 'display_name'];
+    public $allowUpdate = ['password', 'display_name', 'groups'];
+    public $allowSearch = ['groups', 'username', 'display_name'];
 
-    protected function getAddonData($params = [])
+    public function setAddonData($params = [])
     {
         return [
             'groups' => (new AuthGroup())->treeDataAPI(['status' => 1]),
-            'status' => getSingleChoiceValue(),
         ];
     }
 
@@ -38,7 +31,6 @@ class Admin extends Common
     {
         return $this->belongsToMany(AuthGroup::class, 'auth_admin_group', 'group_id', 'admin_id');
     }
-    
 
     public function addBuilder($addonData = [])
     {

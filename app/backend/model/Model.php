@@ -9,29 +9,16 @@ use aspirantzhang\TPAntdBuilder\Builder;
 class Model extends Common
 {
     protected $json = ['data'];
-    /**
-     * Fields Configuration
-     * @example protected $readonly
-     * @example protected $unique
-     * @example public allow- ( Home | List | Sort | Read | Save | Update | Search )
-     */
     protected $readonly = ['id', 'name'];
     protected $unique = ['name' => 'Table Name'];
-    public $allowHome = ['sort', 'order', 'page', 'per_page', 'trash', 'id', 'title', 'name', 'data', 'status', 'create_time'];
-    public $allowList = ['id', 'title', 'name', 'data', 'status', 'create_time'];
-    public $allowRead = ['id', 'title', 'name', 'data', 'status', 'create_time', 'update_time'];
-    public $allowSort = ['sort', 'order', 'id', 'create_time'];
-    public $allowSave = ['title', 'name', 'data', 'status', 'create_time'];
-    public $allowUpdate = ['title', 'data', 'status', 'create_time'];
-    public $allowSearch = ['id', 'title', 'name', 'status', 'create_time'];
 
-    protected function getAddonData($params = [])
-    {
-        return [
-            'status' => getSingleChoiceValue(),
-        ];
-    }
-    
+    public $allowHome = ['title', 'name', 'data'];
+    public $allowList = ['title', 'name', 'data'];
+    public $allowRead = ['title', 'name', 'data'];
+    public $allowSave = ['title', 'name', 'data'];
+    public $allowUpdate = ['title', 'data'];
+    public $allowSearch = ['title', 'name'];
+   
     public function addBuilder($addonData = [])
     {
         $basic = [

@@ -21,7 +21,7 @@ class Model extends Common
 
     public function home()
     {
-        $result = $this->model->paginatedListAPI($this->request->only($this->model->allowHome));
+        $result = $this->model->paginatedListAPI($this->request->only($this->model->getAllowHome()));
 
         return $this->json(...$result);
     }
@@ -47,7 +47,7 @@ class Model extends Common
             return $this->error('Table already exists.');
         }
 
-        $result = $this->model->saveAPI($this->request->only($this->model->allowSave));
+        $result = $this->model->saveAPI($this->request->only($this->model->getAllowSave()));
         [ $httpBody ] = $result;
         
         if ($httpBody['success'] === true) {
@@ -112,7 +112,7 @@ class Model extends Common
 
     public function update($id)
     {
-        $result = $this->model->updateAPI($id, $this->request->only($this->model->allowUpdate));
+        $result = $this->model->updateAPI($id, $this->request->only($this->model->getAllowUpdate()));
 
         return $this->json(...$result);
     }
@@ -258,7 +258,7 @@ class Model extends Common
 
             Db::query($alterTableSql);
 
-            $result = $this->model->updateAPI($id, $this->request->only($this->model->allowUpdate));
+            $result = $this->model->updateAPI($id, $this->request->only($this->model->getAllowUpdate()));
 
             return $this->json(...$result);
         }

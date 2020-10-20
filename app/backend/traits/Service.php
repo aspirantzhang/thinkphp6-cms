@@ -104,7 +104,7 @@ trait Service
         }
         $this->startTrans();
         try {
-            $this->allowField($this->allowSave)->save($data);
+            $this->allowField($this->getAllowSave())->save($data);
             if ($relationModel) {
                 foreach ($relationModel as $relation) {
                     $data[$relation] = $data[$relation] ?? [];
@@ -131,7 +131,7 @@ trait Service
             }
         }
 
-        $model = $this->where('id', $id)->with($relationArray)->visible($this->allowRead)->find();
+        $model = $this->where('id', $id)->with($relationArray)->visible($this->getAllowRead())->find();
 
         if ($model) {
             $model = $model->toArray();
@@ -160,7 +160,7 @@ trait Service
             }
             $model->startTrans();
             try {
-                $model->allowField($this->allowUpdate)->save($data);
+                $model->allowField($this->getAllowUpdate())->save($data);
                 if ($relationModel) {
                     foreach ($relationModel as $relation) {
                         $model->$relation()->sync($data[$relation]);
