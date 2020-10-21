@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace app\backend\traits;
 
+use app\backend\service\Model as ModelService;
+
 trait Model
 {
+    protected function getTableName()
+    {
+        return parse_name($this->getName());
+    }
+
     // Accessor
     public function getCreateTimeAttr($value)
     {
@@ -43,5 +50,57 @@ trait Model
         $value = urldecode($value);
         $valueArray = (array)explode(',', $value);
         $query->whereBetweenTime('create_time', $valueArray[0], $valueArray[1]);
+    }
+
+    // Other
+    protected function getModelData()
+    {
+        $modelData = ModelService::where('name', $this->getTableName())->find();
+        if ($modelData) {
+            return $modelData['data'];
+        }
+        return [];
+    }
+
+    protected function getModelFields($type = null)
+    {
+        $data = $this->getModelData();
+        if ($data) {
+            switch ($type) {
+                case 'home':
+                case 'list':
+                    $rawArray = array_filter((array)$data['fields'], function ($value) {
+                        if (isset($value['listHideInColumn']) && $value['listHideInColumn'] === '1') {
+                            return false;
+                        }
+                        return true;
+                    });
+                    return extractValues($rawArray, 'name');
+                case 'sort':
+                    $rawArray = array_filter($data['fields'], function ($value) {
+                        if (isset($value['listSorter']) && $value['listSorter'] === '1') {
+                            return true;
+                        }
+                        return false;
+                    });
+                    return extractValues($rawArray, 'name');
+                case 'update':
+                    $rawArray = array_filter($data['fields'], function ($value) {
+                        if (isset($value['editDisabled']) && $value['editDisabled'] === '1') {
+                            return false;
+                        }
+                        return true;
+                    });
+                    return extractValues($rawArray, 'name');
+                case 'read':
+                case 'save':
+                case 'search':
+                case 'all':
+                    return extractValues($data['fields'], 'name');
+                default:
+                    return [];
+            }
+        }
+        return [];
     }
 }

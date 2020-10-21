@@ -9,6 +9,7 @@ use aspirantzhang\TPAntdBuilder\Builder;
 class Model extends Common
 {
     protected $json = ['data'];
+    protected $jsonAssoc = true;
     protected $readonly = ['id', 'name'];
     protected $unique = ['name' => 'Table Name'];
 

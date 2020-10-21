@@ -18,20 +18,37 @@ trait AllowField
         $builtIn = [
             'status' => getSingleChoiceValue(),
         ];
+        
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowHome()
     {
         $builtIn = Config::get('field.allowHome');
-        $custom = $this->allowHome ?? [];
+        $custom = [];
+        if (isset($this->allowHome)) {
+            $custom = $this->allowHome ?: [];
+        } else {
+            if (!$this->isReservedTable()) {
+                $custom = $this->getModelFields('home');
+            }
+        }
+        
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowList()
     {
         $builtIn = Config::get('field.allowList');
-        $custom = $this->allowList ?? [];
+        $custom = [];
+        if (isset($this->allowList)) {
+            $custom = $this->allowList ?: [];
+        } else {
+            if (!$this->isReservedTable()) {
+                $custom = $this->getModelFields('list');
+            }
+        }
+        
         return array_merge($builtIn, $custom);
     }
 
@@ -43,50 +60,70 @@ trait AllowField
             $custom = $this->allowSort ?: [];
         } else {
             if (!$this->isReservedTable()) {
-                $modelData = ModelService::where('name', $this->tableName)->find();
-                $dbAllowSortRawArray = [];
-                if ($modelData) {
-                    $modelFields = $modelData->data->fields;
-        
-                    $dbAllowSortRawArray = array_filter($modelFields, function ($value) {
-                        if (isset($value['listSorter']) && $value['listSorter'] === '1') {
-                            return true;
-                        }
-                        return false;
-                    });
-                    $custom = extractValues($dbAllowSortRawArray, 'name');
-                }
+                $custom = $this->getModelFields('sort');
             }
         }
-        
+
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowRead()
     {
         $builtIn = Config::get('field.allowRead');
-        $custom = $this->allowRead ?? [];
+        $custom = [];
+        if (isset($this->allowRead)) {
+            $custom = $this->allowRead ?: [];
+        } else {
+            if (!$this->isReservedTable()) {
+                $custom = $this->getModelFields('read');
+            }
+        }
+
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowSave()
     {
         $builtIn = Config::get('field.allowSave');
-        $custom = $this->allowSave ?? [];
+        $custom = [];
+        if (isset($this->allowSave)) {
+            $custom = $this->allowSave ?: [];
+        } else {
+            if (!$this->isReservedTable()) {
+                $custom = $this->getModelFields('save');
+            }
+        }
+
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowUpdate()
     {
         $builtIn = Config::get('field.allowUpdate');
-        $custom = $this->allowUpdate ?? [];
+        $custom = [];
+        if (isset($this->allowUpdate)) {
+            $custom = $this->allowUpdate ?: [];
+        } else {
+            if (!$this->isReservedTable()) {
+                $custom = $this->getModelFields('update');
+            }
+        }
+        
         return array_merge($builtIn, $custom);
     }
     
     public function getAllowSearch()
     {
         $builtIn = Config::get('field.allowSearch');
-        $custom = $this->allowSearch ?? [];
+        $custom = [];
+        if (isset($this->allowSearch)) {
+            $custom = $this->allowSearch ?: [];
+        } else {
+            if (!$this->isReservedTable()) {
+                $custom = $this->getModelFields('search');
+            }
+        }
+
         return array_merge($builtIn, $custom);
     }
 }

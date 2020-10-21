@@ -6,7 +6,6 @@ namespace app\backend\model;
 
 use app\common\model\GlobalModel;
 use think\model\concern\SoftDelete;
-use app\backend\service\Model as ModelService;
 use app\backend\traits\Model as ModelTrait;
 use app\backend\traits\Logic as LogicTrait;
 use app\backend\traits\Service as ServiceTrait;
@@ -23,13 +22,10 @@ class Common extends GlobalModel
     use AllowFieldTrait;
 
     protected $deleteTime = 'delete_time';
-    protected $tableName;
-    
-
+  
     public function initialize()
     {
         parent::initialize();
-        $this->tableName = parse_name($this->name);
     }
 
     public function scopeStatus($query)

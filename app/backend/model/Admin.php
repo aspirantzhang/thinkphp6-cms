@@ -9,6 +9,7 @@ use app\backend\service\AuthGroup;
 
 class Admin extends Common
 {
+    // Allow fields
     protected $readonly = ['id', 'username'];
     protected $unique = [ 'username' => 'Username' ];
     
