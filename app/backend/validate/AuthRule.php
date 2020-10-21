@@ -8,6 +8,7 @@ class AuthRule extends Validate
 {
     protected $rule = [
         'id' => 'require|number',
+        'parent_id' => 'number',
         'ids' => 'require|numberArray',
         'page' => 'number',
         'per_page' => 'number',
@@ -17,6 +18,7 @@ class AuthRule extends Validate
 
     protected $message = [
         'id.require' => 'ID field is empty.',
+        'parent_id.number' => 'Parent ID must be numbers only.',
         'id.number' => 'ID must be numbers only.',
         'ids.require' => 'IDs field is empty.',
         'ids.numberArray' => 'IDs must be a number array.',
@@ -28,8 +30,8 @@ class AuthRule extends Validate
     ];
 
     protected $scene = [
-        'save' => ['create_time', 'name'],
-        'update' => ['id', 'create_time', 'name'],
+        'save' => ['create_time', 'parent_id', 'name'],
+        'update' => ['id', 'create_time', 'parent_id', 'name'],
         'read' => ['id'],
         'delete' => ['ids'],
         'restore' => ['ids'],
