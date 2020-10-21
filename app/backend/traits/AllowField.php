@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\backend\traits;
 
 use think\facade\Config;
-use app\backend\service\Model as ModelService;
 
 trait AllowField
 {

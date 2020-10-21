@@ -140,7 +140,7 @@ trait Logic
 
     protected function clearParentId($id)
     {
-        Db::table(parse_name($this->name))
+        Db::table($this->getTableName())
             ->where('id', $id)
             ->update(['parent_id' => 0]);
         return true;
@@ -148,6 +148,6 @@ trait Logic
 
     protected function isReservedTable()
     {
-        return in_array(parse_name($this->name), Config::get('model.reserved_table'));
+        return in_array($this->getTableName(), Config::get('model.reserved_table'));
     }
 }
