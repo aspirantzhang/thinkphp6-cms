@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\backend\traits;
 
 use think\facade\Db;
+use think\facade\Config;
 
 trait Logic
 {
@@ -143,5 +144,10 @@ trait Logic
             ->where('id', $id)
             ->update(['parent_id' => 0]);
         return true;
+    }
+
+    protected function isReservedTable()
+    {
+        return in_array(parse_name($this->name), Config::get('model.reserved_table'));
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\backend\traits;
 
 use think\facade\Config;
+use app\backend\service\Model as ModelService;
 
 trait AllowField
 {
@@ -37,7 +38,27 @@ trait AllowField
     public function getAllowSort()
     {
         $builtIn = Config::get('field.allowSort');
-        $custom = $this->allowSort ?? [];
+        $custom = [];
+        if (isset($this->allowSort)) {
+            $custom = $this->allowSort ?: [];
+        } else {
+            if (!$this->isReservedTable()) {
+                $modelData = ModelService::where('name', $this->tableName)->find();
+                $dbAllowSortRawArray = [];
+                if ($modelData) {
+                    $modelFields = $modelData->data->fields;
+        
+                    $dbAllowSortRawArray = array_filter($modelFields, function ($value) {
+                        if (isset($value['listSorter']) && $value['listSorter'] === '1') {
+                            return true;
+                        }
+                        return false;
+                    });
+                    $custom = extractValues($dbAllowSortRawArray, 'name');
+                }
+            }
+        }
+        
         return array_merge($builtIn, $custom);
     }
 
