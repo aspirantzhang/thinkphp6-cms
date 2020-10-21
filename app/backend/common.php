@@ -30,6 +30,8 @@ function getSearchParam($data = [], $allowSearch = [])
     unset($data['trash']);
     unset($data['sort']);
     unset($data['order']);
+    unset($data['page']);
+    unset($data['per_page']);
     return $data ?? array_intersect_key($data, array_flip($allowSearch));
 }
 
