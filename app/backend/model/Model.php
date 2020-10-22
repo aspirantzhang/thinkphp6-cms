@@ -102,8 +102,11 @@ class Model extends Common
     }
 
     // Mutator
-    public function setNameAttr($value)
+    public function setNameAttr($value, $data)
     {
+        $defaultData = new \StdClass();
+        $defaultData->routeName = $value . 's';
+        $this->set('data', $defaultData);
         return strtolower($value);
     }
 }
