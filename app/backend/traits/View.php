@@ -57,6 +57,9 @@ trait View
                 if (isset($addField['addData']) && $addField['addData'] == 1) {
                     $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type'])->data($addonData[$addField['name']]);
                 }
+                if (isset($addField['editDisabled']) && $addField['editDisabled'] == 1) {
+                    $thisField->disabled = true;
+                }
                 $main[] = $thisField;
             }
             $addonFields = [
@@ -139,6 +142,9 @@ trait View
                 }
                 if (isset($listField['listHideInColumn']) && $listField['listHideInColumn'] === '1') {
                     continue;
+                }
+                if (isset($listField['listSorter']) && $listField['listSorter'] === '1') {
+                    $thisField->sorter = true;
                 }
                 $listFields[] = $thisField;
             }
