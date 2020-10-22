@@ -44,6 +44,8 @@ class Admin extends Validate
         'delete' => ['ids'],
         'restore' => ['ids'],
         'add' => [''],
+        'login' => [''],
+        'info' => [''],
     ];
 
     public function sceneHome()

@@ -34,15 +34,17 @@ class Common extends GlobalModel
         $query->where($tableName . '.status', 1);
     }
 
-    public function success(string $message = '', array $data = [], array $header = [])
+    public function success(string $message = '', array $data = [], array $header = [], $addition = [])
     {
         $httpBody = ['success' => true, 'message' => $message, 'data' => $data];
+        $httpBody = array_merge($httpBody, $addition);
         return [$httpBody, 200, $header];
     }
 
-    public function error(string $message = '', array $data = [], array $header = [])
+    public function error(string $message = '', array $data = [], array $header = [], $addition = [])
     {
         $httpBody = ['success' => false, 'message' => $message, 'data' => $data];
+        $httpBody = array_merge($httpBody, $addition);
         return [$httpBody, 200, $header];
     }
 }
