@@ -45,6 +45,7 @@ class Admin extends Validate
         'restore' => ['ids'],
         'add' => [''],
         'login' => [''],
+        'logout' => [''],
         'info' => [''],
     ];
 

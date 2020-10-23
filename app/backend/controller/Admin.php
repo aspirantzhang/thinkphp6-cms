@@ -81,6 +81,12 @@ class Admin extends Common
         return $this->json(...$result);
     }
 
+    public function logout()
+    {
+        Session::clear();
+        return $this->success();
+    }
+
     public function info()
     {
         if (Session::has('userId')) {

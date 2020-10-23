@@ -13,6 +13,7 @@ class BackendAuth
     protected $noNeedAuth = [
         'backend/menu/backend',
         'backend/admin/login',
+        'backend/admin/logout',
         'backend/admin/info',
     ];
 
