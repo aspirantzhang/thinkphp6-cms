@@ -14,11 +14,12 @@ class Admin extends AdminLogic
         $admin = $this->where('username', $params['username'])->find();
         if ($admin) {
             if (password_verify($params['password'], $admin->password)) {
-                $data = [
+                $data = $admin->visible(['id', 'username'])->toArray();
+                $addition = [
                     'currentAuthority' => 'admin',
                     'type' => $params['type'] ?? null
                 ];
-                return $this->success('', [], [], $data);
+                return $this->success('', $data, [], $addition);
             }
         }
 

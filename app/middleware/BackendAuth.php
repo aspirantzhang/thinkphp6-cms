@@ -6,6 +6,7 @@ namespace app\middleware;
 
 use think\facade\Config;
 use aspirantzhang\TP6Auth\Auth;
+use think\facade\Session;
 
 class BackendAuth
 {
@@ -28,7 +29,7 @@ class BackendAuth
         } else {
             $auth = new Auth();
 
-            if ($auth->check($fullPath, 199)) {
+            if (Session::has('userId') && $auth->check($fullPath, Session::get('userId'))) {
                 return $next($request);
             } else {
                 $data = [
