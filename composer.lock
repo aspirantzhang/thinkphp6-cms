@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42f546b40fb704f629be322947a9f1a0",
+    "content-hash": "3af6d2befce35409299474962d14cad5",
     "packages": [
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
