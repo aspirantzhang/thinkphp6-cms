@@ -74,7 +74,7 @@ class Model extends Common
     public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
-            Builder::button('Add')->type('primary')->action('modal')->uri('/backend/models/add'),
+            Builder::button('Add', 'add')->type('primary')->action('modal')->uri('/backend/models/add'),
             Builder::button('Full page add')->type('default')->action('page')->uri('/backend/models/add'),
             Builder::button('Reload')->type('default')->action('reload'),
         ];
