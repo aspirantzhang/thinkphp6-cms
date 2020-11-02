@@ -15,6 +15,28 @@ class Common extends GlobalController
     {
         parent::initialize();
     }
+
+    /**
+    * @OA\OpenApi(
+    *     @OA\Info(
+    *         version="1.0.0",
+    *         title="Public API v2",
+    *         description="Online API",
+    *     ),
+    *     @OA\Server(
+    *         description="Online API",
+    *         url="http://www.test.com/",
+    *     ),
+    *     @OA\Server(
+    *         description="Local API",
+    *         url="http://localhost:8000/api/",
+    *     ),
+    *     @OA\Tag(
+    *         name="admins",
+    *         description="Operations about administrator",
+    *     ),
+    * )
+    */
     
     protected function json($data = [], $code = 200, $header = [], $options = [])
     {

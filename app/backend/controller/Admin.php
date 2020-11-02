@@ -17,6 +17,68 @@ class Admin extends Common
         parent::initialize();
     }
 
+    /**
+    * @OA\Get(
+    *   path="/backend/admins",
+    *   summary="Admin List",
+    *   tags={"admins"},
+    *   @OA\Parameter(
+    *     name="page",
+    *     in="query",
+    *     description="Current page number",
+    *     example=1,
+    *     @OA\Schema(type="integer")
+    *   ),
+    *   @OA\Parameter(
+    *     name="per_page",
+    *     in="query",
+    *     description="Number of items displayed per page",
+    *     example=10,
+    *     @OA\Schema(type="integer")
+    *   ),
+    *   @OA\Parameter(
+    *     name="sort",
+    *     in="query",
+    *     description="The field used for sort.",
+    *     @OA\Schema(
+    *       type="array",
+    *       @OA\Items(
+    *         type="string",
+    *         enum = {"id", "create_time"},
+    *       )
+    *     )
+    *   ),
+    *   @OA\Parameter(
+    *     name="order",
+    *     in="query",
+    *     description="The method used for sorting.",
+    *     @OA\Schema(
+    *       type="array",
+    *       @OA\Items(
+    *         type="string",
+    *         enum = {"descent", "ascent"},
+    *       )
+    *     )
+    *   ),
+    *   @OA\Parameter(
+    *     name="status",
+    *     in="query",
+    *     description="0 = Disabled, 1 = Enabled",
+    *     @OA\Schema(
+    *       type="integer",
+    *       example=1,
+    *       @OA\Items(
+    *         type="integer",
+    *         enum = {0, 1},
+    *       )
+    *     )
+    *   ),
+    *   @OA\Response(
+    *     response=200,
+    *     description="Get the paginated list of administrators."
+    *   ),
+    * )
+    */
     public function home()
     {
         $result = $this->admin->paginatedListAPI($this->request->only($this->admin->getAllowHome()), ['groups']);
@@ -38,6 +100,23 @@ class Admin extends Common
         return $this->json(...$result);
     }
 
+    /**
+    * @OA\Get(
+    *   path="/backend/admins/read/{id}",
+    *   summary="Admin Read",
+    *   tags={"admins"},
+    *   @OA\Parameter(
+    *     name="id",
+    *     in="path",
+    *     required=true,
+    *     @OA\Schema(type="integer")
+    *   ),
+    *   @OA\Response(
+    *     response=200,
+    *     description="Get info of a administrator."
+    *   ),
+    * )
+    */
     public function read($id)
     {
         $result = $this->admin->readAPI($id, ['groups']);
