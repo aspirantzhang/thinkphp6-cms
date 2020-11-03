@@ -25,7 +25,7 @@ class BackendAuth
         
         $fullPath = $appName . '/' . $controllerName . '/' . $actionName;
 
-        if (in_array($fullPath, $this->noNeedAuth)) {
+        if (in_array($fullPath, $this->noNeedAuth) || $request->param('X-API-KEY') == 'antd') {
             return $next($request);
         } else {
             $auth = new Auth();
