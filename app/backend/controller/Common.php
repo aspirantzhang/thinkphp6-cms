@@ -22,7 +22,13 @@ class Common extends GlobalController
     *         version="1.0.0",
     *         title="Public API v2",
     *         description="Online API",
+    *         @OA\Contact(
+    *             name="Aspirant Zhang",
+    *             url="https://www.aspirantzhang.com",
+    *             email="admin@aspirantzhang.com",
+    *         ),
     *     ),
+
     *     @OA\Server(
     *         description="Online API",
     *         url="http://www.test.com/",
@@ -35,7 +41,17 @@ class Common extends GlobalController
     *         name="admins",
     *         description="Operations about administrator",
     *     ),
-    * )
+    * ),
+    *
+    * @OA\Components(
+    *     @OA\SecurityScheme(
+    *         type="apiKey",
+    *         securityScheme="ApiKeyAuth",
+    *         name="X-API-KEY",
+    *         in="query"
+    *     ),
+    * ),
+    *
     */
     
     protected function json($data = [], $code = 200, $header = [], $options = [])
