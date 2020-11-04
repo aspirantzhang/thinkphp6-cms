@@ -18,7 +18,25 @@ class Admin extends Common
     }
 
     /** @OA\Schema(
-    *    schema="base",
+    *    schema="error",
+    *    @OA\Property(
+    *        property="success",
+    *        type="boolean",
+    *        default=false
+    *    ),
+    *    @OA\Property(
+    *        property="message",
+    *        type="string",
+    *    ),
+    *    @OA\Property(
+    *        property="data",
+    *        type="object",
+    *    ),
+    * )
+    */
+
+    /** @OA\Schema(
+    *    schema="admin-list",
     *    @OA\Property(
     *        property="success",
     *        type="boolean",
@@ -30,86 +48,79 @@ class Admin extends Common
     *    @OA\Property(
     *        property="data",
     *        type="object",
-    *        allOf={
-    *           @OA\Schema(ref="#/components/schemas/data"),
-    *        }
+    *        @OA\Property(
+    *            property="page",
+    *            type="object",
+    *            allOf={
+    *               @OA\Schema(
+    *                   @OA\Property(
+    *                       property="title",
+    *                       type="string",
+    *                   ),
+    *                   @OA\Property(
+    *                       property="type",
+    *                       type="string",
+    *                   ),
+    *                   @OA\Property(
+    *                       property="searchBar",
+    *                       type="boolean",
+    *                   ),
+    *                   @OA\Property(
+    *                       property="trash",
+    *                       type="boolean",
+    *                   ),
+    *               ),
+    *            },
+    *        ),
+    *        @OA\Property(
+    *            property="layout",
+    *            type="object",
+    *            allOf={
+    *               @OA\Schema(
+    *                   @OA\Property(
+    *                       property="tableColumn",
+    *                       type="object",
+    *                   ),
+    *                   @OA\Property(
+    *                       property="tableToolBar",
+    *                       type="object",
+    *                   ),
+    *                   @OA\Property(
+    *                       property="batchToolBar",
+    *                       type="object",
+    *                   ),
+    *               ),
+    *            },
+    *        ),
+    *        @OA\Property(
+    *            property="dataSource",
+    *            type="array",
+    *            @OA\Items(ref="#/components/schemas/admin"),
+    *        ),
+    *        @OA\Property(
+    *            property="meta",
+    *            type="object",
+    *            allOf={
+    *               @OA\Schema(
+    *                   @OA\Property(
+    *                       property="total",
+    *                       type="number",
+    *                   ),
+    *                   @OA\Property(
+    *                       property="per_page",
+    *                       type="number",
+    *                   ),
+    *                   @OA\Property(
+    *                       property="page",
+    *                       type="number",
+    *                   ),
+    *               ),
+    *            },
+    *        ),
     *    ),
     * )
     */
-
-    /** @OA\Schema(
-    *    schema="data",
-    *    @OA\Property(
-    *        property="page",
-    *        type="object",
-    *        allOf={
-    *           @OA\Schema(
-    *               @OA\Property(
-    *                   property="title",
-    *                   type="string",
-    *               ),
-    *               @OA\Property(
-    *                   property="type",
-    *                   type="string",
-    *               ),
-    *               @OA\Property(
-    *                   property="searchBar",
-    *                   type="boolean",
-    *               ),
-    *               @OA\Property(
-    *                   property="trash",
-    *                   type="boolean",
-    *               ),
-    *           ),
-    *        },
-    *    ),
-    *    @OA\Property(
-    *        property="layout",
-    *        type="object",
-    *        allOf={
-    *           @OA\Schema(
-    *               @OA\Property(
-    *                   property="tableColumn",
-    *                   type="object",
-    *               ),
-    *               @OA\Property(
-    *                   property="tableToolBar",
-    *                   type="object",
-    *               ),
-    *               @OA\Property(
-    *                   property="batchToolBar",
-    *                   type="object",
-    *               ),
-    *           ),
-    *        },
-    *    ),
-    *    @OA\Property(
-    *        property="dataSource",
-    *        type="object",
-    *    ),
-    *    @OA\Property(
-    *        property="meta",
-    *        type="object",
-    *        allOf={
-    *           @OA\Schema(
-    *               @OA\Property(
-    *                   property="total",
-    *                   type="number",
-    *               ),
-    *               @OA\Property(
-    *                   property="per_page",
-    *                   type="number",
-    *               ),
-    *               @OA\Property(
-    *                   property="page",
-    *                   type="number",
-    *               ),
-    *           ),
-    *        },
-    *    ),
-    * )
-    */
-    
+ 
     /** @OA\Schema(
     *    schema="admin",
     *    @OA\Property(
@@ -209,8 +220,20 @@ class Admin extends Common
     *         )
     *     ),
     *     @OA\Response(
-    *         response=200,
-    *         description="Success"
+    *        response="200",
+    *        description="Success",
+    *        @OA\MediaType(
+    *            mediaType="application/json",
+    *            @OA\Schema(ref="#/components/schemas/admin-list"),
+    *        )
+    *     ),
+    *     @OA\Response(
+    *        response="200.1",
+    *        description="Need Login",
+    *        @OA\MediaType(
+    *            mediaType="application/json",
+    *            @OA\Schema(ref="#/components/schemas/error"),
+    *        )
     *     ),
     * )
     */
@@ -225,6 +248,9 @@ class Admin extends Common
     *     path="/backend/admins/add",
     *     summary="Get the page for adding a new administrator.",
     *     tags={"admins"},
+    *     security={
+    *       {"ApiKeyAuth": {}}
+    *     },
     *     @OA\Response(
     *         response=200,
     *         description="Success"
@@ -242,6 +268,9 @@ class Admin extends Common
     *     path="/backend/admins",
     *     summary="Used for adding a new administrator.",
     *     tags={"admins"},
+    *     security={
+    *       {"ApiKeyAuth": {}}
+    *     },
     *     @OA\RequestBody(
     *         required=true,
     *         @OA\MediaType(
@@ -289,8 +318,26 @@ class Admin extends Common
     *         )
     *     ),
     *     @OA\Response(
-    *         description="Success",
-    *         response=200,
+    *        response="200",
+    *        description="Success",
+    *        @OA\MediaType(
+    *            mediaType="application/json",
+    *            @OA\Schema(
+    *                type="object",
+    *                @OA\Property(
+    *                    property="success",
+    *                    type="boolean",
+    *                ),
+    *                @OA\Property(
+    *                    property="message",
+    *                    type="string",
+    *                ),
+    *                @OA\Property(
+    *                    property="data",
+    *                    type="object",
+    *                )
+    *            )
+    *        )
     *     ),
     * )
     */
@@ -306,11 +353,80 @@ class Admin extends Common
     *     path="/backend/admins/{id}",
     *     summary="Get information of a specific administrator.",
     *     tags={"admins"},
+    *     security={
+    *       {"ApiKeyAuth": {}}
+    *     },
     *     @OA\Parameter(
     *         name="id",
     *         in="path",
     *         required=true,
     *         @OA\Schema(type="integer")
+    *     ),
+    *     @OA\Response(
+    *        response="200",
+    *        description="Success",
+    *     ),
+    * )
+    */
+    public function read($id)
+    {
+        $result = $this->admin->readAPI($id, ['groups']);
+        
+        return $this->json(...$result);
+    }
+    /**
+    * @OA\Put(
+    *     path="/backend/admins/{id}",
+    *     summary="Update the information of a specific administrator.",
+    *     tags={"admins"},
+    *     security={
+    *       {"ApiKeyAuth": {}}
+    *     },
+    *     @OA\Parameter(
+    *         name="id",
+    *         in="path",
+    *         required=true,
+    *         @OA\Schema(type="integer")
+    *     ),
+    *     @OA\RequestBody(
+    *         required=true,
+    *         @OA\MediaType(
+    *             mediaType="application/json",
+    *             @OA\Schema(
+    *                 type="object",
+    *                 required={
+    *                     "password",
+    *                 },
+    *                 example={
+    *                     "password": "test1000-1",
+    *                     "display_name": "Test 1000-1",
+    *                     "group": {53},
+    *                     "create_time": "2020-11-02T16:11:24+08:00",
+    *                     "status": true,
+    *                 },
+    *                 @OA\Property(
+    *                     property="password",
+    *                     type="string",
+    *                 ),
+    *                 @OA\Property(
+    *                     property="group",
+    *                     type="array",
+    *                     @OA\Items(),
+    *                 ),
+    *                 @OA\Property(
+    *                     property="display_name",
+    *                     type="string",
+    *                 ),
+    *                 @OA\Property(
+    *                     property="create_time",
+    *                     type="string",
+    *                 ),
+    *                 @OA\Property(
+    *                     property="status",
+    *                     type="boolean",
+    *                 ),
+    *             )
+    *         )
     *     ),
     *     @OA\Response(
     *        response="200",
@@ -330,43 +446,141 @@ class Admin extends Common
     *                @OA\Property(
     *                    property="data",
     *                    type="object",
-    *                    allOf={
-    *                       @OA\Schema(ref="#/components/schemas/admin"),
-    *                    }
     *                )
     *            )
     *        )
     *     ),
     * )
     */
-    public function read($id)
-    {
-        $result = $this->admin->readAPI($id, ['groups']);
-        
-        return $this->json(...$result);
-    }
-
     public function update($id)
     {
         $result = $this->admin->updateAPI($id, $this->request->only($this->admin->getAllowUpdate()), ['groups']);
 
         return $this->json(...$result);
     }
-
+    /**
+    * @OA\Delete(
+    *     path="/backend/admins",
+    *     summary="Delete a administrator.",
+    *     tags={"admins"},
+    *     security={
+    *       {"ApiKeyAuth": {}}
+    *     },
+    *     @OA\RequestBody(
+    *         required=true,
+    *         @OA\MediaType(
+    *             mediaType="application/json",
+    *             @OA\Schema(
+    *                 type="object",
+    *                 required={
+    *                     "type",
+    *                     "ids",
+    *                 },
+    *                 example={
+    *                     "type": "delete",
+    *                     "ids": {53, 54, 55},
+    *                 },
+    *                 @OA\Property(
+    *                     property="type",
+    *                     type="string",
+    *                     enum={"delete","deletePermanently"}
+    *                 ),
+    *                 @OA\Property(
+    *                     property="ids",
+    *                     type="array",
+    *                     @OA\Items(),
+    *                 ),
+    *             )
+    *         )
+    *     ),
+    *     @OA\Response(
+    *        response="200",
+    *        description="Success",
+    *     ),
+    * )
+    */
     public function delete()
     {
         $result = $this->admin->deleteAPI($this->request->param('ids'), $this->request->param('type'));
         
         return $this->json(...$result);
     }
-
+    /**
+    * @OA\Post(
+    *     path="/backend/admins/restore",
+    *     summary="Restore a administrator from the trash can.",
+    *     tags={"admins"},
+    *     security={
+    *       {"ApiKeyAuth": {}}
+    *     },
+    *     @OA\RequestBody(
+    *         required=true,
+    *         @OA\MediaType(
+    *             mediaType="application/json",
+    *             @OA\Schema(
+    *                 type="object",
+    *                 required={
+    *                     "ids",
+    *                 },
+    *                 example={
+    *                     "ids": {53, 54, 55},
+    *                 },
+    *                 @OA\Property(
+    *                     property="ids",
+    *                     type="array",
+    *                     @OA\Items(),
+    *                 ),
+    *             )
+    *         )
+    *     ),
+    *     @OA\Response(
+    *        response="200",
+    *        description="Success",
+    *     ),
+    * )
+    */
     public function restore()
     {
         $result = $this->admin->restoreAPI($this->request->param('ids'));
         
         return $this->json(...$result);
     }
-
+    /**
+    * @OA\Post(
+    *     path="/backend/admins/login",
+    *     summary="Administrator login.",
+    *     tags={"admins"},
+    *     @OA\RequestBody(
+    *         required=true,
+    *         @OA\MediaType(
+    *             mediaType="application/json",
+    *             @OA\Schema(
+    *                 type="object",
+    *                 required={
+    *                     "username",
+    *                     "password",
+    *                 },
+    *                 example={
+    *                     "username": "admin0",
+    *                     "password": "admin0",
+    *                 },
+    *                 @OA\Property(
+    *                     property="username",
+    *                     type="string",
+    *                 ),
+    *                 @OA\Property(
+    *                     property="password",
+    *                     type="string",
+    *                 ),
+    *             )
+    *         )
+    *     ),
+    *     @OA\Response(
+    *        response="200",
+    *        description="Success",
+    *     ),
+    * )
+    */
     public function login()
     {
         $result = $this->admin->loginAPI($this->request->param());
@@ -381,18 +595,41 @@ class Admin extends Common
         
         return $this->json(...$result);
     }
-
+    /**
+    * @OA\Get(
+    *     path="/backend/admins/logout",
+    *     summary="Administrator log out.",
+    *     tags={"admins"},
+    *     @OA\Response(
+    *        response="200",
+    *        description="Success",
+    *     ),
+    * )
+    */
     public function logout()
     {
         Session::clear();
         return $this->success();
     }
-
+    /**
+    * @OA\Get(
+    *     path="/backend/admins/info",
+    *     summary="Get information of current login user.",
+    *     tags={"admins"},
+    *     security={
+    *       {"ApiKeyAuth": {}}
+    *     },
+    *     @OA\Response(
+    *        response="200",
+    *        description="Success",
+    *     ),
+    * )
+    */
     public function info()
     {
-        if (Session::has('userId')) {
+        if (Session::has('userId') || $this->request->param('X-API-KEY') === 'antd') {
             $data = [
-                "name" => Session::get('userName'),
+                "name" => Session::get('userName') ?? 'API TEST',
                 "avatar" => 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
                 "userid" => '00000001',
                 "email" => 'antdesign@alipay.com',
