@@ -41,6 +41,22 @@ class Common extends GlobalController
     *         name="admins",
     *         description="Operations about administrator",
     *     ),
+    *     @OA\Tag(
+    *         name="groups",
+    *         description="Operations about groups of administrator",
+    *     ),
+    *     @OA\Tag(
+    *         name="rules",
+    *         description="Operations about rule",
+    *     ),
+    *     @OA\Tag(
+    *         name="rules",
+    *         description="Operations about menu",
+    *     ),
+    *     @OA\Tag(
+    *         name="models",
+    *         description="Operations about model",
+    *     ),
     * ),
     *
     * @OA\Components(
