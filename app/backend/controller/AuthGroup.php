@@ -115,31 +115,16 @@ class AuthGroup extends Common
     *        format="int32",
     *    ),
     *    @OA\Property(
-    *        property="rule",
-    *        type="string",
-    *    ),
-    *    @OA\Property(
     *        property="name",
     *        type="string",
     *    ),
     *    @OA\Property(
-    *        property="type",
-    *        type="integer",
-    *    ),
-    *    @OA\Property(
-    *        property="condition",
-    *        type="string",
+    *        property="rules",
+    *        type="array",
+    *        @OA\Items()
     *    ),
     *    @OA\Property(
     *        property="create_time",
-    *        type="string",
-    *    ),
-    *    @OA\Property(
-    *        property="update_time",
-    *        type="string",
-    *    ),
-    *    @OA\Property(
-    *        property="delete_time",
     *        type="string",
     *    ),
     *    @OA\Property(
