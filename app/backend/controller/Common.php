@@ -50,7 +50,7 @@ class Common extends GlobalController
     *         description="Operations about rule",
     *     ),
     *     @OA\Tag(
-    *         name="rules",
+    *         name="menus",
     *         description="Operations about menu",
     *     ),
     *     @OA\Tag(
