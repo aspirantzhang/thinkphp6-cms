@@ -7,6 +7,10 @@ use think\facade\Config;
 
 class Index extends BaseController
 {
+    public function home()
+    {
+        return redirect('/admin/api');
+    }
     public function api()
     {
         $openapi = \OpenApi\scan(base_path());
