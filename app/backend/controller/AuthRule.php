@@ -32,9 +32,11 @@ class AuthRule extends Common
 
     public function save()
     {
-        $result = $this->authRule->saveAPI($this->request->only($this->authRule->getAllowSave()));
-
-        return $this->json(...$result);
+        $notPermitted = [
+            'success' => false,
+            'message' => 'Operation not permitted.'
+        ];
+        return $this->json($notPermitted);
     }
 
     public function read($id)
@@ -46,22 +48,28 @@ class AuthRule extends Common
 
     public function update($id)
     {
-        $result = $this->authRule->updateAPI($id, $this->request->only($this->authRule->getAllowUpdate()));
-
-        return $this->json(...$result);
+        $notPermitted = [
+            'success' => false,
+            'message' => 'Operation not permitted.'
+        ];
+        return $this->json($notPermitted);
     }
 
     public function delete()
     {
-        $result = $this->authRule->deleteAPI($this->request->param('ids'), $this->request->param('type'));
-        
-        return $this->json(...$result);
+        $notPermitted = [
+            'success' => false,
+            'message' => 'Operation not permitted.'
+        ];
+        return $this->json($notPermitted);
     }
 
     public function restore()
     {
-        $result = $this->authRule->restoreAPI($this->request->param('ids'));
-        
-        return $this->json(...$result);
+        $notPermitted = [
+            'success' => false,
+            'message' => 'Operation not permitted.'
+        ];
+        return $this->json($notPermitted);
     }
 }

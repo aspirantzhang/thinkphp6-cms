@@ -47,6 +47,13 @@ class Admin extends Common
 
     public function update($id)
     {
+        if ($id == 206) {
+            $notPermitted = [
+                'success' => false,
+                'message' => 'Operation not permitted.'
+            ];
+            return $this->json($notPermitted);
+        }
         $result = $this->admin->updateAPI($id, $this->request->only($this->admin->getAllowUpdate()), ['groups']);
 
         return $this->json(...$result);
@@ -54,16 +61,20 @@ class Admin extends Common
 
     public function delete()
     {
-        $result = $this->admin->deleteAPI($this->request->param('ids'), $this->request->param('type'));
-        
-        return $this->json(...$result);
+        $notPermitted = [
+            'success' => false,
+            'message' => 'Operation not permitted.'
+        ];
+        return $this->json($notPermitted);
     }
 
     public function restore()
     {
-        $result = $this->admin->restoreAPI($this->request->param('ids'));
-        
-        return $this->json(...$result);
+        $notPermitted = [
+            'success' => false,
+            'message' => 'Operation not permitted.'
+        ];
+        return $this->json($notPermitted);
     }
 
     public function login()
