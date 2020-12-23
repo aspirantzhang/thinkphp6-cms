@@ -109,8 +109,8 @@ class Admin extends Common
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
-                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/admins'),
-                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/admins'),
+                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/admins/:id'),
+                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/admins:id'),
                 Builder::button('Delete')->type('default')->action('delete')->uri('/backend/admins')->method('delete'),
             ])->title('Action'),
         ];
@@ -129,7 +129,7 @@ class Admin extends Common
     // Mutator
     public function setPasswordAttr($value)
     {
-        return password_hash($value, PASSWORD_ARGON2ID);
+        return password_hash($value, PASSWORD_DEFAULT);
     }
 
     // Searcher
