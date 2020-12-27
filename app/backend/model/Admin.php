@@ -92,12 +92,12 @@ class Admin extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/admins')->method('delete'),
+            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/admins/delete')->method('post'),
             Builder::button('Disable')->type('default')->action('batchDisable'),
         ];
         if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
             $batchToolBar = [
-                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/admins')->method('delete'),
+                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/admins/delete')->method('post'),
                 Builder::button('Restore')->type('default')->action('restore')->uri('/backend/admins/restore')->method('post'),
             ];
         }
@@ -110,8 +110,8 @@ class Admin extends Common
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/admins/:id'),
-                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/admins:id'),
-                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/admins')->method('delete'),
+                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/admins/:id'),
+                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/admins/delete')->method('post'),
             ])->title('Action'),
         ];
  

@@ -10,7 +10,7 @@ Route::group('admins', function () {
     Route::get(':id', 'read');
     Route::put(':id', 'update');
     Route::post('login', 'login');
+    Route::post('delete', 'delete');
     Route::post('', 'save');
-    Route::delete('', 'delete');
     Route::post('restore', 'restore');
 })->prefix('admin/')->middleware(app\middleware\RouterValidate::class, 'Admin');
