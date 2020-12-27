@@ -93,12 +93,12 @@ class AuthRule extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/rules')->method('delete'),
+            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/rules/delete')->method('delete'),
             Builder::button('Disable')->type('default')->action('batchDisable'),
         ];
         if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
             $batchToolBar = [
-                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/rules')->method('delete'),
+                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/rules/delete')->method('delete'),
                 Builder::button('Restore')->type('default')->action('restore')->uri('/backend/rules/restore')->method('post'),
             ];
         }
@@ -109,9 +109,9 @@ class AuthRule extends Common
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
-                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/rules'),
-                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/rules'),
-                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/rules')->method('delete'),
+                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/rules/:id'),
+                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/rules/:id'),
+                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/rules/delete')->method('delete'),
             ])->title('Action'),
         ];
 

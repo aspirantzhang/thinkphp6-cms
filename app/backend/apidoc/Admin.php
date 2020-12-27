@@ -398,7 +398,7 @@
     */
 
     /**
-    * @OA\Delete(
+    * @OA\Post(
     *     path="/backend/admins",
     *     summary="Delete administrators.",
     *     tags={"admins"},

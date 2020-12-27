@@ -97,12 +97,12 @@ class AuthGroup extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/groups')->method('delete'),
+            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/groups/delete')->method('delete'),
             Builder::button('Disable')->type('default')->action('function')->uri('batchDisableHandler'),
         ];
         if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
             $batchToolBar = [
-                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/groups')->method('delete'),
+                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/groups/delete')->method('delete'),
                 Builder::button('Restore')->type('default')->action('restore')->uri('/backend/groups/restore')->method('post'),
             ];
         }
@@ -112,9 +112,9 @@ class AuthGroup extends Common
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
-                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/groups'),
-                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/groups'),
-                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/groups')->method('delete'),
+                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/groups/:id'),
+                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/groups/:id'),
+                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/groups/delete')->method('delete'),
             ])->title('Action'),
         ];
 

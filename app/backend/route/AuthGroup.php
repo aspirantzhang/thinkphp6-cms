@@ -7,7 +7,7 @@ Route::group('groups', function () {
     Route::get('add', 'add');
     Route::get(':id', 'read');
     Route::put(':id', 'update');
+    Route::post('delete', 'delete');
     Route::post('', 'save');
-    Route::delete('', 'delete');
     Route::post('restore', 'restore');
 })->prefix('auth_group/')->middleware(app\middleware\RouterValidate::class, 'AuthGroup');

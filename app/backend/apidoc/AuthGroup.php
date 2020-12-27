@@ -373,7 +373,7 @@
     */
 
     /**
-    * @OA\Delete(
+    * @OA\Post(
     *     path="/backend/groups",
     *     summary="Delete groups.",
     *     tags={"groups"},

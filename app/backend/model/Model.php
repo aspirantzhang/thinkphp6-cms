@@ -85,10 +85,10 @@ class Model extends Common
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([
-                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/models'),
-                Builder::button('Design')->type('primary')->action('modelDesign')->uri('/backend/models/design'),
-                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/models'),
-                Builder::button('Delete Permanently')->type('default')->action('deletePermanently')->uri('/backend/models')->method('delete'),
+                Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/models/:id'),
+                Builder::button('Design')->type('primary')->action('modelDesign')->uri('/backend/models/design/:id'),
+                Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/models/:id'),
+                Builder::button('Delete Permanently')->type('default')->action('deletePermanently')->uri('/backend/models/delete')->method('delete'),
             ])->title('Action'),
         ];
 

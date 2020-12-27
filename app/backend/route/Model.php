@@ -9,7 +9,7 @@ Route::group('models', function () {
     Route::get('add', 'add');
     Route::get(':id', 'read');
     Route::put(':id', 'update');
+    Route::post('delete', 'delete');
     Route::post('', 'save');
-    Route::delete('', 'delete');
     Route::post('restore', 'restore');
 })->prefix('model/')->middleware(app\middleware\RouterValidate::class, 'Model');

@@ -3,7 +3,7 @@
     /**
     * @OA\OpenApi(
     *     @OA\Info(
-    *         version="1.0.0",
+    *         version="1.0.1",
     *         title="Public API v2",
     *         description="A free backend data interface. <br/>For development purposes only.<br/>[Authorize] X-API-KEY = antd",
     *         @OA\Contact(

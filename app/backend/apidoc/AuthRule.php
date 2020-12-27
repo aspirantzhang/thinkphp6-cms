@@ -399,7 +399,7 @@
     */
 
     /**
-    * @OA\Delete(
+    * @OA\Post(
     *     path="/backend/rules",
     *     summary="Delete rules.",
     *     tags={"rules"},
