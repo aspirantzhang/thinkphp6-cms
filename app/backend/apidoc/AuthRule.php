@@ -400,7 +400,7 @@
 
     /**
     * @OA\Post(
-    *     path="/backend/rules",
+    *     path="/backend/rules/delete",
     *     summary="Delete rules.",
     *     tags={"rules"},
     *     security={

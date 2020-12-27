@@ -417,7 +417,7 @@
 
     /**
     * @OA\Post(
-    *     path="/backend/menus",
+    *     path="/backend/menus/delete",
     *     summary="Delete menus.",
     *     tags={"menus"},
     *     security={

@@ -399,7 +399,7 @@
 
     /**
     * @OA\Post(
-    *     path="/backend/admins",
+    *     path="/backend/admins/delete",
     *     summary="Delete administrators.",
     *     tags={"admins"},
     *     security={

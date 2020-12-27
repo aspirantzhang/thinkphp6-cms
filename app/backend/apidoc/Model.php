@@ -365,7 +365,7 @@
 
     /**
     * @OA\Post(
-    *     path="/backend/models",
+    *     path="/backend/models/delete",
     *     summary="Delete models.",
     *     tags={"models"},
     *     security={
