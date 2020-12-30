@@ -12,12 +12,14 @@ class ValidateExtend extends \think\Service
     {
         Validate::maker(function ($validate) {
             $validate->extend('dateTimeRange', function ($value) {
+                if (!$value) {
+                    return false;
+                }
                 if (validateDateTime($value, \DateTime::ATOM)) {
                     return true;
                 }
-                $value = urldecode($value);
                 $valueArray = explode(',', $value);
-                if (count($valueArray) === 2 && validateDateTime($valueArray[0], 'Y-m-d\TH:i:s\Z') && validateDateTime($valueArray[1], 'Y-m-d\TH:i:s\Z')) {
+                if (count($valueArray) === 2 && validateDateTime($valueArray[0], \DateTime::ATOM) && validateDateTime($valueArray[1], \DateTime::ATOM)) {
                     return true;
                 } else {
                     return false;
