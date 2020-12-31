@@ -1,5 +1,17 @@
 <?php
 
+    /**
+    * @OA\Get(
+    *     path="/backend/menus/backend",
+    *     summary="Get menus of backend.",
+    *     tags={"menus"},
+    *     @OA\Response(
+    *        response="200",
+    *        description="Success",
+    *     )
+    * )
+    */
+
     /** @OA\Schema(
     *    schema="menu-list",
     *    @OA\Property(
@@ -485,21 +497,6 @@
     *             )
     *         )
     *     ),
-    *     @OA\Response(
-    *        response="200",
-    *        description="Success",
-    *     ),
-    * )
-    */
-
-    /**
-    * @OA\Get(
-    *     path="/backend/menus/backend",
-    *     summary="Get menus of backend.",
-    *     tags={"menus"},
-    *     security={
-    *       {"ApiKeyAuth": {}}
-    *     },
     *     @OA\Response(
     *        response="200",
     *        description="Success",

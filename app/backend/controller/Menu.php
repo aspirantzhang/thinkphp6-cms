@@ -77,6 +77,6 @@ class Menu extends Common
     {
         $result = $this->menu->treeDataAPI(['order' => 'asc']);
 
-        return json($result);
+        return $this->json($result);
     }
 }
