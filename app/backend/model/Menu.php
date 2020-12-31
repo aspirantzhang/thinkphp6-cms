@@ -95,12 +95,12 @@ class Menu extends Common
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/menus/delete')->method('delete'),
+            Builder::button('Delete')->type('danger')->action('delete')->uri('/backend/menus/delete')->method('post'),
             Builder::button('Disable')->type('default')->action('batchDisable'),
         ];
         if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
             $batchToolBar = [
-                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/menus/delete')->method('delete'),
+                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/backend/menus/delete')->method('post'),
                 Builder::button('Restore')->type('default')->action('restore')->uri('/backend/menus/restore')->method('post'),
             ];
         }
@@ -115,7 +115,7 @@ class Menu extends Common
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/menus/:id'),
                 Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/menus/:id'),
-                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/menus/delete')->method('delete'),
+                Builder::button('Delete')->type('default')->action('delete')->uri('/backend/menus/delete')->method('post'),
             ])->title('Action'),
         ];
 

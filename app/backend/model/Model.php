@@ -88,7 +88,7 @@ class Model extends Common
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/models/:id'),
                 Builder::button('Design')->type('primary')->action('modelDesign')->uri('/backend/models/design/:id'),
                 Builder::button('Full page edit')->type('default')->action('page')->uri('/backend/models/:id'),
-                Builder::button('Delete Permanently')->type('default')->action('deletePermanently')->uri('/backend/models/delete')->method('delete'),
+                Builder::button('Delete Permanently')->type('default')->action('deletePermanently')->uri('/backend/models/delete')->method('post'),
             ])->title('Action'),
         ];
 
