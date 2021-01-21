@@ -41,7 +41,7 @@ class Admin extends Common
     public function read($id)
     {
         $result = $this->admin->readAPI($id, ['groups']);
-        
+
         return $this->json(...$result);
     }
 
@@ -81,14 +81,14 @@ class Admin extends Common
     {
         $result = $this->admin->loginAPI($this->request->param());
         [ $httpBody ] = $result;
-        
+
         if ($httpBody['success'] === true) {
             $userId = $httpBody['data']['id'];
             $userName = $httpBody['data']['username'];
             Session::set('userId', $userId);
             Session::set('userName', $userName);
         }
-        
+
         return $this->json(...$result);
     }
 
@@ -152,7 +152,7 @@ class Admin extends Common
                 "address" => '西湖区工专路 77 号',
                 "phone" => '0752-268888888',
             ];
-            
+
             return $this->json($data);
         } else {
             $notLogin = [
