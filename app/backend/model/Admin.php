@@ -12,7 +12,7 @@ class Admin extends Common
     // Allow fields
     protected $readonly = ['id', 'username'];
     protected $unique = [ 'username' => 'Username' ];
-    
+
     public $allowHome = ['groups', 'username', 'display_name'];
     public $allowList = ['groups', 'username', 'display_name'];
     public $allowRead = ['username', 'display_name'];
@@ -58,7 +58,7 @@ class Admin extends Common
                         ->action($action)
                         ->toArray();
     }
-    
+
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
@@ -114,7 +114,20 @@ class Admin extends Common
                 Builder::button('Delete')->type('default')->action('delete')->uri('/backend/admins/delete')->method('post'),
             ])->title('Action'),
         ];
- 
+        if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
+            $tableColumn = [
+                Builder::field('username', 'Username')->type('text'),
+                Builder::field('groups', 'Groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
+                Builder::field('display_name', 'Display Name')->type('text'),
+                Builder::field('delete_time', 'Delete Time')->type('datetime')->sorter(true),
+                Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+                Builder::field('trash', 'Trash')->type('trash'),
+                Builder::actions([
+                    Builder::button('Restore')->type('default')->action('restore')->uri('/backend/admins/restore')->method('post'),
+                ])->title('Action'),
+            ];
+        }
+
         return Builder::page('User List')
             ->type('basicList')
             ->searchBar(true)
@@ -123,7 +136,7 @@ class Admin extends Common
             ->batchToolBar($batchToolBar)
             ->toArray();
     }
-    
+
     // Accessor
 
     // Mutator
