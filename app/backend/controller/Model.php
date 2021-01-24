@@ -10,6 +10,7 @@ use think\facade\Config;
 use think\facade\Console;
 use app\backend\service\AuthRule as RuleService;
 use app\backend\service\Menu as MenuService;
+use think\helper\Str;
 
 class Model extends Common
 {
@@ -22,7 +23,7 @@ class Model extends Common
     public function home()
     {
         $result = $this->model->paginatedListAPI($this->request->only($this->model->getAllowHome()));
-    
+
         return $this->json(...$result);
     }
 
@@ -35,7 +36,8 @@ class Model extends Common
 
     public function save()
     {
-        $tableName = strtolower($this->request->param('name'));
+        $tableName = strtolower($this->request->param('table_name'));
+        $routeName = strtolower($this->request->param('route_name'));
         $tableTitle = $this->request->param('title');
         $currentTime = date("Y-m-d H:i:s");
 
@@ -49,13 +51,13 @@ class Model extends Common
 
         $result = $this->model->saveAPI($this->request->only($this->model->getAllowSave()));
         [ $httpBody ] = $result;
-        
-        if ($httpBody['success'] === true) {
-            // Create Files
-            Console::call('make:buildModel', [$tableTitle]);
 
+        if ($httpBody['success'] === true) {
             Db::startTrans();
             try {
+                // Create Files
+                Console::call('make:buildModel', [Str::studly($tableName), '--route=' . $routeName]);
+
                 // Create Table
                 Db::execute("CREATE TABLE `$tableName` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `create_time` DATETIME NOT NULL , `update_time` DATETIME NOT NULL , `delete_time` DATETIME NULL DEFAULT NULL , `status` TINYINT(1) NOT NULL DEFAULT '1' , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
 
@@ -69,30 +71,30 @@ class Model extends Common
                 $parentRuleId = $parentRule->id;
                 $rule = new RuleService();
                 $initRules = [
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Home', 'rule' => 'backend/' . $tableName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Add', 'rule' => 'backend/' . $tableName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Save', 'rule' => 'backend/' . $tableName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Read', 'rule' => 'backend/' . $tableName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Update', 'rule' => 'backend/' . $tableName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Delete', 'rule' => 'backend/' . $tableName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Restore', 'rule' => 'backend/' . $tableName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Home', 'rule' => 'backend/' . $routeName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Add', 'rule' => 'backend/' . $routeName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Save', 'rule' => 'backend/' . $routeName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Read', 'rule' => 'backend/' . $routeName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Update', 'rule' => 'backend/' . $routeName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Delete', 'rule' => 'backend/' . $routeName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Restore', 'rule' => 'backend/' . $routeName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
                 ];
                 $rule->saveAll($initRules);
 
                 // Add Menus
                 $parentMenu = MenuService::create([
                 'parent_id' => 0,
-                'name' => $tableName . '-list',
+                'name' => $routeName . '-list',
                 'icon' => 'icon-project',
-                'path' => '/basic-list/backend/' . $tableName . 's',
+                'path' => '/basic-list/backend/' . $routeName,
                 'create_time' => $currentTime,
                 'update_time' => $currentTime,
                 ]);
                 $parentMenuId = $parentMenu->id;
                 $menu = new MenuService();
                 $initMenus = [
-                    ['parent_id' => $parentMenuId, 'name' => 'add', 'path' => '/basic-list/backend/' . $tableName . 's/add', 'hideInMenu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentMenuId, 'name' => 'edit', 'path' => '/basic-list/backend/' . $tableName . 's/:id', 'hideInMenu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentMenuId, 'name' => 'add', 'path' => '/basic-list/backend/' . $routeName . '/add', 'hideInMenu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentMenuId, 'name' => 'edit', 'path' => '/basic-list/backend/' . $routeName . '/:id', 'hideInMenu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
                 ];
                 $menu->saveAll($initMenus);
             } catch (\Exception $e) {
@@ -117,6 +119,7 @@ class Model extends Common
         return $this->json(...$result);
     }
 
+    // TODO: Transaction delete table
     public function delete()
     {
         $result = $this->model->deleteAPI($this->request->param('ids'), $this->request->param('type'));
@@ -124,9 +127,10 @@ class Model extends Common
 
         if ($httpBody['success'] === true && isset($httpBody['data']) && count($httpBody['data']) === 1) {
             $tableTitle = $httpBody['data'][0]['title'];
-            $tableName = $httpBody['data'][0]['name'];
+            $tableName = $httpBody['data'][0]['table_name'];
+            $routeName = $httpBody['data'][0]['route_name'];
 
-            Console::call('make:removeModel', [$tableTitle]);
+            Console::call('make:removeModel', [Str::studly($tableName)]);
 
             // Drop Table
             Db::execute("DROP TABLE IF EXISTS `$tableName`");
@@ -145,7 +149,7 @@ class Model extends Common
             }
 
             // Delete Parent Menu
-            $parentMenu = MenuService::where('name', $tableName . '-list')->find();
+            $parentMenu = MenuService::where('name', $routeName . '-list')->find();
             $parentMenuId = $parentMenu->id;
             $parentMenu->force()->delete();
             // Delete Children Menu
@@ -157,14 +161,14 @@ class Model extends Common
                 }
             }
         }
-        
+
         return $this->json(...$result);
     }
 
     public function restore()
     {
         $result = $this->model->restoreAPI($this->request->param('ids'));
-        
+
         return $this->json(...$result);
     }
 
@@ -175,9 +179,10 @@ class Model extends Common
         return $this->json(...$result);
     }
 
+    // TODO: transaction
     public function designUpdate($id)
     {
-        $tableName = ModelService::where('id', $id)->value('name');
+        $tableName = ModelService::where('id', $id)->value('table_name');
 
         // Reserved model check
         if (in_array($tableName, Config::get('model.reserved_table'))) {
@@ -240,7 +245,7 @@ class Model extends Common
                     $method = 'ADD';
                     $fieldSqlArray[] = " $method `${field['name']}` $type$typeAddon NOT NULL $default";
                 }
-                
+
                 if (in_array($field['name'], $change)) {
                     $method = 'CHANGE';
                     $fieldSqlArray[] = " $method `${field['name']}` `${field['name']}` $type$typeAddon NOT NULL $default";

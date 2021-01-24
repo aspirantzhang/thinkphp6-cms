@@ -55,7 +55,7 @@ trait Model
     // Other
     protected function getModelData()
     {
-        $modelData = ModelService::where('name', $this->getTableName())->find();
+        $modelData = ModelService::where('table_name', $this->getTableName())->find();
         if ($modelData) {
             return $modelData['data'];
         }

@@ -10,21 +10,22 @@ class Model extends Common
 {
     protected $json = ['data'];
     protected $jsonAssoc = true;
-    protected $readonly = ['id', 'name'];
-    protected $unique = ['name' => 'Table Name'];
+    protected $readonly = ['id', 'title', 'table_name', 'route_name'];
+    protected $unique = ['title' => 'Model Title', 'table_name' => 'Table Name', 'route_name' => 'Route Name'];
 
-    public $allowHome = ['title', 'name', 'data'];
-    public $allowList = ['title', 'name', 'data'];
-    public $allowRead = ['title', 'name', 'data'];
-    public $allowSave = ['title', 'name', 'data'];
+    public $allowHome = ['title', 'table_name', 'route_name', 'data'];
+    public $allowList = ['title', 'table_name', 'route_name', 'data'];
+    public $allowRead = ['title', 'table_name', 'route_name', 'data'];
+    public $allowSave = ['title', 'table_name', 'route_name', 'data'];
     public $allowUpdate = ['title', 'data'];
-    public $allowSearch = ['title', 'name'];
-   
+    public $allowSearch = ['title', 'table_name', 'route_name'];
+
     public function addBuilder($addonData = [])
     {
         $basic = [
             Builder::field('title', 'Model Title')->type('text'),
-            Builder::field('name', 'Name')->type('text'),
+            Builder::field('table_name', 'Table Name')->type('text'),
+            Builder::field('route_name', 'Route Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
         ];
@@ -42,12 +43,13 @@ class Model extends Common
                         ->action($action)
                         ->toArray();
     }
-    
+
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('title', 'Model Title')->type('text'),
-            Builder::field('name', 'Name')->type('text')->disabled(true),
+            Builder::field('title', 'Model Title')->type('text')->disabled(true),
+            Builder::field('table_name', 'Table Name')->type('text')->disabled(true),
+            Builder::field('route_name', 'Route Name')->type('text')->disabled(true),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
@@ -81,7 +83,8 @@ class Model extends Common
         $batchToolBar = [];
         $tableColumn = [
             Builder::field('title', 'Model Title')->type('text'),
-            Builder::field('name', 'Name')->type('text'),
+            Builder::field('table_name', 'Table Name')->type('text'),
+            Builder::field('route_name', 'Route Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::actions([
@@ -102,11 +105,11 @@ class Model extends Common
     }
 
     // Mutator
-    public function setNameAttr($value, $data)
+    public function setRouteNameAttr($value, $data)
     {
-        $defaultData = new \StdClass();
-        $defaultData->routeName = $value . 's';
-        $this->set('data', $defaultData);
+        $modelDataField = new \StdClass();
+        $modelDataField->routeName = $value;
+        $this->set('data', $modelDataField);
         return strtolower($value);
     }
 }
