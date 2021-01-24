@@ -29,7 +29,7 @@ class Menu extends Common
     }
 
     // Relation
-    
+
     public function addBuilder($addonData = [])
     {
         $basic = [
@@ -37,11 +37,11 @@ class Menu extends Common
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
-            Builder::field('hideInMenu', 'Hide')->type('tag')->data($addonData['hideInMenu']),
-            Builder::field('hideChildrenInMenu', 'Hide Children')->type('tag')->data($addonData['hideChildrenInMenu']),
-            Builder::field('flatMenu', 'Flat')->type('tag')->data($addonData['flatMenu']),
+            Builder::field('hideInMenu', 'Hide')->type('switch')->data($addonData['hideInMenu']),
+            Builder::field('hideChildrenInMenu', 'Hide Children')->type('switch')->data($addonData['hideChildrenInMenu']),
+            Builder::field('flatMenu', 'Flat')->type('switch')->data($addonData['flatMenu']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
@@ -65,12 +65,12 @@ class Menu extends Common
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
-            Builder::field('hideInMenu', 'Hide')->type('tag')->data($addonData['hideInMenu']),
-            Builder::field('hideChildrenInMenu', 'Hide Children')->type('tag')->data($addonData['hideChildrenInMenu']),
-            Builder::field('flatMenu', 'Flat')->type('tag')->data($addonData['flatMenu']),
+            Builder::field('hideInMenu', 'Hide')->type('switch')->data($addonData['hideInMenu']),
+            Builder::field('hideChildrenInMenu', 'Hide Children')->type('switch')->data($addonData['hideChildrenInMenu']),
+            Builder::field('flatMenu', 'Flat')->type('switch')->data($addonData['flatMenu']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
@@ -108,9 +108,9 @@ class Menu extends Common
             Builder::field('name', 'Menu Name')->type('text'),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
-            Builder::field('hideInMenu', 'Hide')->type('tag')->data($addonData['hideInMenu']),
+            Builder::field('hideInMenu', 'Hide')->type('switch')->data($addonData['hideInMenu']),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/menus/:id'),
@@ -127,7 +127,7 @@ class Menu extends Common
                         ->batchToolBar($batchToolBar)
                         ->toArray();
     }
-    
+
     // Accessor
 
     // Mutator

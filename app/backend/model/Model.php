@@ -27,7 +27,7 @@ class Model extends Common
             Builder::field('table_name', 'Table Name')->type('text'),
             Builder::field('route_name', 'Route Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
@@ -52,7 +52,7 @@ class Model extends Common
             Builder::field('route_name', 'Route Name')->type('text')->disabled(true),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
         $dataTab = [
             Builder::field('data', 'Model Data')->type('textarea'),
@@ -86,7 +86,7 @@ class Model extends Common
             Builder::field('table_name', 'Table Name')->type('text'),
             Builder::field('route_name', 'Route Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/models/:id'),
                 Builder::button('Design')->type('primary')->action('modelDesign')->uri('/backend/models/design/:id'),

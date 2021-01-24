@@ -24,7 +24,7 @@ trait View
             $addonFields = [
                 Builder::field('create_time', 'Create Time')->type('datetime'),
                 Builder::field('update_time', 'Update Time')->type('datetime'),
-                Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+                Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             ];
             $basic = array_merge($basic, $addonFields);
 
@@ -65,7 +65,7 @@ trait View
             $addonFields = [
                 Builder::field('create_time', 'Create Time')->type('datetime'),
                 Builder::field('update_time', 'Update Time')->type('datetime'),
-                Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+                Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             ];
             $main = array_merge($main, $addonFields);
 
@@ -151,7 +151,7 @@ trait View
         }
         $addonFields = [
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
         ];
 

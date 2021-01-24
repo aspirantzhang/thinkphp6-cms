@@ -19,7 +19,7 @@ class AuthGroup extends Common
     public $allowSave = ['parent_id', 'name', 'rules'];
     public $allowUpdate = ['parent_id', 'name', 'rules'];
     public $allowSearch = ['parent_id', 'name', 'rules'];
-    
+
     protected function setAddonData($params = [])
     {
         return [
@@ -47,7 +47,7 @@ class AuthGroup extends Common
             Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
@@ -63,7 +63,7 @@ class AuthGroup extends Common
             ->action($action)
             ->toArray();
     }
-    
+
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
@@ -72,7 +72,7 @@ class AuthGroup extends Common
             Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
@@ -109,7 +109,7 @@ class AuthGroup extends Common
         $tableColumn = [
             Builder::field('name', 'Group Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/groups/:id'),

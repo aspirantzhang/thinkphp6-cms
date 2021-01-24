@@ -41,7 +41,7 @@ class AuthRule extends Common
             Builder::field('type', 'Type')->type('text'),
             Builder::field('condition', 'Condition')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
         $action = [
             Builder::button('Reset')->type('dashed')->action('reset'),
@@ -66,7 +66,7 @@ class AuthRule extends Common
             Builder::field('rule', 'Rule')->type('text'),
             Builder::field('type', 'Type')->type('text'),
             Builder::field('condition', 'Condition')->type('text'),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
         ];
@@ -106,7 +106,7 @@ class AuthRule extends Common
             Builder::field('name', 'Rule Name')->type('text'),
             Builder::field('rule', 'Rule')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
+            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/backend/rules/:id'),
@@ -123,7 +123,7 @@ class AuthRule extends Common
             ->batchToolBar($batchToolBar)
             ->toArray();
     }
-    
+
     // Accessor
 
     // Mutator
