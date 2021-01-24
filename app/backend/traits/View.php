@@ -11,7 +11,7 @@ trait View
     public function addBuilder($addonData = [])
     {
         $modelData = $this->getModelData();
-       
+
         if ($modelData) {
             $basic = [];
             foreach ($modelData['fields'] as $addField) {
@@ -30,9 +30,9 @@ trait View
 
             $action = [];
             foreach ($modelData['addAction'] as $addAction) {
-                $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->action($addAction['action'])->method($addAction['method']);
+                $thisAction = Builder::button($addAction['title'])->type($addAction['type'])->action($addAction['action'])->method($addAction['method']);
                 if (isset($addAction['uri'])) {
-                    $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->action($addAction['action'])->uri($addAction['uri'])->method($addAction['method']);
+                    $thisAction = Builder::button($addAction['title'])->type($addAction['type'])->action($addAction['action'])->uri($addAction['uri'])->method($addAction['method']);
                 }
                 $action[] = $thisAction;
             }
@@ -49,7 +49,7 @@ trait View
     public function editBuilder($id, $addonData = [])
     {
         $modelData = $this->getModelData();
-       
+
         if ($modelData) {
             $main = [];
             foreach ($modelData['fields'] as $addField) {
@@ -71,10 +71,10 @@ trait View
 
             $action = [];
             foreach ($modelData['editAction'] as $editAction) {
-                $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->action($editAction['action'])->method($editAction['method']);
+                $thisAction = Builder::button($editAction['title'])->type($editAction['type'])->action($editAction['action'])->method($editAction['method']);
                 if (isset($editAction['uri'])) {
                     $editAction['uri'] = str_replace(':id', $id, $editAction['uri']);
-                    $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->action($editAction['action'])->uri($editAction['uri'])->method($editAction['method']);
+                    $thisAction = Builder::button($editAction['title'])->type($editAction['type'])->action($editAction['action'])->uri($editAction['uri'])->method($editAction['method']);
                 }
 
                 $action[] = $thisAction;
@@ -95,13 +95,13 @@ trait View
         if (!$modelData) {
             return [];
         }
-        
+
         $tableData = [];
         if (isset($modelData['tableToolbar'])) {
             foreach ($modelData['tableToolbar'] as $tableToolbar) {
-                $thisAction = Builder::button($tableToolbar['name'])->type($tableToolbar['type'])->action($tableToolbar['action'])->method($tableToolbar['method']);
+                $thisAction = Builder::button($tableToolbar['title'])->type($tableToolbar['type'])->action($tableToolbar['action'])->method($tableToolbar['method']);
                 if (isset($tableToolbar['uri'])) {
-                    $thisAction = Builder::button($tableToolbar['name'])->type($tableToolbar['type'])->action($tableToolbar['action'])->method($tableToolbar['method'])->uri($tableToolbar['uri']);
+                    $thisAction = Builder::button($tableToolbar['title'])->type($tableToolbar['type'])->action($tableToolbar['action'])->method($tableToolbar['method'])->uri($tableToolbar['uri']);
                 }
                 $tableData[] = $thisAction;
             }
@@ -110,9 +110,9 @@ trait View
         $batchData = [];
         if ($modelData['batchToolbar']) {
             foreach ($modelData['batchToolbar'] as $batch) {
-                $thisAction = Builder::button($batch['name'])->type($batch['type'])->action($batch['action'])->method($batch['method']);
+                $thisAction = Builder::button($batch['title'])->type($batch['type'])->action($batch['action'])->method($batch['method']);
                 if (isset($batch['uri'])) {
-                    $thisAction = Builder::button($batch['name'])->type($batch['type'])->action($batch['action'])->method($batch['method'])->uri($batch['uri']);
+                    $thisAction = Builder::button($batch['title'])->type($batch['type'])->action($batch['action'])->method($batch['method'])->uri($batch['uri']);
                 }
                 $batchData[] = $thisAction;
             }
@@ -123,9 +123,9 @@ trait View
             $batchData = [];
             if ($modelData['batchToolbarTrashed']) {
                 foreach ($modelData['batchToolbarTrashed'] as $batch) {
-                    $thisAction = Builder::button($batch['name'])->type($batch['type'])->action($batch['action'])->method($batch['method']);
+                    $thisAction = Builder::button($batch['title'])->type($batch['type'])->action($batch['action'])->method($batch['method']);
                     if (isset($batch['uri'])) {
-                        $thisAction = Builder::button($batch['name'])->type($batch['type'])->action($batch['action'])->method($batch['method'])->uri($batch['uri']);
+                        $thisAction = Builder::button($batch['title'])->type($batch['type'])->action($batch['action'])->method($batch['method'])->uri($batch['uri']);
                     }
                     $batchData[] = $thisAction;
                 }
@@ -154,13 +154,13 @@ trait View
             Builder::field('status', 'Status')->type('tag')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
         ];
-        
+
         $actions = [];
         if ($modelData['listAction']) {
             foreach ($modelData['listAction'] as $listAction) {
-                $thisAction = Builder::button($listAction['name'])->type($listAction['type'])->action($listAction['action'])->method($listAction['method']);
+                $thisAction = Builder::button($listAction['title'])->type($listAction['type'])->action($listAction['action'])->method($listAction['method']);
                 if (isset($listAction['uri'])) {
-                    $thisAction = Builder::button($listAction['name'])->type($listAction['type'])->action($listAction['action'])->method($listAction['method'])->uri($listAction['uri']);
+                    $thisAction = Builder::button($listAction['title'])->type($listAction['type'])->action($listAction['action'])->method($listAction['method'])->uri($listAction['uri']);
                 }
                 $actions[] = $thisAction;
             }
