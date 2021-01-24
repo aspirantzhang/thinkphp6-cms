@@ -16,8 +16,8 @@ trait View
             $basic = [];
             foreach ($modelData['fields'] as $addField) {
                 $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type']);
-                if (isset($addField['addData']) && $addField['addData'] == 1) {
-                    $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type'])->data($addonData[$addField['name']]);
+                if (isset($addField['data'])) {
+                    $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type'])->data($addField['data']);
                 }
                 $basic[] = $thisField;
             }
@@ -54,8 +54,8 @@ trait View
             $main = [];
             foreach ($modelData['fields'] as $addField) {
                 $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type']);
-                if (isset($addField['addData']) && $addField['addData'] == 1) {
-                    $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type'])->data($addonData[$addField['name']]);
+                if (isset($addField['data'])) {
+                    $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type'])->data($addField['data']);
                 }
                 if (isset($addField['editDisabled']) && $addField['editDisabled'] == 1) {
                     $thisField->disabled = true;
