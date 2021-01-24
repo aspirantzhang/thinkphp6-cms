@@ -222,11 +222,20 @@ function findFieldInDescendant(string $field, $array = [])
             $result = array_merge($result, findFieldInDescendant($field, $arr['children']));
         }
     }
-    
+
     return $result;
 }
 
-function getSingleChoiceValue($trueText = 'Enabled', $falseText = 'Disabled')
+function createSingleChoice($trueValueTitle = 'Enabled', $falseValueTitle = 'Disabled')
 {
-    return [0 => $falseText, 1 => $trueText];
+    return [
+        [
+            'title' => $trueValueTitle,
+            'value' => 1,
+        ],
+        [
+            'title' => $falseValueTitle,
+            'value' => 0,
+        ],
+    ];
 }

@@ -22,9 +22,9 @@ class Menu extends Common
     {
         return [
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
-            'hideInMenu' => getSingleChoiceValue('Hide', 'Show'),
-            'hideChildrenInMenu' => getSingleChoiceValue(),
-            'flatMenu' => getSingleChoiceValue(),
+            'hideInMenu' => createSingleChoice('Hide', 'Show'),
+            'hideChildrenInMenu' => createSingleChoice(),
+            'flatMenu' => createSingleChoice(),
         ];
     }
 

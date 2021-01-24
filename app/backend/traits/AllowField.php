@@ -15,9 +15,9 @@ trait AllowField
             $custom = $this->setAddonData($params);
         }
         $builtIn = [
-            'status' => getSingleChoiceValue(),
+            'status' => createSingleChoice(),
         ];
-        
+
         return array_merge($builtIn, $custom);
     }
 
@@ -32,7 +32,7 @@ trait AllowField
                 $custom = $this->getModelFields('home');
             }
         }
-        
+
         return array_merge($builtIn, $custom);
     }
 
@@ -47,7 +47,7 @@ trait AllowField
                 $custom = $this->getModelFields('list');
             }
         }
-        
+
         return array_merge($builtIn, $custom);
     }
 
@@ -107,10 +107,10 @@ trait AllowField
                 $custom = $this->getModelFields('update');
             }
         }
-        
+
         return array_merge($builtIn, $custom);
     }
-    
+
     public function getAllowSearch()
     {
         $builtIn = Config::get('field.allowSearch');
