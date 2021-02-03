@@ -137,8 +137,8 @@ trait View
         if ($modelData['fields']) {
             foreach ($modelData['fields'] as $listField) {
                 $thisField = Builder::field($listField['name'], $listField['title'])->type($listField['type']);
-                if (isset($listField['addData']) && $listField['addData'] == 1) {
-                    $thisField = Builder::field($listField['name'], $listField['title'])->type($listField['type'])->data($addonData[$listField['name']]);
+                if (isset($listField['data'])) {
+                    $thisField = Builder::field($listField['name'], $listField['title'])->type($listField['type'])->data($listField['data']);
                 }
                 if (isset($listField['listHideInColumn']) && $listField['listHideInColumn'] === '1') {
                     continue;
