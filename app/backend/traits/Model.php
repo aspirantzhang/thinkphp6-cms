@@ -53,18 +53,19 @@ trait Model
     }
 
     // Other
-    protected function getModelData()
+    protected function getModelData($fieldName = '')
     {
-        $modelData = ModelService::where('table_name', $this->getTableName())->find();
-        if ($modelData) {
-            return $modelData['data'];
+        if ($fieldName) {
+            $fieldData = ModelService::where('table_name', $this->getTableName())->find();
+            return $fieldData['data'] ?? [];
+        } else {
+            return ModelService::where('table_name', $this->getTableName())->find();
         }
-        return [];
     }
 
     protected function getModelFields($type = null)
     {
-        $data = $this->getModelData();
+        $data = $this->getModelData('data');
         if ($data) {
             switch ($type) {
                 case 'home':

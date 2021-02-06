@@ -10,11 +10,11 @@ trait View
 {
     public function addBuilder($addonData = [])
     {
-        $modelData = $this->getModelData();
+        $model = $this->getModelData();
 
-        if ($modelData) {
+        if ($model['data']) {
             $basic = [];
-            foreach ($modelData['fields'] as $addField) {
+            foreach ($model['data']['fields'] as $addField) {
                 $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type']);
                 if (isset($addField['data'])) {
                     $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type'])->data($addField['data']);
@@ -29,7 +29,7 @@ trait View
             $basic = array_merge($basic, $addonFields);
 
             $action = [];
-            foreach ($modelData['addAction'] as $addAction) {
+            foreach ($model['data']['addAction'] as $addAction) {
                 $thisAction = Builder::button($addAction['title'])->type($addAction['type'])->action($addAction['action'])->method($addAction['method']);
                 if (isset($addAction['uri'])) {
                     $thisAction = Builder::button($addAction['title'])->type($addAction['type'])->action($addAction['action'])->uri($addAction['uri'])->method($addAction['method']);
@@ -37,7 +37,7 @@ trait View
                 $action[] = $thisAction;
             }
 
-            return Builder::page('User Add')
+            return Builder::page($model['route_name'] . '-add')
                             ->type('page')
                             ->tab($basic)
                             ->action($action)
@@ -48,11 +48,11 @@ trait View
 
     public function editBuilder($id, $addonData = [])
     {
-        $modelData = $this->getModelData();
+        $model = $this->getModelData();
 
-        if ($modelData) {
+        if ($model['data']) {
             $main = [];
-            foreach ($modelData['fields'] as $addField) {
+            foreach ($model['data']['fields'] as $addField) {
                 $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type']);
                 if (isset($addField['data'])) {
                     $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type'])->data($addField['data']);
@@ -70,7 +70,7 @@ trait View
             $main = array_merge($main, $addonFields);
 
             $action = [];
-            foreach ($modelData['editAction'] as $editAction) {
+            foreach ($model['data']['editAction'] as $editAction) {
                 $thisAction = Builder::button($editAction['title'])->type($editAction['type'])->action($editAction['action'])->method($editAction['method']);
                 if (isset($editAction['uri'])) {
                     $editAction['uri'] = str_replace(':id', $id, $editAction['uri']);
@@ -80,7 +80,7 @@ trait View
                 $action[] = $thisAction;
             }
 
-            return Builder::page('User Edit')
+            return Builder::page($model['route_name'] . '-edit')
                             ->type('page')
                             ->tab($main)
                             ->action($action)
@@ -91,14 +91,11 @@ trait View
 
     public function listBuilder($addonData = [], $params = [])
     {
-        $modelData = $this->getModelData();
-        if (!$modelData) {
-            return [];
-        }
+        $model = $this->getModelData();
 
         $tableData = [];
-        if (isset($modelData['tableToolbar'])) {
-            foreach ($modelData['tableToolbar'] as $tableToolbar) {
+        if (isset($model['data']['tableToolbar'])) {
+            foreach ($model['data']['tableToolbar'] as $tableToolbar) {
                 $thisAction = Builder::button($tableToolbar['title'])->type($tableToolbar['type'])->action($tableToolbar['action'])->method($tableToolbar['method']);
                 if (isset($tableToolbar['uri'])) {
                     $thisAction = Builder::button($tableToolbar['title'])->type($tableToolbar['type'])->action($tableToolbar['action'])->method($tableToolbar['method'])->uri($tableToolbar['uri']);
@@ -108,8 +105,8 @@ trait View
         }
 
         $batchData = [];
-        if ($modelData['batchToolbar']) {
-            foreach ($modelData['batchToolbar'] as $batch) {
+        if ($model['data']['batchToolbar']) {
+            foreach ($model['data']['batchToolbar'] as $batch) {
                 $thisAction = Builder::button($batch['title'])->type($batch['type'])->action($batch['action'])->method($batch['method']);
                 if (isset($batch['uri'])) {
                     $thisAction = Builder::button($batch['title'])->type($batch['type'])->action($batch['action'])->method($batch['method'])->uri($batch['uri']);
@@ -121,8 +118,8 @@ trait View
 
         if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
             $batchData = [];
-            if ($modelData['batchToolbarTrashed']) {
-                foreach ($modelData['batchToolbarTrashed'] as $batch) {
+            if ($model['data']['batchToolbarTrashed']) {
+                foreach ($model['data']['batchToolbarTrashed'] as $batch) {
                     $thisAction = Builder::button($batch['title'])->type($batch['type'])->action($batch['action'])->method($batch['method']);
                     if (isset($batch['uri'])) {
                         $thisAction = Builder::button($batch['title'])->type($batch['type'])->action($batch['action'])->method($batch['method'])->uri($batch['uri']);
@@ -134,8 +131,8 @@ trait View
 
 
         $listFields = [];
-        if ($modelData['fields']) {
-            foreach ($modelData['fields'] as $listField) {
+        if ($model['data']['fields']) {
+            foreach ($model['data']['fields'] as $listField) {
                 $thisField = Builder::field($listField['name'], $listField['title'])->type($listField['type']);
                 if (isset($listField['data'])) {
                     $thisField = Builder::field($listField['name'], $listField['title'])->type($listField['type'])->data($listField['data']);
@@ -156,8 +153,8 @@ trait View
         ];
 
         $actions = [];
-        if ($modelData['listAction']) {
-            foreach ($modelData['listAction'] as $listAction) {
+        if ($model['data']['listAction']) {
+            foreach ($model['data']['listAction'] as $listAction) {
                 $thisAction = Builder::button($listAction['title'])->type($listAction['type'])->action($listAction['action'])->method($listAction['method']);
                 if (isset($listAction['uri'])) {
                     $thisAction = Builder::button($listAction['title'])->type($listAction['type'])->action($listAction['action'])->method($listAction['method'])->uri($listAction['uri']);
@@ -168,7 +165,7 @@ trait View
         $actionFields = Builder::actions($actions)->title('Action');
         $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
 
-        return Builder::page('User List')
+        return Builder::page($model['route_name'] . '-list')
                         ->type('basicList')
                         ->searchBar(true)
                         ->tableColumn($tableColumn)
