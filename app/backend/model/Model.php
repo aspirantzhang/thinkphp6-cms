@@ -17,7 +17,7 @@ class Model extends Common
     public $allowList = ['title', 'table_name', 'route_name', 'data'];
     public $allowRead = ['title', 'table_name', 'route_name', 'data'];
     public $allowSave = ['title', 'table_name', 'route_name', 'data'];
-    public $allowUpdate = ['title', 'data'];
+    public $allowUpdate = ['data'];
     public $allowSearch = ['title', 'table_name', 'route_name'];
 
     public function addBuilder($addonData = [])
