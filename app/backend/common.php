@@ -191,7 +191,11 @@ function getDescendantSet(string $wantedColumn, string $findFieldName, $findValu
         }
     }
     if (!isset($array['children'])) {
-        return [$array[$wantedColumn]];
+        if (isset($array[$wantedColumn])) {
+            return [$array[$wantedColumn]];
+        } else {
+            return [];
+        }
     }
 
     return findFieldInDescendant($wantedColumn, $array['children']);
@@ -205,7 +209,7 @@ function findSubArray($value, string $field, $treeStructureArray = [])
     $result = [];
     foreach ($array as $subArray) {
         $subArray = $array->getSubIterator();
-        if ($subArray[$field] == $value) {
+        if (isset($subArray[$field]) && $subArray[$field] == $value) {
             $result = iterator_to_array($subArray);
         }
     }
