@@ -32,11 +32,15 @@ class Menu extends Common
 
     public function save()
     {
+/*         // for API
         $notPermitted = [
             'success' => false,
             'message' => 'Operation not permitted.'
         ];
-        return $this->json($notPermitted);
+        return $this->json($notPermitted); */
+        $result = $this->menu->saveAPI($this->request->only($this->menu->getAllowSave()));
+
+        return $this->json(...$result);
     }
 
     public function read($id)
@@ -48,29 +52,41 @@ class Menu extends Common
 
     public function update($id)
     {
+/*         // for API
         $notPermitted = [
             'success' => false,
             'message' => 'Operation not permitted.'
         ];
-        return $this->json($notPermitted);
+        return $this->json($notPermitted); */
+        $result = $this->menu->updateAPI($id, $this->request->only($this->menu->getAllowUpdate()));
+
+        return $this->json(...$result);
     }
 
     public function delete()
     {
+/*         // for API
         $notPermitted = [
             'success' => false,
             'message' => 'Operation not permitted.'
         ];
-        return $this->json($notPermitted);
+        return $this->json($notPermitted); */
+        $result = $this->menu->deleteAPI($this->request->param('ids'), $this->request->param('type'));
+        
+        return $this->json(...$result);
     }
 
     public function restore()
     {
+/*         // for API
         $notPermitted = [
             'success' => false,
             'message' => 'Operation not permitted.'
         ];
-        return $this->json($notPermitted);
+        return $this->json($notPermitted); */
+        $result = $this->menu->restoreAPI($this->request->param('ids'));
+        
+        return $this->json(...$result);
     }
 
     public function backend()

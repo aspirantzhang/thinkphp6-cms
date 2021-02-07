@@ -32,11 +32,15 @@ class AuthRule extends Common
 
     public function save()
     {
+/*         // API
         $notPermitted = [
             'success' => false,
             'message' => 'Operation not permitted.'
         ];
-        return $this->json($notPermitted);
+        return $this->json($notPermitted); */
+        $result = $this->authRule->saveAPI($this->request->only($this->authRule->getAllowSave()));
+
+        return $this->json(...$result);
     }
 
     public function read($id)
@@ -48,28 +52,40 @@ class AuthRule extends Common
 
     public function update($id)
     {
+/*         // API
         $notPermitted = [
             'success' => false,
             'message' => 'Operation not permitted.'
         ];
-        return $this->json($notPermitted);
+        return $this->json($notPermitted); */
+        $result = $this->authGroup->updateAPI($id, $this->request->only($this->authGroup->getAllowUpdate()), ['rules']);
+
+        return $this->json(...$result);
     }
 
     public function delete()
     {
+/*         // for API
         $notPermitted = [
             'success' => false,
             'message' => 'Operation not permitted.'
         ];
-        return $this->json($notPermitted);
+        return $this->json($notPermitted); */
+        $result = $this->authRule->deleteAPI($this->request->param('ids'), $this->request->param('type'));
+        
+        return $this->json(...$result);
     }
 
     public function restore()
     {
+/*         // for API
         $notPermitted = [
             'success' => false,
             'message' => 'Operation not permitted.'
         ];
-        return $this->json($notPermitted);
+        return $this->json($notPermitted); */
+        $result = $this->authRule->restoreAPI($this->request->param('ids'));
+        
+        return $this->json(...$result);
     }
 }
