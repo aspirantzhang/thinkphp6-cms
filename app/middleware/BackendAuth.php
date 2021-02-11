@@ -11,9 +11,10 @@ use think\facade\Session;
 class BackendAuth
 {
     protected $noNeedAuth = [
-        'backend/admin/login',
-        'backend/admin/logout',
-        'backend/admin/info',
+        'api/admin/login',
+        'api/admin/logout',
+        'api/admin/info',
+        'api/menu/backend',
     ];
 
     public function handle($request, \Closure $next)
