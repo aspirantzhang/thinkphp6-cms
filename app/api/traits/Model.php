@@ -17,12 +17,12 @@ trait Model
     public function getCreateTimeAttr($value)
     {
         $date = new \DateTime($value);
-        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
+        return $date->format('Y-m-d\TH:i:sP');
     }
     public function getUpdateTimeAttr($value)
     {
         $date = new \DateTime($value);
-        return $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
+        return $date->format('Y-m-d\TH:i:sP');
     }
 
     // Mutator
