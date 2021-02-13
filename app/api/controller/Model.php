@@ -119,46 +119,50 @@ class Model extends Common
         return $this->json(...$result);
     }
 
-    // TODO: Transaction delete table
     public function delete()
     {
         $result = $this->model->deleteAPI($this->request->param('ids'), $this->request->param('type'));
         [ $httpBody ] = $result;
 
         if ($httpBody['success'] === true && isset($httpBody['data']) && count($httpBody['data']) === 1) {
-            $tableTitle = $httpBody['data'][0]['title'];
-            $tableName = $httpBody['data'][0]['table_name'];
-            $routeName = $httpBody['data'][0]['route_name'];
+            Db::startTrans();
+            try {
+                $tableTitle = $httpBody['data'][0]['title'];
+                $tableName = $httpBody['data'][0]['table_name'];
+                $routeName = $httpBody['data'][0]['route_name'];
 
-            Console::call('make:removeModel', [Str::studly($tableName)]);
+                Console::call('make:removeModel', [Str::studly($tableName)]);
 
             // Drop Table
-            Db::execute("DROP TABLE IF EXISTS `$tableName`");
+                Db::execute("DROP TABLE IF EXISTS `$tableName`");
 
             // Delete Parent Rule
-            $parentRule = RuleService::where('name', $tableTitle)->find();
-            $parentRuleId = $parentRule->id;
-            $parentRule->force()->delete();
+                $parentRule = RuleService::where('name', $tableTitle)->find();
+                $parentRuleId = $parentRule->id;
+                $parentRule->force()->delete();
             // Delete Children Rule
-            $childrenRule = new RuleService();
-            $childrenRuleDataSet = $childrenRule->where('parent_id', $parentRuleId)->select();
-            if (!$childrenRuleDataSet->isEmpty()) {
-                foreach ($childrenRuleDataSet as $item) {
-                    $item->force()->delete();
+                $childrenRule = new RuleService();
+                $childrenRuleDataSet = $childrenRule->where('parent_id', $parentRuleId)->select();
+                if (!$childrenRuleDataSet->isEmpty()) {
+                    foreach ($childrenRuleDataSet as $item) {
+                        $item->force()->delete();
+                    }
                 }
-            }
 
             // Delete Parent Menu
-            $parentMenu = MenuService::where('name', $routeName . '-list')->find();
-            $parentMenuId = $parentMenu->id;
-            $parentMenu->force()->delete();
+                $parentMenu = MenuService::where('name', $routeName . '-list')->find();
+                $parentMenuId = $parentMenu->id;
+                $parentMenu->force()->delete();
             // Delete Children Menu
-            $childrenMenu = new MenuService();
-            $childrenMenuDataSet = $childrenMenu->where('parent_id', $parentMenuId)->select();
-            if (!$childrenMenuDataSet->isEmpty()) {
-                foreach ($childrenMenuDataSet as $item) {
-                    $item->force()->delete();
+                $childrenMenu = new MenuService();
+                $childrenMenuDataSet = $childrenMenu->where('parent_id', $parentMenuId)->select();
+                if (!$childrenMenuDataSet->isEmpty()) {
+                    foreach ($childrenMenuDataSet as $item) {
+                        $item->force()->delete();
+                    }
                 }
+            } catch (\Exception $e) {
+                Db::rollback();
             }
         }
 
