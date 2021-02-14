@@ -89,7 +89,6 @@ class AuthRule extends Common
     {
         $tableToolBar = [
             Builder::button('Add')->type('primary')->action('modal')->uri('/api/rules/add'),
-            Builder::button('Full page add')->type('default')->action('page')->uri('/api/rules/add'),
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
@@ -110,7 +109,6 @@ class AuthRule extends Common
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/api/rules/:id'),
-                Builder::button('Full page edit')->type('default')->action('page')->uri('/api/rules/:id'),
                 Builder::button('Delete')->type('default')->action('delete')->uri('/api/rules/delete')->method('post'),
             ])->title('Action'),
         ];

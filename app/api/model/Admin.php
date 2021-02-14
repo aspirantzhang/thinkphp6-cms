@@ -88,7 +88,7 @@ class Admin extends Common
     {
         $tableToolBar = [
             Builder::button('Add', 'add')->type('primary')->action('modal')->uri('/api/admins/add'),
-            Builder::button('Full page add')->type('default')->action('page')->uri('/api/admins/add'),
+            Builder::button('Page add')->type('default')->action('page')->uri('/api/admins/add'),
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [
@@ -110,7 +110,7 @@ class Admin extends Common
             Builder::field('trash', 'Trash')->type('trash'),
             Builder::actions([
                 Builder::button('Edit')->type('primary')->action('modal')->uri('/api/admins/:id'),
-                Builder::button('Full page edit')->type('default')->action('page')->uri('/api/admins/:id'),
+                Builder::button('Page edit')->type('default')->action('page')->uri('/api/admins/:id'),
                 Builder::button('Delete')->type('default')->action('delete')->uri('/api/admins/delete')->method('post'),
             ])->title('Action'),
         ];

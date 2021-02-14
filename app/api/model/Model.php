@@ -77,7 +77,6 @@ class Model extends Common
     {
         $tableToolBar = [
             Builder::button('Add', 'add')->type('primary')->action('modal')->uri('/api/models/add'),
-            Builder::button('Full page add')->type('default')->action('page')->uri('/api/models/add'),
             Builder::button('Reload')->type('default')->action('reload'),
         ];
         $batchToolBar = [];
@@ -88,9 +87,8 @@ class Model extends Common
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::actions([
-                Builder::button('Edit')->type('primary')->action('modal')->uri('/api/models/:id'),
+                Builder::button('Edit')->type('primary')->action('page')->uri('/api/models/:id'),
                 Builder::button('Design')->type('primary')->action('modelDesign')->uri('/api/models/design/:id'),
-                Builder::button('Full page edit')->type('default')->action('page')->uri('/api/models/:id'),
                 Builder::button('Delete Permanently')->type('default')->action('deletePermanently')->uri('/api/models/delete')->method('post'),
             ])->title('Action'),
         ];
