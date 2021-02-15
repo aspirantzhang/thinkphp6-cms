@@ -26,14 +26,7 @@
     *                       property="type",
     *                       type="string",
     *                   ),
-    *                   @OA\Property(
-    *                       property="searchBar",
-    *                       type="boolean",
-    *                   ),
-    *                   @OA\Property(
-    *                       property="trash",
-    *                       type="boolean",
-    *                   ),
+
     *               ),
     *            },
     *        ),
