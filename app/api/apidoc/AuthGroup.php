@@ -144,7 +144,7 @@
     *             type="array",
     *             @OA\Items(
     *                 type="string",
-    *                 enum = {"descent", "ascent"},
+    *                 enum = {"desc", "asc"},
     *             )
     *         )
     *     ),
