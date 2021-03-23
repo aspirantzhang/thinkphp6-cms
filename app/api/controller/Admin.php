@@ -172,7 +172,7 @@ class Admin extends Common
                 "errorMessage" => '请先登录！',
                 "success" => true,
             ];
-            return $this->json($notLogin);
+            return $this->json($notLogin, 401);
         }
     }
 }
