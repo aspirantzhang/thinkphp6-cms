@@ -137,7 +137,7 @@ trait View
                 if (isset($listField['data'])) {
                     $thisField = Builder::field($listField['name'], $listField['title'])->type($listField['type'])->data($listField['data']);
                 }
-                if (isset($listField['listHideInColumn']) && $listField['listHideInColumn'] === '1') {
+                if (isset($listField['hideInColumn']) && $listField['hideInColumn'] === '1') {
                     continue;
                 }
                 if (isset($listField['listSorter']) && $listField['listSorter'] === '1') {
