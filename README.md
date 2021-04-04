@@ -1,9 +1,4 @@
 Octopus
-===============
+==========
 
-* 使用多应用模式
-* 使用模型分层设计
-* 使用Phinx数据库迁移
-* 严密的验证器和数据过滤
-* 大量使用修改器、获取器、搜索器
-* 使用最新加密算法`Argon2id`
+The project is currently under development.
