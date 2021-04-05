@@ -89,7 +89,7 @@ class Admin extends Common
     public function login()
     {
         $result = $this->admin->loginAPI($this->request->param());
-        [ $httpBody ] = $result;
+        $httpBody = $result[0];
 
         if ($httpBody['success'] === true) {
             $userId = $httpBody['data']['id'];

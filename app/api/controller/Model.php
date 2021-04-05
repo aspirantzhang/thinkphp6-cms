@@ -14,6 +14,8 @@ use think\helper\Str;
 
 class Model extends Common
 {
+    protected $model;
+
     public function initialize()
     {
         $this->model = new ModelService();
@@ -50,7 +52,7 @@ class Model extends Common
         }
 
         $result = $this->model->saveAPI($this->request->only($this->model->getAllowSave()));
-        [ $httpBody ] = $result;
+        $httpBody = $result[0];
 
         if ($httpBody['success'] === true) {
             Db::startTrans();
@@ -63,10 +65,10 @@ class Model extends Common
 
                 // Add Rules
                 $parentRule = RuleService::create([
-                'parent_id' => 0,
-                'name' => $tableTitle,
-                'create_time' => $currentTime,
-                'update_time' => $currentTime,
+                    'parent_id' => 0,
+                    'name' => $tableTitle,
+                    'create_time' => $currentTime,
+                    'update_time' => $currentTime,
                 ]);
                 $parentRuleId = $parentRule->id;
                 $rule = new RuleService();
@@ -83,12 +85,12 @@ class Model extends Common
 
                 // Add Menus
                 $parentMenu = MenuService::create([
-                'parent_id' => 0,
-                'name' => $routeName . '-list',
-                'icon' => 'icon-project',
-                'path' => '/basic-list/api/' . $routeName,
-                'create_time' => $currentTime,
-                'update_time' => $currentTime,
+                    'parent_id' => 0,
+                    'name' => $routeName . '-list',
+                    'icon' => 'icon-project',
+                    'path' => '/basic-list/api/' . $routeName,
+                    'create_time' => $currentTime,
+                    'update_time' => $currentTime,
                 ]);
                 $parentMenuId = $parentMenu->id;
                 $menu = new MenuService();
@@ -122,7 +124,7 @@ class Model extends Common
     public function delete()
     {
         $result = $this->model->deleteAPI($this->request->param('ids'), $this->request->param('type'));
-        [ $httpBody ] = $result;
+        $httpBody = $result[0];
 
         if ($httpBody['success'] === true && isset($httpBody['data']) && count($httpBody['data']) === 1) {
             Db::startTrans();

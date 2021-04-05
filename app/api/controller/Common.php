@@ -11,6 +11,8 @@ use app\common\controller\GlobalController;
 
 class Common extends GlobalController
 {
+    protected $error = '';
+
     public function initialize()
     {
         parent::initialize();

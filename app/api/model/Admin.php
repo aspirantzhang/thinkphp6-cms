@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace app\api\model;
 
 use aspirantzhang\TPAntdBuilder\Builder;
-use app\api\service\AuthGroup;
+use app\api\service\AuthGroup as AuthGroupService;
 
 class Admin extends Common
 {
@@ -23,14 +23,14 @@ class Admin extends Common
     public function setAddonData($params = [])
     {
         return [
-            'groups' => (new AuthGroup())->treeDataAPI(['status' => 1]),
+            'groups' => (new AuthGroupService())->treeDataAPI(['status' => 1]),
         ];
     }
 
     // Relation
     public function groups()
     {
-        return $this->belongsToMany(AuthGroup::class, 'auth_admin_group', 'group_id', 'admin_id');
+        return $this->belongsToMany(AuthGroupService::class, 'auth_admin_group', 'group_id', 'admin_id');
     }
 
     public function addBuilder($addonData = [])
@@ -155,7 +155,7 @@ class Admin extends Common
     public function searchGroupsAttr($query, $value, $data)
     {
         if ($value) {
-            $group = new AuthGroup();
+            $group = new AuthGroupService();
             $adminIDs = $group->getIDsByRelationIDsAPI((array)explode(',', $value), 'admins');
             $query->whereIn('id', $adminIDs);
         }
