@@ -146,8 +146,4 @@ trait Logic
         return true;
     }
 
-    protected function isReservedTable()
-    {
-        return in_array($this->getTableName(), Config::get('model.reserved_table'));
-    }
 }

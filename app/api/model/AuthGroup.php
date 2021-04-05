@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace app\api\model;
 
-use app\api\service\Admin;
-use app\api\service\AuthRule;
+use app\api\service\Admin as AdminService;
+use app\api\service\AuthRule as AuthRuleService;
 use aspirantzhang\TPAntdBuilder\Builder;
 
 class AuthGroup extends Common
@@ -23,7 +23,7 @@ class AuthGroup extends Common
     protected function setAddonData($params = [])
     {
         return [
-            'rules' => (new AuthRule())->treeDataAPI(['status' => 1]),
+            'rules' => (new AuthRuleService())->treeDataAPI(['status' => 1]),
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
         ];
     }
@@ -31,12 +31,12 @@ class AuthGroup extends Common
     // Relation
     public function admins()
     {
-        return $this->belongsToMany(Admin::class, 'auth_admin_group', 'admin_id', 'group_id');
+        return $this->belongsToMany(AdminService::class, 'auth_admin_group', 'admin_id', 'group_id');
     }
 
     public function rules()
     {
-        return $this->belongsToMany(AuthRule::class, 'auth_group_rule', 'rule_id', 'group_id');
+        return $this->belongsToMany(AuthRuleService::class, 'auth_group_rule', 'rule_id', 'group_id');
     }
 
     public function addBuilder($addonData = [])

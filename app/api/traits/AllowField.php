@@ -125,4 +125,9 @@ trait AllowField
 
         return array_merge($builtIn, $custom);
     }
+
+    protected function isReservedTable()
+    {
+        return in_array($this->getTableName(), Config::get('model.reserved_table'));
+    }
 }

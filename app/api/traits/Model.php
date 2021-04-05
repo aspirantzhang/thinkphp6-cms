@@ -8,10 +8,6 @@ use app\api\service\Model as ModelService;
 
 trait Model
 {
-    protected function getTableName()
-    {
-        return parse_name($this->getName());
-    }
 
     // Accessor
     public function getCreateTimeAttr($value)

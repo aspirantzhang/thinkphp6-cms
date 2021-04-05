@@ -22,15 +22,21 @@ class Common extends GlobalModel
     use AllowFieldTrait;
 
     protected $deleteTime = 'delete_time';
+    protected $unique;
   
     public function initialize()
     {
         parent::initialize();
     }
 
+    protected function getTableName()
+    {
+        return parse_name($this->getName());
+    }
+
     public function scopeStatus($query)
     {
-        $tableName = parse_name($this->name);
+        $tableName = $this->getTableName();
         $query->where($tableName . '.status', 1);
     }
 

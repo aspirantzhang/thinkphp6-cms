@@ -8,10 +8,13 @@ use think\Model;
 
 class GlobalModel extends Model
 {
+    protected $error;
+
     public function initialize()
     {
         parent::initialize();
     }
+    
     public function getError()
     {
         return $this->error;
