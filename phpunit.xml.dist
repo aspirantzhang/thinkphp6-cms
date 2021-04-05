@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
+         bootstrap="tests/bootstrap.php"
          cacheResultFile="runtime/.phpunit.cache/test-results"
-         executionOrder="depends,defects"
-         forceCoversAnnotation="true"
-         beStrictAboutCoversAnnotation="true"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutTodoAnnotatedTests="true"
-         failOnRisky="true"
-         failOnWarning="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
          verbose="true">
     <testsuites>
         <testsuite name="default">
@@ -22,5 +21,15 @@
         <include>
             <directory suffix=".php">app</directory>
         </include>
+        <exclude>
+            <file>app/AppService.php</file>
+            <file>app/build.php</file>
+            <file>app/event.php</file>
+            <file>app/ExceptionHandle.php</file>
+            <file>app/middleware.php</file>
+            <file>app/provider.php</file>
+            <file>app/Request.php</file>
+            <file>app/service.php</file>
+        </exclude>
     </coverage>
 </phpunit>
