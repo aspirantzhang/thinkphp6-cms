@@ -18,7 +18,6 @@ trait Service
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
 
         $layout = $this->listBuilder($this->getAddonData($params), $params);
-        $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
         $layout['dataSource'] = [];
         $layout['meta'] = [
             'total' => 0,

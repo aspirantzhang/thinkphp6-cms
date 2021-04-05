@@ -47,4 +47,12 @@ class Common extends GlobalModel
         $httpBody = array_merge($httpBody, $addition);
         return [$httpBody, 200, $header];
     }
+
+    public function isTrash($params = [])
+    {
+        if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
+            return true;
+        }
+        return false;
+    }
 }
