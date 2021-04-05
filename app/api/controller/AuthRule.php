@@ -58,7 +58,7 @@ class AuthRule extends Common
             'message' => 'Operation not permitted.'
         ];
         return $this->json($notPermitted); */
-        $result = $this->authGroup->updateAPI($id, $this->request->only($this->authGroup->getAllowUpdate()), ['rules']);
+        $result = $this->authRule->updateAPI($id, $this->request->only($this->authGroup->getAllowUpdate()), ['rules']);
 
         return $this->json(...$result);
     }
