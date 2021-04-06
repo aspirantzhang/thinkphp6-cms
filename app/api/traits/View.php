@@ -8,6 +8,53 @@ use aspirantzhang\TPAntdBuilder\Builder;
 
 trait View
 {
+    protected function actionBuilder($data)
+    {
+        if (!empty($data)) {
+            $result = [];
+            foreach ($data as $action) {
+                $row = [];
+                $row = (array)Builder::button($action['name'], $action['title'])
+                                        ->type($action['type'])
+                                        ->call($action['call'])
+                                        ->method($action['method']);
+                if (isset($action['uri'])) {
+                    $row = (array)Builder::button($action['name'], $action['title'])
+                                            ->type($action['type'])
+                                            ->call($action['call'])
+                                            ->method($action['method'])
+                                            ->uri($action['uri']);
+                }
+                $result[] = $row;
+            }
+            return $result;
+        }
+        return [];
+    }
+
+    protected function fieldBuilder($data)
+    {
+        if (!empty($data)) {
+            $result = [];
+            foreach ($data as $field) {
+                $row = [];
+                $row = (array)Builder::field($field['name'], $field['title'])->type($field['type']);
+                if (isset($field['data'])) {
+                    $row = (array)Builder::field($field['name'], $field['title'])->type($field['type'])->data($field['data']);
+                }
+                if (isset($field['hideInColumn']) && $field['hideInColumn'] === '1') {
+                    continue;
+                }
+                if (isset($field['listSorter']) && $field['listSorter'] === '1') {
+                    $row['sorter'] = true;
+                }
+                $result[] = $row;
+            }
+            return $result;
+        }
+        return [];
+    }
+
     public function addBuilder($addonData = [])
     {
         $model = $this->getModelData();
@@ -93,57 +140,28 @@ trait View
     {
         $model = $this->getModelData();
 
-        $tableData = [];
+        $tableToolbar = [];
         if (isset($model['data']['tableToolbar'])) {
-            foreach ($model['data']['tableToolbar'] as $tableToolbar) {
-                $thisAction = Builder::button($tableToolbar['name'], $tableToolbar['title'])->type($tableToolbar['type'])->call($tableToolbar['call'])->method($tableToolbar['method']);
-                if (isset($tableToolbar['uri'])) {
-                    $thisAction = Builder::button($tableToolbar['name'], $tableToolbar['title'])->type($tableToolbar['type'])->call($tableToolbar['call'])->method($tableToolbar['method'])->uri($tableToolbar['uri']);
-                }
-                $tableData[] = $thisAction;
-            }
+            $tableToolbar = $this->actionBuilder($model['data']['tableToolbar']);
         }
 
-        $batchData = [];
+        $batchToolbar = [];
         if ($model['data']['batchToolbar']) {
-            foreach ($model['data']['batchToolbar'] as $batch) {
-                $thisAction = Builder::button($batch['name'], $batch['title'])->type($batch['type'])->call($batch['call'])->method($batch['method']);
-                if (isset($batch['uri'])) {
-                    $thisAction = Builder::button($batch['name'], $batch['title'])->type($batch['type'])->call($batch['call'])->method($batch['method'])->uri($batch['uri']);
-                }
-                $batchData[] = $thisAction;
-            }
+            $batchToolbar = $this->actionBuilder($model['data']['batchToolbar']);
         }
 
         if ($this->isTrash($params)) {
-            $batchData = [];
+            $batchToolbar = [];
             if ($model['data']['batchToolbarTrashed']) {
-                foreach ($model['data']['batchToolbarTrashed'] as $batch) {
-                    $thisAction = Builder::button($batch['name'], $batch['title'])->type($batch['type'])->call($batch['call'])->method($batch['method']);
-                    if (isset($batch['uri'])) {
-                        $thisAction = Builder::button($batch['name'], $batch['title'])->type($batch['type'])->call($batch['call'])->method($batch['method'])->uri($batch['uri']);
-                    }
-                    $batchData[] = $thisAction;
-                }
+                $batchToolbar = $this->actionBuilder($model['data']['batchToolbarTrashed']);
             }
         }
 
         $listFields = [];
         if ($model['data']['fields']) {
-            foreach ($model['data']['fields'] as $listField) {
-                $thisField = Builder::field($listField['name'], $listField['title'])->type($listField['type']);
-                if (isset($listField['data'])) {
-                    $thisField = Builder::field($listField['name'], $listField['title'])->type($listField['type'])->data($listField['data']);
-                }
-                if (isset($listField['hideInColumn']) && $listField['hideInColumn'] === '1') {
-                    continue;
-                }
-                if (isset($listField['listSorter']) && $listField['listSorter'] === '1') {
-                    $thisField->sorter = true;
-                }
-                $listFields[] = $thisField;
-            }
+            $listFields = $this->fieldBuilder($model['data']['fields']);
         }
+
         $addonFields = [
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
@@ -152,13 +170,7 @@ trait View
 
         $actions = [];
         if ($model['data']['listAction']) {
-            foreach ($model['data']['listAction'] as $listAction) {
-                $thisAction = Builder::button($listAction['name'], $listAction['title'])->type($listAction['type'])->call($listAction['call'])->method($listAction['method']);
-                if (isset($listAction['uri'])) {
-                    $thisAction = Builder::button($listAction['name'], $listAction['title'])->type($listAction['type'])->call($listAction['call'])->method($listAction['method'])->uri($listAction['uri']);
-                }
-                $actions[] = $thisAction;
-            }
+            $actions = $this->actionBuilder($model['data']['listAction']);
         }
         $actionFields = Builder::field('actions', 'Actions')->data($actions);
         $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
@@ -167,8 +179,8 @@ trait View
                         ->type('basicList')
                         ->searchBar(true)
                         ->tableColumn($tableColumn)
-                        ->tableToolBar($tableData)
-                        ->batchToolBar($batchData)
+                        ->tableToolBar($tableToolbar)
+                        ->batchToolBar($batchToolbar)
                         ->toArray();
     }
 }
