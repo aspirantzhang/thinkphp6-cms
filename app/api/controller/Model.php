@@ -40,7 +40,7 @@ class Model extends Common
     {
         $tableName = strtolower($this->request->param('table_name'));
         $routeName = strtolower($this->request->param('route_name'));
-        $tableTitle = $this->request->param('title');
+        $tableTitle = (string)$this->request->param('title');
         $currentTime = date("Y-m-d H:i:s");
 
         if (in_array($tableName, Config::get('model.reserved_table'))) {

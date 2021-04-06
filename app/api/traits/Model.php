@@ -24,12 +24,12 @@ trait Model
     // Mutator
 
     // Searcher
-    public function searchIdAttr($query, $value, $data)
+    public function searchIdAttr($query, $value)
     {
         $query->where('id', $value);
     }
 
-    public function searchStatusAttr($query, $value, $data)
+    public function searchStatusAttr($query, $value)
     {
         $value = (string)$value;
         if (strlen($value)) {
@@ -41,7 +41,7 @@ trait Model
         }
     }
 
-    public function searchCreateTimeAttr($query, $value, $data)
+    public function searchCreateTimeAttr($query, $value)
     {
         $value = urldecode($value);
         $valueArray = (array)explode(',', $value);

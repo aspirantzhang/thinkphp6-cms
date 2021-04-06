@@ -104,7 +104,7 @@ trait Service
         $this->startTrans();
         try {
             $this->allowField($this->getAllowSave())->save($data);
-            if ($relationModel) {
+            if (!empty($relationModel)) {
                 foreach ($relationModel as $relation) {
                     $data[$relation] = $data[$relation] ?? [];
                     $this->$relation()->sync($data[$relation]);
@@ -122,7 +122,7 @@ trait Service
     {
         $relationArray = [];
 
-        if ($relationModel) {
+        if (!empty($relationModel)) {
             foreach ($relationModel as $relation) {
                 $relationArray[$relation] = function ($query) {
                     $query->scope('status')->visible(['id']);
@@ -180,8 +180,7 @@ trait Service
 
     public function deleteAPI($ids = [], $type = 'delete')
     {
-        if ($ids) {
-            $allIds = [];
+        if (!empty($ids)) {
             // handle descendant
             $tree = $this->treeDataAPI(['trash' => 'withTrashed']);
             $allIds = [];
@@ -238,7 +237,7 @@ trait Service
                     $childIds = getDescendantSet('id', 'id', $item['id'], $tree, false);
                     if ($childIds) {
                         $exceptChildIds = array_diff($childIds, $ids);
-                        if ($exceptChildIds) {
+                        if (!empty($exceptChildIds)) {
                             foreach ($exceptChildIds as $id) {
                                 $this->clearParentId($id);
                             }

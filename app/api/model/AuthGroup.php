@@ -130,12 +130,12 @@ class AuthGroup extends Common
     // Mutator
 
     // Searcher
-    public function searchNameAttr($query, $value, $data)
+    public function searchNameAttr($query, $value)
     {
         $query->where('name', 'like', '%' . $value . '%');
     }
 
-    public function searchRulesAttr($query, $value, $data)
+    public function searchRulesAttr($query, $value)
     {
         $query->where('rules', 'like', '%' . $value . '%');
     }

@@ -57,7 +57,7 @@ class Model extends Validate
             ->remove('create_time', 'require');
     }
 
-    protected function checkRouteName($value, $rule, $data = [])
+    protected function checkRouteName($value)
     {
         if (preg_match("/^[a-zA-z0-9_-]+$/i", $value) == 1) {
             return true;

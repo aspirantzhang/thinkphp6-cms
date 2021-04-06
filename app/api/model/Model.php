@@ -73,7 +73,7 @@ class Model extends Common
                         ->toArray();
     }
 
-    public function listBuilder($addonData = [], $params = [])
+    public function listBuilder($addonData = [])
     {
         $tableToolBar = [
             Builder::button('Add', 'add')->type('primary')->action('modal')->uri('/api/models/add'),
@@ -103,7 +103,7 @@ class Model extends Common
     }
 
     // Mutator
-    public function setRouteNameAttr($value, $data)
+    public function setRouteNameAttr($value)
     {
         $modelDataField = new \StdClass();
         $modelDataField->routeName = $value;

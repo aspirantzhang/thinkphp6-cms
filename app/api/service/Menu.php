@@ -12,7 +12,7 @@ class Menu extends MenuLogic
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         $data = $this->getListData($params, $withRelation);
-        if ($data) {
+        if (!empty($data)) {
             if (!isset($data[0]['parent_id'])) {
                 return [];
             }

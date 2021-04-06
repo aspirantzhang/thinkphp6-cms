@@ -23,6 +23,15 @@ class Common extends GlobalModel
 
     protected $deleteTime = 'delete_time';
     protected $unique;
+    
+    // Allow fields of AllowFieldTrait
+    public $allowHome = [];
+    public $allowList = [];
+    public $allowSort = [];
+    public $allowRead = [];
+    public $allowSave = [];
+    public $allowUpdate = [];
+    public $allowSearch = [];
   
     public function initialize()
     {

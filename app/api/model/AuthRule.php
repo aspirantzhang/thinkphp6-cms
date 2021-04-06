@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\model;
 
-use app\api\service\AuthGroup;
+use app\api\service\AuthGroup as AuthGroupService;
 use aspirantzhang\TPAntdBuilder\Builder;
 
 class AuthRule extends Common
@@ -29,7 +29,7 @@ class AuthRule extends Common
     // Relation
     public function groups()
     {
-        return $this->belongsToMany(AuthGroup::class, 'auth_group_rule', 'group_id', 'rule_id');
+        return $this->belongsToMany(AuthGroupService::class, 'auth_group_rule', 'group_id', 'rule_id');
     }
 
     public function addBuilder($addonData = [])

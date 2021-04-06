@@ -20,7 +20,7 @@ class Admin extends Common
     public $allowUpdate = ['password', 'display_name', 'groups'];
     public $allowSearch = ['groups', 'username', 'display_name'];
 
-    public function setAddonData($params = [])
+    public function setAddonData()
     {
         return [
             'groups' => (new AuthGroupService())->treeDataAPI(['status' => 1]),
@@ -142,17 +142,17 @@ class Admin extends Common
     }
 
     // Searcher
-    public function searchUsernameAttr($query, $value, $data)
+    public function searchUsernameAttr($query, $value)
     {
         $query->where('username', 'like', '%' . $value . '%');
     }
 
-    public function searchDisplayNameAttr($query, $value, $data)
+    public function searchDisplayNameAttr($query, $value)
     {
         $query->where('display_name', 'like', '%' . $value . '%');
     }
 
-    public function searchGroupsAttr($query, $value, $data)
+    public function searchGroupsAttr($query, $value)
     {
         if ($value) {
             $group = new AuthGroupService();

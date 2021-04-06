@@ -115,8 +115,8 @@ trait Logic
     protected function checkUniqueFields($data, $uniqueFields = []): bool
     {
         $uniqueFields = $this->unique ?? [];
-        if (is_array($uniqueFields) && $uniqueFields) {
-            foreach ($this->unique as $field => $title) {
+        if (is_array($uniqueFields) && !empty($uniqueFields)) {
+            foreach ($uniqueFields as $field => $title) {
                 if (isset($data[$field]) && $this->ifExists($field, $data[$field])) {
                     $this->error = 'The ' . $title . ' already exists.';
                     return false;
@@ -145,5 +145,4 @@ trait Logic
             ->update(['parent_id' => 0]);
         return true;
     }
-
 }

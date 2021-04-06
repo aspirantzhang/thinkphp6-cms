@@ -12,6 +12,7 @@ function validateDateTime($date, $format = 'Y-m-d H:i:s')
 
 function getSortParam($data, $allowSort)
 {
+    $sort = [];
     $sort['name'] = 'id';
     $sort['order'] = 'desc';
 
@@ -95,6 +96,7 @@ function arrayToTree($flat, $root = 0)
         }
         // fix no parent to zero
         if (!isset($parents[$root])) {
+            $newParents = [];
             $newParents[0] = [];
             foreach ($parents as $parent) {
                 $newParents[0] = array_merge($newParents[0], $parent);
@@ -142,7 +144,7 @@ function extractValues(array $array = [], string $targetKeyName = 'id', string $
     // Depth: level two
     if ($parentKeyName) {
         $result = [];
-        if ($array) {
+        if (!empty($array)) {
             foreach ($array as $key => $value) {
                 if (isset($value[$parentKeyName])) {
                     if (isset($value[$parentKeyName][$targetKeyName])) {
@@ -165,7 +167,7 @@ function extractValues(array $array = [], string $targetKeyName = 'id', string $
     }
 
     // Depth: level 1
-    if ($array) {
+    if (!empty($array)) {
         if (!$unique) {
             return array_column($array, $targetKeyName);
         }
