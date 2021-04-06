@@ -68,9 +68,9 @@ class Admin extends Common
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
         $action = [
-            Builder::button('Reset')->type('dashed')->call('reset'),
-            Builder::button('Cancel')->type('default')->call('cancel'),
-            Builder::button('Submit')->type('primary')->call('submit')->uri('/api/admins/' . $id)->method('put'),
+            Builder::button('reset', 'Reset')->type('dashed')->call('reset'),
+            Builder::button('cancel', 'Cancel')->type('default')->call('cancel'),
+            Builder::button('submit', 'Submit')->type('primary')->call('submit')->uri('/api/admins/' . $id)->method('put'),
         ];
 
         return Builder::page('admin-edit', 'Admin Edit')

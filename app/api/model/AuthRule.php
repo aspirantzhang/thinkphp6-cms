@@ -32,6 +32,7 @@ class AuthRule extends Common
         return $this->belongsToMany(AuthGroupService::class, 'auth_group_rule', 'group_id', 'rule_id');
     }
 
+    // Builder
     public function addBuilder($addonData = [])
     {
         $basic = [
@@ -44,17 +45,15 @@ class AuthRule extends Common
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
         $action = [
-            Builder::button('Reset')->type('dashed')->action('reset'),
-            Builder::button('Cancel')->type('default')->action('cancel'),
-            Builder::button('Submit')->type('primary')->action('submit')
-                    ->uri('/api/rules')
-                    ->method('post'),
+            Builder::button('reset', 'Reset')->type('dashed')->call('reset'),
+            Builder::button('cancel', 'Cancel')->type('default')->call('cancel'),
+            Builder::button('submit', 'Submit')->type('primary')->call('submit')->uri('/api/rules')->method('post'),
         ];
 
-        return Builder::page('Add New Rule')
+        return Builder::page('rule-add', 'Rule Add')
                         ->type('page')
-                        ->tab($basic)
-                        ->action($action)
+                        ->tab('basic', 'Basic', $basic)
+                        ->action('actions', 'Actions', $action)
                         ->toArray();
     }
 
@@ -71,34 +70,32 @@ class AuthRule extends Common
             Builder::field('update_time', 'Update Time')->type('datetime'),
         ];
         $action = [
-            Builder::button('Reset')->type('dashed')->action('reset'),
-            Builder::button('Cancel')->type('default')->action('cancel'),
-            Builder::button('Submit')->type('primary')->action('submit')
-                    ->uri('/api/rules/' . $id)
-                    ->method('put'),
+            Builder::button('reset', 'Reset')->type('dashed')->call('reset'),
+            Builder::button('cancel', 'Cancel')->type('default')->call('cancel'),
+            Builder::button('submit', 'Submit')->type('primary')->call('submit')->uri('/api/rules/' . $id)->method('put'),
         ];
 
-        return Builder::page('Rule Edit')
+        return Builder::page('rule-edit', 'Rule Edit')
                         ->type('page')
-                        ->tab($basic)
-                        ->action($action)
+                        ->tab('basic', 'Basic', $basic)
+                        ->action('actions', 'Actions', $action)
                         ->toArray();
     }
 
     public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
-            Builder::button('Add')->type('primary')->action('modal')->uri('/api/rules/add'),
-            Builder::button('Reload')->type('default')->action('reload'),
+            Builder::button('add', 'Add')->type('primary')->call('modal')->uri('/api/rules/add'),
+            Builder::button('reload', 'Reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [
-            Builder::button('Delete')->type('danger')->action('delete')->uri('/api/rules/delete')->method('post'),
-            Builder::button('Disable')->type('default')->action('batchDisable'),
+            Builder::button('delete', 'Delete')->type('danger')->call('delete')->uri('/api/rules/delete')->method('post'),
+            Builder::button('disable', 'Disable')->type('default')->call('batchDisable'),
         ];
-        if (isset($params['trash']) && $params['trash'] === 'onlyTrashed') {
+        if ($this->isTrash($params)) {
             $batchToolBar = [
-                Builder::button('Delete Permanently')->type('danger')->action('deletePermanently')->uri('/api/rules/delete')->method('post'),
-                Builder::button('Restore')->type('default')->action('restore')->uri('/api/rules/restore')->method('post'),
+                Builder::button('deletePermanently', 'Delete Permanently')->type('danger')->call('deletePermanently')->uri('/api/rules/delete')->method('post'),
+                Builder::button('restore', 'Restore')->type('default')->call('restore')->uri('/api/rules/restore')->method('post'),
             ];
         }
         $tableColumn = [
@@ -107,19 +104,19 @@ class AuthRule extends Common
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),
-            Builder::actions([
-                Builder::button('Edit')->type('primary')->action('modal')->uri('/api/rules/:id'),
-                Builder::button('Delete')->type('default')->action('delete')->uri('/api/rules/delete')->method('post'),
-            ])->title('Action'),
+            Builder::field('actions', 'Actions')->data([
+                Builder::button('edit', 'Edit')->type('primary')->call('modal')->uri('/api/rules/:id'),
+                Builder::button('delete', 'Delete')->type('default')->call('delete')->uri('/api/rules/delete')->method('post'),
+            ]),
         ];
 
-        return Builder::page('AuthRule List')
-            ->type('basicList')
-            ->searchBar(true)
-            ->tableColumn($tableColumn)
-            ->tableToolBar($tableToolBar)
-            ->batchToolBar($batchToolBar)
-            ->toArray();
+        return Builder::page('rule-list', 'Rule List')
+                        ->type('basicList')
+                        ->searchBar(true)
+                        ->tableColumn($tableColumn)
+                        ->tableToolBar($tableToolBar)
+                        ->batchToolBar($batchToolBar)
+                        ->toArray();
     }
 
     // Accessor
