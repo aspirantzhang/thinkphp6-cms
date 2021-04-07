@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\api\traits;
 
 use think\facade\Db;
-use think\facade\Config;
 
 trait Logic
 {
