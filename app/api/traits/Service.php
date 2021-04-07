@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace app\api\traits;
 
-use think\facade\Db;
-
 trait Service
 {
     public function listAPI($params = [], $withRelation = [])
@@ -215,34 +213,56 @@ trait Service
         }
     }
 
+    private function hasParent($record)
+    {
+        return isset($record['parent_id']) && $record['parent_id'] !== 0;
+    }
+
+    /**
+     * if the record has parent, but it's parent is not included in this operation.
+     * meanwhile, his parent is still in the trash.
+     * that means, we have to change the record's parent_id to zero
+     * to let it has the correct level position in the tree structure.
+     * @return bool
+     */
+    private function shouldResetParent($record, $ids)
+    {
+        if ($this->hasParent($record) && !in_array($record['parent_id'], $ids)) {
+            $parentInTheTrash = $this->onlyTrashed()->find($record['parent_id']);
+            return (bool)$parentInTheTrash;
+        }
+        return false;
+    }
+
+    private function handleChildrenRestore($record, $ids)
+    {
+        $tree = $this->treeDataAPI(['trash' => 'withTrashed']);
+        // get all the ids of the record's children
+        $childrenIds = getDescendantSet('id', 'id', $record['id'], $tree, false);
+        if (!empty($childrenIds)) {
+            // calculate the id that not included in this operation
+            // they should set the parent_id = 0
+            $shouldClearIds = array_diff($childrenIds, $ids);
+            if (!empty($shouldClearIds)) {
+                foreach ($shouldClearIds as $id) {
+                    $this->clearParentId($id);
+                }
+            }
+        }
+    }
+
     public function restoreAPI($ids = [])
     {
-        if ($ids) {
-            $dataSet = $this->withTrashed()->whereIn('id', array_unique($ids))->select();
-            if (!$dataSet->isEmpty()) {
-                $tree = $this->treeDataAPI(['trash' => 'withTrashed']);
-
-                foreach ($dataSet as $item) {
-                    $item->restore();
-                    // is children
-                    if (isset($item['parent_id']) && $item['parent_id'] != 0 && !in_array($item['parent_id'], $ids)) {
-                        $trashedParent = $this->onlyTrashed()->find($item['parent_id']);
-                        if ($trashedParent) {
-                            $item->parent_id = 0;
-                            $item->save();
-                        }
+        if (!empty($ids)) {
+            $records = $this->withTrashed()->whereIn('id', array_unique($ids))->select();
+            if (!$records->isEmpty()) {
+                foreach ($records as $record) {
+                    $record->restore();
+                    if ($this->shouldResetParent($record, $ids)) {
+                        $record->parent_id = 0;
+                        $record->save();
                     }
-
-                    // is parent
-                    $childIds = getDescendantSet('id', 'id', $item['id'], $tree, false);
-                    if ($childIds) {
-                        $exceptChildIds = array_diff($childIds, $ids);
-                        if (!empty($exceptChildIds)) {
-                            foreach ($exceptChildIds as $id) {
-                                $this->clearParentId($id);
-                            }
-                        }
-                    }
+                    $this->handleChildrenRestore($record, $ids);
                 }
                 return $this->success('Restore successfully.');
             }
