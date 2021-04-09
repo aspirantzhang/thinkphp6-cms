@@ -92,10 +92,10 @@ class Admin extends Common
         $httpBody = $result[0];
 
         if ($httpBody['success'] === true) {
-            $userId = $httpBody['data']['id'];
-            $userName = $httpBody['data']['username'];
-            Session::set('userId', $userId);
-            Session::set('userName', $userName);
+            $adminId = $httpBody['data']['id'];
+            $adminName = $httpBody['data']['admin_name'];
+            Session::set('adminId', $adminId);
+            Session::set('adminName', $adminName);
         }
 
         return $this->json(...$result);
@@ -109,9 +109,9 @@ class Admin extends Common
 
     public function info()
     {
-        if (Session::has('userId') || $this->request->param('X-API-KEY') === 'antd') {
+        if (Session::has('adminId') || $this->request->param('X-API-KEY') === 'antd') {
             $data = [
-                "name" => Session::get('userName') ?? 'API TEST',
+                "name" => Session::get('adminName') ?? 'API TEST',
                 "avatar" => 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
                 "userid" => '00000001',
                 "email" => 'antdesign@alipay.com',

@@ -20,8 +20,12 @@ class Menu extends MenuLogic
                 $treeMenu = [
                     'id' => $model['id'],
                     'value' => $model['id'],
-                    'title' => $model['name'],
+                    'name' => $model[$this->titleField],
+                    'title' => $model[$this->titleField],
                     'parent_id' => $model['parent_id'],
+                    'hideInMenu' => $model['hide_in_menu'],
+                    'hideChildrenInMenu' => $model['hide_children_in_menu'],
+                    'flatMenu' => $model['flat_menu'],
                 ];
                 return array_merge($model, $treeMenu);
             }, $data);

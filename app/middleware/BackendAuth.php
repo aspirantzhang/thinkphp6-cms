@@ -30,7 +30,7 @@ class BackendAuth
             return $next($request);
         } else {
             $auth = new Auth();
-            if (!Session::has('userId')) {
+            if (!Session::has('adminId')) {
                 $data = [
                     'success' => false,
                     'message' => 'Your session has expired, please log in again.',
@@ -38,7 +38,7 @@ class BackendAuth
                 return json($data)->header(Config::get('route.default_header'));
             }
             
-            if ($auth->check($fullPath, Session::get('userId'))) {
+            if ($auth->check($fullPath, Session::get('adminId'))) {
                 return $next($request);
             } else {
                 $data = [

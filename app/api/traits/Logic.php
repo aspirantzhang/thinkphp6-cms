@@ -85,7 +85,7 @@ trait Logic
                     'id' => $model['id'],
                     'key' => $model['id'],
                     'value' => $model['id'],
-                    'title' => $model['name'],
+                    'title' => $model[$this->titleField],
                     'parent_id' => $model['parent_id'],
                 ];
             } else {

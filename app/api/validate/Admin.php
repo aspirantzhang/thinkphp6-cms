@@ -9,7 +9,7 @@ class Admin extends Validate
     protected $rule = [
         'id' => 'require|number',
         'ids' => 'require|numberArray',
-        'username' => 'require|length:6,32',
+        'admin_name' => 'require|length:6,32',
         'password' => 'require|length:6,32',
         'display_name' => 'length:4,32',
         'status' => 'numberTag',
@@ -24,8 +24,8 @@ class Admin extends Validate
         'id.number' => 'ID must be numbers only.',
         'ids.require' => 'IDs field is empty.',
         'ids.numberArray' => 'IDs must be a number array.',
-        'username.require' => 'The username field is empty.',
-        'username.length' => 'Username length should be between 6 and 32.',
+        'admin_name.require' => 'The admin name field is empty.',
+        'admin_name.length' => 'Admin name length should be between 6 and 32.',
         'password.require' => 'The password field is empty.',
         'password.length' => 'Password length should be between 6 and 32.',
         'display_name.length' => 'Display Name length should be between 4 and 32.',
@@ -38,7 +38,7 @@ class Admin extends Validate
     ];
 
     protected $scene = [
-        'save' => ['username', 'password', 'display_name', 'create_time', 'status'],
+        'save' => ['admin_name', 'password', 'display_name', 'create_time', 'status'],
         'update' => ['id', 'display_name', 'create_time', 'status'],
         'read' => ['id'],
         'delete' => ['ids'],

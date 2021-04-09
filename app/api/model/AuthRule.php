@@ -11,13 +11,14 @@ class AuthRule extends Common
 {
     protected $readonly = ['id'];
     protected $unique = [];
+    protected $titleField = 'rule_title';
 
-    public $allowHome = ['parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowList = ['parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowRead = ['parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowSave = ['parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowUpdate = ['parent_id', 'name', 'rule', 'type', 'condition'];
-    public $allowSearch = ['parent_id', 'name', 'rule', 'type', 'condition'];
+    public $allowHome = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
+    public $allowList = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
+    public $allowRead = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
+    public $allowSave = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
+    public $allowUpdate = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
+    public $allowSearch = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
 
     protected function setAddonData($params = [])
     {
@@ -36,9 +37,9 @@ class AuthRule extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('name', 'Rule Name')->type('text'),
+            Builder::field('rule_title', 'Rule Title')->type('text'),
+            Builder::field('rule_path', 'Rule Path')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rule', 'Rule')->type('text'),
             Builder::field('type', 'Type')->type('text'),
             Builder::field('condition', 'Condition')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime'),
@@ -60,9 +61,9 @@ class AuthRule extends Common
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('name', 'Rule Name')->type('text'),
+            Builder::field('rule_title', 'Rule Title')->type('text'),
+            Builder::field('rule_path', 'Rule Path')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rule', 'Rule')->type('text'),
             Builder::field('type', 'Type')->type('text'),
             Builder::field('condition', 'Condition')->type('text'),
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
@@ -99,8 +100,8 @@ class AuthRule extends Common
             ];
         }
         $tableColumn = [
-            Builder::field('name', 'Rule Name')->type('text'),
-            Builder::field('rule', 'Rule')->type('text'),
+            Builder::field('rule_title', 'Rule Title')->type('text'),
+            Builder::field('rule_path', 'Rule Path')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),

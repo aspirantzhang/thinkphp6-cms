@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp-antdesign-builder.git",
-                "reference": "1ef667c4ccc2a2a4b3f159198f20e5142476a132"
+                "reference": "e043736d812e01a662a1551656f76c4a5fc61ce9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp-antdesign-builder/zipball/1ef667c4ccc2a2a4b3f159198f20e5142476a132",
-                "reference": "1ef667c4ccc2a2a4b3f159198f20e5142476a132",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp-antdesign-builder/zipball/e043736d812e01a662a1551656f76c4a5fc61ce9",
+                "reference": "e043736d812e01a662a1551656f76c4a5fc61ce9",
                 "shasum": ""
             },
             "require-dev": {
@@ -45,7 +45,7 @@
                 "issues": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/issues",
                 "source": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/tree/master"
             },
-            "time": "2021-04-04T04:54:56+00:00"
+            "time": "2021-04-08T16:06:42+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp6-auth",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp6-auth.git",
-                "reference": "e06bee53e8b1fc13f2e64ef16e8dd3bbe4d90cd8"
+                "reference": "601c13ec69a01adad57e3e97857d7ca497385e1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-auth/zipball/e06bee53e8b1fc13f2e64ef16e8dd3bbe4d90cd8",
-                "reference": "e06bee53e8b1fc13f2e64ef16e8dd3bbe4d90cd8",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-auth/zipball/601c13ec69a01adad57e3e97857d7ca497385e1f",
+                "reference": "601c13ec69a01adad57e3e97857d7ca497385e1f",
                 "shasum": ""
             },
             "default-branch": true,
@@ -78,12 +78,12 @@
                     "email": "admin@aspirantzhang.com"
                 }
             ],
-            "description": "Classcial auth package for thinkphp6",
+            "description": "A simple auth package for thinkphp6.",
             "support": {
                 "issues": "https://github.com/aspirantzhang/thinkphp6-auth/issues",
                 "source": "https://github.com/aspirantzhang/thinkphp6-auth/tree/master"
             },
-            "time": "2021-02-11T09:51:19+00:00"
+            "time": "2021-04-09T12:20:39+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp6-fast-command",

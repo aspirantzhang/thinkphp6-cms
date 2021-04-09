@@ -10,15 +10,16 @@ use app\api\service\AuthGroup as AuthGroupService;
 class Admin extends Common
 {
     // Allow fields
-    protected $readonly = ['id', 'username'];
-    protected $unique = [ 'username' => 'Username' ];
+    protected $readonly = ['id', 'admin_name'];
+    protected $unique = [ 'admin_name' => 'admin_name' ];
+    protected $titleField = 'admin_name';
 
-    public $allowHome = ['groups', 'username', 'display_name'];
-    public $allowList = ['groups', 'username', 'display_name'];
-    public $allowRead = ['username', 'display_name'];
-    public $allowSave = ['username', 'password', 'groups', 'display_name'];
+    public $allowHome = ['groups', 'admin_name', 'display_name'];
+    public $allowList = ['groups', 'admin_name', 'display_name'];
+    public $allowRead = ['admin_name', 'display_name'];
+    public $allowSave = ['admin_name', 'password', 'groups', 'display_name'];
     public $allowUpdate = ['password', 'display_name', 'groups'];
-    public $allowSearch = ['groups', 'username', 'display_name'];
+    public $allowSearch = ['groups', 'admin_name', 'display_name'];
 
     public function setAddonData()
     {
@@ -36,7 +37,7 @@ class Admin extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('username', 'Username')->type('text'),
+            Builder::field('admin_name', 'Admin Name')->type('text'),
             Builder::field('password', 'Password')->type('text'),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
@@ -60,7 +61,7 @@ class Admin extends Common
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('username', 'Username')->type('text')->editDisabled(true),
+            Builder::field('admin_name', 'Admin Name')->type('text')->editDisabled(true),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('groups', 'Group')->type('tree')->data($addonData['groups']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
@@ -98,7 +99,7 @@ class Admin extends Common
             ];
         }
         $tableColumn = [
-            Builder::field('username', 'Username')->type('text'),
+            Builder::field('admin_name', 'Admin Name')->type('text'),
             Builder::field('groups', 'Groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
             Builder::field('display_name', 'Display Name')->type('text'),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
@@ -112,7 +113,7 @@ class Admin extends Common
         ];
         if ($this->isTrash($params)) {
             $tableColumn = [
-                Builder::field('username', 'Username')->type('text'),
+                Builder::field('admin_name', 'admin_name')->type('text'),
                 Builder::field('groups', 'Groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
                 Builder::field('display_name', 'Display Name')->type('text'),
                 Builder::field('delete_time', 'Delete Time')->type('datetime')->sorter(true),
@@ -142,9 +143,9 @@ class Admin extends Common
     }
 
     // Searcher
-    public function searchUsernameAttr($query, $value)
+    public function searchAdminNameAttr($query, $value)
     {
-        $query->where('username', 'like', '%' . $value . '%');
+        $query->where('admin_name', 'like', '%' . $value . '%');
     }
 
     public function searchDisplayNameAttr($query, $value)

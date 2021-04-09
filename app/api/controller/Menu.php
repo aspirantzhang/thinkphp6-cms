@@ -91,7 +91,6 @@ class Menu extends Common
 
     public function backend()
     {
-        sleep(3);
         $result = $this->menu->treeDataAPI(['order' => 'asc']);
 
         return $this->json($result);

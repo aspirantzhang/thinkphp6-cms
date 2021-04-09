@@ -12,13 +12,14 @@ class AuthGroup extends Common
 {
     protected $readonly = ['id'];
     protected $unique = [];
+    protected $titleField = 'group_name';
 
-    public $allowHome = ['parent_id', 'name', 'rules'];
-    public $allowList = ['parent_id', 'name', 'rules'];
-    public $allowRead = ['parent_id', 'name', 'rules'];
-    public $allowSave = ['parent_id', 'name', 'rules'];
-    public $allowUpdate = ['parent_id', 'name', 'rules'];
-    public $allowSearch = ['parent_id', 'name', 'rules'];
+    public $allowHome = ['parent_id', 'group_name', 'rules'];
+    public $allowList = ['parent_id', 'group_name', 'rules'];
+    public $allowRead = ['parent_id', 'group_name', 'rules'];
+    public $allowSave = ['parent_id', 'group_name', 'rules'];
+    public $allowUpdate = ['parent_id', 'group_name', 'rules'];
+    public $allowSearch = ['parent_id', 'group_name', 'rules'];
 
     protected function setAddonData($params = [])
     {
@@ -43,7 +44,7 @@ class AuthGroup extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('name', 'Group Name')->type('text'),
+            Builder::field('group_name', 'Group Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
@@ -66,7 +67,7 @@ class AuthGroup extends Common
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('name', 'Group Name')->type('text'),
+            Builder::field('group_name', 'Group Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
@@ -127,9 +128,9 @@ class AuthGroup extends Common
     // Mutator
 
     // Searcher
-    public function searchNameAttr($query, $value)
+    public function searchGroupNameAttr($query, $value)
     {
-        $query->where('name', 'like', '%' . $value . '%');
+        $query->where('group_name', 'like', '%' . $value . '%');
     }
 
     public function searchRulesAttr($query, $value)

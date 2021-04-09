@@ -66,27 +66,27 @@ class Model extends Common
                 // Add Rules
                 $parentRule = RuleService::create([
                     'parent_id' => 0,
-                    'name' => $tableTitle,
+                    'rule_title' => $tableTitle,
                     'create_time' => $currentTime,
                     'update_time' => $currentTime,
                 ]);
                 $parentRuleId = $parentRule->id;
                 $rule = new RuleService();
                 $initRules = [
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Home', 'rule' => 'api/' . $tableName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Add', 'rule' => 'api/' . $tableName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Save', 'rule' => 'api/' . $tableName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Read', 'rule' => 'api/' . $tableName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Update', 'rule' => 'api/' . $tableName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Delete', 'rule' => 'api/' . $tableName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'name' => $tableTitle . ' Restore', 'rule' => 'api/' . $tableName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Home', 'rule_path' => 'api/' . $tableName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Add', 'rule_path' => 'api/' . $tableName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Save', 'rule_path' => 'api/' . $tableName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Read', 'rule_path' => 'api/' . $tableName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Update', 'rule_path' => 'api/' . $tableName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Delete', 'rule_path' => 'api/' . $tableName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Restore', 'rule_path' => 'api/' . $tableName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
                 ];
                 $rule->saveAll($initRules);
 
                 // Add Menus
                 $parentMenu = MenuService::create([
                     'parent_id' => 0,
-                    'name' => $routeName . '-list',
+                    'menu_name' => $routeName . '-list',
                     'icon' => 'icon-project',
                     'path' => '/basic-list/api/' . $routeName,
                     'create_time' => $currentTime,
@@ -95,8 +95,8 @@ class Model extends Common
                 $parentMenuId = $parentMenu->id;
                 $menu = new MenuService();
                 $initMenus = [
-                    ['parent_id' => $parentMenuId, 'name' => 'add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hideInMenu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentMenuId, 'name' => 'edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hideInMenu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentMenuId, 'menu_name' => 'add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+                    ['parent_id' => $parentMenuId, 'menu_name' => 'edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
                 ];
                 $menu->saveAll($initMenus);
             } catch (\Exception $e) {
@@ -135,14 +135,14 @@ class Model extends Common
 
                 Console::call('make:removeModel', [Str::studly($tableName)]);
 
-            // Drop Table
+                // Drop Table
                 Db::execute("DROP TABLE IF EXISTS `$tableName`");
 
-            // Delete Parent Rule
-                $parentRule = RuleService::where('name', $tableTitle)->find();
+                // Delete Parent Rule
+                $parentRule = RuleService::where('rule_title', $tableTitle)->find();
                 $parentRuleId = $parentRule->id;
                 $parentRule->force()->delete();
-            // Delete Children Rule
+                // Delete Children Rule
                 $childrenRule = new RuleService();
                 $childrenRuleDataSet = $childrenRule->where('parent_id', $parentRuleId)->select();
                 if (!$childrenRuleDataSet->isEmpty()) {
@@ -151,11 +151,11 @@ class Model extends Common
                     }
                 }
 
-            // Delete Parent Menu
-                $parentMenu = MenuService::where('name', $routeName . '-list')->find();
+                // Delete Parent Menu
+                $parentMenu = MenuService::where('menu_name', $routeName . '-list')->find();
                 $parentMenuId = $parentMenu->id;
                 $parentMenu->force()->delete();
-            // Delete Children Menu
+                // Delete Children Menu
                 $childrenMenu = new MenuService();
                 $childrenMenuDataSet = $childrenMenu->where('parent_id', $parentMenuId)->select();
                 if (!$childrenMenuDataSet->isEmpty()) {

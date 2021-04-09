@@ -73,7 +73,7 @@ class Model extends Common
     public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
-            Builder::button('Add', 'add')->type('primary')->call('modal')->uri('/api/models/add'),
+            Builder::button('add', 'Add')->type('primary')->call('modal')->uri('/api/models/add'),
             Builder::button('reload', 'Reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [];

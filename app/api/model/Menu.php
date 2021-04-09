@@ -10,21 +10,22 @@ class Menu extends Common
 {
     protected $readonly = ['id'];
     protected $unique = [];
+    protected $titleField = 'menu_name';
 
-    public $allowHome = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
-    public $allowList = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
-    public $allowRead = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
-    public $allowSave = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
-    public $allowUpdate = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
-    public $allowSearch = ['name', 'parent_id', 'icon', 'path', 'hideInMenu', 'hideChildrenInMenu', 'flatMenu'];
+    public $allowHome = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowList = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowRead = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowSave = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowUpdate = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowSearch = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
 
     protected function setAddonData($params = [])
     {
         return [
             'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
-            'hideInMenu' => createSingleChoice('Hide', 'Show'),
-            'hideChildrenInMenu' => createSingleChoice(),
-            'flatMenu' => createSingleChoice(),
+            'hide_in_menu' => createSingleChoice('Hide', 'Show'),
+            'hide_children_in_menu' => createSingleChoice(),
+            'flat_menu' => createSingleChoice(),
         ];
     }
 
@@ -34,13 +35,13 @@ class Menu extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('name', 'Menu Name')->type('text'),
+            Builder::field('menu_name', 'Menu Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
-            Builder::field('hideInMenu', 'Hide')->type('switch')->data($addonData['hideInMenu']),
-            Builder::field('hideChildrenInMenu', 'Hide Children')->type('switch')->data($addonData['hideChildrenInMenu']),
-            Builder::field('flatMenu', 'Flat')->type('switch')->data($addonData['flatMenu']),
+            Builder::field('hide_in_menu', 'Hide')->type('switch')->data($addonData['hide_in_menu']),
+            Builder::field('hide_children_in_menu', 'Hide Children')->type('switch')->data($addonData['hide_children_in_menu']),
+            Builder::field('flat_menu', 'Flat')->type('switch')->data($addonData['flat_menu']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
         ];
@@ -60,13 +61,13 @@ class Menu extends Common
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('name', 'Menu Name')->type('text'),
+            Builder::field('menu_name', 'Menu Name')->type('text'),
             Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
-            Builder::field('hideInMenu', 'Hide')->type('switch')->data($addonData['hideInMenu']),
-            Builder::field('hideChildrenInMenu', 'Hide Children')->type('switch')->data($addonData['hideChildrenInMenu']),
-            Builder::field('flatMenu', 'Flat')->type('switch')->data($addonData['flatMenu']),
+            Builder::field('hide_in_menu', 'Hide')->type('switch')->data($addonData['hide_in_menu']),
+            Builder::field('hide_children_in_menu', 'Hide Children')->type('switch')->data($addonData['hide_children_in_menu']),
+            Builder::field('flat_menu', 'Flat')->type('switch')->data($addonData['flat_menu']),
             Builder::field('create_time', 'Create Time')->type('datetime'),
             Builder::field('update_time', 'Update Time')->type('datetime'),
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
@@ -101,10 +102,10 @@ class Menu extends Common
             ];
         }
         $tableColumn = [
-            Builder::field('name', 'Menu Name')->type('text'),
+            Builder::field('menu_name', 'Menu Name')->type('text'),
             Builder::field('icon', 'Icon')->type('text'),
             Builder::field('path', 'Path')->type('text'),
-            Builder::field('hideInMenu', 'Hide')->type('switch')->data($addonData['hideInMenu']),
+            Builder::field('hide_in_menu', 'Hide')->type('switch')->data($addonData['hide_in_menu']),
             Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
             Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
             Builder::field('trash', 'Trash')->type('trash'),

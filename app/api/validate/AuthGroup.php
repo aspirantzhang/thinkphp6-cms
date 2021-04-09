@@ -10,7 +10,7 @@ class AuthGroup extends Validate
         'id' => 'require|number',
         'parent_id' => 'number',
         'ids' => 'require|numberArray',
-        'name' => 'require|length:6,32',
+        'group_name' => 'require|length:6,32',
         'rules' => 'length:0,255',
         'status' => 'numberTag',
         'page' => 'number',
@@ -24,8 +24,8 @@ class AuthGroup extends Validate
         'parent_id.number' => 'Parent ID must be numbers only.',
         'ids.require' => 'IDs field is empty.',
         'ids.numberArray' => 'IDs must be a number array.',
-        'name.require' => 'The group name field is empty.',
-        'name.length' => 'Group name length should be between 6 and 32.',
+        'group_name.require' => 'The group name field is empty.',
+        'group_name.length' => 'Group name length should be between 6 and 32.',
         'rules.length' => 'Rules length should be between 0 and 255.',
         'status.numberTag' => 'Invalid status format.',
         'page.number' => 'Page must be numbers only.',
@@ -37,8 +37,8 @@ class AuthGroup extends Validate
     // index save read update delete
 
     protected $scene = [
-        'save' => ['parent_id', 'name', 'rules', 'create_time', 'status'],
-        'update' => ['id', 'parent_id', 'name', 'rules', 'create_time', 'status'],
+        'save' => ['parent_id', 'group_name', 'rules', 'create_time', 'status'],
+        'update' => ['id', 'parent_id', 'group_name', 'rules', 'create_time', 'status'],
         'read' => ['id'],
         'delete' => ['ids'],
         'restore' => ['ids'],

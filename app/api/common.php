@@ -118,7 +118,7 @@ function isTreeArray($array = [])
 
 function isParentArray($array = [])
 {
-    if ($array && !isset($array[0]['parent_id']) || !isset($array[0]['id']) || !isset($array[0]['name'])) {
+    if ($array && !isset($array[0]['parent_id']) || !isset($array[0]['id'])) {
         return false;
     }
     return true;
