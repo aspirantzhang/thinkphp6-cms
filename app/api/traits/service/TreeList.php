@@ -30,7 +30,7 @@ trait TreeList
     }
 
     /**
-     * Get the tree structure of the list data of a particular model.
+     * Get the tree structure of the list data
      * @param mixed $params e.g.: ['status' => 1]
      * @return array
      */
@@ -39,14 +39,14 @@ trait TreeList
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         $data = $this->getListData($params, $withRelation);
         if ($data) {
-            if (!isset($data[0]['parent_id'])) {
+            if (!isset($data[0]['parent_id']) || !isset($this->titleField)) {
                 return [];
             }
             $data = array_map(function ($model) {
                 $treeMenu = [
                     'id' => $model['id'],
                     'value' => $model['id'],
-                    'title' => $model['name'],
+                    'title' => $model[$this->titleField],
                     'parent_id' => $model['parent_id'],
                 ];
                 return array_merge($model, $treeMenu);
