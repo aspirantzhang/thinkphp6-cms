@@ -104,7 +104,6 @@ class CommonTest extends TestCase
     public function testArrayToTreeInvalidParam()
     {
         $this->assertEqualsCanonicalizing([], arrayToTree([]));
-        $this->assertEqualsCanonicalizing([], arrayToTree([]));
         $this->assertEqualsCanonicalizing([], arrayToTree(0));
         $this->assertEqualsCanonicalizing([], arrayToTree(''));
         $this->assertEqualsCanonicalizing([], arrayToTree(null));
@@ -186,5 +185,103 @@ class CommonTest extends TestCase
         ];
 
         $this->assertEqualsCanonicalizing($expect, $actual);
+    }
+
+    public function testExtractValuesInvalidParam()
+    {
+        $this->assertEqualsCanonicalizing([], extractValues([]));
+        $this->assertEqualsCanonicalizing([], extractValues([], 'whatever...', 'whatever...'));
+        $actual = extractValues([
+            [ 'unit' => 'test1', 'other' => '...' ],
+            [ 'unit' => 'test2', 'other' => '...' ],
+            [ 'unit' => 'test3', 'other' => '...' ],
+        ], 'unknown');
+        $expect = [];
+        $this->assertEqualsCanonicalizing($expect, $actual);
+    }
+
+    public function testExtractValuesValidParam()
+    {
+        $actual = extractValues([
+            [ 'unit' => 'test1', 'other' => '...' ],
+            [ 'unit' => 'test2', 'other' => '...' ],
+        ], 'unit');
+        $expect = ['test1', 'test2'];
+        $this->assertEqualsCanonicalizing($expect, $actual);
+
+        $actual2 = extractValues([
+            [
+                'data' => [
+                    [ 'unit' => 'test1', 'other' => '...' ],
+                    [ 'unit' => 'test2', 'other' => '...' ],
+                ],
+            ],
+            [
+                'data' => [
+                    [ 'unit' => 'test3', 'other' => '...' ],
+                    [ 'unit' => 'test2', 'other' => '...' ],
+                ],
+            ],
+        ], 'unit', 'data');
+        $expect2 = ['test1', 'test2', 'test3'];
+        $this->assertEqualsCanonicalizing($expect2, $actual2);
+
+        $actual3 = extractValues([
+            [
+                'data' => [
+                    [ 'unit' => 'test1', 'other' => '...' ],
+                    [ 'unit' => 'test2', 'other' => '...' ],
+                ],
+            ],
+            [
+                'data' => [
+                    [ 'unit' => 'test3', 'other' => '...' ],
+                    [ 'unit' => 'test2', 'other' => '...' ],
+                ],
+            ],
+        ], 'unit', 'data', false);
+        $expect3 = ['test1', 'test2', 'test3', 'test2'];
+        $this->assertEqualsCanonicalizing($expect3, $actual3);
+
+        $actual4 = extractValues([
+            [
+                'data' => [
+                    'unit' => 'test1'
+                ],
+            ],
+            [
+                'data' => [
+                    'unit' => 'test2'
+                ],
+            ],
+        ], 'unit', 'data');
+        $expect4 = ['test1', 'test2'];
+        $this->assertEqualsCanonicalizing($expect4, $actual4);
+
+        $actual5 = extractValues([
+            [
+                'data' => [
+                    'unit' => ['value1','value2']
+                ],
+            ],
+            [
+                'data' => [
+                    'unit' => ['value3','value4']
+                ],
+            ],
+        ], 'unit', 'data');
+        $expect5 = [['value1','value2'], ['value3','value4']];
+        $this->assertEqualsCanonicalizing($expect5, $actual5);
+
+        $actual6 = extractValues([
+            [ 'unit' => 'test1', 'other' => '...' ],
+            [ 'unit' => 'test1', 'other' => '...' ],
+        ], 'unit', '', false);
+        $expect6 = ['test1', 'test1'];
+        $this->assertEqualsCanonicalizing($expect6, $actual6);
+
+        // $actual7 = extractValues(['unit1' => 'test1'], 'unit');
+        // $expect7 = [];
+        // $this->assertEqualsCanonicalizing($expect7, $actual7);
     }
 }

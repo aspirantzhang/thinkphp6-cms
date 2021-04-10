@@ -95,7 +95,7 @@ function isMultiArray($array)
 }
 
 /**
- * Extract particular key/column values ​​from an array.
+ * Extract some key values ​​from an array.
  * @param array $array
  * @param string $targetKeyName
  * @param string $parentKeyName
@@ -134,11 +134,7 @@ function extractValues(array $array = [], string $targetKeyName = 'id', string $
         if (!$unique) {
             return array_column($array, $targetKeyName);
         }
-        if (isMultiArray($array)) {
-            return array_unique(array_column($array, $targetKeyName), SORT_REGULAR);
-        } else {
-            return array_unique(array_column($array, $targetKeyName));
-        }
+        return array_unique(array_column($array, $targetKeyName), SORT_REGULAR);
     }
     return [];
 }
