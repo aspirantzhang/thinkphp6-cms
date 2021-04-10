@@ -100,4 +100,91 @@ class CommonTest extends TestCase
             'notAllow' => 'unit test 3',
         ], ['allowField1', 'allowField2']));
     }
+
+    public function testArrayToTreeInvalidParam()
+    {
+        $this->assertEqualsCanonicalizing([], arrayToTree([]));
+        $this->assertEqualsCanonicalizing([], arrayToTree([]));
+        $this->assertEqualsCanonicalizing([], arrayToTree(0));
+        $this->assertEqualsCanonicalizing([], arrayToTree(''));
+        $this->assertEqualsCanonicalizing([], arrayToTree(null));
+        $this->assertEqualsCanonicalizing([], arrayToTree("\t"));
+        $this->assertEqualsCanonicalizing([], arrayToTree("\n"));
+        $this->assertEqualsCanonicalizing([], arrayToTree("\r"));
+        $this->assertEqualsCanonicalizing([], arrayToTree(' '));
+        $this->assertEqualsCanonicalizing([], arrayToTree(true));
+        $this->assertEqualsCanonicalizing([], arrayToTree(false));
+    }
+
+    public function testArrayToTreeValidParam()
+    {
+        $actual = arrayToTree([
+            [ 'id' => 1, 'parent_id' => 0 ],
+            [ 'id' => 2, 'parent_id' => 0 ],
+            [ 'id' => 3, 'parent_id' => 1 ],
+            [ 'id' => 4, 'parent_id' => 3 ],
+        ]);
+        $expect = [
+            [ 'id' => 1, 'parent_id' => 0, 'depth' => 1 , 'children' => [
+                [ 'id' => 3, 'parent_id' => 1, 'depth' => 2, 'children' => [
+                    [ 'id' => 4, 'parent_id' => 3, 'depth' => 3 ]
+                ]]
+            ]],
+            [ 'id' => 2, 'parent_id' => 0, 'depth' => 1 ]
+        ];
+        $this->assertEqualsCanonicalizing($expect, $actual);
+    }
+
+    public function testArrayToTreeIfNoParent()
+    {
+        $actual = arrayToTree([
+            [ 'id' => 1, 'parent_id' => 0 ],
+            [ 'id' => 2, 'parent_id' => 0 ],
+            [ 'id' => 3, 'parent_id' => 99999 ],
+            [ 'id' => 4, 'parent_id' => 1 ]
+        ]);
+        $expect = [
+            [ 'id' => 1, 'parent_id' => 0, 'depth' => 1 , 'children' => [
+                [ 'id' => 4, 'parent_id' => 1, 'depth' => 2 ]
+            ]],
+            [ 'id' => 2, 'parent_id' => 0, 'depth' => 1 ],
+            [ 'id' => 3, 'parent_id' => 0, 'depth' => 1 ]
+        ];
+        var_dump($actual);
+        var_dump($expect);
+
+        $this->assertEqualsCanonicalizing($expect, $actual);
+    }
+
+    public function testArrayToTreeIfNoRoot()
+    {
+        $actual = arrayToTree([
+            [ 'id' => 1, 'parent_id' => 0 ],
+            [ 'id' => 2, 'parent_id' => 0 ],
+            [ 'id' => 3, 'parent_id' => 1 ],
+        ], 99);
+        $expect = [];
+
+        $this->assertEqualsCanonicalizing($expect, $actual);
+    }
+
+    public function testArrayToTreeIfParentIdLessThanZero()
+    {
+        $actual = arrayToTree([
+            [ 'id' => 1, 'parent_id' => 0 ],
+            [ 'id' => 2, 'parent_id' => 1 ],
+            [ 'id' => 0, 'parent_id' => -1 ],
+            [ 'id' => 3, 'parent_id' => 999 ],
+        ], -1);
+        $expect = [
+            [ 'id' => 0, 'parent_id' => -1, 'depth' => 1, 'children' => [
+                [ 'id' => 1, 'parent_id' => 0, 'depth' => 2 , 'children' => [
+                    [ 'id' => 2, 'parent_id' => 1, 'depth' => 3 ]
+                ]],
+                [ 'id' => 3, 'parent_id' => 0, 'depth' => 2 ]
+            ]]
+        ];
+
+        $this->assertEqualsCanonicalizing($expect, $actual);
+    }
 }

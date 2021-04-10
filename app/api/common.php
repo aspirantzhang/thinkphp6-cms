@@ -49,25 +49,31 @@ function createTreeBranch(&$parents, $children, $depth = 0)
 }
 
 /**
-* convert Array to Tree structure
+* convert Array to Tree
 * @link https://stackoverflow.com/a/22020668/8819175
 * @return array
 */
 function arrayToTree($flat, $root = 0)
 {
-    if ($flat) {
+    if (is_array($flat) && isset($flat[0]['id']) && isset($flat[0]['parent_id'])) {
+        // if parent_id not exist, set them to zero
+        $allIds = array_column($flat, 'id');
+        $flat = array_map(function ($row) use ($allIds) {
+            // parent_id < 0 means self-config, ignore
+            if ($row['parent_id'] > 0 && !in_array($row['parent_id'], $allIds)) {
+                $row['parent_id'] = 0;
+            }
+            return $row;
+        }, $flat);
+
         $parents = [];
         foreach ($flat as $a) {
             $parents[$a['parent_id']][] = $a;
         }
-        // fix no parent to zero
+        
+        // if root does not exist
         if (!isset($parents[$root])) {
-            $newParents = [];
-            $newParents[0] = [];
-            foreach ($parents as $parent) {
-                $newParents[0] = array_merge($newParents[0], $parent);
-            }
-            $parents = $newParents;
+            return [];
         }
         return createTreeBranch($parents, $parents[$root]);
     }
