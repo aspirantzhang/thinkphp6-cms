@@ -55,7 +55,7 @@ function createTreeBranch(&$parents, $children, $depth = 0)
 */
 function arrayToTree($flat, $root = 0)
 {
-    if (is_array($flat) && isset($flat[0]['id']) && isset($flat[0]['parent_id'])) {
+    if (isTreeArray($flat)) {
         // if parent_id not exist, set them to zero
         $allIds = array_column($flat, 'id');
         $flat = array_map(function ($row) use ($allIds) {
@@ -82,18 +82,10 @@ function arrayToTree($flat, $root = 0)
 
 function isTreeArray($array = [])
 {
-    if ($array && !isset($array[0]['parent_id'])) {
-        return false;
+    if (is_array($array) && isset($array[0]['id']) && isset($array[0]['parent_id'])) {
+        return true;
     }
-    return true;
-}
-
-function isParentArray($array = [])
-{
-    if ($array && !isset($array[0]['parent_id']) || !isset($array[0]['id'])) {
-        return false;
-    }
-    return true;
+    return false;
 }
 
 function isMultiArray($array)
