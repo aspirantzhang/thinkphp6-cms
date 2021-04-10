@@ -46,14 +46,6 @@ class AuthGroup extends Common
 
     public function update($id)
     {
-/*         // for API
-        if ($id == 53) {
-            $notPermitted = [
-                'success' => false,
-                'message' => 'Operation not permitted.'
-            ];
-            return $this->json($notPermitted);
-        } */
         $result = $this->authGroup->updateAPI($id, $this->request->only($this->authGroup->getAllowUpdate()), ['rules']);
 
         return $this->json(...$result);
@@ -61,12 +53,6 @@ class AuthGroup extends Common
 
     public function delete()
     {
-/*         // for API
-        $notPermitted = [
-            'success' => false,
-            'message' => 'Operation not permitted.'
-        ];
-        return $this->json($notPermitted); */
         $result = $this->authGroup->deleteAPI($this->request->param('ids'), $this->request->param('type'));
         
         return $this->json(...$result);
@@ -74,12 +60,6 @@ class AuthGroup extends Common
 
     public function restore()
     {
-/*         // for API
-        $notPermitted = [
-            'success' => false,
-            'message' => 'Operation not permitted.'
-        ];
-        return $this->json($notPermitted); */
         $result = $this->authGroup->restoreAPI($this->request->param('ids'));
         
         return $this->json(...$result);
