@@ -32,6 +32,8 @@ class Common extends GlobalModel
     public $allowSave = [];
     public $allowUpdate = [];
     public $allowSearch = [];
+
+    protected $titleField = '';
   
     public function initialize()
     {
