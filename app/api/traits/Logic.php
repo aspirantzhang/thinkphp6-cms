@@ -51,7 +51,7 @@ trait Logic
     {
         $search = getSearchParam($params, $this->getAllowSearch());
         $sort = getSortParam($params, $this->getAllowSort());
-        $perPage = getPerPageParam($params);
+        $perPage = $params['per_page'] ?? 10;
        
         if ($params['trash'] !== 'withoutTrashed') {
             $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
