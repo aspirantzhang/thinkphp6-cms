@@ -32,16 +32,6 @@ function getSearchParam($data = [], $allowSearch = [])
     return is_array($data) ? array_intersect_key($data, array_flip($allowSearch)) : [];
 }
 
-function getPerPageParam($data)
-{
-    $perPage = 10;
-    if (isset($data['per_page'])) {
-        $perPage = $data['per_page'];
-    }
-
-    return $perPage;
-}
-
 function msg($errorCode, $message = null)
 {
     switch ($errorCode) {
