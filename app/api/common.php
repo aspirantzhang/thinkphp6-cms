@@ -32,24 +32,6 @@ function getSearchParam($data = [], $allowSearch = [])
     return is_array($data) ? array_intersect_key($data, array_flip($allowSearch)) : [];
 }
 
-function msg($errorCode, $message = null)
-{
-    switch ($errorCode) {
-        case 200:
-            return json($message)->code(200);
-        case 201:
-            return response($message)->code(201);
-        case 204:
-            return response($message)->code(204);
-        case $errorCode >= 4000 && $errorCode < 5000:
-            $passToCode = intval(substr($errorCode, 0, strlen($errorCode) - 1));
-
-            return json(['code' => $errorCode, 'error' => $message])->code($passToCode);
-        default:
-            return null;
-    }
-}
-
 /* Recursive branch extrusion */
 function createTreeBranch(&$parents, $children, $depth = 0)
 {
