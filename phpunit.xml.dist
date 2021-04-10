@@ -30,6 +30,13 @@
             <file>app/provider.php</file>
             <file>app/Request.php</file>
             <file>app/service.php</file>
+            <file>app/api/event.php</file>
+            <file>app/api/middleware.php</file>
+            <file>app/api/provider.php</file>
+            <directory>app/api/apidoc</directory>
+            <directory>app/api/config</directory>
+            <directory>app/api/validate</directory>
+            <directory>app/api/route</directory>
         </exclude>
     </coverage>
 </phpunit>
