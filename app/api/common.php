@@ -9,12 +9,12 @@ function validateDateTime($date, $format = 'Y-m-d H:i:s')
     return false;
 }
 
-
 function getSortParam($data, $allowSort)
 {
-    $sort = [];
-    $sort['name'] = 'id';
-    $sort['order'] = 'desc';
+    $sort = [
+        'name' => 'id',
+        'order' => 'desc',
+    ];
 
     if (isset($data['sort'])) {
         // check if exist in allowed list
@@ -27,15 +27,9 @@ function getSortParam($data, $allowSort)
     return $sort;
 }
 
-
 function getSearchParam($data = [], $allowSearch = [])
 {
-    unset($data['trash']);
-    unset($data['sort']);
-    unset($data['order']);
-    unset($data['page']);
-    unset($data['per_page']);
-    return $data ?? array_intersect_key($data, array_flip($allowSearch));
+    return is_array($data) ? array_intersect_key($data, array_flip($allowSearch)) : [];
 }
 
 function getPerPageParam($data)
@@ -124,7 +118,6 @@ function isParentArray($array = [])
     return true;
 }
 
-
 function isMultiArray($array)
 {
     $multiCount = array_filter($array, 'is_array');
@@ -179,7 +172,6 @@ function extractValues(array $array = [], string $targetKeyName = 'id', string $
     }
     return [];
 }
-
 
 function getDescendantSet(string $wantedColumn, string $findFieldName, $findValue, $treeStructureArray = [], $descendant = true)
 {
