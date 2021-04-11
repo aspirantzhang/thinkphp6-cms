@@ -95,7 +95,8 @@ function isMultiArray($array)
 }
 
 /**
- * Extract some key values ​​from an array.
+ * Extract some key values ​​from the array.
+ * TODO: rewrite & improve
  * @param array $array
  * @param string $targetKeyName
  * @param string $parentKeyName
@@ -139,6 +140,7 @@ function extractValues(array $array = [], string $targetKeyName = 'id', string $
     return [];
 }
 
+// TODO:rewrite & improve
 function getDescendantSet(string $wantedColumn, string $findFieldName, $findValue, $treeStructureArray = [], $descendant = true)
 {
     if (!$treeStructureArray) {
@@ -163,6 +165,7 @@ function getDescendantSet(string $wantedColumn, string $findFieldName, $findValu
     return findFieldInDescendant($wantedColumn, $array['children']);
 }
 
+// TODO:rewrite & improve
 function findSubArray($value, string $field, $treeStructureArray = [])
 {
 
@@ -179,6 +182,7 @@ function findSubArray($value, string $field, $treeStructureArray = [])
     return $result;
 }
 
+// TODO:rewrite & improve
 function findFieldInDescendant(string $field, $array = [])
 {
     $result = array_column($array, $field);
