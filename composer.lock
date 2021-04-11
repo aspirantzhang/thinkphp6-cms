@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp-antdesign-builder.git",
-                "reference": "e043736d812e01a662a1551656f76c4a5fc61ce9"
+                "reference": "ae92e94b9da1244fadb41ec3ad8f96c981132db3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp-antdesign-builder/zipball/e043736d812e01a662a1551656f76c4a5fc61ce9",
-                "reference": "e043736d812e01a662a1551656f76c4a5fc61ce9",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp-antdesign-builder/zipball/ae92e94b9da1244fadb41ec3ad8f96c981132db3",
+                "reference": "ae92e94b9da1244fadb41ec3ad8f96c981132db3",
                 "shasum": ""
             },
             "require-dev": {
@@ -45,7 +45,7 @@
                 "issues": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/issues",
                 "source": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/tree/master"
             },
-            "time": "2021-04-08T16:06:42+00:00"
+            "time": "2021-04-11T03:55:01+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp6-auth",

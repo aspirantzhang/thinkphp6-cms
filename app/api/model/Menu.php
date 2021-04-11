@@ -22,10 +22,10 @@ class Menu extends Common
     protected function setAddonData($params = [])
     {
         return [
-            'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
-            'hide_in_menu' => createSingleChoice('Hide', 'Show'),
-            'hide_children_in_menu' => createSingleChoice(),
-            'flat_menu' => createSingleChoice(),
+            'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1), //TODO:rewrite
+            'hide_in_menu' => Builder::element()->singleChoice('Hide', 'Show'),
+            'hide_children_in_menu' => Builder::element()->singleChoice(),
+            'flat_menu' => Builder::element()->singleChoice(),
         ];
     }
 

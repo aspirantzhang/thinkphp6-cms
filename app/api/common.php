@@ -195,17 +195,3 @@ function findFieldInDescendant(string $field, $array = [])
 
     return $result;
 }
-
-function createSingleChoice($trueValueTitle = 'Enabled', $falseValueTitle = 'Disabled')
-{
-    return [
-        [
-            'title' => $trueValueTitle,
-            'value' => 1,
-        ],
-        [
-            'title' => $falseValueTitle,
-            'value' => 0,
-        ],
-    ];
-}

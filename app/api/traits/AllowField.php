@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\api\traits;
 
 use think\facade\Config;
+use aspirantzhang\TPAntdBuilder\Builder;
 
 trait AllowField
 {
@@ -15,7 +16,7 @@ trait AllowField
             $custom = $this->setAddonData($params);
         }
         $builtIn = [
-            'status' => createSingleChoice(),
+            'status' => Builder::element()->singleChoice(),
         ];
 
         return array_merge($builtIn, $custom);
