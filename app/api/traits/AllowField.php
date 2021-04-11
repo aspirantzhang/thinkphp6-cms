@@ -24,7 +24,7 @@ trait AllowField
 
     public function getAllowHome()
     {
-        $builtIn = Config::get('field.allowHome');
+        $builtIn = Config::get('field.allowHome') ?: [];
         $custom = [];
         if (isset($this->allowHome)) {
             $custom = $this->allowHome ?: [];
@@ -33,13 +33,13 @@ trait AllowField
                 $custom = $this->getModelFields('home');
             }
         }
-
+        
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowList()
     {
-        $builtIn = Config::get('field.allowList');
+        $builtIn = Config::get('field.allowList') ?: [];
         $custom = [];
         if (isset($this->allowList)) {
             $custom = $this->allowList ?: [];
@@ -54,7 +54,7 @@ trait AllowField
 
     public function getAllowSort()
     {
-        $builtIn = Config::get('field.allowSort');
+        $builtIn = Config::get('field.allowSort') ?: [];
         $custom = [];
         if (isset($this->allowSort)) {
             $custom = $this->allowSort ?: [];
@@ -69,7 +69,7 @@ trait AllowField
 
     public function getAllowRead()
     {
-        $builtIn = Config::get('field.allowRead');
+        $builtIn = Config::get('field.allowRead') ?: [];
         $custom = [];
         if (isset($this->allowRead)) {
             $custom = $this->allowRead ?: [];
@@ -84,7 +84,7 @@ trait AllowField
 
     public function getAllowSave()
     {
-        $builtIn = Config::get('field.allowSave');
+        $builtIn = Config::get('field.allowSave') ?: [];
         $custom = [];
         if (isset($this->allowSave)) {
             $custom = $this->allowSave ?: [];
@@ -99,7 +99,7 @@ trait AllowField
 
     public function getAllowUpdate()
     {
-        $builtIn = Config::get('field.allowUpdate');
+        $builtIn = Config::get('field.allowUpdate') ?: [];
         $custom = [];
         if (isset($this->allowUpdate)) {
             $custom = $this->allowUpdate ?: [];
@@ -114,7 +114,7 @@ trait AllowField
 
     public function getAllowSearch()
     {
-        $builtIn = Config::get('field.allowSearch');
+        $builtIn = Config::get('field.allowSearch') ?: [];
         $custom = [];
         if (isset($this->allowSearch)) {
             $custom = $this->allowSearch ?: [];

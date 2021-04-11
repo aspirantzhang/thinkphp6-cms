@@ -24,7 +24,7 @@ trait NormalList
         ];
 
         $data = $this->getPaginatedListData($params, $withRelation);
-        if ($data) {
+        if ($data && isset($data['dataSource']) && $data['pagination']) {
             $layout['dataSource'] = $data['dataSource'];
             $layout['meta'] = $data['pagination'];
         }

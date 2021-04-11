@@ -39,7 +39,7 @@ trait TreeList
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         $data = $this->getListData($params, $withRelation);
         if ($data) {
-            if (!isset($data[0]['parent_id']) || !isset($this->titleField)) {
+            if (!isset($data[0]['id']) || !isset($data[0]['parent_id']) || !isset($this->titleField)) {
                 return [];
             }
             $data = array_map(function ($model) {

@@ -20,7 +20,7 @@ class Common extends GlobalController
     
     protected function json($data = [], $code = 200, $header = [], $options = [], ...$rest)
     {
-        return Response::create($data, 'json', $code)->header(array_merge(Config::get('route.default_header'), $header))->options($options);
+        return Response::create($data, 'json', $code)->header(array_merge(Config::get('route.default_header') ?: [], $header))->options($options);
     }
 
     protected function success(string $message = '', array $data = [], array $header = [])
