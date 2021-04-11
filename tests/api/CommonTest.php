@@ -279,9 +279,64 @@ class CommonTest extends TestCase
         ], 'unit', '', false);
         $expect6 = ['test1', 'test1'];
         $this->assertEqualsCanonicalizing($expect6, $actual6);
+    }
 
-        // $actual7 = extractValues(['unit1' => 'test1'], 'unit');
-        // $expect7 = [];
-        // $this->assertEqualsCanonicalizing($expect7, $actual7);
+    public function testGetDescendantSetInvalidParam()
+    {
+        $actual = getDescendantSet('', '', '');
+        $expect = [];
+        $this->assertEqualsCanonicalizing($expect, $actual);
+    }
+
+    public function testGetDescendantSetValidParam()
+    {
+        $array = [
+            [
+                'id' => 1,
+                'name' => 'one',
+                'children' => [
+                    [
+                        'id' => 2,
+                        'name' => 'two',
+                        'children' => [
+                            [
+                                'id' => 3,
+                                'name' => 'three',
+                                'children' => [
+                                    [
+                                        'id' => 4,
+                                        'name' => 'four',
+                                    ],
+                                    [
+                                        'id' => 5,
+                                        'name' => 'five',
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $actual1 = getDescendantSet('id', 'name', 'two', $array);
+        $expect1 = [3, 4, 5];
+        $this->assertEqualsCanonicalizing($expect1, $actual1);
+
+        $actual2 = getDescendantSet('id', 'name', 'two', $array, false);
+        $expect2 = [3];
+        $this->assertEqualsCanonicalizing($expect2, $actual2);
+
+        $actual3 = getDescendantSet('id', 'name', 'four', $array);
+        $expect3 = [4];
+        $this->assertEqualsCanonicalizing($expect3, $actual3);
+
+        $actual4 = getDescendantSet('id', 'name', 'unknown', $array);
+        $expect4 = [];
+        $this->assertEqualsCanonicalizing($expect4, $actual4);
+
+        $actual5 = getDescendantSet('id', 'name', 'unknown', $array, false);
+        $expect5 = [];
+        $this->assertEqualsCanonicalizing($expect5, $actual5);
     }
 }
