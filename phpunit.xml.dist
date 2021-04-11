@@ -22,23 +22,21 @@
             <directory suffix=".php">app</directory>
         </include>
         <exclude>
+            <directory prefix="event" suffix=".php">app</directory>
+            <directory prefix="middleware" suffix=".php">app</directory>
+            <directory prefix="provider" suffix=".php">app</directory>
+            <directory prefix="service" suffix=".php">app</directory>
+            <directory prefix="build" suffix=".php">app</directory>
             <file>app/AppService.php</file>
-            <file>app/build.php</file>
-            <file>app/event.php</file>
             <file>app/ExceptionHandle.php</file>
-            <file>app/middleware.php</file>
-            <file>app/provider.php</file>
             <file>app/Request.php</file>
-            <file>app/service.php</file>
             <file>app/BaseController.php</file>
-            <file>app/api/event.php</file>
-            <file>app/api/middleware.php</file>
-            <file>app/api/provider.php</file>
             <directory>app/api/apidoc</directory>
             <directory>app/api/config</directory>
             <directory>app/api/validate</directory>
             <directory>app/api/route</directory>
             <directory>app/service</directory>
+            <directory>app/middleware</directory>
         </exclude>
     </coverage>
 </phpunit>
