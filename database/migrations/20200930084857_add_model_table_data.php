@@ -22,7 +22,7 @@ final class AddModelTableData extends AbstractMigration
     public function change(): void
     {
         $table = $this->table('model');
-        $table->addColumn('data', 'string', ['limit' => '20000'])
+        $table->addColumn('data', 'text', ['limit' => '20000'])
                 ->update();
     }
 }
