@@ -18,7 +18,9 @@ trait Update
                 $model->allowField($this->getAllowUpdate())->save($data);
                 if ($relationModel) {
                     foreach ($relationModel as $relation) {
-                        $model->$relation()->sync($data[$relation]);
+                        if (isset($data[$relation])) {
+                            $model->$relation()->sync($data[$relation]);
+                        }
                     }
                 }
                 $model->commit();
