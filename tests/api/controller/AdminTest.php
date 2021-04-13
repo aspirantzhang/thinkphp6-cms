@@ -23,10 +23,13 @@ class AdminTest extends \PHPUnit\Framework\TestCase
     {
         // $this->app->http->end($this->response);
     }
+
     public function testAdminHome()
     {
         $this->setUpRequest();
+        
         $adminController = new AdminController($this->app);
+
         $response = $adminController->home();
 
         $this->assertEquals(200, $response->getCode());
@@ -117,7 +120,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(401, $response->getCode());
 
         // login
-        $this->setUpRequest('POST', ['username' => 'admin0', 'password' => 'admin0']);
+        $this->setUpRequest('POST', ['username' => 'admin', 'password' => 'admin']);
         $adminController = new AdminController($this->app);
         $response = $adminController->login();
         $response = $adminController->info();
