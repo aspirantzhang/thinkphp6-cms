@@ -15,12 +15,15 @@ class Common extends GlobalController
 
     public function initialize()
     {
+        Config::load('api/field', 'field');
+        Config::load('api/model', 'model');
+        Config::load('api/response', 'response');
         parent::initialize();
     }
     
     protected function json($data = [], $code = 200, $header = [], $options = [], ...$rest)
     {
-        return Response::create($data, 'json', $code)->header(array_merge(Config::get('route.default_header') ?: [], $header))->options($options);
+        return Response::create($data, 'json', $code)->header(array_merge(Config::get('response.default_header') ?: [], $header))->options($options);
     }
 
     protected function success(string $message = '', array $data = [], array $header = [])
