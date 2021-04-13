@@ -21,6 +21,15 @@ trait BaseRequest
                 $this->app = new \think\App();
                 $this->response = $this->app->http->run($this->request);
                 break;
+            case 'PUT':
+                $this->request = new \app\Request();
+                $this->request->withHeader(['Content-Type' => 'application/json']);
+                $this->request->withServer(['REQUEST_METHOD' => 'PUT']);
+                $this->request->setMethod('PUT');
+                $this->request->withInput(json_encode($data));
+                $this->app = new \think\App();
+                $this->response = $this->app->http->run($this->request);
+                break;
             default:
                 # code...
                 break;

@@ -21,7 +21,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
     }
     protected function tearDown(): void
     {
-        // $this->app->http->end($this->response);
+        $this->app->http->end($this->response);
     }
 
     public function testAdminHome()
@@ -33,6 +33,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
         $response = $adminController->home();
 
         $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
     public function testAdminAdd()
@@ -42,6 +43,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
         $response = $adminController->add();
 
         $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
     public function testAdminSave()
@@ -51,55 +53,63 @@ class AdminTest extends \PHPUnit\Framework\TestCase
         $response = $adminController->save();
 
         $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
     public function testAdminRead()
     {
         $this->setUpRequest();
         $adminController = new AdminController($this->app);
-        $response = $adminController->read(206);
-        $responseNotExist = $adminController->read(1);
+        $response = $adminController->read(1);
+        $responseNotExist = $adminController->read(0);
 
         $this->assertEquals(200, $response->getCode());
         $this->assertEquals(200, $responseNotExist->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testAdminUpdate()
     {
-        $this->setUpRequest();
+        $this->setUpRequest('PUT', ['display_name' => 'Admin']);
         $adminController = new AdminController($this->app);
-        $response = $adminController->update(206);
-        $responseNotExist = $adminController->update(1);
+        $response = $adminController->update(1);
+        $responseNotExist = $adminController->update(0);
 
         $this->assertEquals(200, $response->getCode());
         $this->assertEquals(200, $responseNotExist->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testAdminDelete()
     {
-        $this->setUpRequest();
+        $this->setUpRequest('POST', ['type' => 'delete', 'ids' => [1]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->delete();
 
         $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
     public function testAdminRestore()
     {
-        $this->setUpRequest();
+        $this->setUpRequest('POST', ['ids' => [1]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->restore();
 
         $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
     public function testAdminLogin()
     {
-        $this->setUpRequest('POST', ['username' => 'admin0', 'password' => 'admin0']);
+        $this->setUpRequest('POST', ['username' => 'admin', 'password' => 'admin']);
         $adminController = new AdminController($this->app);
         $response = $adminController->login();
 
         $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
     public function testAdminLogout()
@@ -109,6 +119,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
         $response = $adminController->logout();
 
         $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
     public function testAdminInfo()
@@ -118,6 +129,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
         $adminController = new AdminController($this->app);
         $response = $adminController->info();
         $this->assertEquals(401, $response->getCode());
+        $this->assertStringStartsWith('{"data":{"isLogin":false}', $response->getContent());
 
         // login
         $this->setUpRequest('POST', ['username' => 'admin', 'password' => 'admin']);
@@ -125,5 +137,6 @@ class AdminTest extends \PHPUnit\Framework\TestCase
         $response = $adminController->login();
         $response = $adminController->info();
         $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"name":"admin"', $response->getContent());
     }
 }
