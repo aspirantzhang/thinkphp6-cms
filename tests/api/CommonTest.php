@@ -149,8 +149,6 @@ class CommonTest extends TestCase
             [ 'id' => 2, 'parent_id' => 0, 'depth' => 1 ],
             [ 'id' => 3, 'parent_id' => 0, 'depth' => 1 ]
         ];
-        var_dump($actual);
-        var_dump($expect);
 
         $this->assertEqualsCanonicalizing($expect, $actual);
     }
