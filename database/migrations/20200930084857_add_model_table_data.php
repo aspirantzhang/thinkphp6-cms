@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DbMigrations;
 
 use Phinx\Migration\AbstractMigration;
+use Phinx\Db\Adapter\MysqlAdapter;
 
 final class AddModelTableData extends AbstractMigration
 {
@@ -22,7 +23,7 @@ final class AddModelTableData extends AbstractMigration
     public function change(): void
     {
         $table = $this->table('model');
-        $table->addColumn('data', 'text', ['limit' => '20000'])
+        $table->addColumn('data', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR])
                 ->update();
     }
 }
