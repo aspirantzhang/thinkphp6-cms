@@ -39,8 +39,8 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testGroupAdd()
     {
         $this->setUpRequest();
-        $adminController = new GroupController($this->app);
-        $response = $adminController->add();
+        $groupController = new GroupController($this->app);
+        $response = $groupController->add();
 
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
@@ -49,8 +49,8 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testGroupSave()
     {
         $this->setUpRequest();
-        $adminController = new GroupController($this->app);
-        $response = $adminController->save();
+        $groupController = new GroupController($this->app);
+        $response = $groupController->save();
 
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
@@ -59,9 +59,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testGroupRead()
     {
         $this->setUpRequest();
-        $adminController = new GroupController($this->app);
-        $response = $adminController->read(53);
-        $responseNotExist = $adminController->read(0);
+        $groupController = new GroupController($this->app);
+        $response = $groupController->read(53);
+        $responseNotExist = $groupController->read(0);
 
         $this->assertEquals(200, $response->getCode());
         $this->assertEquals(200, $responseNotExist->getCode());
@@ -72,9 +72,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testGroupUpdate()
     {
         $this->setUpRequest('PUT', ['group_name' => 'Admin Group']);
-        $adminController = new GroupController($this->app);
-        $response = $adminController->update(53);
-        $responseNotExist = $adminController->update(0);
+        $groupController = new GroupController($this->app);
+        $response = $groupController->update(53);
+        $responseNotExist = $groupController->update(0);
 
         $this->assertEquals(200, $response->getCode());
         $this->assertEquals(200, $responseNotExist->getCode());
@@ -85,8 +85,8 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testGroupDelete()
     {
         $this->setUpRequest('POST', ['type' => 'delete', 'ids' => [53]]);
-        $adminController = new GroupController($this->app);
-        $response = $adminController->delete();
+        $groupController = new GroupController($this->app);
+        $response = $groupController->delete();
 
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
@@ -95,8 +95,8 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testGroupRestore()
     {
         $this->setUpRequest('POST', ['ids' => [53]]);
-        $adminController = new GroupController($this->app);
-        $response = $adminController->restore();
+        $groupController = new GroupController($this->app);
+        $response = $groupController->restore();
 
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
