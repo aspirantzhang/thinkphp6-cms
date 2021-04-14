@@ -86,8 +86,8 @@ trait AllowField
     {
         $builtIn = Config::get('field.allowSave') ?: [];
         $custom = [];
-        if (isset($this->allowSave)) {
-            $custom = $this->allowSave ?: [];
+        if (!is_null($this->allowSave)) {
+            $custom = (array)$this->allowSave;
         } else {
             if (!$this->isReservedTable()) {
                 $custom = $this->getModelFields('save');

@@ -25,13 +25,13 @@ class Common extends GlobalModel
     protected $unique;
     
     // Allow fields of AllowFieldTrait
-    public $allowHome = [];
-    public $allowList = [];
-    public $allowSort = [];
-    public $allowRead = [];
-    public $allowSave = [];
-    public $allowUpdate = [];
-    public $allowSearch = [];
+    public $allowHome = null;
+    public $allowList = null;
+    public $allowSort = null;
+    public $allowRead = null;
+    public $allowSave = null;
+    public $allowUpdate = null;
+    public $allowSearch = null;
 
     protected $titleField = '';
   
