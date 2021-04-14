@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2fff19ac152c600e7c9846a0d23ba608",
+    "content-hash": "a2631edb7914af1ee4451367b8f0a73c",
     "packages": [
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
@@ -2732,6 +2732,50 @@
     ],
     "packages-dev": [
         {
+            "name": "aspirantzhang/thinkphp6-unit-test",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/thinkphp6-unit-test.git",
+                "reference": "8fae8572281656e6be572558006d9d108e0dab4b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-unit-test/zipball/8fae8572281656e6be572558006d9d108e0dab4b",
+                "reference": "8fae8572281656e6be572558006d9d108e0dab4b",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "^6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "aspirantzhang\\thinkphp6UnitTest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                }
+            ],
+            "description": "Tools for unit testing with PHP Unit and ThinkPHP 6",
+            "support": {
+                "issues": "https://github.com/aspirantzhang/thinkphp6-unit-test/issues",
+                "source": "https://github.com/aspirantzhang/thinkphp6-unit-test/tree/main"
+            },
+            "time": "2021-04-14T04:56:08+00:00"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.4.0",
             "source": {
@@ -5038,7 +5082,8 @@
         "topthink/think-orm": 20,
         "aspirantzhang/thinkphp-antdesign-builder": 20,
         "aspirantzhang/thinkphp6-auth": 20,
-        "aspirantzhang/thinkphp6-fast-command": 20
+        "aspirantzhang/thinkphp6-fast-command": 20,
+        "aspirantzhang/thinkphp6-unit-test": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

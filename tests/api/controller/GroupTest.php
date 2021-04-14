@@ -8,25 +8,17 @@ use app\api\controller\AuthGroup as GroupController;
 
 require_once('./app/api/common.php');
 
-class GroupTest extends \PHPUnit\Framework\TestCase
+class GroupTest extends \tests\api\TestCase
 {
-    use \tests\BaseRequest;
 
-    protected $request;
-    protected $app;
-    protected $response;
-
-    protected function setUp(): void
-    {
-    }
     protected function tearDown(): void
     {
-        $this->app->http->end($this->response);
+        $this->endRequest();
     }
 
     public function testGroupHome()
     {
-        $this->setUpRequest();
+        $this->startRequest();
         
         $groupController = new GroupController($this->app);
 
@@ -38,7 +30,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     public function testGroupAdd()
     {
-        $this->setUpRequest();
+        $this->startRequest();
         $groupController = new GroupController($this->app);
         $response = $groupController->add();
 
@@ -48,7 +40,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     public function testGroupSave()
     {
-        $this->setUpRequest();
+        $this->startRequest();
         $groupController = new GroupController($this->app);
         $response = $groupController->save();
 
@@ -58,7 +50,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     public function testGroupRead()
     {
-        $this->setUpRequest();
+        $this->startRequest();
         $groupController = new GroupController($this->app);
         $response = $groupController->read(53);
         $responseNotExist = $groupController->read(0);
@@ -71,7 +63,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     public function testGroupUpdate()
     {
-        $this->setUpRequest('PUT', ['group_name' => 'Admin Group']);
+        $this->startRequest('PUT', ['group_name' => 'Admin Group']);
         $groupController = new GroupController($this->app);
         $response = $groupController->update(53);
         $responseNotExist = $groupController->update(0);
@@ -84,7 +76,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     public function testGroupDelete()
     {
-        $this->setUpRequest('POST', ['type' => 'delete', 'ids' => [53]]);
+        $this->startRequest('POST', ['type' => 'delete', 'ids' => [53]]);
         $groupController = new GroupController($this->app);
         $response = $groupController->delete();
 
@@ -94,7 +86,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     public function testGroupRestore()
     {
-        $this->setUpRequest('POST', ['ids' => [53]]);
+        $this->startRequest('POST', ['ids' => [53]]);
         $groupController = new GroupController($this->app);
         $response = $groupController->restore();
 

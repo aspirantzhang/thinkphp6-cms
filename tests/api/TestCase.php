@@ -3,14 +3,9 @@
 namespace tests\api;
 
 use think\App;
+use aspirantzhang\thinkphp6UnitTest\UnitTestTrait;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp(): void
-    {
-        (new App())->http->run();
-    }
-    protected function tearDown(): void
-    {
-    }
+    use UnitTestTrait;
 }

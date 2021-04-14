@@ -8,25 +8,17 @@ use app\api\controller\Admin as AdminController;
 
 require_once('./app/api/common.php');
 
-class AdminTest extends \PHPUnit\Framework\TestCase
+class AdminTest extends \tests\api\TestCase
 {
-    use \tests\BaseRequest;
 
-    protected $request;
-    protected $app;
-    protected $response;
-
-    protected function setUp(): void
-    {
-    }
     protected function tearDown(): void
     {
-        $this->app->http->end($this->response);
+        $this->endRequest();
     }
 
     public function testAdminHome()
     {
-        $this->setUpRequest();
+        $this->startRequest();
         
         $adminController = new AdminController($this->app);
 
@@ -38,7 +30,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
 
     public function testAdminAdd()
     {
-        $this->setUpRequest();
+        $this->startRequest();
         $adminController = new AdminController($this->app);
         $response = $adminController->add();
 
@@ -48,7 +40,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
 
     public function testAdminSave()
     {
-        $this->setUpRequest();
+        $this->startRequest();
         $adminController = new AdminController($this->app);
         $response = $adminController->save();
 
@@ -58,7 +50,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
 
     public function testAdminRead()
     {
-        $this->setUpRequest();
+        $this->startRequest();
         $adminController = new AdminController($this->app);
         $response = $adminController->read(1);
         $responseNotExist = $adminController->read(0);
@@ -71,7 +63,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
 
     public function testAdminUpdate()
     {
-        $this->setUpRequest('PUT', ['display_name' => 'Admin']);
+        $this->startRequest('PUT', ['display_name' => 'Admin']);
         $adminController = new AdminController($this->app);
         $response = $adminController->update(1);
         $responseNotExist = $adminController->update(0);
@@ -84,7 +76,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
 
     public function testAdminDelete()
     {
-        $this->setUpRequest('POST', ['type' => 'delete', 'ids' => [1]]);
+        $this->startRequest('POST', ['type' => 'delete', 'ids' => [1]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->delete();
 
@@ -94,7 +86,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
 
     public function testAdminRestore()
     {
-        $this->setUpRequest('POST', ['ids' => [1]]);
+        $this->startRequest('POST', ['ids' => [1]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->restore();
 
@@ -104,7 +96,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
 
     public function testAdminLogin()
     {
-        $this->setUpRequest('POST', ['username' => 'admin', 'password' => 'admin']);
+        $this->startRequest('POST', ['username' => 'admin', 'password' => 'admin']);
         $adminController = new AdminController($this->app);
         $response = $adminController->login();
 
@@ -114,7 +106,7 @@ class AdminTest extends \PHPUnit\Framework\TestCase
 
     public function testAdminLogout()
     {
-        $this->setUpRequest();
+        $this->startRequest();
         $adminController = new AdminController($this->app);
         $response = $adminController->logout();
 
@@ -125,14 +117,14 @@ class AdminTest extends \PHPUnit\Framework\TestCase
     public function testAdminInfo()
     {
         // not login
-        $this->setUpRequest();
+        $this->startRequest();
         $adminController = new AdminController($this->app);
         $response = $adminController->info();
         $this->assertEquals(401, $response->getCode());
         $this->assertStringStartsWith('{"data":{"isLogin":false}', $response->getContent());
 
         // login
-        $this->setUpRequest('POST', ['username' => 'admin', 'password' => 'admin']);
+        $this->startRequest('POST', ['username' => 'admin', 'password' => 'admin']);
         $adminController = new AdminController($this->app);
         $response = $adminController->login();
         $response = $adminController->info();

@@ -6,9 +6,13 @@ namespace tests\api;
 
 require_once('./app/api/common.php');
 
-
 class CommonTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        $this->startApp();
+    }
+    
     public function testInvalidDatetimeShouldReturnFalse()
     {
         $this->assertFalse(validateDateTime(''));
