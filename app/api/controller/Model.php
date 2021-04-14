@@ -171,13 +171,6 @@ class Model extends Common
         return $this->json(...$result);
     }
 
-    public function restore()
-    {
-        $result = $this->model->restoreAPI($this->request->param('ids'));
-
-        return $this->json(...$result);
-    }
-
     public function design($id)
     {
         $result = $this->model->designAPI($id);
