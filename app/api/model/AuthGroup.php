@@ -132,9 +132,4 @@ class AuthGroup extends Common
     {
         $query->where('group_name', 'like', '%' . $value . '%');
     }
-
-    public function searchRulesAttr($query, $value)
-    {
-        $query->where('rules', 'like', '%' . $value . '%');
-    }
 }
