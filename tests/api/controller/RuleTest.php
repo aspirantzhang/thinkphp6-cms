@@ -76,7 +76,7 @@ class RuleTest extends \tests\api\TestCase
 
     public function testRuleDelete()
     {
-        $this->startRequest('POST', ['type' => 'delete', 'ids' => [293]]);
+        $this->startRequest('POST', ['type' => 'delete', 'ids' => [85]]);
         $ruleController = new RuleController($this->app);
         $response = $ruleController->delete();
 
@@ -86,7 +86,7 @@ class RuleTest extends \tests\api\TestCase
 
     public function testRuleRestore()
     {
-        $this->startRequest('POST', ['ids' => [293]]);
+        $this->startRequest('POST', ['ids' => [85,86,87,88,89,90,91,92]]);
         $ruleController = new RuleController($this->app);
         $response = $ruleController->restore();
 

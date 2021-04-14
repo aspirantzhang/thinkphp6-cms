@@ -19,11 +19,20 @@ class GroupTest extends \tests\api\TestCase
     public function testGroupHome()
     {
         $this->startRequest();
-        
         $groupController = new GroupController($this->app);
-
         $response = $groupController->home();
-
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // trash
+        $this->startRequest('GET', ['trash' => 'onlyTrashed']);
+        $groupController = new GroupController($this->app);
+        $response = $groupController->home();
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // search
+        $this->startRequest('GET', ['group_name' => 'unit']);
+        $groupController = new GroupController($this->app);
+        $response = $groupController->home();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }

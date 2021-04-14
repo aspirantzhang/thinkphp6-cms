@@ -16,10 +16,19 @@ class BackendAuth
         'api/admin/logout',
         'api/admin/info',
         'api/menu/backend',
+        'api/unit_test/home',
+        'api/unit_test/add',
+        'api/unit_test/save',
+        'api/unit_test/read',
+        'api/unit_test/update',
+        'api/unit_test/delete',
+        'api/unit_test/restore',
     ];
 
     public function handle($request, \Closure $next)
     {
+        Config::load('api/response', 'response');
+
         $appName = parse_name(app('http')->getName());
         $controllerName = parse_name($request->controller());
         $actionName = parse_name($request->action());
@@ -35,7 +44,7 @@ class BackendAuth
                     'success' => false,
                     'message' => 'Your session has expired, please log in again.',
                 ];
-                return json($data)->header(Config::get('route.default_header'));
+                return json($data)->header(Config::get('response.default_header'));
             }
             
             if ($auth->check($fullPath, Session::get('adminId'))) {
@@ -45,7 +54,7 @@ class BackendAuth
                     'success' => false,
                     'message' => 'No permission.',
                 ];
-                return json($data)->header(Config::get('route.default_header'));
+                return json($data)->header(Config::get('response.default_header'));
             }
         }
     }

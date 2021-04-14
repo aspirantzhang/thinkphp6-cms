@@ -19,11 +19,20 @@ class AdminTest extends \tests\api\TestCase
     public function testAdminHome()
     {
         $this->startRequest();
-        
         $adminController = new AdminController($this->app);
-
         $response = $adminController->home();
-
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // trash
+        $this->startRequest('GET', ['trash' => 'onlyTrashed']);
+        $adminController = new AdminController($this->app);
+        $response = $adminController->home();
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // search
+        $this->startRequest('GET', ['admin_name' => 'unit', 'display_name' => 'unit', 'groups' => 1, 'create_time' => '2021-04-07T23:31:51+08:00,2021-04-14T23:31:51+08:00']);
+        $adminController = new AdminController($this->app);
+        $response = $adminController->home();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
@@ -96,12 +105,18 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminLogin()
     {
+        // valid
         $this->startRequest('POST', ['username' => 'admin', 'password' => 'admin']);
         $adminController = new AdminController($this->app);
         $response = $adminController->login();
-
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // invalid
+        $this->startRequest('POST', ['username' => 'admin', 'password' => 'admin1']);
+        $adminController = new AdminController($this->app);
+        $response = $adminController->login();
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":false', $response->getContent());
     }
 
     public function testAdminLogout()

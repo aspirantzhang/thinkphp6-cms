@@ -93,4 +93,14 @@ class MenuTest extends \tests\api\TestCase
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
+
+    public function testMenuBackend()
+    {
+        $this->startRequest();
+        $menuController = new MenuController($this->app);
+        $response = $menuController->backend();
+
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('[{"id":', $response->getContent());
+    }
 }
