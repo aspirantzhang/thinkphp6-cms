@@ -63,7 +63,7 @@ class Model extends Common
                 Db::execute("CREATE TABLE `$tableName` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `create_time` DATETIME NOT NULL , `update_time` DATETIME NOT NULL , `delete_time` DATETIME NULL DEFAULT NULL , `status` TINYINT(1) NOT NULL DEFAULT '1' , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
 
                 // Add Rules
-                $parentRule = RuleService::create([
+/*                 $parentRule = RuleService::create([
                     'parent_id' => 0,
                     'rule_title' => $tableTitle,
                     'create_time' => $currentTime,
@@ -97,7 +97,7 @@ class Model extends Common
                     ['parent_id' => $parentMenuId, 'menu_name' => 'add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
                     ['parent_id' => $parentMenuId, 'menu_name' => 'edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
                 ];
-                $menu->saveAll($initMenus);
+                $menu->saveAll($initMenus); */
             });
         }
 
