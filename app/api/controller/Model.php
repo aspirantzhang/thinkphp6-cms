@@ -70,7 +70,7 @@ class Model extends Common
                     'update_time' => $currentTime,
                 ]);
                 $parentRuleId = $parentRule->id;
-/*                 $rule = new RuleService();
+                $rule = new RuleService();
                 $initRules = [
                     ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Home', 'rule_path' => 'api/' . $tableName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
                     ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Add', 'rule_path' => 'api/' . $tableName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
@@ -97,7 +97,7 @@ class Model extends Common
                     ['parent_id' => $parentMenuId, 'menu_name' => 'add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
                     ['parent_id' => $parentMenuId, 'menu_name' => 'edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
                 ];
-                $menu->saveAll($initMenus); */
+                $menu->saveAll($initMenus);
             });
         }
 
