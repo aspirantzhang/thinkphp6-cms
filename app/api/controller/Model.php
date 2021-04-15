@@ -55,8 +55,7 @@ class Model extends Common
         $httpBody = $result[0];
 
         if ($httpBody['success'] === true) {
-            Db::startTrans();
-            try {
+            Db::transaction(function () {
                 // Create Files
                 Console::call('make:buildModel', [Str::studly($tableName), '--route=' . $routeName]);
 
@@ -99,9 +98,7 @@ class Model extends Common
                     ['parent_id' => $parentMenuId, 'menu_name' => 'edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
                 ];
                 $menu->saveAll($initMenus);
-            } catch (\Exception $e) {
-                Db::rollback();
-            }
+            });
         }
 
         return $this->json(...$result);
@@ -127,8 +124,7 @@ class Model extends Common
         $httpBody = $result[0];
 
         if ($httpBody['success'] === true && isset($httpBody['data']) && count($httpBody['data']) === 1) {
-            Db::startTrans();
-            try {
+            Db::transaction(function () {
                 $tableTitle = $httpBody['data'][0]['title'];
                 $tableName = $httpBody['data'][0]['table_name'];
                 $routeName = $httpBody['data'][0]['route_name'];
@@ -163,9 +159,7 @@ class Model extends Common
                         $item->force()->delete();
                     }
                 }
-            } catch (\Exception $e) {
-                Db::rollback();
-            }
+            });
         }
 
         return $this->json(...$result);
