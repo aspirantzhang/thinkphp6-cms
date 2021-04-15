@@ -22,7 +22,7 @@ final class AddMenuName extends AbstractMigration
     public function change(): void
     {
         $rule = $this->table('auth_rule');
-        $rule->addColumn('menu_name', 'string', ['limit' => 255, 'after' => 'is_menu'])
+        $rule->addColumn('menu_name', 'string', ['limit' => 255, 'after' => 'is_menu', 'null' => false, 'default' => ''])
                 ->update();
     }
 }

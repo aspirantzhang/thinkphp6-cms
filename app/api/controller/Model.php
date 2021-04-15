@@ -66,7 +66,6 @@ class Model extends Common
             $parentRule = RuleService::create([
                 'parent_id' => 0,
                 'rule_title' => $tableTitle,
-                'rule_path' => '',
                 'create_time' => $currentTime,
                 'update_time' => $currentTime,
             ]);

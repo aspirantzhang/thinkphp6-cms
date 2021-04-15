@@ -22,7 +22,7 @@ final class AddModelTitle extends AbstractMigration
     public function change(): void
     {
         $table = $this->table('model');
-        $table->addColumn('title', 'string', ['limit' => 255, 'after' => 'id'])
+        $table->addColumn('title', 'string', ['limit' => 255, 'after' => 'id', 'null' => false, 'default' => ''])
                 ->update();
     }
 }

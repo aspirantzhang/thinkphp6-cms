@@ -29,10 +29,10 @@ final class RemoveModelFields extends AbstractMigration
                 ->update();
                 
         $rule = $this->table('auth_rule');
-        $rule->addColumn('icon', 'string', ['limit' => 255, 'after' => 'condition'])
-                ->addColumn('path', 'string', ['limit' => 255, 'after' => 'icon'])
-                ->addColumn('component', 'string', ['limit' => 255, 'after' => 'path'])
-                ->addColumn('access', 'string', ['limit' => 255, 'after' => 'component'])
+        $rule->addColumn('icon', 'string', ['limit' => 255, 'after' => 'condition', 'null' => false, 'default' => ''])
+                ->addColumn('path', 'string', ['limit' => 255, 'after' => 'icon', 'null' => false, 'default' => ''])
+                ->addColumn('component', 'string', ['limit' => 255, 'after' => 'path', 'null' => false, 'default' => ''])
+                ->addColumn('access', 'string', ['limit' => 255, 'after' => 'component', 'null' => false, 'default' => ''])
                 ->update();
     }
 }

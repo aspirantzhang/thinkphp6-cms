@@ -23,7 +23,7 @@ final class AddRouteInModelTable extends AbstractMigration
     {
         $rule = $this->table('model');
         $rule->renameColumn('name', 'table_name')
-            ->addColumn('route_name', 'string', ['limit' => 255, 'after' => 'table_name'])
+            ->addColumn('route_name', 'string', ['limit' => 255, 'after' => 'table_name', 'null' => false, 'default' => ''])
             ->update();
     }
 }

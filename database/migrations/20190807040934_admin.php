@@ -32,9 +32,9 @@ class Admin extends AbstractMigration
     public function change()
     {
         $admin = $this->table('admin', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
-        $admin->addColumn('username', 'string', ['limit' => 255])
-              ->addColumn('password', 'string', ['limit' => 255])
-              ->addColumn('display_name', 'string', ['limit' => 255])
+        $admin->addColumn('username', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+              ->addColumn('password', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+              ->addColumn('display_name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
               ->addColumn('create_time', 'datetime')
               ->addColumn('update_time', 'datetime')
               ->addColumn('delete_time', 'datetime', ['null' => true])

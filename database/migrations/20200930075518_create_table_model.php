@@ -22,11 +22,11 @@ final class CreateTableModel extends AbstractMigration
     public function change(): void
     {
         $rule = $this->table('model', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
-        $rule->addColumn('name', 'string', ['limit' => 255])
-              ->addColumn('icon', 'string', ['limit' => 255])
-              ->addColumn('path', 'string', ['limit' => 255])
-              ->addColumn('component', 'string', ['limit' => 255])
-              ->addColumn('access', 'string', ['limit' => 255])
+        $rule->addColumn('name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+              ->addColumn('icon', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+              ->addColumn('path', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+              ->addColumn('component', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+              ->addColumn('access', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
               ->addColumn('status', 'boolean', ['default' => 1])
               ->create();
     }

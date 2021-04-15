@@ -32,8 +32,8 @@ class AdminGroupBasic extends AbstractMigration
     public function change()
     {
         $group = $this->table('auth_group', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
-        $group->addColumn('name', 'string', ['limit' => 255])
-              ->addColumn('rules', 'string', ['limit' => 255])
+        $group->addColumn('name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+              ->addColumn('rules', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
               ->addColumn('create_time', 'datetime')
               ->addColumn('update_time', 'datetime')
               ->addColumn('delete_time', 'datetime', ['null' => true])

@@ -32,10 +32,10 @@ class RuleBasic extends AbstractMigration
     public function change()
     {
         $rule = $this->table('auth_rule', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
-        $rule->addColumn('rule', 'string', ['limit' => 255])
-              ->addColumn('name', 'string', ['limit' => 255])
+        $rule->addColumn('rule', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+              ->addColumn('name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
               ->addColumn('type', 'boolean', ['default' => 1])
-              ->addColumn('condition', 'string', ['limit' => 255])
+              ->addColumn('condition', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
               ->addColumn('create_time', 'datetime')
               ->addColumn('update_time', 'datetime')
               ->addColumn('delete_time', 'datetime', ['null' => true])

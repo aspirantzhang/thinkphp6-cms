@@ -23,9 +23,9 @@ final class MenuTable extends AbstractMigration
     {
         $menu = $this->table('menu', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
         $menu->addColumn('parent_id', 'integer', ['signed' => false])
-            ->addColumn('name', 'string', ['limit' => 255])
-            ->addColumn('icon', 'string', ['limit' => 255])
-            ->addColumn('path', 'string', ['limit' => 255])
+            ->addColumn('name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+            ->addColumn('icon', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+            ->addColumn('path', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('hideInMenu', 'boolean', ['default' => 0])
             ->addColumn('hideChildrenInMenu', 'boolean', ['default' => 0])
             ->addColumn('flatMenu', 'boolean', ['default' => 0])
