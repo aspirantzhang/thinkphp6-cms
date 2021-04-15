@@ -55,7 +55,7 @@ class Model extends Common
         $httpBody = $result[0];
 
         if ($httpBody['success'] === true) {
-            Db::transaction(function () {
+            Db::transaction(function () use ($tableName, $routeName, $tableTitle, $currentTime) {
                 // Create Files
                 Console::call('make:buildModel', [Str::studly($tableName), '--route=' . $routeName]);
 
@@ -124,7 +124,7 @@ class Model extends Common
         $httpBody = $result[0];
 
         if ($httpBody['success'] === true && isset($httpBody['data']) && count($httpBody['data']) === 1) {
-            Db::transaction(function () {
+            Db::transaction(function () use ($httpBody) {
                 $tableTitle = $httpBody['data'][0]['title'];
                 $tableName = $httpBody['data'][0]['table_name'];
                 $routeName = $httpBody['data'][0]['route_name'];
