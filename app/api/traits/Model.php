@@ -22,6 +22,11 @@ trait Model
     }
 
     // Mutator
+    public function setCreateTimeAttr($value)
+    {
+        $date = new \DateTime($value);
+        return $date->format('Y-m-d H:i:s');
+    }
 
     // Searcher
     public function searchIdAttr($query, $value)

@@ -41,7 +41,7 @@ class ModelTest extends \tests\api\TestCase
     public function testModelSave()
     {
         // valid
-        $this->startRequest('POST', ['table_name' => 'unit_test', 'route_name' => 'unit-tests', 'title' => 'Unit Test']);
+        $this->startRequest('POST', ['table_name' => 'unit_test', 'route_name' => 'unit-tests', 'title' => 'Unit Test', 'create_time' => '2021-04-16T13:25:32+08:00']);
         $modelController = new ModelController($this->app);
         $response = $modelController->save();
         $this->assertEquals(200, $response->getCode());
