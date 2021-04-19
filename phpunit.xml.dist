@@ -31,6 +31,7 @@
             <file>app/ExceptionHandle.php</file>
             <file>app/Request.php</file>
             <file>app/BaseController.php</file>
+            <file>app/common/Auth.php</file>
             <directory>app/api/apidoc</directory>
             <directory>app/api/config</directory>
             <directory>app/api/validate</directory>

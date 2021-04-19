@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace app\middleware;
 
-use think\App;
 use think\facade\Config;
-use aspirantzhang\TP6Auth\Auth;
 use think\facade\Session;
+use app\common\Auth;
 
 class BackendAuth
 {
