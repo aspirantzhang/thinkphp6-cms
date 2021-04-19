@@ -93,13 +93,15 @@ trait Logic
             }
         }, $data);
 
-        $data[] = [
+        $top = [
             'id' => 0,
             'key' => 0,
             'value' => 0,
             'title' => 'Top',
             'parent_id' => -1,
         ];
+
+        $data = array_merge([$top], $data);
 
         // filter null
         return array_filter($data);
