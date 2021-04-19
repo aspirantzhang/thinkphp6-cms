@@ -36,7 +36,6 @@ class Model extends Common
         return $this->json(...$result);
     }
 
-    // TODO:transaction error in ci
     public function save()
     {
         $tableName = strtolower($this->request->param('table_name'));
@@ -56,14 +55,15 @@ class Model extends Common
         $httpBody = $result[0];
 
         if ($httpBody['success'] === true) {
-            Db::transaction(function () use ($tableName, $routeName, $tableTitle, $currentTime) {
-            // Create Files
+            Db::startTrans();
+            try {
+                // Create Files
                 Console::call('make:buildModel', [Str::studly($tableName), '--route=' . $routeName]);
 
-            // Create Table
+                // Create Table
                 Db::execute("CREATE TABLE `$tableName` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `create_time` DATETIME NOT NULL , `update_time` DATETIME NOT NULL , `delete_time` DATETIME NULL DEFAULT NULL , `status` TINYINT(1) NOT NULL DEFAULT '1' , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
 
-            // Add Rules
+                // Add Rules
                 $parentRule = RuleService::create([
                     'parent_id' => 0,
                     'rule_title' => $tableTitle,
@@ -83,7 +83,7 @@ class Model extends Common
                 ];
                 $rule->saveAll($initRules);
 
-            // Add Menus
+                // Add Menus
                 $parentMenu = MenuService::create([
                     'parent_id' => 0,
                     'menu_name' => $routeName . '-list',
@@ -99,7 +99,9 @@ class Model extends Common
                     ['parent_id' => $parentMenuId, 'menu_name' => 'edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
                 ];
                 $menu->saveAll($initMenus);
-            });
+            } catch (\Exception $e) {
+                Db::rollback();
+            }
         }
 
         return $this->json(...$result);
@@ -119,14 +121,14 @@ class Model extends Common
         return $this->json(...$result);
     }
 
-    // TODO:transaction error in ci
     public function delete()
     {
         $result = $this->model->deleteAPI($this->request->param('ids'), $this->request->param('type'));
         $httpBody = $result[0];
 
         if ($httpBody['success'] === true && isset($httpBody['data']) && count($httpBody['data']) === 1) {
-            Db::transaction(function () use ($httpBody) {
+            Db::startTrans();
+            try {
                 $tableTitle = $httpBody['data'][0]['title'];
                 $tableName = $httpBody['data'][0]['table_name'];
                 $routeName = $httpBody['data'][0]['route_name'];
@@ -161,7 +163,9 @@ class Model extends Common
                         $item->force()->delete();
                     }
                 }
-            });
+            } catch (\Exception $e) {
+                Db::rollback();
+            }
         }
 
         return $this->json(...$result);
@@ -174,7 +178,6 @@ class Model extends Common
         return $this->json(...$result);
     }
 
-    // TODO: transaction
     public function designUpdate($id)
     {
         $tableName = ModelService::where('id', $id)->value('table_name');
@@ -191,78 +194,83 @@ class Model extends Common
 
         // Build fields sql statement.
         $data = $this->request->param('data');
-        if ($data) {
-            // Get all exist fields
-            $existingFields = [];
-            $columnsQuery = Db::query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '$tableName';");
-            if ($columnsQuery) {
-                $existingFields = extractValues($columnsQuery, 'COLUMN_NAME');
+        if (!empty($data)) {
+            Db::startTrans();
+            try {
+                // Get all exist fields
+                $existingFields = [];
+                $columnsQuery = Db::query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '$tableName';");
+                if ($columnsQuery) {
+                    $existingFields = extractValues($columnsQuery, 'COLUMN_NAME');
+                }
+                // Get this fields
+                $thisFields = extractValues($data['fields'], 'name');
+                // Exclude reserved fields
+                $thisFields = array_diff($thisFields, Config::get('model.reserved_field'));
+
+                // Get fields group by types
+                $delete = array_diff($existingFields, $thisFields);
+                $add = array_diff($thisFields, $existingFields);
+                $change = array_intersect($thisFields, $existingFields);
+
+                $fieldSqlArray = [];
+                foreach ($data['fields'] as $field) {
+                    switch ($field['type']) {
+                        case 'longtext':
+                            $type = 'LONGTEXT';
+                            $typeAddon = '';
+                            $default = 'DEFAULT \'\'';
+                            break;
+                        case 'number':
+                            $type = 'INT';
+                            $typeAddon = ' UNSIGNED';
+                            $default = 'DEFAULT 0';
+                            break;
+                        case 'datetime':
+                            $type = 'DATETIME';
+                            $typeAddon = '';
+                            break;
+                        case 'tag':
+                        case 'switch':
+                            $type = 'TINYINT';
+                            $typeAddon = '(1)';
+                            $default = 'DEFAULT 1';
+                            break;
+                        default:
+                            $type = 'VARCHAR';
+                            $typeAddon = '(255)';
+                            $default = 'DEFAULT \'\'';
+                            break;
+                    }
+
+                    if (in_array($field['name'], $add)) {
+                        $method = 'ADD';
+                        $fieldSqlArray[] = " $method `${field['name']}` $type$typeAddon NOT NULL $default";
+                    }
+
+                    if (in_array($field['name'], $change)) {
+                        $method = 'CHANGE';
+                        $fieldSqlArray[] = " $method `${field['name']}` `${field['name']}` $type$typeAddon NOT NULL $default";
+                    }
+                }
+
+                foreach ($delete as $field) {
+                    $method = 'DROP IF EXISTS';
+                    if (!in_array($field, Config::get('model.reserved_field'))) {
+                        $fieldSqlArray[] = " $method `$field`";
+                    }
+                }
+
+                $alterTableSql = 'ALTER TABLE `' . $tableName . '` ' . implode(',', $fieldSqlArray) . '; ';
+
+                Db::query($alterTableSql);
+
+                $result = $this->model->updateAPI($id, $this->request->only($this->model->getAllowUpdate()));
+
+                return $this->json(...$result);
+            } catch (\Exception $e) {
+                Db::rollback();
             }
-            // Get this fields
-            $thisFields = extractValues($data['fields'], 'name');
-            // Exclude reserved fields
-            $thisFields = array_diff($thisFields, Config::get('model.reserved_field'));
-
-            // Get fields group by types
-            $delete = array_diff($existingFields, $thisFields);
-            $add = array_diff($thisFields, $existingFields);
-            $change = array_intersect($thisFields, $existingFields);
-
-            $fieldSqlArray = [];
-            foreach ($data['fields'] as $field) {
-                switch ($field['type']) {
-                    case 'longtext':
-                        $type = 'LONGTEXT';
-                        $typeAddon = '';
-                        $default = 'DEFAULT \'\'';
-                        break;
-                    case 'number':
-                        $type = 'INT';
-                        $typeAddon = ' UNSIGNED';
-                        $default = 'DEFAULT 0';
-                        break;
-                    case 'datetime':
-                        $type = 'DATETIME';
-                        $typeAddon = '';
-                        break;
-                    case 'tag':
-                    case 'switch':
-                        $type = 'TINYINT';
-                        $typeAddon = '(1)';
-                        $default = 'DEFAULT 1';
-                        break;
-                    default:
-                        $type = 'VARCHAR';
-                        $typeAddon = '(255)';
-                        $default = 'DEFAULT \'\'';
-                        break;
-                }
-
-                if (in_array($field['name'], $add)) {
-                    $method = 'ADD';
-                    $fieldSqlArray[] = " $method `${field['name']}` $type$typeAddon NOT NULL $default";
-                }
-
-                if (in_array($field['name'], $change)) {
-                    $method = 'CHANGE';
-                    $fieldSqlArray[] = " $method `${field['name']}` `${field['name']}` $type$typeAddon NOT NULL $default";
-                }
-            }
-
-            foreach ($delete as $field) {
-                $method = 'DROP IF EXISTS';
-                if (!in_array($field, Config::get('model.reserved_field'))) {
-                    $fieldSqlArray[] = " $method `$field`";
-                }
-            }
-
-            $alterTableSql = 'ALTER TABLE `' . $tableName . '` ' . implode(',', $fieldSqlArray) . '; ';
-
-            Db::query($alterTableSql);
-
-            $result = $this->model->updateAPI($id, $this->request->only($this->model->getAllowUpdate()));
-
-            return $this->json(...$result);
         }
         return $this->error('Nothing to do.');
     }
