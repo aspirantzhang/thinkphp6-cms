@@ -1,3 +1,5 @@
 <?php
 
-return [];
+return [
+    \think\middleware\LoadLangPack::class,
+];
