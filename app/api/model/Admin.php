@@ -11,7 +11,7 @@ class Admin extends Common
 {
     // Allow fields
     protected $readonly = ['id', 'admin_name'];
-    protected $unique = [ 'admin_name' => 'admin_name' ];
+    protected $unique = [ 'admin_name' => 'Admin Name' ];
     protected $titleField = 'admin_name';
 
     public $allowHome = ['groups', 'admin_name', 'display_name'];
@@ -113,7 +113,7 @@ class Admin extends Common
         ];
         if ($this->isTrash($params)) {
             $tableColumn = [
-                Builder::field('admin_name', 'admin_name')->type('text'),
+                Builder::field('admin_name', 'Admin Name')->type('text'),
                 Builder::field('groups', 'Groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
                 Builder::field('display_name', 'Display Name')->type('text'),
                 Builder::field('delete_time', 'Delete Time')->type('datetime')->sorter(true),
