@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2631edb7914af1ee4451367b8f0a73c",
+    "content-hash": "940adb09ee6857576a0569ddb72901e8",
     "packages": [
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
@@ -12,16 +12,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp-antdesign-builder.git",
-                "reference": "ae92e94b9da1244fadb41ec3ad8f96c981132db3"
+                "reference": "f4834d238db798b5bc346f959be95c69941beb10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp-antdesign-builder/zipball/ae92e94b9da1244fadb41ec3ad8f96c981132db3",
-                "reference": "ae92e94b9da1244fadb41ec3ad8f96c981132db3",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp-antdesign-builder/zipball/f4834d238db798b5bc346f959be95c69941beb10",
+                "reference": "f4834d238db798b5bc346f959be95c69941beb10",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "10.0.x-dev"
+                "mockery/mockery": "^1.4",
+                "phpunit/phpunit": "^9.5"
             },
             "default-branch": true,
             "type": "library",
@@ -45,45 +46,7 @@
                 "issues": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/issues",
                 "source": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/tree/master"
             },
-            "time": "2021-04-11T03:55:01+00:00"
-        },
-        {
-            "name": "aspirantzhang/thinkphp6-auth",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aspirantzhang/thinkphp6-auth.git",
-                "reference": "601c13ec69a01adad57e3e97857d7ca497385e1f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-auth/zipball/601c13ec69a01adad57e3e97857d7ca497385e1f",
-                "reference": "601c13ec69a01adad57e3e97857d7ca497385e1f",
-                "shasum": ""
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "aspirantzhang\\TP6Auth\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "aspirantzhang",
-                    "email": "admin@aspirantzhang.com"
-                }
-            ],
-            "description": "A simple auth package for thinkphp6.",
-            "support": {
-                "issues": "https://github.com/aspirantzhang/thinkphp6-auth/issues",
-                "source": "https://github.com/aspirantzhang/thinkphp6-auth/tree/master"
-            },
-            "time": "2021-04-09T12:20:39+00:00"
+            "time": "2021-04-28T07:26:51+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp6-fast-command",
@@ -91,12 +54,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp6-fast-command.git",
-                "reference": "cfaea57fd12c0d9bba4e29346fd817ff59c6f0e8"
+                "reference": "936322f20539b37c3b3f79a35dad85d8f17468e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-fast-command/zipball/cfaea57fd12c0d9bba4e29346fd817ff59c6f0e8",
-                "reference": "cfaea57fd12c0d9bba4e29346fd817ff59c6f0e8",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-fast-command/zipball/936322f20539b37c3b3f79a35dad85d8f17468e5",
+                "reference": "936322f20539b37c3b3f79a35dad85d8f17468e5",
                 "shasum": ""
             },
             "require": {
@@ -132,7 +95,7 @@
                 "issues": "https://github.com/aspirantzhang/thinkphp6-fast-command/issues",
                 "source": "https://github.com/aspirantzhang/thinkphp6-fast-command/tree/master"
             },
-            "time": "2021-04-14T07:40:41+00:00"
+            "time": "2021-04-14T16:39:00+00:00"
         },
         {
             "name": "cakephp/core",
@@ -515,16 +478,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403"
+                "reference": "c13c0be93cff50f88bbd70827d993026821914dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/d501fd2658d55491a2295ff600ae5978eaad7403",
-                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/c13c0be93cff50f88bbd70827d993026821914dd",
+                "reference": "c13c0be93cff50f88bbd70827d993026821914dd",
                 "shasum": ""
             },
             "require": {
@@ -574,7 +537,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.12.0"
+                "source": "https://github.com/filp/whoops/tree/2.12.1"
             },
             "funding": [
                 {
@@ -582,7 +545,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-30T12:00:00+00:00"
+            "time": "2021-04-25T12:00:00+00:00"
         },
         {
             "name": "league/flysystem",
@@ -1396,16 +1359,16 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v2.2.0",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "5fa56b4074d1ae755beb55617ddafe6f5d78f665"
+                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5fa56b4074d1ae755beb55617ddafe6f5d78f665",
-                "reference": "5fa56b4074d1ae755beb55617ddafe6f5d78f665",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5f38c8804a9e97d23e0c8d63341088cd8a22d627",
+                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627",
                 "shasum": ""
             },
             "require": {
@@ -1414,7 +1377,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-main": "2.4-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -1443,7 +1406,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/master"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.4.0"
             },
             "funding": [
                 {
@@ -1459,7 +1422,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-07T11:33:47+00:00"
+            "time": "2021-03-23T23:28:01+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -2072,21 +2035,21 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v2.2.0",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "d15da7ba4957ffb8f1747218be9e1a121fd298a1"
+                "reference": "f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/d15da7ba4957ffb8f1747218be9e1a121fd298a1",
-                "reference": "d15da7ba4957ffb8f1747218be9e1a121fd298a1",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb",
+                "reference": "f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
-                "psr/container": "^1.0"
+                "psr/container": "^1.1"
             },
             "suggest": {
                 "symfony/service-implementation": ""
@@ -2094,7 +2057,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-main": "2.4-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -2131,7 +2094,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/service-contracts/tree/master"
+                "source": "https://github.com/symfony/service-contracts/tree/v2.4.0"
             },
             "funding": [
                 {
@@ -2147,7 +2110,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-07T11:33:47+00:00"
+            "time": "2021-04-01T10:43:52+00:00"
         },
         {
             "name": "symfony/string",
@@ -2309,16 +2272,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v6.0.7",
+            "version": "v6.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "db8fe22520a9660dd5e4c87e304034ac49e39270"
+                "reference": "4789343672aef06d571d556da369c0e156609bce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/db8fe22520a9660dd5e4c87e304034ac49e39270",
-                "reference": "db8fe22520a9660dd5e4c87e304034ac49e39270",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/4789343672aef06d571d556da369c0e156609bce",
+                "reference": "4789343672aef06d571d556da369c0e156609bce",
                 "shasum": ""
             },
             "require": {
@@ -2368,9 +2331,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v6.0.7"
+                "source": "https://github.com/top-think/framework/tree/v6.0.8"
             },
-            "time": "2021-01-25T14:48:29+00:00"
+            "time": "2021-04-27T00:41:08+00:00"
         },
         {
             "name": "topthink/think-helper",
@@ -2469,12 +2432,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "0a5412967eb78339f1160e1f9140aa8778169d74"
+                "reference": "d58b7bd4505b575ec48f4ca7d13203745d429b45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/0a5412967eb78339f1160e1f9140aa8778169d74",
-                "reference": "0a5412967eb78339f1160e1f9140aa8778169d74",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/d58b7bd4505b575ec48f4ca7d13203745d429b45",
+                "reference": "d58b7bd4505b575ec48f4ca7d13203745d429b45",
                 "shasum": ""
             },
             "require": {
@@ -2517,7 +2480,7 @@
                 "issues": "https://github.com/top-think/think-orm/issues",
                 "source": "https://github.com/top-think/think-orm/tree/2.0"
             },
-            "time": "2021-03-31T09:52:30+00:00"
+            "time": "2021-04-27T06:14:21+00:00"
         },
         {
             "name": "topthink/think-template",
@@ -2733,16 +2696,16 @@
     "packages-dev": [
         {
             "name": "aspirantzhang/thinkphp6-unit-test",
-            "version": "dev-main",
+            "version": "v1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp6-unit-test.git",
-                "reference": "8fae8572281656e6be572558006d9d108e0dab4b"
+                "reference": "d836ccca74bc4383fdd372b948a70a8cda6880a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-unit-test/zipball/8fae8572281656e6be572558006d9d108e0dab4b",
-                "reference": "8fae8572281656e6be572558006d9d108e0dab4b",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-unit-test/zipball/d836ccca74bc4383fdd372b948a70a8cda6880a9",
+                "reference": "d836ccca74bc4383fdd372b948a70a8cda6880a9",
                 "shasum": ""
             },
             "require": {
@@ -2751,7 +2714,6 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2771,9 +2733,9 @@
             "description": "Tools for unit testing with PHP Unit and ThinkPHP 6",
             "support": {
                 "issues": "https://github.com/aspirantzhang/thinkphp6-unit-test/issues",
-                "source": "https://github.com/aspirantzhang/thinkphp6-unit-test/tree/main"
+                "source": "https://github.com/aspirantzhang/thinkphp6-unit-test/tree/v1.0"
             },
-            "time": "2021-04-14T04:56:08+00:00"
+            "time": "2021-04-15T11:34:05+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -5081,9 +5043,7 @@
     "stability-flags": {
         "topthink/think-orm": 20,
         "aspirantzhang/thinkphp-antdesign-builder": 20,
-        "aspirantzhang/thinkphp6-auth": 20,
-        "aspirantzhang/thinkphp6-fast-command": 20,
-        "aspirantzhang/thinkphp6-unit-test": 20
+        "aspirantzhang/thinkphp6-fast-command": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

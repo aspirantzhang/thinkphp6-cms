@@ -7,6 +7,7 @@ namespace app\api\controller;
 use think\Response;
 use think\facade\Config;
 use think\facade\Db;
+use think\facade\Lang;
 use app\common\controller\GlobalController;
 
 class Common extends GlobalController
@@ -15,10 +16,14 @@ class Common extends GlobalController
 
     public function initialize()
     {
+        parent::initialize();
         Config::load('api/field', 'field');
         Config::load('api/model', 'model');
         Config::load('api/response', 'response');
-        parent::initialize();
+        // load language pack
+        foreach (glob(dirname(__DIR__) . "/lang/" . Lang::getLangSet() . "/*.php") as $filename) {
+            Lang::load($filename);
+        }
     }
     
     protected function json($data = [], $code = 200, $header = [], $options = [], ...$rest)

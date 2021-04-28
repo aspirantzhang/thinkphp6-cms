@@ -22,7 +22,6 @@
     "topthink/think-view": "^1.0",
     "nette/utils": "^3.0",
     "aspirantzhang/thinkphp-antdesign-builder": "dev-master",
-    "aspirantzhang/thinkphp6-auth": "dev-master",
     "topthink/think-multi-app": "^1.0",
     "nhzex/think-phinx": "^1.1",
     "aspirantzhang/thinkphp6-fast-command": "dev-master",
@@ -34,7 +33,7 @@
     "symfony/var-dumper": "^4.2",
     "phpunit/phpunit": "^9.5",
     "mockery/mockery": "^1.4",
-    "aspirantzhang/thinkphp6-unit-test": "dev-main"
+    "aspirantzhang/thinkphp6-unit-test": "^1.0"
   },
   "autoload": {
     "psr-4": {
