@@ -41,7 +41,7 @@ class BackendAuth
             if (!Session::has('adminId')) {
                 $data = [
                     'success' => false,
-                    'message' => 'Your session has expired, please log in again.',
+                    'message' => __('session_expired'),
                 ];
                 return json($data)->header(Config::get('response.default_header'));
             }
@@ -51,7 +51,7 @@ class BackendAuth
             } else {
                 $data = [
                     'success' => false,
-                    'message' => 'No permission.',
+                    'message' => __('no_permission'),
                 ];
                 return json($data)->header(Config::get('response.default_header'));
             }
