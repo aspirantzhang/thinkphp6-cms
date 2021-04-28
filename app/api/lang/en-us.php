@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'parent_id' => 'Parent ID',
     'create_time' => 'Create Time',
     'update_time' => 'Update Time',
     'delete_time' => 'Delete Time',

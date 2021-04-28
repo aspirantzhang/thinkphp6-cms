@@ -44,78 +44,78 @@ class AuthGroup extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('group_name', 'Group Name')->type('text'),
-            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
-            Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
+            Builder::field('group.group_name')->type('text'),
+            Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
+            Builder::field('group.rules')->type('tree')->data($addonData['rules']),
+            Builder::field('create_time')->type('datetime'),
+            Builder::field('update_time')->type('datetime'),
+            Builder::field('status')->type('switch')->data($addonData['status']),
         ];
         $action = [
-            Builder::button('reset', 'Reset')->type('dashed')->call('reset'),
-            Builder::button('cancel', 'Cancel')->type('default')->call('cancel'),
-            Builder::button('submit', 'Submit')->type('primary')->call('submit')->uri('/api/groups')->method('post'),
+            Builder::button('reset')->type('dashed')->call('reset'),
+            Builder::button('cancel')->type('default')->call('cancel'),
+            Builder::button('submit')->type('primary')->call('submit')->uri('/api/groups')->method('post'),
         ];
 
-        return Builder::page('group-add', 'Group Add')
+        return Builder::page('group.group-add')
                         ->type('page')
-                        ->tab('basic', 'Basic', $basic)
-                        ->action('actions', 'Actions', $action)
+                        ->tab('basic', $basic)
+                        ->action('actions', $action)
                         ->toArray();
     }
 
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('group_name', 'Group Name')->type('text'),
-            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rules', 'Rules')->type('tree')->data($addonData['rules']),
-            Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
+            Builder::field('group.group_name')->type('text'),
+            Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
+            Builder::field('group.rules')->type('tree')->data($addonData['rules']),
+            Builder::field('create_time')->type('datetime'),
+            Builder::field('update_time')->type('datetime'),
+            Builder::field('status')->type('switch')->data($addonData['status']),
         ];
         $action = [
-            Builder::button('reset', 'Reset')->type('dashed')->call('reset'),
-            Builder::button('cancel', 'Cancel')->type('default')->call('cancel'),
-            Builder::button('submit', 'Submit')->type('primary')->call('submit')->uri('/api/groups/' . $id)->method('put'),
+            Builder::button('reset')->type('dashed')->call('reset'),
+            Builder::button('cancel')->type('default')->call('cancel'),
+            Builder::button('submit')->type('primary')->call('submit')->uri('/api/groups/' . $id)->method('put'),
         ];
 
-        return Builder::page('group-edit', 'Group Edit')
+        return Builder::page('group-edit')
                         ->type('page')
-                        ->tab('basic', 'Basic', $basic)
-                        ->action('actions', 'Actions', $action)
+                        ->tab('basic', $basic)
+                        ->action('actions', $action)
                         ->toArray();
     }
 
     public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
-            Builder::button('add', 'Add')->type('primary')->call('modal')->uri('/api/groups/add'),
-            Builder::button('reload', 'Reload')->type('default')->call('reload'),
+            Builder::button('add')->type('primary')->call('modal')->uri('/api/groups/add'),
+            Builder::button('reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [
-            Builder::button('delete', 'Delete')->type('danger')->call('delete')->uri('/api/groups/delete')->method('post'),
-            Builder::button('disable', 'Disable')->type('default')->call('function')->uri('batchDisableHandler'),
+            Builder::button('delete')->type('danger')->call('delete')->uri('/api/groups/delete')->method('post'),
+            Builder::button('disable')->type('default')->call('function')->uri('batchDisableHandler'),
         ];
         if ($this->isTrash($params)) {
             $batchToolBar = [
-                Builder::button('deletePermanently', 'Delete Permanently')->type('danger')->call('deletePermanently')->uri('/api/groups/delete')->method('post'),
-                Builder::button('restore', 'Restore')->type('default')->call('restore')->uri('/api/groups/restore')->method('post'),
+                Builder::button('deletePermanently')->type('danger')->call('deletePermanently')->uri('/api/groups/delete')->method('post'),
+                Builder::button('restore')->type('default')->call('restore')->uri('/api/groups/restore')->method('post'),
             ];
         }
         $tableColumn = [
-            Builder::field('group_name', 'Group Name')->type('text'),
-            Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
-            Builder::field('trash', 'Trash')->type('trash'),
-            Builder::field('actions', 'Actions')->data([
-                Builder::button('edit', 'Edit')->type('primary')->call('page')->uri('/api/groups/:id'),
-                Builder::button('delete', 'Delete')->type('default')->call('delete')->uri('/api/groups/delete')->method('post'),
+            Builder::field('group.group_name')->type('text'),
+            Builder::field('create_time')->type('datetime')->sorter(true),
+            Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('trash')->type('trash'),
+            Builder::field('actions')->data([
+                Builder::button('edit')->type('primary')->call('page')->uri('/api/groups/:id'),
+                Builder::button('delete')->type('default')->call('delete')->uri('/api/groups/delete')->method('post'),
             ]),
         ];
 
-        return Builder::page('group-list', 'Group List')
-                        ->type('basicList')
+        return Builder::page('group-list')
+                        ->type('basic-list')
                         ->searchBar(true)
                         ->tableColumn($tableColumn)
                         ->tableToolBar($tableToolBar)

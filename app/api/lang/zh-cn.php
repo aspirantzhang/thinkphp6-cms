@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'parent_id' => '所属上级',
     'create_time' => '创建时间',
     'update_time' => '更新时间',
     'delete_time' => '删除时间',
