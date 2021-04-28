@@ -80,7 +80,7 @@ class AuthGroup extends Common
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/groups/' . $id)->method('put'),
         ];
 
-        return Builder::page('group-edit')
+        return Builder::page('group.group-edit')
                         ->type('page')
                         ->tab('basic', $basic)
                         ->action('actions', $action)
@@ -114,7 +114,7 @@ class AuthGroup extends Common
             ]),
         ];
 
-        return Builder::page('group-list')
+        return Builder::page('group.group-list')
                         ->type('basic-list')
                         ->searchBar(true)
                         ->tableColumn($tableColumn)
