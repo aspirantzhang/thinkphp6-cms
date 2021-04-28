@@ -14,12 +14,12 @@ trait View
             $result = [];
             foreach ($data as $action) {
                 $row = [];
-                $row = (array)Builder::button($action['name'], $action['title'])
+                $row = (array)Builder::button($action['name'])
                                         ->type($action['type'])
                                         ->call($action['call'])
                                         ->method($action['method']);
                 if (isset($action['uri'])) {
-                    $row = (array)Builder::button($action['name'], $action['title'])
+                    $row = (array)Builder::button($action['name'])
                                             ->type($action['type'])
                                             ->call($action['call'])
                                             ->method($action['method'])
@@ -38,9 +38,9 @@ trait View
             $result = [];
             foreach ($data as $field) {
                 $row = [];
-                $row = (array)Builder::field($field['name'], $field['title'])->type($field['type']);
+                $row = (array)Builder::field($field['name'])->type($field['type']);
                 if (isset($field['data'])) {
-                    $row = (array)Builder::field($field['name'], $field['title'])->type($field['type'])->data($field['data']);
+                    $row = (array)Builder::field($field['name'])->type($field['type'])->data($field['data']);
                 }
                 if (isset($field['hideInColumn']) && $field['hideInColumn'] === '1') {
                     continue;
@@ -62,32 +62,32 @@ trait View
         if ($model['data']) {
             $basic = [];
             foreach ($model['data']['fields'] as $addField) {
-                $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type']);
+                $thisField = Builder::field($addField['name'])->type($addField['type']);
                 if (isset($addField['data'])) {
-                    $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type'])->data($addField['data']);
+                    $thisField = Builder::field($addField['name'])->type($addField['type'])->data($addField['data']);
                 }
                 $basic[] = $thisField;
             }
             $addonFields = [
-                Builder::field('create_time', 'Create Time')->type('datetime'),
-                Builder::field('update_time', 'Update Time')->type('datetime'),
-                Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
+                Builder::field('create_time')->type('datetime'),
+                Builder::field('update_time')->type('datetime'),
+                Builder::field('status')->type('switch')->data($addonData['status']),
             ];
             $basic = array_merge($basic, $addonFields);
 
             $action = [];
             foreach ($model['data']['addAction'] as $addAction) {
-                $thisAction = Builder::button($addAction['name'], $addAction['title'])->type($addAction['type'])->call($addAction['call'])->method($addAction['method']);
+                $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->call($addAction['call'])->method($addAction['method']);
                 if (isset($addAction['uri'])) {
-                    $thisAction = Builder::button($addAction['name'], $addAction['title'])->type($addAction['type'])->call($addAction['call'])->uri($addAction['uri'])->method($addAction['method']);
+                    $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->call($addAction['call'])->uri($addAction['uri'])->method($addAction['method']);
                 }
                 $action[] = $thisAction;
             }
 
             return Builder::page($model['route_name'] . '-add')
                             ->type('page')
-                            ->tab('basic', 'Basic', $basic)
-                            ->action('actions', 'Actions', $action)
+                            ->tab('basic', $basic)
+                            ->action('actions', $action)
                             ->toArray();
         }
         return [];
@@ -100,9 +100,9 @@ trait View
         if ($model['data']) {
             $basic = [];
             foreach ($model['data']['fields'] as $addField) {
-                $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type']);
+                $thisField = Builder::field($addField['name'])->type($addField['type']);
                 if (isset($addField['data'])) {
-                    $thisField = Builder::field($addField['name'], $addField['title'])->type($addField['type'])->data($addField['data']);
+                    $thisField = Builder::field($addField['name'])->type($addField['type'])->data($addField['data']);
                 }
                 if (isset($addField['editDisabled']) && $addField['editDisabled'] == 1) {
                     $thisField->editDisabled = true;
@@ -110,18 +110,18 @@ trait View
                 $basic[] = $thisField;
             }
             $addonFields = [
-                Builder::field('create_time', 'Create Time')->type('datetime'),
-                Builder::field('update_time', 'Update Time')->type('datetime'),
-                Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
+                Builder::field('create_time')->type('datetime'),
+                Builder::field('update_time')->type('datetime'),
+                Builder::field('status')->type('switch')->data($addonData['status']),
             ];
             $basic = array_merge($basic, $addonFields);
 
             $action = [];
             foreach ($model['data']['editAction'] as $editAction) {
-                $thisAction = Builder::button($editAction['name'], $editAction['title'])->type($editAction['type'])->call($editAction['call'])->method($editAction['method']);
+                $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->call($editAction['call'])->method($editAction['method']);
                 if (isset($editAction['uri'])) {
                     $editAction['uri'] = str_replace(':id', $id, $editAction['uri']);
-                    $thisAction = Builder::button($editAction['name'], $editAction['title'])->type($editAction['type'])->call($editAction['call'])->uri($editAction['uri'])->method($editAction['method']);
+                    $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->call($editAction['call'])->uri($editAction['uri'])->method($editAction['method']);
                 }
 
                 $action[] = $thisAction;
@@ -129,8 +129,8 @@ trait View
 
             return Builder::page($model['route_name'] . '-edit')
                             ->type('page')
-                            ->tab('basic', 'Basic', $basic)
-                            ->action('actions', 'Actions', $action)
+                            ->tab('basic', $basic)
+                            ->action('actions', $action)
                             ->toArray();
         }
         return [];
@@ -163,20 +163,20 @@ trait View
         }
 
         $addonFields = [
-            Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
-            Builder::field('trash', 'Trash')->type('trash'),
+            Builder::field('create_time')->type('datetime')->sorter(true),
+            Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('trash')->type('trash'),
         ];
 
         $actions = [];
         if ($model['data']['listAction']) {
             $actions = $this->actionBuilder($model['data']['listAction']);
         }
-        $actionFields = Builder::field('actions', 'Actions')->data($actions);
+        $actionFields = Builder::field('actions')->data($actions);
         $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
 
         return Builder::page($model['route_name'] . '-list')
-                        ->type('basicList')
+                        ->type('basic-list')
                         ->searchBar(true)
                         ->tableColumn($tableColumn)
                         ->tableToolBar($tableToolbar)
