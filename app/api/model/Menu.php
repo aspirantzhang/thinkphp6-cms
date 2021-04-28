@@ -35,88 +35,88 @@ class Menu extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('menu_name', 'Menu Name')->type('text'),
-            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('icon', 'Icon')->type('text'),
-            Builder::field('path', 'Path')->type('text'),
-            Builder::field('hide_in_menu', 'Hide')->type('switch')->data($addonData['hide_in_menu']),
-            Builder::field('hide_children_in_menu', 'Hide Children')->type('switch')->data($addonData['hide_children_in_menu']),
-            Builder::field('flat_menu', 'Flat')->type('switch')->data($addonData['flat_menu']),
-            Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
+            Builder::field('menu.menu_name')->type('text'),
+            Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
+            Builder::field('menu.icon')->type('text'),
+            Builder::field('menu.path')->type('text'),
+            Builder::field('menu.hide_in_menu')->type('switch')->data($addonData['hide_in_menu']),
+            Builder::field('menu.hide_children_in_menu')->type('switch')->data($addonData['hide_children_in_menu']),
+            Builder::field('menu.flat_menu')->type('switch')->data($addonData['flat_menu']),
+            Builder::field('create_time')->type('datetime'),
+            Builder::field('status')->type('switch')->data($addonData['status']),
         ];
         $action = [
-            Builder::button('reset', 'Reset')->type('dashed')->call('reset'),
-            Builder::button('cancel', 'Cancel')->type('default')->call('cancel'),
-            Builder::button('submit', 'Submit')->type('primary')->call('submit')->uri('/api/menus')->method('post'),
+            Builder::button('reset')->type('dashed')->call('reset'),
+            Builder::button('cancel')->type('default')->call('cancel'),
+            Builder::button('submit')->type('primary')->call('submit')->uri('/api/menus')->method('post'),
         ];
 
-        return Builder::page('menu-add', 'Menu Add')
+        return Builder::page('menu.menu-add')
                         ->type('page')
-                        ->tab('basic', 'Basic', $basic)
-                        ->action('actions', 'Actions', $action)
+                        ->tab('basic', $basic)
+                        ->action('actions', $action)
                         ->toArray();
     }
 
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('menu_name', 'Menu Name')->type('text'),
-            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('icon', 'Icon')->type('text'),
-            Builder::field('path', 'Path')->type('text'),
-            Builder::field('hide_in_menu', 'Hide')->type('switch')->data($addonData['hide_in_menu']),
-            Builder::field('hide_children_in_menu', 'Hide Children')->type('switch')->data($addonData['hide_children_in_menu']),
-            Builder::field('flat_menu', 'Flat')->type('switch')->data($addonData['flat_menu']),
-            Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('update_time', 'Update Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
+            Builder::field('menu.menu_name')->type('text'),
+            Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
+            Builder::field('menu.icon')->type('text'),
+            Builder::field('menu.path')->type('text'),
+            Builder::field('menu.hide_in_menu')->type('switch')->data($addonData['hide_in_menu']),
+            Builder::field('menu.hide_children_in_menu')->type('switch')->data($addonData['hide_children_in_menu']),
+            Builder::field('menu.flat_menu')->type('switch')->data($addonData['flat_menu']),
+            Builder::field('create_time')->type('datetime'),
+            Builder::field('update_time')->type('datetime'),
+            Builder::field('status')->type('switch')->data($addonData['status']),
         ];
         $action = [
-            Builder::button('reset', 'Reset')->type('dashed')->call('reset'),
-            Builder::button('cancel', 'Cancel')->type('default')->call('cancel'),
-            Builder::button('submit', 'Submit')->type('primary')->call('submit')->uri('/api/menus/' . $id)->method('put'),
+            Builder::button('reset')->type('dashed')->call('reset'),
+            Builder::button('cancel')->type('default')->call('cancel'),
+            Builder::button('submit')->type('primary')->call('submit')->uri('/api/menus/' . $id)->method('put'),
         ];
 
-        return Builder::page('menu-edit', 'Menu Edit')
+        return Builder::page('menu.menu-edit')
                         ->type('page')
-                        ->tab('basic', 'Basic', $basic)
-                        ->action('actions', 'Actions', $action)
+                        ->tab('basic', $basic)
+                        ->action('actions', $action)
                         ->toArray();
     }
 
     public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
-            Builder::button('add', 'Add')->type('primary')->call('modal')->uri('/api/menus/add'),
-            Builder::button('reload', 'Reload')->type('default')->call('reload'),
+            Builder::button('add')->type('primary')->call('modal')->uri('/api/menus/add'),
+            Builder::button('reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [
-            Builder::button('delete', 'Delete')->type('danger')->call('delete')->uri('/api/menus/delete')->method('post'),
-            Builder::button('disable', 'Disable')->type('default')->call('batchDisable'),
+            Builder::button('delete')->type('danger')->call('delete')->uri('/api/menus/delete')->method('post'),
+            Builder::button('disable')->type('default')->call('batchDisable'),
         ];
         if ($this->isTrash($params)) {
             $batchToolBar = [
-                Builder::button('deletePermanently', 'Delete Permanently')->type('danger')->call('deletePermanently')->uri('/api/menus/delete')->method('post'),
-                Builder::button('restore', 'Restore')->type('default')->call('restore')->uri('/api/menus/restore')->method('post'),
+                Builder::button('deletePermanently')->type('danger')->call('deletePermanently')->uri('/api/menus/delete')->method('post'),
+                Builder::button('restore')->type('default')->call('restore')->uri('/api/menus/restore')->method('post'),
             ];
         }
         $tableColumn = [
-            Builder::field('menu_name', 'Menu Name')->type('text'),
-            Builder::field('icon', 'Icon')->type('text'),
-            Builder::field('path', 'Path')->type('text'),
-            Builder::field('hide_in_menu', 'Hide')->type('switch')->data($addonData['hide_in_menu']),
-            Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
-            Builder::field('trash', 'Trash')->type('trash'),
-            Builder::field('actions', 'Actions')->data([
-                Builder::button('edit', 'Edit')->type('primary')->call('modal')->uri('/api/menus/:id'),
-                Builder::button('delete', 'Delete')->type('default')->call('delete')->uri('/api/menus/delete')->method('post'),
+            Builder::field('menu.menu_name')->type('text'),
+            Builder::field('menu.icon')->type('text'),
+            Builder::field('menu.path')->type('text'),
+            Builder::field('menu.hide_in_menu')->type('switch')->data($addonData['hide_in_menu']),
+            Builder::field('create_time')->type('datetime')->sorter(true),
+            Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('trash')->type('trash'),
+            Builder::field('actions')->data([
+                Builder::button('edit')->type('primary')->call('modal')->uri('/api/menus/:id'),
+                Builder::button('delete')->type('default')->call('delete')->uri('/api/menus/delete')->method('post'),
             ]),
         ];
 
-        return Builder::page('menu-list', 'Menu List')
-                        ->type('basicList')
+        return Builder::page('menu.menu-list')
+                        ->type('basic-list')
                         ->searchBar(true)
                         ->tableColumn($tableColumn)
                         ->tableToolBar($tableToolBar)
