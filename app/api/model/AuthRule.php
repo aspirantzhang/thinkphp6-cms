@@ -37,82 +37,82 @@ class AuthRule extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('rule_title', 'Rule Title')->type('text'),
-            Builder::field('rule_path', 'Rule Path')->type('text'),
-            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('type', 'Type')->type('text'),
-            Builder::field('condition', 'Condition')->type('text'),
-            Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
+            Builder::field('rule.rule_title')->type('text'),
+            Builder::field('rule.rule_path')->type('text'),
+            Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
+            Builder::field('rule.type')->type('text'),
+            Builder::field('rule.condition')->type('text'),
+            Builder::field('create_time')->type('datetime'),
+            Builder::field('status')->type('switch')->data($addonData['status']),
         ];
         $action = [
-            Builder::button('reset', 'Reset')->type('dashed')->call('reset'),
-            Builder::button('cancel', 'Cancel')->type('default')->call('cancel'),
-            Builder::button('submit', 'Submit')->type('primary')->call('submit')->uri('/api/rules')->method('post'),
+            Builder::button('reset')->type('dashed')->call('reset'),
+            Builder::button('cancel')->type('default')->call('cancel'),
+            Builder::button('submit')->type('primary')->call('submit')->uri('/api/rules')->method('post'),
         ];
 
-        return Builder::page('rule-add', 'Rule Add')
+        return Builder::page('rule.rule-add')
                         ->type('page')
-                        ->tab('basic', 'Basic', $basic)
-                        ->action('actions', 'Actions', $action)
+                        ->tab('basic', $basic)
+                        ->action('actions', $action)
                         ->toArray();
     }
 
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('rule_title', 'Rule Title')->type('text'),
-            Builder::field('rule_path', 'Rule Path')->type('text'),
-            Builder::field('parent_id', 'Parent')->type('parent')->data($addonData['parent_id']),
-            Builder::field('type', 'Type')->type('text'),
-            Builder::field('condition', 'Condition')->type('text'),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
-            Builder::field('create_time', 'Create Time')->type('datetime'),
-            Builder::field('update_time', 'Update Time')->type('datetime'),
+            Builder::field('rule.rule_title')->type('text'),
+            Builder::field('rule.rule_path')->type('text'),
+            Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
+            Builder::field('rule.type')->type('text'),
+            Builder::field('rule.condition')->type('text'),
+            Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('create_time')->type('datetime'),
+            Builder::field('update_time')->type('datetime'),
         ];
         $action = [
-            Builder::button('reset', 'Reset')->type('dashed')->call('reset'),
-            Builder::button('cancel', 'Cancel')->type('default')->call('cancel'),
-            Builder::button('submit', 'Submit')->type('primary')->call('submit')->uri('/api/rules/' . $id)->method('put'),
+            Builder::button('reset')->type('dashed')->call('reset'),
+            Builder::button('cancel')->type('default')->call('cancel'),
+            Builder::button('submit')->type('primary')->call('submit')->uri('/api/rules/' . $id)->method('put'),
         ];
 
-        return Builder::page('rule-edit', 'Rule Edit')
+        return Builder::page('rule.rule-edit')
                         ->type('page')
-                        ->tab('basic', 'Basic', $basic)
-                        ->action('actions', 'Actions', $action)
+                        ->tab('basic', $basic)
+                        ->action('actions', $action)
                         ->toArray();
     }
 
     public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
-            Builder::button('add', 'Add')->type('primary')->call('modal')->uri('/api/rules/add'),
-            Builder::button('reload', 'Reload')->type('default')->call('reload'),
+            Builder::button('add')->type('primary')->call('modal')->uri('/api/rules/add'),
+            Builder::button('reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [
-            Builder::button('delete', 'Delete')->type('danger')->call('delete')->uri('/api/rules/delete')->method('post'),
-            Builder::button('disable', 'Disable')->type('default')->call('batchDisable'),
+            Builder::button('delete')->type('danger')->call('delete')->uri('/api/rules/delete')->method('post'),
+            Builder::button('disable')->type('default')->call('batchDisable'),
         ];
         if ($this->isTrash($params)) {
             $batchToolBar = [
-                Builder::button('deletePermanently', 'Delete Permanently')->type('danger')->call('deletePermanently')->uri('/api/rules/delete')->method('post'),
-                Builder::button('restore', 'Restore')->type('default')->call('restore')->uri('/api/rules/restore')->method('post'),
+                Builder::button('deletePermanently')->type('danger')->call('deletePermanently')->uri('/api/rules/delete')->method('post'),
+                Builder::button('restore')->type('default')->call('restore')->uri('/api/rules/restore')->method('post'),
             ];
         }
         $tableColumn = [
-            Builder::field('rule_title', 'Rule Title')->type('text'),
-            Builder::field('rule_path', 'Rule Path')->type('text'),
-            Builder::field('create_time', 'Create Time')->type('datetime')->sorter(true),
-            Builder::field('status', 'Status')->type('switch')->data($addonData['status']),
-            Builder::field('trash', 'Trash')->type('trash'),
-            Builder::field('actions', 'Actions')->data([
-                Builder::button('edit', 'Edit')->type('primary')->call('modal')->uri('/api/rules/:id'),
-                Builder::button('delete', 'Delete')->type('default')->call('delete')->uri('/api/rules/delete')->method('post'),
+            Builder::field('rule.rule_title')->type('text'),
+            Builder::field('rule.rule_path')->type('text'),
+            Builder::field('create_time')->type('datetime')->sorter(true),
+            Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('trash')->type('trash'),
+            Builder::field('actions')->data([
+                Builder::button('edit')->type('primary')->call('modal')->uri('/api/rules/:id'),
+                Builder::button('delete')->type('default')->call('delete')->uri('/api/rules/delete')->method('post'),
             ]),
         ];
 
-        return Builder::page('rule-list', 'Rule List')
-                        ->type('basicList')
+        return Builder::page('rule.rule-list')
+                        ->type('basic-list')
                         ->searchBar(true)
                         ->tableColumn($tableColumn)
                         ->tableToolBar($tableToolBar)
