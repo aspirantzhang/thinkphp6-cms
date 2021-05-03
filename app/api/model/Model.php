@@ -65,7 +65,7 @@ class Model extends Common
         return Builder::page('model.model-edit')
                         ->type('page')
                         ->tab('basic', $basic)
-                        ->tab('data', $dataTab)
+                        ->tab('model.data', $dataTab)
                         ->action('actions', $action)
                         ->toArray();
     }
@@ -88,7 +88,7 @@ class Model extends Common
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('actions')->data([
                 Builder::button('edit')->type('primary')->call('page')->uri('/api/models/:id'),
-                Builder::button('design')->type('primary')->call('modelDesign')->uri('/api/models/design/:id'),
+                Builder::button('model.design')->type('primary')->call('modelDesign')->uri('/api/models/design/:id'),
                 Builder::button('deletePermanently')->type('danger')->call('deletePermanently')->uri('/api/models/delete')->method('post'),
             ]),
         ];
