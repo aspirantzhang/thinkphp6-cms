@@ -37,9 +37,9 @@ class Admin extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('admin.admin_name')->type('text'),
-            Builder::field('admin.password')->type('text'),
-            Builder::field('admin.display_name')->type('text'),
+            Builder::field('admin.admin_name')->type('input'),
+            Builder::field('admin.password')->type('password'),
+            Builder::field('admin.display_name')->type('input'),
             Builder::field('admin.groups')->type('tree')->data($addonData['groups']),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
@@ -61,8 +61,8 @@ class Admin extends Common
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('admin.admin_name')->type('text')->editDisabled(true),
-            Builder::field('admin.display_name')->type('text'),
+            Builder::field('admin.admin_name')->type('input')->editDisabled(true),
+            Builder::field('admin.display_name')->type('input'),
             Builder::field('admin.groups')->type('tree')->data($addonData['groups']),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
@@ -98,9 +98,9 @@ class Admin extends Common
             ];
         }
         $tableColumn = [
-            Builder::field('admin.admin_name')->type('text'),
+            Builder::field('admin.admin_name')->type('input'),
             Builder::field('admin.groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
-            Builder::field('admin.display_name')->type('text'),
+            Builder::field('admin.display_name')->type('input'),
             Builder::field('create_time')->type('datetime')->sorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('trash')->type('trash'),
@@ -111,9 +111,9 @@ class Admin extends Common
         ];
         if ($this->isTrash($params)) {
             $tableColumn = [
-                Builder::field('admin.admin_name')->type('text'),
+                Builder::field('admin.admin_name')->type('input'),
                 Builder::field('admin.groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
-                Builder::field('admin.display_name')->type('text'),
+                Builder::field('admin.display_name')->type('input'),
                 Builder::field('delete_time')->type('datetime')->sorter(true),
                 Builder::field('status')->type('switch')->data($addonData['status']),
                 Builder::field('trash')->type('trash'),

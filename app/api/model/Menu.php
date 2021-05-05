@@ -35,10 +35,10 @@ class Menu extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('menu.menu_name')->type('text'),
+            Builder::field('menu.menu_name')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
-            Builder::field('menu.icon')->type('text'),
-            Builder::field('menu.path')->type('text'),
+            Builder::field('menu.icon')->type('input'),
+            Builder::field('menu.path')->type('input'),
             Builder::field('menu.hide_in_menu')->type('switch')->data($addonData['hide_in_menu']),
             Builder::field('menu.hide_children_in_menu')->type('switch')->data($addonData['hide_children_in_menu']),
             Builder::field('menu.flat_menu')->type('switch')->data($addonData['flat_menu']),
@@ -61,10 +61,10 @@ class Menu extends Common
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('menu.menu_name')->type('text'),
+            Builder::field('menu.menu_name')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
-            Builder::field('menu.icon')->type('text'),
-            Builder::field('menu.path')->type('text'),
+            Builder::field('menu.icon')->type('input'),
+            Builder::field('menu.path')->type('input'),
             Builder::field('menu.hide_in_menu')->type('switch')->data($addonData['hide_in_menu']),
             Builder::field('menu.hide_children_in_menu')->type('switch')->data($addonData['hide_children_in_menu']),
             Builder::field('menu.flat_menu')->type('switch')->data($addonData['flat_menu']),
@@ -102,9 +102,9 @@ class Menu extends Common
             ];
         }
         $tableColumn = [
-            Builder::field('menu.menu_name')->type('text'),
-            Builder::field('menu.icon')->type('text'),
-            Builder::field('menu.path')->type('text'),
+            Builder::field('menu.menu_name')->type('input'),
+            Builder::field('menu.icon')->type('input'),
+            Builder::field('menu.path')->type('input'),
             Builder::field('menu.hide_in_menu')->type('switch')->data($addonData['hide_in_menu']),
             Builder::field('create_time')->type('datetime')->sorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),

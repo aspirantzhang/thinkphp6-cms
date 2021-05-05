@@ -24,9 +24,9 @@ class Model extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('model.title')->type('text'),
-            Builder::field('model.table_name')->type('text'),
-            Builder::field('model.route_name')->type('text'),
+            Builder::field('model.title')->type('input'),
+            Builder::field('model.table_name')->type('input'),
+            Builder::field('model.route_name')->type('input'),
             Builder::field('create_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
@@ -46,9 +46,9 @@ class Model extends Common
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('model.title')->type('text')->editDisabled(true),
-            Builder::field('model.table_name')->type('text')->editDisabled(true),
-            Builder::field('model.route_name')->type('text')->editDisabled(true),
+            Builder::field('model.title')->type('input')->editDisabled(true),
+            Builder::field('model.table_name')->type('input')->editDisabled(true),
+            Builder::field('model.route_name')->type('input')->editDisabled(true),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
@@ -81,9 +81,9 @@ class Model extends Common
             $batchToolBar = [];
         }
         $tableColumn = [
-            Builder::field('model.title')->type('text'),
-            Builder::field('model.table_name')->type('text'),
-            Builder::field('model.route_name')->type('text'),
+            Builder::field('model.title')->type('input'),
+            Builder::field('model.table_name')->type('input'),
+            Builder::field('model.route_name')->type('input'),
             Builder::field('create_time')->type('datetime')->sorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('actions')->data([

@@ -44,7 +44,7 @@ class AuthGroup extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('group.group_name')->type('text'),
+            Builder::field('group.group_name')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
             Builder::field('group.rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time')->type('datetime'),
@@ -67,7 +67,7 @@ class AuthGroup extends Common
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('group.group_name')->type('text'),
+            Builder::field('group.group_name')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
             Builder::field('group.rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time')->type('datetime'),
@@ -104,7 +104,7 @@ class AuthGroup extends Common
             ];
         }
         $tableColumn = [
-            Builder::field('group.group_name')->type('text'),
+            Builder::field('group.group_name')->type('input'),
             Builder::field('create_time')->type('datetime')->sorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('trash')->type('trash'),

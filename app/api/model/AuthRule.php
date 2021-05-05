@@ -37,11 +37,11 @@ class AuthRule extends Common
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('rule.rule_title')->type('text'),
-            Builder::field('rule.rule_path')->type('text'),
+            Builder::field('rule.rule_title')->type('input'),
+            Builder::field('rule.rule_path')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rule.type')->type('text'),
-            Builder::field('rule.condition')->type('text'),
+            Builder::field('rule.type')->type('input'),
+            Builder::field('rule.condition')->type('input'),
             Builder::field('create_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
@@ -61,11 +61,11 @@ class AuthRule extends Common
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('rule.rule_title')->type('text'),
-            Builder::field('rule.rule_path')->type('text'),
+            Builder::field('rule.rule_title')->type('input'),
+            Builder::field('rule.rule_path')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rule.type')->type('text'),
-            Builder::field('rule.condition')->type('text'),
+            Builder::field('rule.type')->type('input'),
+            Builder::field('rule.condition')->type('input'),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
@@ -100,8 +100,8 @@ class AuthRule extends Common
             ];
         }
         $tableColumn = [
-            Builder::field('rule.rule_title')->type('text'),
-            Builder::field('rule.rule_path')->type('text'),
+            Builder::field('rule.rule_title')->type('input'),
+            Builder::field('rule.rule_path')->type('input'),
             Builder::field('create_time')->type('datetime')->sorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('trash')->type('trash'),
