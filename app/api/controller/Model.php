@@ -38,71 +38,7 @@ class Model extends Common
 
     public function save()
     {
-        $tableName = strtolower($this->request->param('table_name'));
-        $routeName = strtolower($this->request->param('route_name'));
-        $tableTitle = (string)$this->request->param('title');
-        $currentTime = date("Y-m-d H:i:s");
-
-        if (in_array($tableName, Config::get('model.reserved_table'))) {
-            return $this->error('Reserved table name.');
-        }
-
-        if ($this->existsTable($tableName)) {
-            return $this->error('Table already exists.');
-        }
-
         $result = $this->model->saveAPI($this->request->only($this->model->getAllowSave()));
-        $httpBody = $result[0];
-
-        if ($httpBody['success'] === true) {
-            Db::startTrans();
-            try {
-                // Create Files
-                Console::call('make:buildModel', [Str::studly($tableName), '--route=' . $routeName]);
-
-                // Create Table
-                Db::execute("CREATE TABLE `$tableName` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `create_time` DATETIME NOT NULL , `update_time` DATETIME NOT NULL , `delete_time` DATETIME NULL DEFAULT NULL , `status` TINYINT(1) NOT NULL DEFAULT '1' , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
-
-                // Add Rules
-                $parentRule = RuleService::create([
-                    'parent_id' => 0,
-                    'rule_title' => $tableTitle,
-                    'create_time' => $currentTime,
-                    'update_time' => $currentTime,
-                ]);
-                $parentRuleId = $parentRule->id;
-                $rule = new RuleService();
-                $initRules = [
-                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Home', 'rule_path' => 'api/' . $tableName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Add', 'rule_path' => 'api/' . $tableName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Save', 'rule_path' => 'api/' . $tableName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Read', 'rule_path' => 'api/' . $tableName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Update', 'rule_path' => 'api/' . $tableName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Delete', 'rule_path' => 'api/' . $tableName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentRuleId, 'rule_title' => $tableTitle . ' Restore', 'rule_path' => 'api/' . $tableName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                ];
-                $rule->saveAll($initRules);
-
-                // Add Menus
-                $parentMenu = MenuService::create([
-                    'parent_id' => 0,
-                    'menu_name' => $routeName . '-list',
-                    'icon' => 'icon-project',
-                    'path' => '/basic-list/api/' . $routeName,
-                    'create_time' => $currentTime,
-                    'update_time' => $currentTime,
-                ]);
-                $parentMenuId = $parentMenu->id;
-                $menu = new MenuService();
-                $initMenus = [
-                    ['parent_id' => $parentMenuId, 'menu_name' => 'add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-                    ['parent_id' => $parentMenuId, 'menu_name' => 'edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-                ];
-                $menu->saveAll($initMenus);
-            } catch (\Exception $e) {
-                Db::rollback();
-            }
-        }
 
         return $this->json(...$result);
     }
