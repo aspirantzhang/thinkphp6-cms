@@ -30,10 +30,10 @@ class Model extends ModelLogic
         $this->startTrans();
         try {
             $this->error = 'Save failed.';
-            // save basic data
+            // Save basic data
             $this->allowField($this->getAllowSave())->save($data);
             
-            // create files
+            // Create files
             $this->createModelFile($tableName, $routeName);
 
             // Create table
@@ -71,22 +71,22 @@ class Model extends ModelLogic
                 $tableName = $model->table_name;
                 $routeName = $model->route_name;
 
-                // remove model file
+                // Remove model file
                 $this->removeModelFile($tableName);
 
-                // remove Table
+                // Remove Table
                 $this->removeTable($tableName);
 
-                // remove self rule
+                // Remove self rule
                 $ruleId = $this->removeSelfRule($tableTitle);
 
-                // remove children rules
+                // Remove children rules
                 $this->removeChildrenRule($ruleId);
 
-                // remove self menu
+                // Remove self menu
                 $menuId = $this->removeSelfMenu($routeName);
 
-                // remove children menu
+                // Remove children menu
                 $this->removeChildrenMenu($menuId);
 
                 $model->commit();
@@ -123,13 +123,13 @@ class Model extends ModelLogic
         }
 
         if (!empty($data)) {
-            // get all existing fields
+            // Get all existing fields
             $existingFields = $this->getExistingFields($tableName);
-            // get current fields
+            // Get current fields
             $currentFields = extractValues($data['fields'], 'name');
-            // exclude reserved fields
+            // Exclude reserved fields
             $currentFields = array_diff($currentFields, Config::get('model.reserved_field'));
-            // handle table change
+            // Handle table change
             $result = $this->fieldsHandler($existingFields, $currentFields, $data, $tableName);
 
             if ($result) {

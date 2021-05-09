@@ -42,15 +42,4 @@ class Common extends GlobalController
         $httpBody = ['success' => false, 'message' => $message, 'data' => $data];
         return $this->json($httpBody, 200, $header);
     }
-
-    protected function existsTable($tableName)
-    {
-        try {
-            Db::query("select 1 from `$tableName` LIMIT 1");
-        } catch (\Exception $e) {
-            $this->error = "Table not found.";
-            return false;
-        }
-        return true;
-    }
 }
