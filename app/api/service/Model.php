@@ -42,14 +42,18 @@ class Model extends ModelLogic
             // Add self rule
             $ruleId = $this->createSelfRule($tableTitle);
 
-            // Add children rule
-            $this->createChildrenRule($ruleId, $tableTitle, $tableName);
+            if ($ruleId) {
+                // Add children rule
+                $this->createChildrenRule($ruleId, $tableTitle, $tableName);
+            }
 
             // Add self menu
             $menuId = $this->createSelfMenu($routeName);
 
-            // Add children menu
-            $this->createChildrenMenu($menuId, $routeName);
+            if ($menuId) {
+                // Add children menu
+                $this->createChildrenMenu($menuId, $routeName);
+            }
 
             $this->commit();
             return $this->success('Add successfully.');
@@ -80,14 +84,18 @@ class Model extends ModelLogic
                 // Remove self rule
                 $ruleId = $this->removeSelfRule($tableTitle);
 
-                // Remove children rules
-                $this->removeChildrenRule($ruleId);
+                if ($ruleId) {
+                    // Remove children rules
+                    $this->removeChildrenRule($ruleId);
+                }
 
                 // Remove self menu
                 $menuId = $this->removeSelfMenu($routeName);
 
-                // Remove children menu
-                $this->removeChildrenMenu($menuId);
+                if ($menuId) {
+                    // Remove children menu
+                    $this->removeChildrenMenu($menuId);
+                }
 
                 $model->commit();
                 return $this->success('Delete successfully.');
