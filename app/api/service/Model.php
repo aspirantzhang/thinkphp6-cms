@@ -107,4 +107,42 @@ class Model extends ModelLogic
             return $this->error('Target not found.');
         }
     }
+
+    public function designUpdateAPI($id, $data)
+    {
+        $tableName = $this->where('id', $id)->value('table_name');
+
+        // Reserved model check
+        if (in_array($tableName, Config::get('model.reserved_table'))) {
+            return $this->error('Reserved model, operation not allowed.');
+        }
+
+        // Check table exists
+        if (!$this->existsTable($tableName)) {
+            return $this->error($this->error);
+        }
+
+        if (!empty($data)) {
+            // get all existing fields
+            $existingFields = $this->getExistingFields($tableName);
+            // get current fields
+            $currentFields = extractValues($data['fields'], 'name');
+            // exclude reserved fields
+            $currentFields = array_diff($currentFields, Config::get('model.reserved_field'));
+            // handle table change
+            $result = $this->fieldsHandler($existingFields, $currentFields, $data, $tableName);
+
+            if ($result) {
+                $updateResult = $this->updateAPI($id, ['data' => $data]);
+                if ($updateResult[0]['success'] === true) {
+                    return $this->success('Update successfully.');
+                }
+
+                return $this->error('Update failed.');
+            } else {
+                return $this->error($this->error);
+            }
+        }
+        return $this->error('Nothing to do.');
+    }
 }

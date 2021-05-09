@@ -73,97 +73,15 @@ class Model extends Common
 
     public function designUpdate($id)
     {
-        $tableName = ModelService::where('id', $id)->value('table_name');
+        $result = $this->model->designUpdateAPI($id, $this->request->param('data'));
 
-        // Reserved model check
-        if (in_array($tableName, Config::get('model.reserved_table'))) {
-            return $this->error('Reserved model, operation not allowed.');
-        }
-
-        // Check table exists
-        if (!$this->existsTable($tableName)) {
-            return $this->error($this->error);
-        }
+        return $this->json(...$result);
 
         // Build fields sql statement.
         $data = $this->request->param('data');
         if (!empty($data)) {
-            Db::startTrans();
-            try {
-                // Get all exist fields
-                $existingFields = [];
-                $columnsQuery = Db::query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '$tableName';");
-                if ($columnsQuery) {
-                    $existingFields = extractValues($columnsQuery, 'COLUMN_NAME');
-                }
-                // Get this fields
-                $thisFields = extractValues($data['fields'], 'name');
-                // Exclude reserved fields
-                $thisFields = array_diff($thisFields, Config::get('model.reserved_field'));
-
-                // Get fields group by types
-                $delete = array_diff($existingFields, $thisFields);
-                $add = array_diff($thisFields, $existingFields);
-                $change = array_intersect($thisFields, $existingFields);
-
-                $fieldSqlArray = [];
-                foreach ($data['fields'] as $field) {
-                    switch ($field['type']) {
-                        case 'longtext':
-                            $type = 'LONGTEXT';
-                            $typeAddon = '';
-                            $default = 'DEFAULT \'\'';
-                            break;
-                        case 'number':
-                            $type = 'INT';
-                            $typeAddon = ' UNSIGNED';
-                            $default = 'DEFAULT 0';
-                            break;
-                        case 'datetime':
-                            $type = 'DATETIME';
-                            $typeAddon = '';
-                            break;
-                        case 'tag':
-                        case 'switch':
-                            $type = 'TINYINT';
-                            $typeAddon = '(1)';
-                            $default = 'DEFAULT 1';
-                            break;
-                        default:
-                            $type = 'VARCHAR';
-                            $typeAddon = '(255)';
-                            $default = 'DEFAULT \'\'';
-                            break;
-                    }
-
-                    if (in_array($field['name'], $add)) {
-                        $method = 'ADD';
-                        $fieldSqlArray[] = " $method `${field['name']}` $type$typeAddon NOT NULL $default";
-                    }
-
-                    if (in_array($field['name'], $change)) {
-                        $method = 'CHANGE';
-                        $fieldSqlArray[] = " $method `${field['name']}` `${field['name']}` $type$typeAddon NOT NULL $default";
-                    }
-                }
-
-                foreach ($delete as $field) {
-                    $method = 'DROP IF EXISTS';
-                    if (!in_array($field, Config::get('model.reserved_field'))) {
-                        $fieldSqlArray[] = " $method `$field`";
-                    }
-                }
-
-                $alterTableSql = 'ALTER TABLE `' . $tableName . '` ' . implode(',', $fieldSqlArray) . '; ';
-
-                Db::query($alterTableSql);
-
-                $result = $this->model->updateAPI($id, $this->request->only($this->model->getAllowUpdate()));
-
-                return $this->json(...$result);
-            } catch (\Exception $e) {
-                Db::rollback();
-            }
+            $result = $this->model->updateAPI($id, $this->request->only($this->model->getAllowUpdate()));
+            return $this->json(...$result);
         }
         return $this->error('Nothing to do.');
     }

@@ -9,6 +9,7 @@ use app\api\service\AuthRule as RuleService;
 use app\api\service\Menu as MenuService;
 use think\facade\Db;
 use think\facade\Console;
+use think\facade\Config;
 use think\helper\Str;
 
 class Model extends ModelModel
@@ -227,6 +228,84 @@ class Model extends ModelModel
         } catch (\Throwable $e) {
             $this->error = 'Remove menu menu failed.';
             $menu->rollback();
+            return false;
+        }
+    }
+
+    protected function getExistingFields(string $tableName)
+    {
+        $existingFields = [];
+        $columnsQuery = Db::query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '$tableName';");
+        if ($columnsQuery) {
+            $existingFields = extractValues($columnsQuery, 'COLUMN_NAME');
+        }
+        return $existingFields;
+    }
+
+    protected function fieldsHandler($existingFields, $currentFields, $data, $tableName)
+    {
+        // Get fields group by types
+        $delete = array_diff($existingFields, $currentFields);
+        $add = array_diff($currentFields, $existingFields);
+        $change = array_intersect($currentFields, $existingFields);
+
+        $statements = [];
+        foreach ($data['fields'] as $field) {
+            switch ($field['type']) {
+                case 'longtext':
+                    $type = 'LONGTEXT';
+                    $typeAddon = '';
+                    $default = 'DEFAULT \'\'';
+                    break;
+                case 'number':
+                    $type = 'INT';
+                    $typeAddon = ' UNSIGNED';
+                    $default = 'DEFAULT 0';
+                    break;
+                case 'datetime':
+                    $type = 'DATETIME';
+                    $typeAddon = '';
+                    break;
+                case 'tag':
+                case 'switch':
+                    $type = 'TINYINT';
+                    $typeAddon = '(1)';
+                    $default = 'DEFAULT 1';
+                    break;
+                default:
+                    $type = 'VARCHAR';
+                    $typeAddon = '(255)';
+                    $default = 'DEFAULT \'\'';
+                    break;
+            }
+
+            if (in_array($field['name'], $add)) {
+                $method = 'ADD';
+                $statements[] = " $method `${field['name']}` $type$typeAddon NOT NULL $default";
+            }
+
+            if (in_array($field['name'], $change)) {
+                $method = 'CHANGE';
+                $statements[] = " $method `${field['name']}` `${field['name']}` $type$typeAddon NOT NULL $default";
+            }
+        }
+
+        foreach ($delete as $field) {
+            $method = 'DROP IF EXISTS';
+            if (!in_array($field, Config::get('model.reserved_field'))) {
+                $statements[] = " $method `$field`";
+            }
+        }
+
+        $alterTableSql = 'ALTER TABLE `' . $tableName . '` ' . implode(',', $statements) . ';';
+
+        Db::startTrans();
+        try {
+            Db::query($alterTableSql);
+            return true;
+        } catch (\Exception $e) {
+            Db::rollback();
+            $this->error = 'Change table structure failed.';
             return false;
         }
     }
