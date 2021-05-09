@@ -60,50 +60,7 @@ class Model extends Common
     public function delete()
     {
         $result = $this->model->deleteAPI($this->request->param('ids'), $this->request->param('type'));
-        $httpBody = $result[0];
-
-        if ($httpBody['success'] === true && isset($httpBody['data']) && count($httpBody['data']) === 1) {
-            Db::startTrans();
-            try {
-                $tableTitle = $httpBody['data'][0]['title'];
-                $tableName = $httpBody['data'][0]['table_name'];
-                $routeName = $httpBody['data'][0]['route_name'];
-
-                Console::call('make:removeModel', [Str::studly($tableName)]);
-
-                // Drop Table
-                Db::execute("DROP TABLE IF EXISTS `$tableName`");
-
-                // Delete Parent Rule
-                $parentRule = RuleService::where('rule_title', $tableTitle)->find();
-                $parentRuleId = $parentRule->id;
-                $parentRule->force()->delete();
-                // Delete Children Rule
-                $childrenRule = new RuleService();
-                $childrenRuleDataSet = $childrenRule->where('parent_id', $parentRuleId)->select();
-                if (!$childrenRuleDataSet->isEmpty()) {
-                    foreach ($childrenRuleDataSet as $item) {
-                        $item->force()->delete();
-                    }
-                }
-
-                // Delete Parent Menu
-                $parentMenu = MenuService::where('menu_name', $routeName . '-list')->find();
-                $parentMenuId = $parentMenu->id;
-                $parentMenu->force()->delete();
-                // Delete Children Menu
-                $childrenMenu = new MenuService();
-                $childrenMenuDataSet = $childrenMenu->where('parent_id', $parentMenuId)->select();
-                if (!$childrenMenuDataSet->isEmpty()) {
-                    foreach ($childrenMenuDataSet as $item) {
-                        $item->force()->delete();
-                    }
-                }
-            } catch (\Exception $e) {
-                Db::rollback();
-            }
-        }
-
+        
         return $this->json(...$result);
     }
 

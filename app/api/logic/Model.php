@@ -35,6 +35,18 @@ class Model extends ModelModel
         }
     }
 
+    protected function removeModelFile(string $tableName)
+    {
+        try {
+            Console::call('make:removeModel', [Str::studly($tableName)]);
+            return true;
+        } catch (\Throwable $e) {
+            $this->error = 'Remove model file failed.';
+            return false;
+        }
+    }
+
+    // TODO: add transaction
     protected function createTable(string $tableName)
     {
         try {
@@ -42,6 +54,18 @@ class Model extends ModelModel
             return true;
         } catch (\Throwable $e) {
             $this->error = 'Create table failed.';
+            return false;
+        }
+    }
+
+    // TODO: add transaction
+    protected function removeTable(string $tableName)
+    {
+        try {
+            Db::execute("DROP TABLE IF EXISTS `$tableName`");
+            return true;
+        } catch (\Throwable $e) {
+            $this->error = 'Remove table failed.';
             return false;
         }
     }
@@ -62,6 +86,22 @@ class Model extends ModelModel
             return (int)$rule->id;
         } catch (\Throwable $e) {
             $this->error = 'Create self rule failed.';
+            $rule->rollback();
+            return false;
+        }
+    }
+
+    protected function removeSelfRule(string $tableTitle)
+    {
+        $rule = RuleService::where('rule_title', $tableTitle)->find();
+        $rule->startTrans();
+        try {
+            $ruleId = $rule->id;
+            $rule->force()->delete();
+            $rule->commit();
+            return (int)$ruleId;
+        } catch (\Throwable $e) {
+            $this->error = 'Remove self rule failed.';
             $rule->rollback();
             return false;
         }
@@ -92,6 +132,26 @@ class Model extends ModelModel
         }
     }
 
+    protected function removeChildrenRule(int $ruleId)
+    {
+        $rule = new RuleService();
+        $rule->startTrans();
+        try {
+            $rulesData = $rule->where('parent_id', $ruleId)->select();
+            if (!$rulesData->isEmpty()) {
+                foreach ($rulesData as $item) {
+                    $item->force()->delete();
+                }
+            }
+            $rule->commit();
+            return true;
+        } catch (\Throwable $e) {
+            $this->error = 'Remove children rule failed.';
+            $rule->rollback();
+            return false;
+        }
+    }
+
     protected function createSelfMenu(string $routeName)
     {
         $menu = new MenuService();
@@ -115,6 +175,22 @@ class Model extends ModelModel
         }
     }
 
+    protected function removeSelfMenu(string $routeName)
+    {
+        $menu = MenuService::where('menu_name', $routeName . '-list')->find();
+        $menu->startTrans();
+        try {
+            $menuId = $menu->id;
+            $menu->force()->delete();
+            $menu->commit();
+            return (int)$menuId;
+        } catch (\Throwable $e) {
+            $this->error = 'Remove self menu failed.';
+            $menu->rollback();
+            return false;
+        }
+    }
+
     protected function createChildrenMenu(int $menuId, string $routeName)
     {
         $menu = new MenuService();
@@ -130,6 +206,26 @@ class Model extends ModelModel
             return true;
         } catch (\Throwable $e) {
             $this->error = 'Create menu menu failed.';
+            $menu->rollback();
+            return false;
+        }
+    }
+
+    protected function removeChildrenMenu(int $menuId)
+    {
+        $menu = new MenuService();
+        $menu->startTrans();
+        try {
+            $menusData = $menu->where('parent_id', $menuId)->select();
+            if (!$menusData->isEmpty()) {
+                foreach ($menusData as $item) {
+                    $item->force()->delete();
+                }
+            }
+            $menu->commit();
+            return true;
+        } catch (\Throwable $e) {
+            $this->error = 'Remove menu menu failed.';
             $menu->rollback();
             return false;
         }

@@ -59,6 +59,45 @@ class Model extends ModelLogic
         }
     }
 
+    public function deleteAPI($ids = [], $type = 'delete')
+    {
+        if (!empty($ids)) {
+            $model = $this->withTrashed()->find($ids[0]);
+            $model->startTrans();
+            try {
+                $model->force()->delete();
+
+                $tableTitle = $model->title;
+                $tableName = $model->table_name;
+                $routeName = $model->route_name;
+
+                // remove model file
+                $this->removeModelFile($tableName);
+
+                // remove Table
+                $this->removeTable($tableName);
+
+                // remove self rule
+                $ruleId = $this->removeSelfRule($tableTitle);
+
+                // remove children rules
+                $this->removeChildrenRule($ruleId);
+
+                // remove self menu
+                $menuId = $this->removeSelfMenu($routeName);
+
+                // remove children menu
+                $this->removeChildrenMenu($menuId);
+
+                $model->commit();
+                return $this->success('Delete successfully.');
+            } catch (\Exception $e) {
+                $model->rollback();
+            }
+        }
+        return $this->error('Nothing to do.');
+    }
+
     public function designAPI($id)
     {
         $result = $this->field('data')->find($id);
