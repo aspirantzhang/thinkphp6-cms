@@ -75,9 +75,4 @@ trait TreeList
         }
         return [];
     }
-
-    public function getParentTree($exceptId = 0)
-    {
-        return arrayToTree($this->getParentData($exceptId), -1);
-    }
 }
