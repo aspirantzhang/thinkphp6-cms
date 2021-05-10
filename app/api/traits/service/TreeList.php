@@ -34,26 +34,50 @@ trait TreeList
      * @param mixed $params e.g.: ['status' => 1]
      * @return array
      */
-    public function treeDataAPI($params = [], $withRelation = [])
+    public function treeDataAPI($params = [], $withRelation = [], $parentTreeExceptId = 0)
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         $data = $this->getListData($params, $withRelation);
-        if ($data) {
-            if (!isset($data[0]['id']) || !isset($data[0]['parent_id']) || !isset($this->titleField)) {
+
+        if (!empty($data)) {
+            if (!isTreeArray($data) || !isset($this->titleField)) {
+                $this->error = 'Not a valid tree array';
                 return [];
             }
-            $data = array_map(function ($model) {
+            $data = array_map(function ($model) use ($parentTreeExceptId) {
                 $treeMenu = [
                     'id' => $model['id'],
+                    'key' => $model['id'],
                     'value' => $model['id'],
                     'title' => $model[$this->titleField],
                     'parent_id' => $model['parent_id'],
                 ];
+                if ($model['id'] === (int)$parentTreeExceptId) {
+                    $treeMenu['disabled'] = true;
+                }
                 return array_merge($model, $treeMenu);
             }, $data);
 
-            return arrayToTree($data);
+            if ((bool)$parentTreeExceptId) {
+                $top = [
+                    'id' => 0,
+                    'key' => 0,
+                    'value' => 0,
+                    'title' => 'Top',
+                    'parent_id' => -1,
+                ];
+                $data = array_merge([$top], $data);
+
+                return arrayToTree($data, -1);
+            } else {
+                return arrayToTree($data);
+            }
         }
         return [];
+    }
+
+    public function getParentTree($exceptId = 0)
+    {
+        return arrayToTree($this->getParentData($exceptId), -1);
     }
 }

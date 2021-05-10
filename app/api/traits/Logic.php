@@ -72,41 +72,6 @@ trait Logic
                     ->toArray();
     }
 
-    protected function getParentData($exceptID = 0)
-    {
-        $data = $this->getListData();
-        // Not a valid tree array
-        if (!isTreeArray($data)) {
-            return [];
-        }
-        $data = array_map(function ($model) use ($exceptID) {
-            if ($model['id'] != $exceptID) {
-                return [
-                    'id' => $model['id'],
-                    'key' => $model['id'],
-                    'value' => $model['id'],
-                    'title' => $model[$this->titleField],
-                    'parent_id' => $model['parent_id'],
-                ];
-            } else {
-                return null;
-            }
-        }, $data);
-
-        $top = [
-            'id' => 0,
-            'key' => 0,
-            'value' => 0,
-            'title' => 'Top',
-            'parent_id' => -1,
-        ];
-
-        $data = array_merge([$top], $data);
-
-        // filter null
-        return array_filter($data);
-    }
-
     /**
      * Check the values of the unique fields.
      * @param mixed $data Request data
