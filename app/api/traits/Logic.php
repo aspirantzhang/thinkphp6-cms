@@ -110,10 +110,9 @@ trait Logic
     /**
      * Check the values of the unique fields.
      * @param mixed $data Request data
-     * @param mixed $uniqueFields Associative array of unique fields. Default: $this->unique
      * @return bool
      */
-    protected function checkUniqueFields($data, $uniqueFields = []): bool
+    protected function checkUniqueFields($data): bool
     {
         $uniqueFields = $this->unique ?? [];
         if (is_array($uniqueFields) && !empty($uniqueFields)) {
