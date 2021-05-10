@@ -59,9 +59,8 @@ class Menu extends MenuLogic
                 $newData = array_merge([$top], $newData);
 
                 return arrayToTree($newData, -1);
-            } else {
-                return arrayToTree($newData);
             }
+            return arrayToTree($newData);
         }
         return [];
     }
