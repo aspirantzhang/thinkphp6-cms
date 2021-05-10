@@ -23,7 +23,7 @@ class AuthRule extends Common
     protected function setAddonData($params = [])
     {
         return [
-            'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
+            'parent_id' => $this->treeDataAPI([], [], $params['id'] ?? 0)
         ];
     }
 

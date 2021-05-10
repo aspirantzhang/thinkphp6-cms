@@ -25,7 +25,7 @@ class AuthGroup extends Common
     {
         return [
             'rules' => (new AuthRuleService())->treeDataAPI(['status' => 1]),
-            'parent_id' => arrayToTree($this->getParentData($params['id'] ?? 0), -1),
+            'parent_id' => $this->treeDataAPI([], [], $params['id'] ?? 0)
         ];
     }
 

@@ -8,15 +8,16 @@ use app\api\logic\Menu as MenuLogic;
 
 class Menu extends MenuLogic
 {
-    public function treeDataAPI($params = [], $withRelation = [])
+    public function treeDataAPI($params = [], $withRelation = [], $parentTreeExceptId = 0)
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         $data = $this->getListData($params, $withRelation);
+        
         if (!empty($data)) {
-            if (!isset($data[0]['parent_id'])) {
+            if (!isTreeArray($data) || !isset($this->titleField)) {
                 return [];
             }
-            $data = array_map(function ($model) {
+            $data = array_map(function ($model) use ($parentTreeExceptId) {
                 $treeMenu = [
                     'id' => $model['id'],
                     'value' => $model['id'],
@@ -27,6 +28,9 @@ class Menu extends MenuLogic
                     'hideChildrenInMenu' => $model['hide_children_in_menu'],
                     'flatMenu' => $model['flat_menu'],
                 ];
+                if ($model['id'] === (int)$parentTreeExceptId) {
+                    $treeMenu['disabled'] = true;
+                }
                 return array_merge($model, $treeMenu);
             }, $data);
 
@@ -44,6 +48,18 @@ class Menu extends MenuLogic
                 $newData[] = $arr;
             }
 
+            if ((bool)$parentTreeExceptId) {
+                $top = [
+                    'id' => 0,
+                    'key' => 0,
+                    'value' => 0,
+                    'title' => 'Top',
+                    'parent_id' => -1,
+                ];
+                $newData = array_merge([$top], $newData);
+
+                return arrayToTree($newData, -1);
+            }
             return arrayToTree($newData);
         }
         return [];
