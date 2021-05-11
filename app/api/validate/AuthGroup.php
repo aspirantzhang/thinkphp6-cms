@@ -3,12 +3,13 @@
 namespace app\api\validate;
 
 use think\Validate;
+use think\facade\Request;
 
 class AuthGroup extends Validate
 {
     protected $rule = [
         'id' => 'require|number',
-        'parent_id' => 'number',
+        'parent_id' => 'number|checkParentId',
         'ids' => 'require|numberArray',
         'group_name' => 'require|length:6,32',
         'rules' => 'length:0,255',
@@ -22,6 +23,7 @@ class AuthGroup extends Validate
         'id.require' => 'ID field is empty.',
         'id.number' => 'ID must be numbers only.',
         'parent_id.number' => 'Parent ID must be numbers only.',
+        'parent_id.checkParentId' => 'Parent should not be itself.',
         'ids.require' => 'IDs field is empty.',
         'ids.numberArray' => 'IDs must be a number array.',
         'group_name.require' => 'The group name field is empty.',
