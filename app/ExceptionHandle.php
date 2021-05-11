@@ -63,7 +63,7 @@ class ExceptionHandle extends Handle
         // 添加自定义异常处理机制
         if ($e instanceof ValidateException) {
             $returnBody = ['success' => false, 'message' => $e->getError()];
-            return Response::create($returnBody, 'json', 200)->header(Config::get('route.default_header'));
+            return Response::create($returnBody, 'json', 200)->header(Config::get('response.default_header'));
         }
 
         // 其他错误交给系统处理
