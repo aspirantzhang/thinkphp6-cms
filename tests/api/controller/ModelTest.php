@@ -186,6 +186,16 @@ class ModelTest extends \tests\api\TestCase
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
+    public function testNewModelDeletePermanently()
+    {
+        $this->startRequest('POST', ['type' => 'deletePermanently', 'ids' => [0]]);
+        $newController = new \app\api\controller\UnitTest($this->app);
+        $response = $newController->delete();
+
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":false', $response->getContent());
+    }
+
     public function testNewModelRestore()
     {
         $this->startRequest('POST', ['ids' => [1]]);
