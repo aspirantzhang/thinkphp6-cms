@@ -19,11 +19,14 @@ class RuleTest extends \tests\api\TestCase
     public function testRuleHome()
     {
         $this->startRequest();
-        
         $ruleController = new RuleController($this->app);
-
         $response = $ruleController->home();
-
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // trash
+        $this->startRequest('GET', ['trash' => 'onlyTrashed']);
+        $ruleController = new RuleController($this->app);
+        $response = $ruleController->home();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }

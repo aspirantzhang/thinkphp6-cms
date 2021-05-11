@@ -36,6 +36,7 @@
             <directory>app/api/config</directory>
             <directory>app/api/validate</directory>
             <directory>app/api/route</directory>
+            <directory>app/api/lang</directory>
             <directory>app/service</directory>
             <directory>app/middleware</directory>
         </exclude>

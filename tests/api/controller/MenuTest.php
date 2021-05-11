@@ -19,11 +19,14 @@ class MenuTest extends \tests\api\TestCase
     public function testMenuHome()
     {
         $this->startRequest();
-        
         $menuController = new MenuController($this->app);
-
         $response = $menuController->home();
-
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // trash
+        $this->startRequest('GET', ['trash' => 'onlyTrashed']);
+        $menuController = new MenuController($this->app);
+        $response = $menuController->home();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
