@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\service;
 
 use think\Validate;
+use think\facade\Request;
 
 class ValidateExtend extends \think\Service
 {
@@ -55,6 +56,10 @@ class ValidateExtend extends \think\Service
                 } else {
                     return false;
                 }
+            });
+
+            $validate->extend('checkParentId', function ($value) {
+                return $value !== Request::param('id');
             });
         });
     }
