@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\logic;
 
-use app\api\model\Model as ModelModel;
+use app\api\view\Model as ModelView;
 use app\api\service\AuthRule as RuleService;
 use app\api\service\Menu as MenuService;
 use think\facade\Db;
@@ -12,7 +12,7 @@ use think\facade\Console;
 use think\facade\Config;
 use think\helper\Str;
 
-class Model extends ModelModel
+class Model extends ModelView
 {
     protected function existsTable($tableName)
     {

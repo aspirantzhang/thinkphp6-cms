@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\logic;
 
-use app\api\model\AuthRule as AuthRuleModel;
+use app\api\view\AuthRule as AuthRuleView;
 
-class AuthRule extends AuthRuleModel
+class AuthRule extends AuthRuleView
 {
 
 }
