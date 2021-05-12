@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\logic;
 
-use app\api\model\Menu as MenuModel;
+use app\api\view\Menu as MenuView;
 
-class Menu extends MenuModel
+class Menu extends MenuView
 {
 
 }

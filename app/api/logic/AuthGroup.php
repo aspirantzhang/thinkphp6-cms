@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\logic;
 
-use app\api\model\AuthGroup as AuthGroupModel;
+use app\api\view\AuthGroup as AuthGroupView;
 
-class AuthGroup extends AuthGroupModel
+class AuthGroup extends AuthGroupView
 {
 
 }

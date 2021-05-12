@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\api\service;
 
 use app\api\logic\Admin as AdminLogic;
-use app\api\service\AuthGroup;
 
 class Admin extends AdminLogic
 {
