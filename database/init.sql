@@ -33,8 +33,8 @@ INSERT INTO `admin` (`id`, `admin_name`, `password`, `display_name`, `create_tim
 -- Dumping data for table `auth_admin_group`
 --
 
-INSERT INTO `auth_admin_group` (`id`, `admin_id`, `group_id`, `create_time`, `update_time`, `delete_time`, `status`) VALUES
-(225, 1, 53, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 1);
+INSERT INTO `auth_admin_group` (`id`, `admin_id`, `group_id`) VALUES
+(225, 1, 53);
 
 --
 -- Dumping data for table `auth_group`
