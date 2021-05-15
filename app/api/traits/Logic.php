@@ -21,24 +21,18 @@ trait Logic
         $search = getSearchParam($params, $this->getAllowSearch());
         $sort = getSortParam($params, $this->getAllowSort());
 
-        if ($params['trash'] !== 'withoutTrashed') {
-            $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
+        $result = $this;
 
-            return $this->$trashConfig()
-                        ->with($withRelation)
-                        ->withSearch(array_keys($search), $search)
-                        ->order($sort['name'], $sort['order'])
-                        ->visible($this->getAllowList())
-                        ->select()
-                        ->toArray();
-        } else {
-            return $this->with($withRelation)
-                        ->withSearch(array_keys($search), $search)
-                        ->order($sort['name'], $sort['order'])
-                        ->visible($this->getAllowList())
-                        ->select()
-                        ->toArray();
+        if ($params['trash'] !== 'withoutTrashed') {
+            $result = $result->{$params['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
         }
+
+        return $this->addI18n($this->with($withRelation))
+            ->withSearch(array_keys($search), $search)
+            ->order($sort['name'], $sort['order'])
+            ->visible($this->getAllowList())
+            ->select()
+            ->toArray();
     }
 
     /**
