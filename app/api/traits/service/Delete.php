@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace app\api\traits\service;
 
+use think\facade\Db;
+
 trait Delete
 {
+    protected function deleteI18nData($originalId)
+    {
+        Db::name($this->getLangTableName())->where('original_id', $originalId)->delete();
+    }
+
     public function deleteAPI($ids = [], $type = 'delete')
     {
         if (!empty($ids)) {
@@ -23,6 +30,7 @@ trait Delete
                 if (!$dataSet->isEmpty()) {
                     $body = $dataSet->toArray();
                     foreach ($dataSet as $item) {
+                        $this->deleteI18nData($item->id);
                         $item->force()->delete();
                     }
                     $result = true;
