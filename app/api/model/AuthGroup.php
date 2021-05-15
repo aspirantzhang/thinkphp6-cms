@@ -11,7 +11,7 @@ use aspirantzhang\TPAntdBuilder\Builder;
 class AuthGroup extends Common
 {
     protected $readonly = ['id'];
-    protected $unique = [];
+    protected $unique = ['group_name' => 'Group Name'];
     protected $titleField = 'group_name';
 
     public $allowHome = ['parent_id', 'group_name', 'rules'];
