@@ -32,6 +32,11 @@ function getSearchParam($data = [], $allowSearch = [])
     return is_array($data) ? array_intersect_key($data, array_flip($allowSearch)) : [];
 }
 
+function getFieldNameByFunctionName($functionName)
+{
+    return parse_name(substr(substr($functionName, 6), 0, -4));
+}
+
 /* Recursive branch extrusion */
 function createTreeBranch(&$parents, $children, $depth = 0)
 {

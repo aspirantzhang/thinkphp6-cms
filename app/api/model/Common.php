@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\model;
 
+use think\facade\Lang;
 use app\common\model\GlobalModel;
 use think\model\concern\SoftDelete;
 use app\api\traits\Model as ModelTrait;
@@ -23,6 +24,7 @@ class Common extends GlobalModel
 
     protected $deleteTime = 'delete_time';
     protected $unique;
+    protected $defaultLanguage = 'en-us';
     
     // Allow fields of AllowFieldTrait
     public $allowHome = null;
@@ -43,6 +45,44 @@ class Common extends GlobalModel
     protected function getTableName()
     {
         return parse_name($this->getName());
+    }
+
+    protected function getCurrentLang()
+    {
+        return Lang::getLangSet();
+    }
+
+    protected function getLangTableName()
+    {
+        return $this->getTableName() . '_i18n';
+    }
+
+    protected function getDefaultLanguage()
+    {
+        return $this->defaultLanguage;
+    }
+
+    protected function isTranslateField($fieldName)
+    {
+        return in_array($fieldName, $this->getAllowTranslate());
+    }
+
+    protected function getQueryFieldName($functionName)
+    {
+        $fieldName = getFieldNameByFunctionName($functionName);
+        if ($this->isTranslateField($fieldName)) {
+            return 'i.' . $fieldName;
+        }
+        return $fieldName;
+    }
+
+    protected function addI18n($instance)
+    {
+        // o = original table
+        // i = i18n table
+        return $instance->alias('o')
+            ->leftJoin($this->getLangTableName() . ' i', 'o.id = i.original_id')
+            ->where('i.lang_code', $this->getCurrentLang());
     }
 
     public function scopeStatus($query)

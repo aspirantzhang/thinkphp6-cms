@@ -18,7 +18,11 @@ trait Read
             }
         }
 
-        $model = $this->where('id', $id)->with($relationArray)->visible($this->getAllowRead())->find();
+        $model = $this->addI18n($this)
+            ->where('o.id', $id)
+            ->with($relationArray)
+            ->visible($this->getAllowRead())
+            ->find();
 
         if ($model) {
             $model = $model->toArray();

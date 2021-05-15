@@ -53,23 +53,18 @@ trait Logic
         $sort = getSortParam($params, $this->getAllowSort());
         $perPage = $params['per_page'] ?? 10;
        
+        $result = $this;
+
         if ($params['trash'] !== 'withoutTrashed') {
-            $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
-            
-            return $this->$trashConfig()
-                        ->with($withRelation)
-                        ->withSearch(array_keys($search), $search)
-                        ->order($sort['name'], $sort['order'])
-                        ->visible($this->getAllowList())
-                        ->paginate($perPage)
-                        ->toArray();
+            $result = $result->{$params['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
         }
-        return $this->with($withRelation)
-                    ->withSearch(array_keys($search), $search)
-                    ->order($sort['name'], $sort['order'])
-                    ->visible($this->getAllowList())
-                    ->paginate($perPage)
-                    ->toArray();
+
+        return $this->addI18n($result->with($withRelation))
+            ->withSearch(array_keys($search), $search)
+            ->order($sort['name'], $sort['order'])
+            ->visible($this->getAllowList())
+            ->paginate($perPage)
+            ->toArray();
     }
 
     /**
