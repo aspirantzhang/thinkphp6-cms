@@ -127,6 +127,14 @@ trait AllowField
         return array_merge($builtIn, $custom);
     }
 
+    public function getAllowTranslate()
+    {
+        if (isset($this->allowTranslate)) {
+            $result = $this->allowTranslate ?: [];
+        }
+        return $result;
+    }
+
     protected function isReservedTable()
     {
         return in_array($this->getTableName(), Config::get('model.reserved_table'));

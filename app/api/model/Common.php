@@ -47,11 +47,6 @@ class Common extends GlobalModel
         return parse_name($this->getName());
     }
 
-    protected function getCurrentLang()
-    {
-        return Lang::getLangSet();
-    }
-
     protected function getLangTableName()
     {
         return $this->getTableName() . '_i18n';
@@ -60,6 +55,11 @@ class Common extends GlobalModel
     protected function getDefaultLanguage()
     {
         return $this->defaultLanguage;
+    }
+
+    protected function getCurrentLanguage()
+    {
+        return Lang::getLangSet();
     }
 
     protected function isTranslateField($fieldName)
@@ -82,7 +82,13 @@ class Common extends GlobalModel
         // i = i18n table
         return $instance->alias('o')
             ->leftJoin($this->getLangTableName() . ' i', 'o.id = i.original_id')
-            ->where('i.lang_code', $this->getCurrentLang());
+            ->where('i.lang_code', $this->getCurrentLanguage());
+    }
+
+    protected function getNoNeedToTranslateFields($scene)
+    {
+        $sceneMethodName = 'getAllow' . parse_name($scene, 1);
+        return array_diff($this->$sceneMethodName(), $this->getAllowTranslate());
     }
 
     public function scopeStatus($query)
