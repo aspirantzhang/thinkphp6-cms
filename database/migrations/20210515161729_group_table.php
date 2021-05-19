@@ -11,7 +11,7 @@ final class GroupTable extends AbstractMigration
     public function change(): void
     {
         $groupTable = $this->table('auth_group', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
-        $groupTable->addColumn('parent_id', 'integer', ['signed' => false])
+        $groupTable->addColumn('parent_id', 'integer', ['signed' => false, 'default' => 0])
             ->addColumn('create_time', 'datetime')
             ->addColumn('update_time', 'datetime')
             ->addColumn('delete_time', 'datetime', ['null' => true])

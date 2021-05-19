@@ -11,7 +11,7 @@ final class MenuTable extends AbstractMigration
     public function change(): void
     {
         $groupTable = $this->table('menu', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
-        $groupTable->addColumn('parent_id', 'integer', ['signed' => false])
+        $groupTable->addColumn('parent_id', 'integer', ['signed' => false, 'default' => 0])
             ->addColumn('path', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('icon', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('hide_in_menu', 'boolean', ['default' => 0])

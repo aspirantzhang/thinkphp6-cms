@@ -11,7 +11,7 @@ final class RuleTable extends AbstractMigration
     public function change(): void
     {
         $ruleTable = $this->table('auth_rule', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
-        $ruleTable->addColumn('parent_id', 'integer', ['signed' => false])
+        $ruleTable->addColumn('parent_id', 'integer', ['signed' => false, 'default' => 0])
             ->addColumn('rule_path', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('type', 'boolean', ['default' => 1])
             ->addColumn('condition', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
