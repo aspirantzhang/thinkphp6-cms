@@ -34,6 +34,7 @@ class Common extends GlobalModel
     public $allowSave = null;
     public $allowUpdate = null;
     public $allowSearch = null;
+    public $allowTranslate = null;
 
     protected $titleField = '';
   

@@ -20,6 +20,7 @@ class AuthGroup extends Common
     public $allowSave = ['parent_id', 'group_name', 'rules'];
     public $allowUpdate = ['parent_id', 'group_name', 'rules'];
     public $allowSearch = ['parent_id', 'group_name', 'rules'];
+    public $allowTranslate = ['group_name'];
 
     protected function setAddonData($params = [])
     {

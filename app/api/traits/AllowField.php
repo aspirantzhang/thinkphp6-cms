@@ -129,10 +129,7 @@ trait AllowField
 
     public function getAllowTranslate()
     {
-        if (isset($this->allowTranslate)) {
-            $result = $this->allowTranslate ?: [];
-        }
-        return $result;
+        return $this->allowTranslate ?? [];
     }
 
     protected function isReservedTable()

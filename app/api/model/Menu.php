@@ -10,14 +10,15 @@ class Menu extends Common
 {
     protected $readonly = ['id'];
     protected $unique = [];
-    protected $titleField = 'menu_name';
+    protected $titleField = 'title';
 
-    public $allowHome = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowList = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowRead = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowSave = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowUpdate = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowSearch = ['menu_name', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowHome = ['title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowList = ['title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowRead = ['title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowSave = ['title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowUpdate = ['title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowSearch = ['title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
+    public $allowTranslate = ['title'];
 
     protected function setAddonData($params = [])
     {

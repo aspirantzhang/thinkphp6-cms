@@ -11,7 +11,7 @@ class Model extends Common
     protected $json = ['data'];
     protected $jsonAssoc = true;
     protected $readonly = ['id', 'title', 'table_name', 'route_name'];
-    protected $unique = ['title' => 'Model Title', 'table_name' => 'Table Name', 'route_name' => 'Route Name'];
+    protected $unique = ['table_name' => 'Table Name', 'route_name' => 'Route Name'];
 
     public $allowHome = ['title', 'table_name', 'route_name', 'data'];
     public $allowList = ['title', 'table_name', 'route_name', 'data'];
@@ -19,6 +19,7 @@ class Model extends Common
     public $allowSave = ['title', 'table_name', 'route_name', 'data'];
     public $allowUpdate = ['data'];
     public $allowSearch = ['title', 'table_name', 'route_name'];
+    public $allowTranslate = ['title'];
 
     // Mutator
     public function setRouteNameAttr($value)

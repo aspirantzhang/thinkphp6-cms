@@ -32,7 +32,8 @@ trait Save
         $this->startTrans();
         try {
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
-            $this->saveI18nData($data, $this->getData('id'));
+            $id = $this->getData('id');
+            $this->saveI18nData($data, $id);
             if (!empty($relationModel)) {
                 foreach ($relationModel as $relation) {
                     $data[$relation] = $data[$relation] ?? [];
@@ -40,7 +41,7 @@ trait Save
                 }
             }
             $this->commit();
-            return $this->success('Add successfully.');
+            return $this->success('Add successfully.', ['id' => $id]);
         } catch (\Exception $e) {
             $this->rollback();
             return $this->error($this->error ?: 'Save failed.');
