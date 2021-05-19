@@ -30,7 +30,7 @@ class MenuTest extends \tests\api\TestCase
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         // search
-        $this->startRequest('GET', ['title' => 'Admin List']);
+        $this->startRequest('GET', ['menu_title' => 'Admin List']);
         $menuController = new MenuController($this->app);
         $response = $menuController->home();
         $this->assertEquals(200, $response->getCode());
@@ -49,7 +49,7 @@ class MenuTest extends \tests\api\TestCase
 
     public function testMenuSave()
     {
-        $validData = ['parent_id' => 0, 'path' => 'UnitTest', 'title' => 'UnitTest'];
+        $validData = ['parent_id' => 0, 'path' => 'UnitTest', 'menu_title' => 'UnitTest'];
         $this->startRequest('POST', $validData);
         $menuController = new MenuController($this->app);
         $response = $menuController->save();
@@ -74,7 +74,7 @@ class MenuTest extends \tests\api\TestCase
 
     public function testMenuUpdate()
     {
-        $this->startRequest('PUT', ['title' => 'UnitTest2']);
+        $this->startRequest('PUT', ['menu_title' => 'UnitTest2']);
         // valid
         $menuController = new MenuController($this->app);
         $response = $menuController->update(17);

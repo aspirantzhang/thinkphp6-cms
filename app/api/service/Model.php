@@ -13,7 +13,7 @@ class Model extends ModelLogic
     {
         $tableName = strtolower($data['table_name']);
         $routeName = strtolower($data['route_name']);
-        $tableTitle = (string)$data['title'];
+        $tableTitle = (string)$data['model_title'];
 
         if (in_array($tableName, Config::get('model.reserved_table'))) {
             return $this->error('Reserved table name.');
@@ -71,7 +71,7 @@ class Model extends ModelLogic
             try {
                 $model->force()->delete();
 
-                $tableTitle = $model->title;
+                $tableTitle = $model->model_title;
                 $tableName = $model->table_name;
                 $routeName = $model->route_name;
 

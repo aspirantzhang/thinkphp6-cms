@@ -25,7 +25,7 @@ final class ModelTable extends AbstractMigration
         $modelI18nTable = $this->table('model_i18n', ['id' => '_id', 'signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
         $modelI18nTable->addColumn('original_id', 'integer', ['signed' => false])
             ->addColumn('lang_code', 'char', ['limit' => 5, 'null' => false, 'default' => ''])
-            ->addColumn('title', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+            ->addColumn('model_title', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addIndex(['original_id', 'lang_code'], ['unique' => true])
             ->create();
     }

@@ -30,7 +30,7 @@ class GroupTest extends \tests\api\TestCase
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         // search
-        $this->startRequest('GET', ['group_name' => 'unit']);
+        $this->startRequest('GET', ['group_title' => 'unit']);
         $groupController = new GroupController($this->app);
         $response = $groupController->home();
         $this->assertEquals(200, $response->getCode());
@@ -49,14 +49,14 @@ class GroupTest extends \tests\api\TestCase
 
     public function testGroupSave()
     {
-        $validData = ['group_name' => 'UnitTest'];
+        $validData = ['group_title' => 'UnitTest'];
         $this->startRequest('POST', $validData);
         $groupController = new GroupController($this->app);
         $response = $groupController->save();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         // already exists
-        $validData2 = ['group_name' => 'UnitTest'];
+        $validData2 = ['group_title' => 'UnitTest'];
         $this->startRequest('POST', $validData2);
         $groupController2 = new GroupController($this->app);
         $response2 = $groupController2->save();
@@ -72,7 +72,7 @@ class GroupTest extends \tests\api\TestCase
         $response = $groupController->read(2);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
-        $this->assertStringContainsString('"group_name":"UnitTest"', $response->getContent());
+        $this->assertStringContainsString('"group_title":"UnitTest"', $response->getContent());
         // not exist
         $responseNotExist = $groupController->read(0);
         $this->assertEquals(200, $responseNotExist->getCode());
@@ -81,7 +81,7 @@ class GroupTest extends \tests\api\TestCase
 
     public function testGroupUpdate()
     {
-        $this->startRequest('PUT', ['group_name' => 'UnitTest2']);
+        $this->startRequest('PUT', ['group_title' => 'UnitTest2']);
         // valid
         $groupController = new GroupController($this->app);
         $response = $groupController->update(2);

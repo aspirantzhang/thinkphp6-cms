@@ -39,7 +39,7 @@ class ModelTest extends \tests\api\TestCase
     public function testModelSave()
     {
         // valid
-        $this->startRequest('POST', ['table_name' => 'unit_test', 'route_name' => 'unit-tests', 'title' => 'Unit Test', 'create_time' => '2021-04-16T13:25:32+08:00']);
+        $this->startRequest('POST', ['table_name' => 'unit_test', 'route_name' => 'unit-tests', 'model_title' => 'Unit Test', 'create_time' => '2021-04-16T13:25:32+08:00']);
         $modelController = new ModelController($this->app);
         $response = $modelController->save();
         $this->assertEquals(200, $response->getCode());
@@ -47,14 +47,14 @@ class ModelTest extends \tests\api\TestCase
         $this->endRequest();
 
         // invalid
-        $this->startRequest('POST', ['table_name' => 'admin', 'route_name' => 'admin', 'title' => 'Admin']);
+        $this->startRequest('POST', ['table_name' => 'admin', 'route_name' => 'admin', 'model_title' => 'Admin']);
         $modelController = new ModelController($this->app);
         $response = $modelController->save();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":false', $response->getContent());
 
         // exist tablename
-        $this->startRequest('POST', ['table_name' => 'unit_test', 'route_name' => 'unit-tests', 'title' => 'Unit Test']);
+        $this->startRequest('POST', ['table_name' => 'unit_test', 'route_name' => 'unit-tests', 'model_title' => 'Unit Test']);
         $modelController = new ModelController($this->app);
         $response = $modelController->save();
         $this->assertEquals(200, $response->getCode());
