@@ -62,7 +62,7 @@ trait Logic
     }
 
     /**
-     * Check the values of the unique fields.
+     * Check if the value is unique
      * @param mixed $data Request data
      * @return bool
      */
@@ -81,15 +81,17 @@ trait Logic
     }
 
     /**
-     * Check whether a value already exists.
+     * Check if a value already exists in the database
      * @param string $fieldName
      * @param mixed $value
      * @return bool
      */
     protected function ifExists(string $fieldName, $value)
     {
-        $result = $this->withTrashed()->where($fieldName, $value)->find();
-        return (bool)$result;
+        if ($this->isTranslateField($fieldName)) {
+            return (bool)Db::name($this->getLangTableName())->where($fieldName, $value)->find();
+        }
+        return (bool)$this->withTrashed()->where($fieldName, $value)->find();
     }
 
     protected function clearParentId($id)
