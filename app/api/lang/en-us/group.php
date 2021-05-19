@@ -2,7 +2,7 @@
 
 return [
     'group' =>  [
-        'group_name' => 'Group Name',
+        'group_title' => 'Group Title',
         'rules' => 'Rules',
         'group-list' => 'Group List',
         'group-add' => 'Group Add',

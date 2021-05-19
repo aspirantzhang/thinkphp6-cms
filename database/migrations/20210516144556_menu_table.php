@@ -26,7 +26,7 @@ final class MenuTable extends AbstractMigration
         $groupI18nTable = $this->table('menu_i18n', ['id' => '_id', 'signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
         $groupI18nTable->addColumn('original_id', 'integer', ['signed' => false])
             ->addColumn('lang_code', 'char', ['limit' => 5, 'null' => false, 'default' => ''])
-            ->addColumn('title', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+            ->addColumn('menu_title', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addIndex(['original_id', 'lang_code'], ['unique' => true])
             ->create();
     }

@@ -21,9 +21,9 @@ final class GroupTable extends AbstractMigration
         $groupI18nTable = $this->table('auth_group_i18n', ['id' => '_id', 'signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
         $groupI18nTable->addColumn('original_id', 'integer', ['signed' => false])
             ->addColumn('lang_code', 'char', ['limit' => 5, 'null' => false, 'default' => ''])
-            ->addColumn('group_name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+            ->addColumn('group_title', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addIndex(['original_id', 'lang_code'], ['unique' => true])
-            ->addIndex(['group_name'], ['unique' => true])
+            ->addIndex(['group_title'], ['unique' => true])
             ->create();
     }
 }

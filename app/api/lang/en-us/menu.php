@@ -2,7 +2,7 @@
 
 return [
     'menu' =>  [
-        'menu_name' => 'Menu Name',
+        'menu_title' => 'Menu Name',
         'icon' => 'Icon',
         'path' => 'Path',
         'hide_in_menu' => 'Hide in menu',

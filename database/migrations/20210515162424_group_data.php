@@ -25,7 +25,7 @@ final class GroupData extends AbstractMigration
                 '_id'    =>  1,
                 'original_id' => 1,
                 'lang_code' => 'en-us',
-                'group_name'  => 'Admin Group',
+                'group_title'  => 'Admin Group',
             ]
         ];
         $this->table('auth_group_i18n')->insert($groupI18nRows)->save();

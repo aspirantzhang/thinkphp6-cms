@@ -12,7 +12,7 @@ class Menu extends MenuModel
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('menu.menu_name')->type('input'),
+            Builder::field('menu.menu_title')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
             Builder::field('menu.icon')->type('input'),
             Builder::field('menu.path')->type('input'),
@@ -38,7 +38,7 @@ class Menu extends MenuModel
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('menu.menu_name')->type('input'),
+            Builder::field('menu.menu_title')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
             Builder::field('menu.icon')->type('input'),
             Builder::field('menu.path')->type('input'),
@@ -79,7 +79,7 @@ class Menu extends MenuModel
             ];
         }
         $tableColumn = [
-            Builder::field('menu.menu_name')->type('input'),
+            Builder::field('menu.menu_title')->type('input'),
             Builder::field('menu.icon')->type('input'),
             Builder::field('menu.path')->type('input'),
             Builder::field('menu.hide_in_menu')->type('switch')->data($addonData['hide_in_menu']),
