@@ -10,7 +10,6 @@ require_once('./app/api/common.php');
 
 class AdminTest extends \tests\api\TestCase
 {
-
     protected function tearDown(): void
     {
         $this->endRequest();
@@ -49,43 +48,52 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminSave()
     {
-        $this->startRequest();
+        $validData = ['admin_name' => 'UnitTest', 'password' => 'UnitTest', 'display_name' => 'UnitTest'];
+        $this->startRequest('POST', $validData);
         $adminController = new AdminController($this->app);
         $response = $adminController->save();
-
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // already exists
+        $this->startRequest('POST', ['admin_name' => 'UnitTest']);
+        $adminController = new AdminController($this->app);
+        $responseExists = $adminController->save();
+        $this->assertEquals(200, $responseExists->getCode());
+        $this->assertStringStartsWith('{"success":false', $responseExists->getContent());
     }
 
     public function testAdminRead()
     {
         $this->startRequest();
+        // valid
         $adminController = new AdminController($this->app);
-        $response = $adminController->read(1);
-        $responseNotExist = $adminController->read(0);
-
+        $response = $adminController->read(2);
         $this->assertEquals(200, $response->getCode());
-        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        $this->assertStringContainsString('"id":2,"admin_name":"UnitTest"', $response->getContent());
+        // not exist
+        $responseNotExist = $adminController->read(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testAdminUpdate()
     {
-        $this->startRequest('PUT', ['display_name' => 'Admin']);
+        $this->startRequest('PUT', ['display_name' => 'UnitTest2']);
+        // valid
         $adminController = new AdminController($this->app);
-        $response = $adminController->update(1);
-        $responseNotExist = $adminController->update(0);
-
+        $response = $adminController->update(2);
         $this->assertEquals(200, $response->getCode());
-        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // not exist
+        $responseNotExist = $adminController->update(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testAdminDelete()
     {
-        $this->startRequest('POST', ['type' => 'delete', 'ids' => [1]]);
+        $this->startRequest('POST', ['type' => 'delete', 'ids' => [2]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->delete();
 
@@ -95,7 +103,7 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminRestore()
     {
-        $this->startRequest('POST', ['ids' => [1]]);
+        $this->startRequest('POST', ['ids' => [2]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->restore();
 
@@ -106,13 +114,13 @@ class AdminTest extends \tests\api\TestCase
     public function testAdminLogin()
     {
         // valid
-        $this->startRequest('POST', ['username' => 'admin', 'password' => 'admin']);
+        $this->startRequest('POST', ['username' => 'UnitTest', 'password' => 'UnitTest']);
         $adminController = new AdminController($this->app);
         $response = $adminController->login();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         // invalid
-        $this->startRequest('POST', ['username' => 'admin', 'password' => 'admin1']);
+        $this->startRequest('POST', ['username' => 'UnitTest', 'password' => 'WrongPassword']);
         $adminController = new AdminController($this->app);
         $response = $adminController->login();
         $this->assertEquals(200, $response->getCode());
@@ -139,11 +147,21 @@ class AdminTest extends \tests\api\TestCase
         $this->assertStringStartsWith('{"data":{"isLogin":false}', $response->getContent());
 
         // login
-        $this->startRequest('POST', ['username' => 'admin', 'password' => 'admin']);
+        $this->startRequest('POST', ['username' => 'UnitTest', 'password' => 'UnitTest']);
         $adminController = new AdminController($this->app);
-        $response = $adminController->login();
+        $adminController->login();
         $response = $adminController->info();
         $this->assertEquals(200, $response->getCode());
-        $this->assertStringStartsWith('{"name":"admin"', $response->getContent());
+        $this->assertStringStartsWith('{"name":"UnitTest"', $response->getContent());
+    }
+
+    public function testAdminDeletePermanently()
+    {
+        $this->startRequest('POST', ['type' => 'deletePermanently', 'ids' => [2]]);
+        $adminController = new AdminController($this->app);
+        $response = $adminController->delete();
+
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 }

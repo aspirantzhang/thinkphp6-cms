@@ -49,43 +49,53 @@ class GroupTest extends \tests\api\TestCase
 
     public function testGroupSave()
     {
-        $this->startRequest();
+        $validData = ['group_name' => 'UnitTest'];
+        $this->startRequest('POST', $validData);
         $groupController = new GroupController($this->app);
         $response = $groupController->save();
-
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // already exists
+        $validData2 = ['group_name' => 'UnitTest'];
+        $this->startRequest('POST', $validData2);
+        $groupController2 = new GroupController($this->app);
+        $response2 = $groupController2->save();
+        $this->assertEquals(200, $response2->getCode());
+        $this->assertStringStartsWith('{"success":false', $response2->getContent());
     }
 
     public function testGroupRead()
     {
         $this->startRequest();
+        // valid
         $groupController = new GroupController($this->app);
-        $response = $groupController->read(53);
-        $responseNotExist = $groupController->read(0);
-
+        $response = $groupController->read(2);
         $this->assertEquals(200, $response->getCode());
-        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        $this->assertStringContainsString('"group_name":"UnitTest"', $response->getContent());
+        // not exist
+        $responseNotExist = $groupController->read(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testGroupUpdate()
     {
-        $this->startRequest('PUT', ['group_name' => 'Admin Group']);
+        $this->startRequest('PUT', ['group_name' => 'UnitTest2']);
+        // valid
         $groupController = new GroupController($this->app);
-        $response = $groupController->update(53);
-        $responseNotExist = $groupController->update(0);
-
+        $response = $groupController->update(2);
         $this->assertEquals(200, $response->getCode());
-        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // not exist
+        $responseNotExist = $groupController->update(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testGroupDelete()
     {
-        $this->startRequest('POST', ['type' => 'delete', 'ids' => [53]]);
+        $this->startRequest('POST', ['type' => 'delete', 'ids' => [2]]);
         $groupController = new GroupController($this->app);
         $response = $groupController->delete();
 
@@ -95,7 +105,7 @@ class GroupTest extends \tests\api\TestCase
 
     public function testGroupRestore()
     {
-        $this->startRequest('POST', ['ids' => [53]]);
+        $this->startRequest('POST', ['ids' => [2]]);
         $groupController = new GroupController($this->app);
         $response = $groupController->restore();
 

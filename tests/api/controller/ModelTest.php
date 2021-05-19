@@ -19,9 +19,7 @@ class ModelTest extends \tests\api\TestCase
     public function testModelHome()
     {
         $this->startRequest();
-        
         $modelController = new ModelController($this->app);
-
         $response = $modelController->home();
 
         $this->assertEquals(200, $response->getCode());

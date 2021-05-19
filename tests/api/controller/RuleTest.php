@@ -10,7 +10,6 @@ require_once('./app/api/common.php');
 
 class RuleTest extends \tests\api\TestCase
 {
-
     protected function tearDown(): void
     {
         $this->endRequest();
@@ -29,6 +28,12 @@ class RuleTest extends \tests\api\TestCase
         $response = $ruleController->home();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // search
+        $this->startRequest('GET', ['rule_title' => 'Admin Home']);
+        $ruleController = new RuleController($this->app);
+        $response = $ruleController->home();
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
     public function testRuleAdd()
@@ -43,10 +48,10 @@ class RuleTest extends \tests\api\TestCase
 
     public function testRuleSave()
     {
-        $this->startRequest();
+        $validData = ['parent_id' => 0, 'rule_path' => 'UnitTest', 'rule_title' => 'UnitTest'];
+        $this->startRequest('POST', $validData);
         $ruleController = new RuleController($this->app);
         $response = $ruleController->save();
-
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
@@ -55,31 +60,34 @@ class RuleTest extends \tests\api\TestCase
     {
         $this->startRequest();
         $ruleController = new RuleController($this->app);
-        $response = $ruleController->read(293);
-        $responseNotExist = $ruleController->read(0);
-
+        $response = $ruleController->read(43);
         $this->assertEquals(200, $response->getCode());
-        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        $this->assertStringContainsString('"rule_title":"UnitTest"', $response->getContent());
+        // not exist
+        $responseNotExist = $ruleController->read(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testRuleUpdate()
     {
-        $this->startRequest('PUT', ['rule_title' => 'Admin Login']);
+        $this->startRequest('PUT', ['rule_title' => 'UnitTest2']);
+        // valid
         $ruleController = new RuleController($this->app);
-        $response = $ruleController->update(293);
-        $responseNotExist = $ruleController->update(0);
-
+        $response = $ruleController->update(43);
         $this->assertEquals(200, $response->getCode());
-        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // not exist
+        $responseNotExist = $ruleController->update(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testRuleDelete()
     {
-        $this->startRequest('POST', ['type' => 'delete', 'ids' => [85]]);
+        // include have children -> id:33
+        $this->startRequest('POST', ['type' => 'delete', 'ids' => [43, 33]]);
         $ruleController = new RuleController($this->app);
         $response = $ruleController->delete();
 
@@ -89,7 +97,8 @@ class RuleTest extends \tests\api\TestCase
 
     public function testRuleRestore()
     {
-        $this->startRequest('POST', ['ids' => [85,86,87,88,89,90,91,92]]);
+        // include have children -> id:33
+        $this->startRequest('POST', ['ids' => [43, 33]]);
         $ruleController = new RuleController($this->app);
         $response = $ruleController->restore();
 
