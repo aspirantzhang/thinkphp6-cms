@@ -12,7 +12,7 @@ class Model extends ModelModel
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('model.title')->type('input'),
+            Builder::field('model.model_title')->type('input'),
             Builder::field('model.table_name')->type('input'),
             Builder::field('model.route_name')->type('input'),
             Builder::field('create_time')->type('datetime'),
@@ -34,7 +34,7 @@ class Model extends ModelModel
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('model.title')->type('input')->editDisabled(true),
+            Builder::field('model.model_title')->type('input')->editDisabled(true),
             Builder::field('model.table_name')->type('input')->editDisabled(true),
             Builder::field('model.route_name')->type('input')->editDisabled(true),
             Builder::field('create_time')->type('datetime'),
@@ -69,7 +69,7 @@ class Model extends ModelModel
             $batchToolBar = [];
         }
         $tableColumn = [
-            Builder::field('model.title')->type('input'),
+            Builder::field('model.model_title')->type('input'),
             Builder::field('model.table_name')->type('input'),
             Builder::field('model.route_name')->type('input'),
             Builder::field('create_time')->type('datetime')->sorter(true),
