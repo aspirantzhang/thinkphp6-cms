@@ -45,7 +45,6 @@ class Admin extends Common
      // Searcher
     public function searchAdminNameAttr($query, $value)
     {
-        
         $query->where('admin_name', 'like', '%' . $value . '%');
     }
 
