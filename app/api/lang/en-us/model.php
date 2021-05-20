@@ -2,7 +2,7 @@
 
 return [
     'model' =>  [
-        'title' => 'Title',
+        'model_title' => 'Title',
         'table_name' => 'Table Name',
         'route_name' => 'Route Name',
         'data' => 'Data',

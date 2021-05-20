@@ -2,7 +2,7 @@
 
 return [
     'model' =>  [
-        'title' => '模型名称',
+        'model_title' => '模型名称',
         'table_name' => '数据库表名',
         'route_name' => '路由名',
         'data' => '数据配置',

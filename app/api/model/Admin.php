@@ -19,6 +19,7 @@ class Admin extends Common
     public $allowSave = ['admin_name', 'password', 'groups', 'display_name'];
     public $allowUpdate = ['password', 'display_name', 'groups'];
     public $allowSearch = ['groups', 'admin_name', 'display_name'];
+    public $allowTranslate = ['display_name'];
 
     public function setAddonData()
     {
@@ -41,7 +42,7 @@ class Admin extends Common
         return password_hash($value, PASSWORD_DEFAULT);
     }
 
-    // Searcher
+     // Searcher
     public function searchAdminNameAttr($query, $value)
     {
         $query->where('admin_name', 'like', '%' . $value . '%');
@@ -49,7 +50,7 @@ class Admin extends Common
 
     public function searchDisplayNameAttr($query, $value)
     {
-        $query->where('display_name', 'like', '%' . $value . '%');
+        $query->where($this->getQueryFieldName(__FUNCTION__), 'like', '%' . $value . '%');
     }
 
     public function searchGroupsAttr($query, $value)

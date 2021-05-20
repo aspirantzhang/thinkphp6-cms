@@ -11,15 +11,16 @@ use aspirantzhang\TPAntdBuilder\Builder;
 class AuthGroup extends Common
 {
     protected $readonly = ['id'];
-    protected $unique = [];
-    protected $titleField = 'group_name';
+    protected $unique = ['group_title' => 'Group Name'];
+    protected $titleField = 'group_title';
 
-    public $allowHome = ['parent_id', 'group_name', 'rules'];
-    public $allowList = ['parent_id', 'group_name', 'rules'];
-    public $allowRead = ['parent_id', 'group_name', 'rules'];
-    public $allowSave = ['parent_id', 'group_name', 'rules'];
-    public $allowUpdate = ['parent_id', 'group_name', 'rules'];
-    public $allowSearch = ['parent_id', 'group_name', 'rules'];
+    public $allowHome = ['parent_id', 'group_title', 'rules'];
+    public $allowList = ['parent_id', 'group_title', 'rules'];
+    public $allowRead = ['parent_id', 'group_title', 'rules'];
+    public $allowSave = ['parent_id', 'group_title', 'rules'];
+    public $allowUpdate = ['parent_id', 'group_title', 'rules'];
+    public $allowSearch = ['parent_id', 'group_title', 'rules'];
+    public $allowTranslate = ['group_title'];
 
     protected function setAddonData($params = [])
     {
@@ -45,8 +46,8 @@ class AuthGroup extends Common
     // Mutator
 
     // Searcher
-    public function searchGroupNameAttr($query, $value)
+    public function searchGroupTitleAttr($query, $value)
     {
-        $query->where('group_name', 'like', '%' . $value . '%');
+        $query->where('group_title', 'like', '%' . $value . '%');
     }
 }

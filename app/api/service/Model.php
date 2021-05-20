@@ -13,7 +13,7 @@ class Model extends ModelLogic
     {
         $tableName = strtolower($data['table_name']);
         $routeName = strtolower($data['route_name']);
-        $tableTitle = (string)$data['title'];
+        $tableTitle = (string)$data['model_title'];
 
         if (in_array($tableName, Config::get('model.reserved_table'))) {
             return $this->error('Reserved table name.');
@@ -29,9 +29,9 @@ class Model extends ModelLogic
 
         $this->startTrans();
         try {
-            $this->error = 'Save failed.';
             // Save basic data
-            $this->allowField($this->getAllowSave())->save($data);
+            $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
+            $this->saveI18nData($data, $this->getData('id'));
             
             // Create files
             $this->createModelFile($tableName, $routeName);
@@ -44,7 +44,7 @@ class Model extends ModelLogic
 
             if ($ruleId) {
                 // Add children rule
-                $this->createChildrenRule($ruleId, $tableTitle, $tableName);
+                $this->createChildrenRule((int)$ruleId, $tableTitle, $tableName);
             }
 
             // Add self menu
@@ -52,14 +52,14 @@ class Model extends ModelLogic
 
             if ($menuId) {
                 // Add children menu
-                $this->createChildrenMenu($menuId, $routeName);
+                $this->createChildrenMenu((int)$menuId, $routeName);
             }
 
             $this->commit();
             return $this->success('Add successfully.');
         } catch (\Exception $e) {
             $this->rollback();
-            return $this->error($this->error);
+            return $this->error($this->error ?: 'Save failed.');
         }
     }
 
@@ -71,7 +71,7 @@ class Model extends ModelLogic
             try {
                 $model->force()->delete();
 
-                $tableTitle = $model->title;
+                $tableTitle = $model->model_title;
                 $tableName = $model->table_name;
                 $routeName = $model->route_name;
 
@@ -81,21 +81,22 @@ class Model extends ModelLogic
                 // Remove Table
                 $this->removeTable($tableName);
 
-                // Remove self rule
-                $ruleId = $this->removeSelfRule($tableTitle);
+                // TODO: Store rule_id and menu_id when creating the model for easy deletion.
+                // // Remove self rule
+                // $ruleId = $this->removeSelfRule($tableTitle);
 
-                if ($ruleId) {
-                    // Remove children rules
-                    $this->removeChildrenRule($ruleId);
-                }
+                // if ($ruleId) {
+                //     // Remove children rules
+                //     $this->removeChildrenRule($ruleId);
+                // }
 
-                // Remove self menu
-                $menuId = $this->removeSelfMenu($routeName);
+                // // Remove self menu
+                // $menuId = $this->removeSelfMenu($routeName);
 
-                if ($menuId) {
-                    // Remove children menu
-                    $this->removeChildrenMenu($menuId);
-                }
+                // if ($menuId) {
+                //     // Remove children menu
+                //     $this->removeChildrenMenu($menuId);
+                // }
 
                 $model->commit();
                 return $this->success('Delete successfully.');

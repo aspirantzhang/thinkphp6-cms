@@ -2,7 +2,7 @@
 
 return [
     'menu' =>  [
-        'menu_name' => '菜单名称',
+        'menu_title' => '菜单名称',
         'icon' => '菜单图标',
         'path' => '菜单路径',
         'hide_in_menu' => '隐藏菜单',

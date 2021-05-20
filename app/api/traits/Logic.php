@@ -21,24 +21,18 @@ trait Logic
         $search = getSearchParam($params, $this->getAllowSearch());
         $sort = getSortParam($params, $this->getAllowSort());
 
-        if ($params['trash'] !== 'withoutTrashed') {
-            $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
+        $result = $this;
 
-            return $this->$trashConfig()
-                        ->with($withRelation)
-                        ->withSearch(array_keys($search), $search)
-                        ->order($sort['name'], $sort['order'])
-                        ->visible($this->getAllowList())
-                        ->select()
-                        ->toArray();
-        } else {
-            return $this->with($withRelation)
-                        ->withSearch(array_keys($search), $search)
-                        ->order($sort['name'], $sort['order'])
-                        ->visible($this->getAllowList())
-                        ->select()
-                        ->toArray();
+        if ($params['trash'] !== 'withoutTrashed') {
+            $result = $result->{$params['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
         }
+
+        return $this->addI18n($this->with($withRelation))
+            ->withSearch(array_keys($search), $search)
+            ->order($sort['name'], $sort['order'])
+            ->visible($this->getAllowList())
+            ->select()
+            ->toArray();
     }
 
     /**
@@ -53,27 +47,22 @@ trait Logic
         $sort = getSortParam($params, $this->getAllowSort());
         $perPage = $params['per_page'] ?? 10;
        
+        $result = $this;
+
         if ($params['trash'] !== 'withoutTrashed') {
-            $trashConfig = ($params['trash'] == 'onlyTrashed') ? 'onlyTrashed' : 'withTrashed';
-            
-            return $this->$trashConfig()
-                        ->with($withRelation)
-                        ->withSearch(array_keys($search), $search)
-                        ->order($sort['name'], $sort['order'])
-                        ->visible($this->getAllowList())
-                        ->paginate($perPage)
-                        ->toArray();
+            $result = $result->{$params['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
         }
-        return $this->with($withRelation)
-                    ->withSearch(array_keys($search), $search)
-                    ->order($sort['name'], $sort['order'])
-                    ->visible($this->getAllowList())
-                    ->paginate($perPage)
-                    ->toArray();
+
+        return $this->addI18n($result->with($withRelation))
+            ->withSearch(array_keys($search), $search)
+            ->order($sort['name'], $sort['order'])
+            ->visible($this->getAllowList())
+            ->paginate($perPage)
+            ->toArray();
     }
 
     /**
-     * Check the values of the unique fields.
+     * Check if the value is unique
      * @param mixed $data Request data
      * @return bool
      */
@@ -92,15 +81,17 @@ trait Logic
     }
 
     /**
-     * Check whether a value already exists.
+     * Check if a value already exists in the database
      * @param string $fieldName
      * @param mixed $value
      * @return bool
      */
     protected function ifExists(string $fieldName, $value)
     {
-        $result = $this->withTrashed()->where($fieldName, $value)->find();
-        return (bool)$result;
+        if ($this->isTranslateField($fieldName)) {
+            return (bool)Db::name($this->getLangTableName())->where($fieldName, $value)->find();
+        }
+        return (bool)$this->withTrashed()->where($fieldName, $value)->find();
     }
 
     protected function clearParentId($id)

@@ -10,7 +10,7 @@ class Model extends Validate
     protected $rule = [
         'id' => 'require|number',
         'ids' => 'require|numberArray',
-        'title' => 'require|length:2,32',
+        'model_title' => 'require|length:2,32',
         'table_name' => 'require|length:2,10|checkRouteName',
         'route_name' => 'require|length:2,10|checkRouteName',
         'status' => 'numberTag',
@@ -24,8 +24,8 @@ class Model extends Validate
         'id.number' => 'ID must be numbers only.',
         'ids.require' => 'IDs field is empty.',
         'ids.numberArray' => 'IDs must be a number array.',
-        'title.require' => 'The model title field is empty.',
-        'title.length' => 'Model title length should be between 2 and 32.',
+        'model_title.require' => 'The model title field is empty.',
+        'model_title.length' => 'Model title length should be between 2 and 32.',
         'table_name.require' => 'The table name field is empty.',
         'table_name.length' => 'Table name length should be between 2 and 10.',
         'table_name.checkRouteName' => 'Invalid table name.',
@@ -40,7 +40,7 @@ class Model extends Validate
     ];
 
     protected $scene = [
-        'save' => ['title', 'table_name', 'route_name', 'create_time', 'status'],
+        'save' => ['model_title', 'table_name', 'route_name', 'create_time', 'status'],
         'update' => ['id'],
         'read' => ['id'],
         'delete' => ['ids'],

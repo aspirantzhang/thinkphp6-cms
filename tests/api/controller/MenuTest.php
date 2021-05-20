@@ -29,6 +29,12 @@ class MenuTest extends \tests\api\TestCase
         $response = $menuController->home();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // search
+        $this->startRequest('GET', ['menu_title' => 'Admin List']);
+        $menuController = new MenuController($this->app);
+        $response = $menuController->home();
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
 
     public function testMenuAdd()
@@ -43,10 +49,10 @@ class MenuTest extends \tests\api\TestCase
 
     public function testMenuSave()
     {
-        $this->startRequest();
+        $validData = ['parent_id' => 0, 'path' => 'UnitTest', 'menu_title' => 'UnitTest'];
+        $this->startRequest('POST', $validData);
         $menuController = new MenuController($this->app);
         $response = $menuController->save();
-
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
@@ -54,32 +60,35 @@ class MenuTest extends \tests\api\TestCase
     public function testMenuRead()
     {
         $this->startRequest();
+        // valid
         $menuController = new MenuController($this->app);
-        $response = $menuController->read(22);
-        $responseNotExist = $menuController->read(0);
-
+        $response = $menuController->read(17);
         $this->assertEquals(200, $response->getCode());
-        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        $this->assertStringContainsString('"title":"UnitTest"', $response->getContent());
+        // not exist
+        $responseNotExist = $menuController->read(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testMenuUpdate()
     {
-        $this->startRequest('PUT', ['menu_name' => 'design']);
+        $this->startRequest('PUT', ['menu_title' => 'UnitTest2']);
+        // valid
         $menuController = new MenuController($this->app);
-        $response = $menuController->update(22);
-        $responseNotExist = $menuController->update(0);
-
+        $response = $menuController->update(17);
         $this->assertEquals(200, $response->getCode());
-        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // not exist
+        $responseNotExist = $menuController->update(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
 
     public function testMenuDelete()
     {
-        $this->startRequest('POST', ['type' => 'delete', 'ids' => [22]]);
+        $this->startRequest('POST', ['type' => 'delete', 'ids' => [17]]);
         $menuController = new MenuController($this->app);
         $response = $menuController->delete();
 
@@ -89,7 +98,7 @@ class MenuTest extends \tests\api\TestCase
 
     public function testMenuRestore()
     {
-        $this->startRequest('POST', ['ids' => [22]]);
+        $this->startRequest('POST', ['ids' => [17]]);
         $menuController = new MenuController($this->app);
         $response = $menuController->restore();
 
