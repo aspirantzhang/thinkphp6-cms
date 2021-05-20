@@ -8,5 +8,4 @@ use think\model\Pivot;
 
 class AuthGroupRule extends Pivot
 {
-
 }
