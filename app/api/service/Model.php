@@ -24,7 +24,7 @@ class Model extends ModelLogic
         }
 
         if ($this->checkUniqueFields($data) === false) {
-                return $this->error($this->error);
+            return $this->error($this->error);
         }
 
         $this->startTrans();
