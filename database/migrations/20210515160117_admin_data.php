@@ -27,6 +27,12 @@ final class AdminData extends AbstractMigration
                 'original_id' => 1,
                 'lang_code' => 'en-us',
                 'display_name' => 'Administrator',
+            ],
+            [
+                '_id'    =>  2,
+                'original_id' => 1,
+                'lang_code' => 'zh-cn',
+                'display_name' => '管理员',
             ]
         ];
         $this->table('admin_i18n')->insert($adminI18nRows)->save();
