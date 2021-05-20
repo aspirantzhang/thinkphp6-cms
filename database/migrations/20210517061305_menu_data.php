@@ -239,6 +239,102 @@ final class MenuData extends AbstractMigration
                 'lang_code' => 'en-us',
                 'menu_title' => 'Model Design',
             ],
+            [
+                '_id' => 17,
+                'original_id' => 1,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '管理员列表',
+            ],
+            [
+                '_id' => 18,
+                'original_id' => 2,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '管理员添加',
+            ],
+            [
+                '_id' => 19,
+                'original_id' => 3,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '管理员编辑',
+            ],
+            [
+                '_id' => 20,
+                'original_id' => 4,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '用户组列表',
+            ],
+            [
+                '_id' => 21,
+                'original_id' => 5,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '用户组添加',
+            ],
+            [
+                '_id' => 22,
+                'original_id' => 6,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '用户组编辑',
+            ],
+            [
+                '_id' => 23,
+                'original_id' => 7,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '权限列表',
+            ],
+            [
+                '_id' => 24,
+                'original_id' => 8,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '权限添加',
+            ],
+            [
+                '_id' => 25,
+                'original_id' => 9,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '权限编辑',
+            ],
+            [
+                '_id' => 26,
+                'original_id' => 10,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '菜单列表',
+            ],
+            [
+                '_id' => 27,
+                'original_id' => 11,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '菜单添加',
+            ],
+            [
+                '_id' => 28,
+                'original_id' => 12,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '菜单编辑',
+            ],
+            [
+                '_id' => 29,
+                'original_id' => 13,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '模型列表',
+            ],
+            [
+                '_id' => 30,
+                'original_id' => 14,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '模型添加',
+            ],
+            [
+                '_id' => 31,
+                'original_id' => 15,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '模型编辑',
+            ],
+            [
+                '_id' => 32,
+                'original_id' => 16,
+                'lang_code' => 'zh-cn',
+                'menu_title' => '模型设计',
+            ],
         ];
         $this->table('menu_i18n')->insert($menuI18nRows)->save();
     }
