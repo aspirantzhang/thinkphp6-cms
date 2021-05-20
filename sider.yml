@@ -1,0 +1,5 @@
+linter:
+  code_sniffer:
+    dir: app/
+    standard: PSR12
+    extensions: [php]
