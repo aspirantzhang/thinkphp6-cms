@@ -48,13 +48,18 @@ class Model extends ModelLogic
             }
 
             // Add self menu
-            $menuId = $this->createSelfMenu($routeName);
+            $menuId = $this->createSelfMenu($routeName, $tableTitle);
 
             if ($menuId) {
                 // Add children menu
-                $this->createChildrenMenu((int)$menuId, $routeName);
+                $this->createChildrenMenu((int)$menuId, $routeName, $tableTitle);
             }
 
+            // store ruleId and menuId for facilitate deletion of model
+            if ($ruleId && $menuId) {
+                static::update(['rule_id' => $ruleId, 'menu_id' => $menuId], ['id' => $this->getData('id')]);
+            }
+            
             $this->commit();
             return $this->success('Add successfully.');
         } catch (\Exception $e) {
@@ -71,9 +76,9 @@ class Model extends ModelLogic
             try {
                 $model->force()->delete();
 
-                $tableTitle = $model->model_title;
                 $tableName = $model->table_name;
-                $routeName = $model->route_name;
+                $ruleId = $model->rule_id;
+                $menuId = $model->menu_id;
 
                 // Remove model file
                 $this->removeModelFile($tableName);
@@ -81,22 +86,11 @@ class Model extends ModelLogic
                 // Remove Table
                 $this->removeTable($tableName);
 
-                // TODO: Store rule_id and menu_id when creating the model for easy deletion.
-                // // Remove self rule
-                // $ruleId = $this->removeSelfRule($tableTitle);
+                // Remove rules
+                $this->removeRules($ruleId);
 
-                // if ($ruleId) {
-                //     // Remove children rules
-                //     $this->removeChildrenRule($ruleId);
-                // }
-
-                // // Remove self menu
-                // $menuId = $this->removeSelfMenu($routeName);
-
-                // if ($menuId) {
-                //     // Remove children menu
-                //     $this->removeChildrenMenu($menuId);
-                // }
+                // Remove menus
+                $this->removeMenus($menuId);
 
                 $model->commit();
                 return $this->success('Delete successfully.');

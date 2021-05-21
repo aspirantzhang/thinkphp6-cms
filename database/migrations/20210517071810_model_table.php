@@ -15,6 +15,8 @@ final class ModelTable extends AbstractMigration
         $modelTable->addColumn('table_name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('route_name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('data', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR])
+            ->addColumn('rule_id', 'integer', ['signed' => false, 'default' => 0])
+            ->addColumn('menu_id', 'integer', ['signed' => false, 'default' => 0])
             ->addColumn('create_time', 'datetime')
             ->addColumn('update_time', 'datetime')
             ->addColumn('delete_time', 'datetime', ['null' => true])

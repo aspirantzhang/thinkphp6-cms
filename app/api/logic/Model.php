@@ -60,7 +60,6 @@ class Model extends ModelView
         }
     }
 
-    // TODO: add transaction
     protected function removeTable(string $tableName)
     {
         try {
@@ -86,144 +85,56 @@ class Model extends ModelView
         return $rule[0]['data']['id'];
     }
 
-    protected function removeSelfRule(string $tableTitle)
+    protected function removeRules(int $ruleId)
     {
-        $rule = RuleService::where('rule_title', $tableTitle)->find();
-        $rule->startTrans();
-        try {
-            $ruleId = $rule->id;
-            $rule->force()->delete();
-            $rule->commit();
-            return (int)$ruleId;
-        } catch (\Throwable $e) {
-            $this->error = 'Remove self rule failed.';
-            $rule->rollback();
-            return false;
-        }
+        (new RuleService())->deleteAPI([$ruleId], 'deletePermanently');
     }
 
     protected function createChildrenRule(int $ruleId, string $tableTitle, string $tableName)
     {
-        $rule = new RuleService();
         $currentTime = date("Y-m-d H:i:s");
-        $rule->startTrans();
-        try {
-            $initRules = [
-                ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Home', 'rule_path' => 'api/' . $tableName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Add', 'rule_path' => 'api/' . $tableName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Save', 'rule_path' => 'api/' . $tableName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Read', 'rule_path' => 'api/' . $tableName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Update', 'rule_path' => 'api/' . $tableName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Delete', 'rule_path' => 'api/' . $tableName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
-                ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Restore', 'rule_path' => 'api/' . $tableName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ];
-            $rule->saveAll($initRules);
-            $rule->commit();
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = 'Create children rule failed.';
-            $rule->rollback();
-            return false;
+        $childrenRules = [
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Home', 'rule_path' => 'api/' . $tableName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Add', 'rule_path' => 'api/' . $tableName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Save', 'rule_path' => 'api/' . $tableName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Read', 'rule_path' => 'api/' . $tableName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Update', 'rule_path' => 'api/' . $tableName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Delete', 'rule_path' => 'api/' . $tableName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Restore', 'rule_path' => 'api/' . $tableName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
+        ];
+        foreach ($childrenRules as $childrenRule) {
+            (new RuleService())->saveAPI($childrenRule);
         }
     }
 
-    protected function removeChildrenRule(int $ruleId)
+    protected function createSelfMenu(string $routeName, string $tableTitle)
     {
-        $rule = new RuleService();
-        $rule->startTrans();
-        try {
-            $rulesData = $rule->where('parent_id', $ruleId)->select();
-            if (!$rulesData->isEmpty()) {
-                foreach ($rulesData as $item) {
-                    $item->force()->delete();
-                }
-            }
-            $rule->commit();
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = 'Remove children rule failed.';
-            $rule->rollback();
-            return false;
-        }
-    }
-
-    //TODO: saveApi
-    protected function createSelfMenu(string $routeName)
-    {
-        $menu = new MenuService();
         $currentTime = date("Y-m-d H:i:s");
-        $menu->startTrans();
-        try {
-            $menu->save([
-                'parent_id' => 0,
-                'title' => $routeName . '-list',
-                'icon' => 'icon-project',
-                'path' => '/basic-list/api/' . $routeName,
-                'create_time' => $currentTime,
-                'update_time' => $currentTime,
-            ]);
-            $menu->commit();
-            return (int)$menu->id;
-        } catch (\Throwable $e) {
-            $this->error = 'Create self menu failed.';
-            $menu->rollback();
-            return false;
-        }
+        $menu = (new MenuService())->saveAPI([
+            'parent_id' => 0,
+            'menu_title' => $tableTitle . ' List',
+            'icon' => 'icon-project',
+            'path' => '/basic-list/api/' . $routeName,
+            'create_time' => $currentTime,
+            'update_time' => $currentTime,
+        ]);
+        return $menu[0]['data']['id'];
     }
 
-    protected function removeSelfMenu(string $routeName)
+    protected function removeMenus(int $menuId)
     {
-        $menu = MenuService::where('title', $routeName . '-list')->find();
-        $menu->startTrans();
-        try {
-            $menuId = $menu->id;
-            $menu->force()->delete();
-            $menu->commit();
-            return (int)$menuId;
-        } catch (\Throwable $e) {
-            $this->error = 'Remove self menu failed.';
-            $menu->rollback();
-            return false;
-        }
+        (new MenuService())->deleteAPI([$menuId], 'deletePermanently');
     }
 
-    protected function createChildrenMenu(int $menuId, string $routeName)
+    protected function createChildrenMenu(int $menuId, string $routeName, string $tableTitle)
     {
-        $menu = new MenuService();
         $currentTime = date("Y-m-d H:i:s");
-        $menu->startTrans();
-        try {
-            $initMenus = [
-                ['parent_id' => $menuId, 'title' => 'add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-                ['parent_id' => $menuId, 'title' => 'edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ];
-            $menu->saveAll($initMenus);
-            $menu->commit();
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = 'Create menu menu failed.';
-            $menu->rollback();
-            return false;
-        }
-    }
-
-    protected function removeChildrenMenu(int $menuId)
-    {
-        $menu = new MenuService();
-        $menu->startTrans();
-        try {
-            $menusData = $menu->where('parent_id', $menuId)->select();
-            if (!$menusData->isEmpty()) {
-                foreach ($menusData as $item) {
-                    $item->force()->delete();
-                }
-            }
-            $menu->commit();
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = 'Remove menu menu failed.';
-            $menu->rollback();
-            return false;
+        $childrenMenus = [
+            ['parent_id' => $menuId, 'menu_title' => $routeName . ' Add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $menuId, 'menu_title' => $routeName . ' Edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+        ];
+        foreach ($childrenMenus as $childrenMenu) {
+            (new MenuService())->saveAPI($childrenMenu);
         }
     }
 
