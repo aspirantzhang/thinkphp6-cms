@@ -15,15 +15,15 @@ trait View
             foreach ($data as $action) {
                 $row = [];
                 $row = (array)Builder::button($action['name'])
-                                        ->type($action['type'])
-                                        ->call($action['call'])
-                                        ->method($action['method']);
+                    ->type($action['type'])
+                    ->call($action['call'])
+                    ->method($action['method']);
                 if (isset($action['uri'])) {
                     $row = (array)Builder::button($action['name'])
-                                            ->type($action['type'])
-                                            ->call($action['call'])
-                                            ->method($action['method'])
-                                            ->uri($action['uri']);
+                        ->type($action['type'])
+                        ->call($action['call'])
+                        ->method($action['method'])
+                        ->uri($action['uri']);
                 }
                 $result[] = $row;
             }
@@ -59,7 +59,7 @@ trait View
     {
         $model = $this->getModelData();
 
-        if ($model['data']) {
+        if (isset($model['data']['fields']) && isset($model['data']['addAction'])) {
             $basic = [];
             foreach ($model['data']['fields'] as $addField) {
                 $thisField = Builder::field($addField['name'])->type($addField['type']);
@@ -84,7 +84,7 @@ trait View
                 $action[] = $thisAction;
             }
 
-            return Builder::page($model['route_name'] . '-add')
+            return Builder::page($model['route_name'] . '.' . $model['route_name'] . '-add')
                             ->type('page')
                             ->tab('basic', $basic)
                             ->action('actions', $action)
@@ -97,7 +97,7 @@ trait View
     {
         $model = $this->getModelData();
 
-        if ($model['data']) {
+        if (isset($model['data']['fields']) && isset($model['data']['editAction'])) {
             $basic = [];
             foreach ($model['data']['fields'] as $addField) {
                 $thisField = Builder::field($addField['name'])->type($addField['type']);
@@ -127,7 +127,7 @@ trait View
                 $action[] = $thisAction;
             }
 
-            return Builder::page($model['route_name'] . '-edit')
+            return Builder::page($model['route_name'] . '.' . $model['route_name'] . '-edit')
                             ->type('page')
                             ->tab('basic', $basic)
                             ->action('actions', $action)
@@ -146,19 +146,19 @@ trait View
         }
 
         $batchToolbar = [];
-        if ($model['data']['batchToolbar']) {
+        if (isset($model['data']['batchToolbar'])) {
             $batchToolbar = $this->actionBuilder($model['data']['batchToolbar']);
         }
 
         if ($this->isTrash($params)) {
             $batchToolbar = [];
-            if ($model['data']['batchToolbarTrashed']) {
+            if (isset($model['data']['batchToolbarTrashed'])) {
                 $batchToolbar = $this->actionBuilder($model['data']['batchToolbarTrashed']);
             }
         }
 
         $listFields = [];
-        if ($model['data']['fields']) {
+        if (isset($model['data']['fields'])) {
             $listFields = $this->fieldBuilder($model['data']['fields']);
         }
 
@@ -169,13 +169,13 @@ trait View
         ];
 
         $actions = [];
-        if ($model['data']['listAction']) {
+        if (isset($model['data']['listAction'])) {
             $actions = $this->actionBuilder($model['data']['listAction']);
         }
         $actionFields = Builder::field('actions')->data($actions);
         $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
 
-        return Builder::page($model['route_name'] . '-list')
+        return Builder::page($model['route_name'] . '.' . $model['route_name'] . '-list')
                         ->type('basic-list')
                         ->searchBar(true)
                         ->tableColumn($tableColumn)
