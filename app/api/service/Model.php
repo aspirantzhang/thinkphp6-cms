@@ -125,7 +125,7 @@ class Model extends ModelLogic
             return $this->error($this->error);
         }
 
-        if (!empty($data)) {
+        if (!empty($data) && !empty($data['fields'])) {
             // Get all existing fields
             $existingFields = $this->getExistingFields($tableName);
             // Get current fields
@@ -133,14 +133,15 @@ class Model extends ModelLogic
             // Exclude reserved fields
             $currentFields = array_diff($currentFields, Config::get('model.reserved_field'));
             // Handle table change
-            $result = $this->fieldsHandler($existingFields, $currentFields, $data, $tableName);
+            $changeFieldInTable = $this->fieldsHandler($existingFields, $currentFields, $data, $tableName);
 
-            if ($result) {
-                $updateResult = $this->updateAPI($id, ['data' => $data]);
-                if ($updateResult[0]['success'] === true) {
+            if ($changeFieldInTable) {
+                $updateDataField = $this->updateAPI($id, ['data' => $data]);
+                if ($updateDataField[0]['success'] === true) {
+                    // write to i18n file
+                    $this->writeLangFile($data['fields'], $tableName);
                     return $this->success('Update successfully.');
                 }
-
                 return $this->error('Update failed.');
             } else {
                 return $this->error($this->error);

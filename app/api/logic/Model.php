@@ -215,4 +215,27 @@ class Model extends ModelView
             return false;
         }
     }
+
+    protected function writeLangFile($fields, $tableName)
+    {
+        $data = '';
+        foreach ($fields as $field) {
+            if (strpos($field['name'], $tableName . '.') !== false) {
+                $data = $data . "        '" . str_replace($tableName . '.', '', $field['name']) . "' => '" . $field['title'] . "',\n";
+            }
+        }
+        // remove last ,\n
+        $data = substr($data, 0, -2);
+        $fileContent = <<<END
+<?php
+
+return [
+    '$tableName' => [
+$data
+    ]
+];
+
+END;
+        return file_put_contents(app_path() . 'lang\\' . $this->getCurrentLanguage() . '\\' . $tableName . '.php', $fileContent);
+    }
 }
