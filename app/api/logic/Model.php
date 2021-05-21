@@ -126,6 +126,14 @@ class Model extends ModelView
         (new MenuService())->deleteAPI([$menuId], 'deletePermanently');
     }
 
+    protected function removeI18n(string $tableName)
+    {
+        $languages = Config::get('lang.allow_lang_list');
+        foreach ($languages as $lang) {
+            @unlink(base_path() . 'api\lang\\' . $lang . '\\' . $tableName . '.php');
+        }
+    }
+
     protected function createChildrenMenu(int $menuId, string $routeName, string $tableTitle)
     {
         $currentTime = date("Y-m-d H:i:s");
@@ -236,6 +244,6 @@ $data
 ];
 
 END;
-        return file_put_contents(app_path() . 'lang\\' . $this->getCurrentLanguage() . '\\' . $tableName . '.php', $fileContent);
+        return file_put_contents(base_path() . 'api\lang\\' . $this->getCurrentLanguage() . '\\' . $tableName . '.php', $fileContent);
     }
 }

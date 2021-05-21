@@ -92,6 +92,9 @@ class Model extends ModelLogic
                 // Remove menus
                 $this->removeMenus($menuId);
 
+                // Remove I18n files
+                $this->removeI18n($tableName);
+
                 $model->commit();
                 return $this->success('Delete successfully.');
             } catch (\Exception $e) {
