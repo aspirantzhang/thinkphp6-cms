@@ -48,13 +48,18 @@ class Model extends ModelLogic
             }
 
             // Add self menu
-            $menuId = $this->createSelfMenu($routeName);
+            $menuId = $this->createSelfMenu($routeName, $tableTitle);
 
             if ($menuId) {
                 // Add children menu
-                $this->createChildrenMenu((int)$menuId, $routeName);
+                $this->createChildrenMenu((int)$menuId, $routeName, $tableTitle);
             }
 
+            // store ruleId and menuId for facilitate deletion of model
+            if ($ruleId && $menuId) {
+                static::update(['rule_id' => $ruleId, 'menu_id' => $menuId], ['id' => $this->getData('id')]);
+            }
+            
             $this->commit();
             return $this->success('Add successfully.');
         } catch (\Exception $e) {
@@ -71,9 +76,9 @@ class Model extends ModelLogic
             try {
                 $model->force()->delete();
 
-                $tableTitle = $model->model_title;
                 $tableName = $model->table_name;
-                $routeName = $model->route_name;
+                $ruleId = $model->rule_id;
+                $menuId = $model->menu_id;
 
                 // Remove model file
                 $this->removeModelFile($tableName);
@@ -81,22 +86,14 @@ class Model extends ModelLogic
                 // Remove Table
                 $this->removeTable($tableName);
 
-                // TODO: Store rule_id and menu_id when creating the model for easy deletion.
-                // // Remove self rule
-                // $ruleId = $this->removeSelfRule($tableTitle);
+                // Remove rules
+                $this->removeRules($ruleId);
 
-                // if ($ruleId) {
-                //     // Remove children rules
-                //     $this->removeChildrenRule($ruleId);
-                // }
+                // Remove menus
+                $this->removeMenus($menuId);
 
-                // // Remove self menu
-                // $menuId = $this->removeSelfMenu($routeName);
-
-                // if ($menuId) {
-                //     // Remove children menu
-                //     $this->removeChildrenMenu($menuId);
-                // }
+                // Remove I18n files
+                $this->removeI18n($tableName);
 
                 $model->commit();
                 return $this->success('Delete successfully.');
@@ -131,7 +128,7 @@ class Model extends ModelLogic
             return $this->error($this->error);
         }
 
-        if (!empty($data)) {
+        if (!empty($data) && !empty($data['fields'])) {
             // Get all existing fields
             $existingFields = $this->getExistingFields($tableName);
             // Get current fields
@@ -139,14 +136,15 @@ class Model extends ModelLogic
             // Exclude reserved fields
             $currentFields = array_diff($currentFields, Config::get('model.reserved_field'));
             // Handle table change
-            $result = $this->fieldsHandler($existingFields, $currentFields, $data, $tableName);
+            $changeFieldInTable = $this->fieldsHandler($existingFields, $currentFields, $data, $tableName);
 
-            if ($result) {
-                $updateResult = $this->updateAPI($id, ['data' => $data]);
-                if ($updateResult[0]['success'] === true) {
+            if ($changeFieldInTable) {
+                $updateDataField = $this->updateAPI($id, ['data' => $data]);
+                if ($updateDataField[0]['success'] === true) {
+                    // write to i18n file
+                    $this->writeLangFile($data['fields'], $tableName);
                     return $this->success('Update successfully.');
                 }
-
                 return $this->error('Update failed.');
             } else {
                 return $this->error($this->error);

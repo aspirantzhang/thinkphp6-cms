@@ -60,7 +60,7 @@ class RuleTest extends \tests\api\TestCase
     {
         $this->startRequest();
         $ruleController = new RuleController($this->app);
-        $response = $ruleController->read(43);
+        $response = $ruleController->read(51);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         $this->assertStringContainsString('"rule_title":"UnitTest"', $response->getContent());
@@ -75,7 +75,7 @@ class RuleTest extends \tests\api\TestCase
         $this->startRequest('PUT', ['rule_title' => 'UnitTest2']);
         // valid
         $ruleController = new RuleController($this->app);
-        $response = $ruleController->update(43);
+        $response = $ruleController->update(51);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         // not exist
