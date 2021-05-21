@@ -67,6 +67,9 @@ trait Model
     protected function getModelFields($type = null)
     {
         $data = $this->getModelData('data');
+        if (!isset($data['fields'])) {
+            return [];
+        }
         if ($data) {
             switch ($type) {
                 case 'home':

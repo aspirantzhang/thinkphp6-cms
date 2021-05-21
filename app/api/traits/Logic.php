@@ -89,9 +89,9 @@ trait Logic
     protected function ifExists(string $fieldName, $value)
     {
         if ($this->isTranslateField($fieldName)) {
-            return (bool)Db::name($this->getLangTableName())->where($fieldName, $value)->find();
+            return (bool)Db::name($this->getLangTableName())->where($fieldName, $value)->where('original_id', '<>', $this->id)->find();
         }
-        return (bool)$this->withTrashed()->where($fieldName, $value)->find();
+        return (bool)$this->withTrashed()->where($fieldName, $value)->where('id', '<>', $this->id)->find();
     }
 
     protected function clearParentId($id)
