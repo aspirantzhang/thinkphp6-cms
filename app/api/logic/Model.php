@@ -130,8 +130,8 @@ class Model extends ModelView
     {
         $currentTime = date("Y-m-d H:i:s");
         $childrenMenus = [
-            ['parent_id' => $menuId, 'menu_title' => $routeName . ' Add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $menuId, 'menu_title' => $routeName . ' Edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
         ];
         foreach ($childrenMenus as $childrenMenu) {
             (new MenuService())->saveAPI($childrenMenu);
