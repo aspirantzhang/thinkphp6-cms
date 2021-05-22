@@ -126,11 +126,11 @@ class Model extends ModelView
         (new MenuService())->deleteAPI([$menuId], 'deletePermanently');
     }
 
-    protected function removeI18n(string $tableName)
+    protected function deleteLangFile(string $tableName)
     {
         $languages = Config::get('lang.allow_lang_list');
         foreach ($languages as $lang) {
-            @unlink(base_path() . 'api\lang\\' . $lang . '\\' . $tableName . '.php');
+            @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $tableName . '.php');
         }
     }
 
@@ -244,6 +244,6 @@ $data
 ];
 
 END;
-        return file_put_contents(base_path() . 'api\lang\\' . $this->getCurrentLanguage() . '\\' . $tableName . '.php', $fileContent);
+        return file_put_contents(base_path() . 'api\lang\fields\\' . $this->getCurrentLanguage() . '\\' . $tableName . '.php', $fileContent);
     }
 }

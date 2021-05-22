@@ -93,7 +93,7 @@ class Model extends ModelLogic
                 $this->removeMenus($menuId);
 
                 // Remove I18n files
-                $this->removeI18n($tableName);
+                $this->deleteLangFile($tableName);
 
                 $model->commit();
                 return $this->success('Delete successfully.');

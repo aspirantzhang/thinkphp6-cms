@@ -20,8 +20,9 @@ class Common extends GlobalController
         Config::load('api/field', 'field');
         Config::load('api/model', 'model');
         Config::load('api/response', 'response');
+        
         // load language pack
-        foreach (glob(dirname(__DIR__) . "/lang/" . Lang::getLangSet() . "/*.php") as $filename) {
+        foreach (glob(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/*.php') as $filename) {
             Lang::load($filename);
         }
     }
