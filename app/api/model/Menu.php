@@ -12,14 +12,6 @@ class Menu extends Common
     protected $unique = [];
     protected $titleField = 'menu_title';
 
-    public $allowHome = ['menu_title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowList = ['menu_title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowRead = ['menu_title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowSave = ['menu_title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowUpdate = ['menu_title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowSearch = ['menu_title', 'parent_id', 'icon', 'path', 'hide_in_menu', 'hide_children_in_menu', 'flat_menu'];
-    public $allowTranslate = ['menu_title'];
-
     protected function setAddonData($params = [])
     {
         return [

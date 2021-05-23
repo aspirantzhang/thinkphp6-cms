@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\api\model;
 
 use think\facade\Lang;
+use think\facade\Config;
 use app\common\model\GlobalModel;
 use think\model\concern\SoftDelete;
 use app\api\traits\Model as ModelTrait;
@@ -25,23 +26,7 @@ class Common extends GlobalModel
     protected $deleteTime = 'delete_time';
     protected $unique;
     protected $defaultLanguage = 'en-us';
-    
-    // Allow fields of AllowFieldTrait
-    public $allowHome = null;
-    public $allowList = null;
-    public $allowSort = null;
-    public $allowRead = null;
-    public $allowSave = null;
-    public $allowUpdate = null;
-    public $allowSearch = null;
-    public $allowTranslate = null;
-
     protected $titleField = '';
-  
-    public function initialize()
-    {
-        parent::initialize();
-    }
 
     protected function getTableName()
     {
