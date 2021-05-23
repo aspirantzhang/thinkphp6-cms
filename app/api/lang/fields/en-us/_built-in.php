@@ -6,6 +6,8 @@ return [
     'update_time' => 'Update Time',
     'delete_time' => 'Delete Time',
     'status' => 'Status',
+    'page' => 'Page',
+    'per_page' => 'Per-page',
     'trash' => 'Trash',
     'actions' => 'Actions',
     'basic' => 'Basic',

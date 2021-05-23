@@ -14,19 +14,21 @@ class AuthRule extends Validate
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
         'rule_title' => 'require',
+        'rule_path' => 'length:0,255',
     ];
 
     protected $message = [
-        'id.require' => 'ID field is empty.',
-        'parent_id.number' => 'Parent ID must be numbers only.',
-        'id.number' => 'ID must be numbers only.',
-        'ids.require' => 'IDs field is empty.',
-        'ids.numberArray' => 'IDs must be a number array.',
-        'page.number' => 'Page must be numbers only.',
-        'per_page.number' => 'Per_page must be numbers only.',
-        'create_time.require' => 'Create time is empty.',
-        'create_time.dateTimeRange' => 'Invalid create time format.',
-        'rule_title.require' => 'Rule title field is empty.',
+        'id.require' => 'id#require',
+        'parent_id.number' => 'parent_id#number',
+        'id.number' => 'id#number',
+        'ids.require' => 'ids#require',
+        'ids.numberArray' => 'ids#numberArray',
+        'page.number' => 'page#number',
+        'per_page.number' => 'per_page#number',
+        'create_time.require' => 'create_time#require',
+        'create_time.dateTimeRange' => 'create_time#dateTimeRange',
+        'rule_title.require' => 'rule@rule_title#require',
+        'rule_path.length' => 'rule@rule_path#length:0,255'
     ];
 
     protected $scene = [

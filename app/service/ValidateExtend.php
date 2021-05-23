@@ -6,12 +6,18 @@ namespace app\service;
 
 use think\Validate;
 use think\facade\Request;
+use think\facade\Lang;
 
 class ValidateExtend extends \think\Service
 {
     public function boot()
     {
         Validate::maker(function ($validate) {
+
+            foreach (glob(base_path() . 'api/lang/validator/' . Lang::getLangSet() . '/*.php') as $filename) {
+                Lang::load($filename);
+            }
+            
             $validate->extend('dateTimeRange', function ($value) {
                 if (!$value) {
                     return false;

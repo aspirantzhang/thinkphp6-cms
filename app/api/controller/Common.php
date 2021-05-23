@@ -22,7 +22,7 @@ class Common extends GlobalController
         $className = class_basename($this);
         Config::load(base_path() . 'api\config\\' . $className . '.php', $className);
         
-        // load language pack
+        // load field language pack
         foreach (glob(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/*.php') as $filename) {
             Lang::load($filename);
         }

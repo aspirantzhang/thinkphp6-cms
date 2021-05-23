@@ -20,21 +20,21 @@ class Admin extends Validate
     ];
 
     protected $message = [
-        'id.require' => 'ID field is empty.',
-        'id.number' => 'ID must be numbers only.',
-        'ids.require' => 'IDs field is empty.',
-        'ids.numberArray' => 'IDs must be a number array.',
-        'admin_name.require' => 'The admin name field is empty.',
-        'admin_name.length' => 'Admin name length should be between 6 and 32.',
-        'password.require' => 'The password field is empty.',
-        'password.length' => 'Password length should be between 6 and 32.',
-        'display_name.length' => 'Display Name length should be between 4 and 32.',
-        'status.numberTag' => 'Invalid status format.',
-        'page.number' => 'Page must be numbers only.',
-        'per_page.number' => 'Per_page must be numbers only.',
-        'create_time.require' => 'Create time is empty.',
-        'create_time.dateTimeRange' => 'Invalid create time format.',
-        'groups.numberTag' => 'Invalid groups format.',
+        'id.require' => 'id#require',
+        'id.number' => 'id#number',
+        'ids.require' => 'ids#require',
+        'ids.numberArray' => 'ids#numberArray',
+        'admin_name.require' => 'admin@admin_name#require',
+        'admin_name.length' => 'admin@admin_name#length:6,32',
+        'password.require' => 'admin@password#require',
+        'password.length' => 'admin@password#length:6,32',
+        'display_name.length' => 'admin@display_name#length:4,32',
+        'status.numberTag' => 'status#numberTag',
+        'page.number' => 'page#number',
+        'per_page.number' => 'per_page#number',
+        'create_time.require' => 'create_time#require',
+        'create_time.dateTimeRange' => 'create_time#dateTimeRange',
+        'groups.numberTag' => 'admin@groups#numberTag',
     ];
 
     protected $scene = [

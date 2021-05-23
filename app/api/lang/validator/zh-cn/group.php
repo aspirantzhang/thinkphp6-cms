@@ -1,11 +1,7 @@
 <?php
 
 return [
-    'group' =>  [
-        'group_title' => '用户组名称',
-        'rules' => '权限',
-        'group-list' => '用户组列表',
-        'group-add' => '用户组添加',
-        'group-edit' => '用户组编辑'
-    ]
+    'group@group_title#require' => '用户组名称 不能为空',
+    'group@group_title#length:6,32' => '用户组名称 长度范围必须为 6 - 32',
+    'group@rules#length:0,255' => '权限 长度范围必须为 0 - 255',
 ];
