@@ -118,6 +118,10 @@ class Model extends ModelLogic
     {
         $tableName = $this->where('id', $id)->value('table_name');
 
+        if (!$tableName) {
+            return $this->error('Target not found.');
+        }
+
         // Reserved model check
         if (in_array($tableName, Config::get('model.reserved_table'))) {
             return $this->error('Reserved model, operation not allowed.');
