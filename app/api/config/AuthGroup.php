@@ -1,0 +1,11 @@
+<?php
+
+return [
+    'allowHome' => ['parent_id', 'group_title', 'rules'],
+    'allowList' => ['parent_id', 'group_title', 'rules'],
+    'allowRead' => ['parent_id', 'group_title', 'rules'],
+    'allowSave' => ['parent_id', 'group_title', 'rules'],
+    'allowUpdate' => ['parent_id', 'group_title', 'rules'],
+    'allowSearch' => ['parent_id', 'group_title', 'rules'],
+    'allowTranslate' => ['group_title'],
+];

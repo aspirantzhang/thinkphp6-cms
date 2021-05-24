@@ -13,14 +13,6 @@ class AuthRule extends Common
     protected $unique = [];
     protected $titleField = 'rule_title';
 
-    public $allowHome = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
-    public $allowList = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
-    public $allowRead = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
-    public $allowSave = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
-    public $allowUpdate = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
-    public $allowSearch = ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'];
-    public $allowTranslate = ['rule_title'];
-
     protected function setAddonData($params = [])
     {
         return [

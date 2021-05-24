@@ -8,18 +8,9 @@ use app\api\service\AuthGroup as AuthGroupService;
 
 class Admin extends Common
 {
-    // Allow fields
     protected $readonly = ['id', 'admin_name'];
     protected $unique = [ 'admin_name' => 'Admin Name' ];
     protected $titleField = 'admin_name';
-
-    public $allowHome = ['groups', 'admin_name', 'display_name'];
-    public $allowList = ['groups', 'admin_name', 'display_name'];
-    public $allowRead = ['admin_name', 'display_name'];
-    public $allowSave = ['admin_name', 'password', 'groups', 'display_name'];
-    public $allowUpdate = ['password', 'display_name', 'groups'];
-    public $allowSearch = ['groups', 'admin_name', 'display_name'];
-    public $allowTranslate = ['display_name'];
 
     public function setAddonData()
     {

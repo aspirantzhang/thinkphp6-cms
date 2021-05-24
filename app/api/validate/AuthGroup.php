@@ -20,23 +20,21 @@ class AuthGroup extends Validate
     ];
 
     protected $message = [
-        'id.require' => 'ID field is empty.',
-        'id.number' => 'ID must be numbers only.',
-        'parent_id.number' => 'Parent ID must be numbers only.',
-        'parent_id.checkParentId' => 'Parent should not be itself.',
-        'ids.require' => 'IDs field is empty.',
-        'ids.numberArray' => 'IDs must be a number array.',
-        'group_title.require' => 'The group name field is empty.',
-        'group_title.length' => 'Group name length should be between 6 and 32.',
-        'rules.length' => 'Rules length should be between 0 and 255.',
-        'status.numberTag' => 'Invalid status format.',
-        'page.number' => 'Page must be numbers only.',
-        'per_page.number' => 'Per_page must be numbers only.',
-        'create_time.require' => 'Create time is empty.',
-        'create_time.dateTimeRange' => 'Invalid create time format.',
+        'id.require' => 'id#require',
+        'id.number' => 'id#number',
+        'parent_id.number' => 'parent_id#number',
+        'parent_id.checkParentId' => 'parent_id#checkParentId',
+        'ids.require' => 'ids#require',
+        'ids.numberArray' => 'ids#numberArray',
+        'group_title.require' => 'group@group_title#require',
+        'group_title.length' => 'group@group_title#length:6,32',
+        'rules.length' => 'group@rules#length:0,255',
+        'status.numberTag' => 'status#numberTag',
+        'page.number' => 'page#number',
+        'per_page.number' => 'per_page#number',
+        'create_time.require' => 'create_time#require',
+        'create_time.dateTimeRange' => 'create_time#dateTimeRange',
     ];
-
-    // index save read update delete
 
     protected $scene = [
         'save' => ['parent_id', 'group_title', 'rules', 'create_time', 'status'],

@@ -25,14 +25,7 @@ trait AllowField
     public function getAllowHome()
     {
         $builtIn = Config::get('field.allowHome') ?: [];
-        $custom = [];
-        if (isset($this->allowHome)) {
-            $custom = $this->allowHome ?: [];
-        } else {
-            if (!$this->isReservedTable()) {
-                $custom = $this->getModelFields('home');
-            }
-        }
+        $custom = Config::get($this->getName() . '.allowHome') ?: [];
         
         return array_merge($builtIn, $custom);
     }
@@ -40,14 +33,7 @@ trait AllowField
     public function getAllowList()
     {
         $builtIn = Config::get('field.allowList') ?: [];
-        $custom = [];
-        if (isset($this->allowList)) {
-            $custom = $this->allowList ?: [];
-        } else {
-            if (!$this->isReservedTable()) {
-                $custom = $this->getModelFields('list');
-            }
-        }
+        $custom = Config::get($this->getName() . '.allowList') ?: [];
 
         return array_merge($builtIn, $custom);
     }
@@ -55,14 +41,7 @@ trait AllowField
     public function getAllowSort()
     {
         $builtIn = Config::get('field.allowSort') ?: [];
-        $custom = [];
-        if (isset($this->allowSort)) {
-            $custom = $this->allowSort ?: [];
-        } else {
-            if (!$this->isReservedTable()) {
-                $custom = $this->getModelFields('sort');
-            }
-        }
+        $custom = Config::get($this->getName() . '.allowSort') ?: [];
 
         return array_merge($builtIn, $custom);
     }
@@ -70,14 +49,7 @@ trait AllowField
     public function getAllowRead()
     {
         $builtIn = Config::get('field.allowRead') ?: [];
-        $custom = [];
-        if (isset($this->allowRead)) {
-            $custom = $this->allowRead ?: [];
-        } else {
-            if (!$this->isReservedTable()) {
-                $custom = $this->getModelFields('read');
-            }
-        }
+        $custom = Config::get($this->getName() . '.allowRead') ?: [];
 
         return array_merge($builtIn, $custom);
     }
@@ -85,14 +57,7 @@ trait AllowField
     public function getAllowSave()
     {
         $builtIn = Config::get('field.allowSave') ?: [];
-        $custom = [];
-        if (!is_null($this->allowSave)) {
-            $custom = (array)$this->allowSave;
-        } else {
-            if (!$this->isReservedTable()) {
-                $custom = $this->getModelFields('save');
-            }
-        }
+        $custom = Config::get($this->getName() . '.allowSave') ?: [];
 
         return array_merge($builtIn, $custom);
     }
@@ -100,14 +65,7 @@ trait AllowField
     public function getAllowUpdate()
     {
         $builtIn = Config::get('field.allowUpdate') ?: [];
-        $custom = [];
-        if (isset($this->allowUpdate)) {
-            $custom = $this->allowUpdate ?: [];
-        } else {
-            if (!$this->isReservedTable()) {
-                $custom = $this->getModelFields('update');
-            }
-        }
+        $custom = Config::get($this->getName() . '.allowUpdate') ?: [];
 
         return array_merge($builtIn, $custom);
     }
@@ -115,21 +73,14 @@ trait AllowField
     public function getAllowSearch()
     {
         $builtIn = Config::get('field.allowSearch') ?: [];
-        $custom = [];
-        if (isset($this->allowSearch)) {
-            $custom = $this->allowSearch ?: [];
-        } else {
-            if (!$this->isReservedTable()) {
-                $custom = $this->getModelFields('search');
-            }
-        }
+        $custom = Config::get($this->getName() . '.allowSearch') ?: [];
 
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowTranslate()
     {
-        return $this->allowTranslate ?? [];
+        return Config::get($this->getName() . '.allowTranslate') ?: [];
     }
 
     protected function isReservedTable()

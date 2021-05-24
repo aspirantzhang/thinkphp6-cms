@@ -7,6 +7,7 @@ namespace app\middleware;
 use think\facade\Config;
 use think\facade\Session;
 use app\common\Auth;
+use think\facade\Lang;
 
 class BackendAuth
 {
@@ -27,6 +28,9 @@ class BackendAuth
     public function handle($request, \Closure $next)
     {
         Config::load('api/response', 'response');
+        foreach (glob(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/*.php') as $filename) {
+            Lang::load($filename);
+        }
 
         $appName = parse_name(app('http')->getName());
         $controllerName = parse_name($request->controller());
@@ -41,7 +45,7 @@ class BackendAuth
             if (!Session::has('adminId')) {
                 $data = [
                     'success' => false,
-                    'message' => __('session_expired'),
+                    'message' => Lang::get('session_expired'),
                 ];
                 return json($data)->header(Config::get('response.default_header'));
             }
@@ -51,7 +55,7 @@ class BackendAuth
             } else {
                 $data = [
                     'success' => false,
-                    'message' => __('no_permission'),
+                    'message' => Lang::get('no_permission'),
                 ];
                 return json($data)->header(Config::get('response.default_header'));
             }
