@@ -236,9 +236,7 @@ class Model extends ModelView
     {
         $data = '';
         foreach ($fields as $field) {
-            if (strpos($field['name'], $modelName . '.') !== false) {
-                $data = $data . "        '" . str_replace($modelName . '.', '', $field['name']) . "' => '" . $field['title'] . "',\n";
-            }
+            $data = $data . "        '" . $field['name'] . "' => '" . $field['title'] . "',\n";
         }
         // remove last ,\n
         $data = substr($data, 0, -2);
