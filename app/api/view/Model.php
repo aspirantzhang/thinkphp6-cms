@@ -13,8 +13,7 @@ class Model extends ModelModel
     {
         $basic = [
             Builder::field('model.model_title')->type('input'),
-            Builder::field('model.table_name')->type('input'),
-            Builder::field('model.route_name')->type('input'),
+            Builder::field('model.model_name')->type('input'),
             Builder::field('create_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
@@ -35,8 +34,7 @@ class Model extends ModelModel
     {
         $basic = [
             Builder::field('model.model_title')->type('input')->editDisabled(true),
-            Builder::field('model.table_name')->type('input')->editDisabled(true),
-            Builder::field('model.route_name')->type('input')->editDisabled(true),
+            Builder::field('model.model_name')->type('input')->editDisabled(true),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
@@ -70,8 +68,7 @@ class Model extends ModelModel
         }
         $tableColumn = [
             Builder::field('model.model_title')->type('input'),
-            Builder::field('model.table_name')->type('input'),
-            Builder::field('model.route_name')->type('input'),
+            Builder::field('model.model_name')->type('input'),
             Builder::field('create_time')->type('datetime')->sorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('actions')->data([

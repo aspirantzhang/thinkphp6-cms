@@ -11,15 +11,14 @@ class Model extends ModelLogic
 {
     public function saveAPI($data, array $relationModel = [])
     {
-        $tableName = strtolower($data['table_name']);
-        $routeName = strtolower($data['route_name']);
+        $modelName = strtolower($data['model_name']);
         $tableTitle = (string)$data['model_title'];
 
-        if (in_array($tableName, Config::get('model.reserved_table'))) {
+        if (in_array($modelName, Config::get('model.reserved_table'))) {
             return $this->error('Reserved table name.');
         }
 
-        if ($this->existsTable($tableName)) {
+        if ($this->existsTable($modelName)) {
             return $this->error('Table already exists.');
         }
 
@@ -34,25 +33,25 @@ class Model extends ModelLogic
             $this->saveI18nData($data, $this->getData('id'));
             
             // Create files
-            $this->createModelFile($tableName, $routeName);
+            $this->createModelFile($modelName);
 
             // Create table
-            $this->createTable($tableName);
+            $this->createTable($modelName);
 
             // Add self rule
             $ruleId = $this->createSelfRule($tableTitle);
 
             if ($ruleId) {
                 // Add children rule
-                $this->createChildrenRule((int)$ruleId, $tableTitle, $tableName);
+                $this->createChildrenRule((int)$ruleId, $tableTitle, $modelName);
             }
 
             // Add self menu
-            $menuId = $this->createSelfMenu($routeName, $tableTitle);
+            $menuId = $this->createSelfMenu($modelName, $tableTitle);
 
             if ($menuId) {
                 // Add children menu
-                $this->createChildrenMenu((int)$menuId, $routeName, $tableTitle);
+                $this->createChildrenMenu((int)$menuId, $modelName, $tableTitle);
             }
 
             // store ruleId and menuId for facilitate deletion of model
@@ -76,15 +75,18 @@ class Model extends ModelLogic
             try {
                 $model->force()->delete();
 
-                $tableName = $model->table_name;
+                // delete i18n table record
+                $this->deleteI18nRecord($ids[0]);
+
+                $modelName = $model->model_name;
                 $ruleId = $model->rule_id;
                 $menuId = $model->menu_id;
 
                 // Remove model file
-                $this->removeModelFile($tableName);
+                $this->removeModelFile($modelName);
 
                 // Remove Table
-                $this->removeTable($tableName);
+                $this->removeTable($modelName);
 
                 // Remove rules
                 $this->removeRules($ruleId);
@@ -93,7 +95,7 @@ class Model extends ModelLogic
                 $this->removeMenus($menuId);
 
                 // Remove I18n files
-                $this->deleteLangFile($tableName);
+                $this->deleteLangFile($modelName);
 
                 $model->commit();
                 return $this->success('Delete successfully.');
@@ -116,37 +118,37 @@ class Model extends ModelLogic
 
     public function designUpdateAPI($id, $data)
     {
-        $tableName = $this->where('id', $id)->value('table_name');
+        $modelName = $this->where('id', $id)->value('model_name');
 
-        if (!$tableName) {
+        if (!$modelName) {
             return $this->error('Target not found.');
         }
 
         // Reserved model check
-        if (in_array($tableName, Config::get('model.reserved_table'))) {
+        if (in_array($modelName, Config::get('model.reserved_table'))) {
             return $this->error('Reserved model, operation not allowed.');
         }
 
         // Check table exists
-        if (!$this->existsTable($tableName)) {
+        if (!$this->existsTable($modelName)) {
             return $this->error($this->error);
         }
 
         if (!empty($data) && !empty($data['fields'])) {
             // Get all existing fields
-            $existingFields = $this->getExistingFields($tableName);
+            $existingFields = $this->getExistingFields($modelName);
             // Get current fields
             $currentFields = extractValues($data['fields'], 'name');
             // Exclude reserved fields
             $currentFields = array_diff($currentFields, Config::get('model.reserved_field'));
             // Handle table change
-            $changeFieldInTable = $this->fieldsHandler($existingFields, $currentFields, $data, $tableName);
+            $changeFieldInTable = $this->fieldsHandler($existingFields, $currentFields, $data, $modelName);
 
             if ($changeFieldInTable) {
                 $updateDataField = $this->updateAPI($id, ['data' => $data]);
                 if ($updateDataField[0]['success'] === true) {
                     // write to i18n file
-                    $this->writeLangFile($data['fields'], $tableName);
+                    $this->writeLangFile($data['fields'], $modelName);
                     return $this->success('Update successfully.');
                 }
                 return $this->error('Update failed.');

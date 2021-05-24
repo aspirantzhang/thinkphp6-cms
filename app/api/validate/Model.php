@@ -6,7 +6,6 @@ use think\Validate;
 
 class Model extends Validate
 {
-
     protected $rule = [
         'id' => 'require|number',
         'ids' => 'require|numberArray',
@@ -15,8 +14,7 @@ class Model extends Validate
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
         'model_title' => 'require|length:2,32',
-        'table_name' => 'require|length:2,10|checkRouteName',
-        'route_name' => 'require|length:2,10|checkRouteName',
+        'model_name' => 'require|length:2,10|checkModelName',
     ];
 
     protected $message = [
@@ -31,16 +29,13 @@ class Model extends Validate
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
         'model_title.require' => 'model@model_title#require',
         'model_title.length' => 'model@model_title#length:2,32',
-        'table_name.require' => 'model@table_name#require',
-        'table_name.length' => 'model@table_name#length:2,10',
-        'table_name.checkRouteName' => 'model@table_name#checkRouteName',
-        'route_name.require' => 'model@route_name#require',
-        'route_name.length' => 'model@route_name#length:2,10',
-        'route_name.checkRouteName' => 'model@route_name#checkRouteName',
+        'model_name.require' => 'model@model_name#require',
+        'model_name.length' => 'model@model_name#length:2,10',
+        'model_name.checkModelName' => 'model@model_name#checkModelName',
     ];
 
     protected $scene = [
-        'save' => ['model_title', 'table_name', 'route_name', 'create_time', 'status'],
+        'save' => ['model_title', 'model_name', 'create_time', 'status'],
         'update' => ['id'],
         'read' => ['id'],
         'delete' => ['ids'],
@@ -57,9 +52,9 @@ class Model extends Validate
             ->remove('create_time', 'require');
     }
 
-    protected function checkRouteName($value)
+    protected function checkModelName($value)
     {
-        if (preg_match("/^[a-zA-z0-9_-]+$/i", $value) == 1) {
+        if (preg_match("/^[a-z0-9_-]+$/i", $value) == 1) {
             return true;
         } else {
             return false;

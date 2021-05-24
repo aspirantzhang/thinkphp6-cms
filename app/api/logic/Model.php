@@ -19,16 +19,15 @@ class Model extends ModelView
         try {
             Db::query("select 1 from `$tableName` LIMIT 1");
         } catch (\Exception $e) {
-            $this->error = "Table not found.";
             return false;
         }
         return true;
     }
 
-    protected function createModelFile(string $tableName, string $routeName)
+    protected function createModelFile(string $modelName)
     {
         try {
-            Console::call('make:buildModel', [Str::studly($tableName), '--route=' . $routeName]);
+            Console::call('make:buildModel', [Str::studly($modelName), '--route=' . $modelName]);
             return true;
         } catch (\Throwable $e) {
             $this->error = 'Create model file failed.';
@@ -36,10 +35,10 @@ class Model extends ModelView
         }
     }
 
-    protected function removeModelFile(string $tableName)
+    protected function removeModelFile(string $modelName)
     {
         try {
-            Console::call('make:removeModel', [Str::studly($tableName)]);
+            Console::call('make:removeModel', [Str::studly($modelName)]);
             return true;
         } catch (\Throwable $e) {
             $this->error = 'Remove model file failed.';
@@ -73,6 +72,15 @@ class Model extends ModelView
         }
     }
 
+    protected function deleteI18nRecord($originalId)
+    {
+        try {
+            Db::name('model_i18n')->where('original_id', $originalId)->delete();
+        } catch (\Throwable $th) {
+            $this->error = 'Remove i18n record failed.';
+        }
+    }
+
     protected function createSelfRule(string $tableTitle)
     {
         $currentTime = date("Y-m-d H:i:s");
@@ -82,7 +90,7 @@ class Model extends ModelView
             'create_time' => $currentTime,
             'update_time' => $currentTime,
         ]);
-        return $rule[0]['data']['id'];
+        return $rule[0]['data']['id'] ?: 0;
     }
 
     protected function removeRules(int $ruleId)
@@ -90,35 +98,35 @@ class Model extends ModelView
         (new RuleService())->deleteAPI([$ruleId], 'deletePermanently');
     }
 
-    protected function createChildrenRule(int $ruleId, string $tableTitle, string $tableName)
+    protected function createChildrenRule(int $ruleId, string $tableTitle, string $modelName)
     {
         $currentTime = date("Y-m-d H:i:s");
         $childrenRules = [
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Home', 'rule_path' => 'api/' . $tableName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Add', 'rule_path' => 'api/' . $tableName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Save', 'rule_path' => 'api/' . $tableName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Read', 'rule_path' => 'api/' . $tableName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Update', 'rule_path' => 'api/' . $tableName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Delete', 'rule_path' => 'api/' . $tableName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Restore', 'rule_path' => 'api/' . $tableName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Home', 'rule_path' => 'api/' . $modelName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Add', 'rule_path' => 'api/' . $modelName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Save', 'rule_path' => 'api/' . $modelName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Read', 'rule_path' => 'api/' . $modelName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Update', 'rule_path' => 'api/' . $modelName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Delete', 'rule_path' => 'api/' . $modelName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Restore', 'rule_path' => 'api/' . $modelName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
         ];
         foreach ($childrenRules as $childrenRule) {
             (new RuleService())->saveAPI($childrenRule);
         }
     }
 
-    protected function createSelfMenu(string $routeName, string $tableTitle)
+    protected function createSelfMenu(string $modelName, string $tableTitle)
     {
         $currentTime = date("Y-m-d H:i:s");
         $menu = (new MenuService())->saveAPI([
             'parent_id' => 0,
             'menu_title' => $tableTitle . ' List',
             'icon' => 'icon-project',
-            'path' => '/basic-list/api/' . $routeName,
+            'path' => '/basic-list/api/' . $modelName,
             'create_time' => $currentTime,
             'update_time' => $currentTime,
         ]);
-        return $menu[0]['data']['id'];
+        return $menu[0]['data']['id'] ?: 0;
     }
 
     protected function removeMenus(int $menuId)
@@ -126,20 +134,20 @@ class Model extends ModelView
         (new MenuService())->deleteAPI([$menuId], 'deletePermanently');
     }
 
-    protected function deleteLangFile(string $tableName)
+    protected function deleteLangFile(string $modelName)
     {
         $languages = Config::get('lang.allow_lang_list');
         foreach ($languages as $lang) {
-            @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $tableName . '.php');
+            @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $modelName . '.php');
         }
     }
 
-    protected function createChildrenMenu(int $menuId, string $routeName, string $tableTitle)
+    protected function createChildrenMenu(int $menuId, string $modelName, string $tableTitle)
     {
         $currentTime = date("Y-m-d H:i:s");
         $childrenMenus = [
-            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Add', 'path' => '/basic-list/api/' . $modelName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Edit', 'path' => '/basic-list/api/' . $modelName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
         ];
         foreach ($childrenMenus as $childrenMenu) {
             (new MenuService())->saveAPI($childrenMenu);
@@ -224,12 +232,12 @@ class Model extends ModelView
         }
     }
 
-    protected function writeLangFile($fields, $tableName)
+    protected function writeLangFile($fields, $modelName)
     {
         $data = '';
         foreach ($fields as $field) {
-            if (strpos($field['name'], $tableName . '.') !== false) {
-                $data = $data . "        '" . str_replace($tableName . '.', '', $field['name']) . "' => '" . $field['title'] . "',\n";
+            if (strpos($field['name'], $modelName . '.') !== false) {
+                $data = $data . "        '" . str_replace($modelName . '.', '', $field['name']) . "' => '" . $field['title'] . "',\n";
             }
         }
         // remove last ,\n
@@ -238,12 +246,12 @@ class Model extends ModelView
 <?php
 
 return [
-    '$tableName' => [
+    '$modelName' => [
 $data
     ]
 ];
 
 END;
-        return file_put_contents(base_path() . 'api\lang\fields\\' . $this->getCurrentLanguage() . '\\' . $tableName . '.php', $fileContent);
+        return file_put_contents(base_path() . 'api\lang\fields\\' . $this->getCurrentLanguage() . '\\' . $modelName . '.php', $fileContent);
     }
 }

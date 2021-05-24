@@ -10,14 +10,14 @@ class Model extends Common
 {
     protected $json = ['data'];
     protected $jsonAssoc = true;
-    protected $readonly = ['id', 'model_title', 'table_name', 'route_name'];
-    protected $unique = ['table_name' => 'Table Name', 'route_name' => 'Route Name'];
+    protected $readonly = ['id', 'model_title', 'model_name'];
+    protected $unique = ['model_title' => 'Model Title', 'model_name' => 'Model Name'];
 
     // Mutator
-    public function setRouteNameAttr($value)
+    public function setModelNameAttr($value)
     {
         $modelDataField = new \StdClass();
-        $modelDataField->routeName = $value;
+        $modelDataField->modelName = $value;
         $this->set('data', $modelDataField);
         return strtolower($value);
     }
