@@ -73,7 +73,8 @@ class Model extends ModelModel
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('actions')->data([
                 Builder::button('edit')->type('primary')->call('page')->uri('/api/models/:id'),
-                Builder::button('model.design')->type('primary')->call('modelDesign')->uri('/api/models/design/:id'),
+                Builder::button('model.field_design')->type('default')->call('page')->uri('/api/models/field-design/api/models/design/:id'),
+                Builder::button('model.layout_design')->type('default')->call('page')->uri('/api/models/layout-design/api/models/design/:id'),
                 Builder::button('deletePermanently')->type('danger')->call('deletePermanently')->uri('/api/models/delete')->method('post'),
             ]),
         ];
