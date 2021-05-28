@@ -367,9 +367,9 @@ END;
         }
         $messageText = substr($messageText, 0, -1);
 
-        $sceneSave = '\'' . implode('\', \'', $scenes['save']) . '\'';
-        $sceneUpdate = '\'' . implode('\', \'', $scenes['update']) . '\'';
-        $sceneHome = '\'' . implode('\', \'', $scenes['home']) . '\'';
+        $sceneSave = $scenes['save'] ? '\'' . implode('\', \'', $scenes['save']) . '\'' : '';
+        $sceneUpdate = $scenes['update'] ? '\'' . implode('\', \'', $scenes['update']) . '\'' : '';
+        $sceneHome = $scenes['home'] ? '\'' . implode('\', \'', $scenes['home']) . '\'' : '';
 
         $sceneHomeExclude = '';
         foreach ($scenes['homeExclude'] as $exclude) {
@@ -393,6 +393,65 @@ END;
             $sceneUpdate,
             $sceneHome,
             $sceneHomeExclude,
+        ], $content);
+        return file_put_contents($filename, $content);
+    }
+
+    protected function writeAllowConfigFile($modelName, $fields)
+    {
+        $modelNameUpper = Str::studly($modelName);
+        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $modelNameUpper . '.php';
+        $stubName = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . '_config.stub';
+
+        $allowHome = [];
+        $allowRead = [];
+        $allowSave = [];
+        $allowUpdate = [];
+        $allowTranslate = [];
+        
+        foreach ($fields as $field) {
+            // home
+            if ($field['allowHome'] ?? false) {
+                array_push($allowHome, $field['name']);
+            }
+            // read
+            if ($field['allowRead'] ?? false) {
+                array_push($allowRead, $field['name']);
+            }
+            // save
+            if ($field['allowSave'] ?? false) {
+                array_push($allowSave, $field['name']);
+            }
+            // update
+            if ($field['allowUpdate'] ?? false) {
+                array_push($allowUpdate, $field['name']);
+            }
+            // translate
+            if ($field['allowTranslate'] ?? false) {
+                array_push($allowTranslate, $field['name']);
+            }
+        }
+
+        $allowHomeText = $allowHome ? '\'' . implode('\', \'', $allowHome) . '\'' : '';
+        $allowReadText = $allowRead ? '\'' . implode('\', \'', $allowRead) . '\'' : '';
+        $allowSaveText = $allowSave ? '\'' . implode('\', \'', $allowSave) . '\'' : '';
+        $allowUpdateText = $allowUpdate ? '\'' . implode('\', \'', $allowUpdate) . '\'' : '';
+        $allowTranslateText = $allowTranslate ? '\'' . implode('\', \'', $allowTranslate) . '\'' : '';
+
+
+        $content = file_get_contents($stubName);
+        $content = str_replace([
+            '{%allowHome%}',
+            '{%allowRead%}',
+            '{%allowSave%}',
+            '{%allowUpdate%}',
+            '{%allowTranslate%}',
+        ], [
+            $allowHomeText,
+            $allowReadText,
+            $allowSaveText,
+            $allowUpdateText,
+            $allowTranslateText,
         ], $content);
         return file_put_contents($filename, $content);
     }

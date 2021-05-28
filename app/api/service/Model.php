@@ -148,13 +148,19 @@ class Model extends ModelLogic
                 $updateDataField = $this->updateAPI($id, ['data' => $data]);
                 if ($updateDataField[0]['success'] === true) {
                     // write to i18n file
-                    $this->writeLangFile($data['fields'], $modelName);
-                    // write validate filed
+                    if ($this->writeLangFile($data['fields'], $modelName) === false) {
+                        return $this->error('Write field i18n file failed.');
+                    }
+                    // write validate file
                     $validateRule = $this->createValidateRules($data['fields'], $modelName);
                     $validateMsg = $this->createMessages($validateRule, $modelName);
                     $validateScene = $this->createScene($data['fields']);
                     if ($this->writeValidateFile($modelName, $validateRule, $validateMsg, $validateScene) === false) {
                         return $this->error('Write validate file failed.');
+                    }
+                    // write allow fields file
+                    if ($this->writeAllowConfigFile($modelName, $data['fields']) === false) {
+                        return $this->error('Write allow fields file failed.');
                     }
 
                     return $this->success('Update successfully.');
