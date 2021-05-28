@@ -30,14 +30,6 @@ trait AllowField
         return array_merge($builtIn, $custom);
     }
 
-    public function getAllowList()
-    {
-        $builtIn = Config::get('field.allowList') ?: [];
-        $custom = Config::get($this->getName() . '.allowList') ?: [];
-
-        return array_merge($builtIn, $custom);
-    }
-
     public function getAllowSort()
     {
         $builtIn = Config::get('field.allowSort') ?: [];
@@ -66,14 +58,6 @@ trait AllowField
     {
         $builtIn = Config::get('field.allowUpdate') ?: [];
         $custom = Config::get($this->getName() . '.allowUpdate') ?: [];
-
-        return array_merge($builtIn, $custom);
-    }
-
-    public function getAllowSearch()
-    {
-        $builtIn = Config::get('field.allowSearch') ?: [];
-        $custom = Config::get($this->getName() . '.allowSearch') ?: [];
 
         return array_merge($builtIn, $custom);
     }

@@ -27,9 +27,16 @@ function getSortParam($data, $allowSort)
     return $sort;
 }
 
-function getSearchParam($data = [], $allowSearch = [])
+function getListParams($params, $allowHome, $allowSort)
 {
-    return is_array($data) ? array_intersect_key($data, array_flip($allowSearch)) : [];
+    $result = [];
+    $result['trash'] = $params['trash'] ?? 'withoutTrashed';
+    $result['per_page'] = $params['per_page'] ?? 10;
+    $result['visible'] = array_diff($allowHome, ['sort', 'order', 'page', 'per_page', 'trash']);
+    $result['search']['values'] = is_array($params) ? array_intersect_key($params, array_flip($result['visible'])) : [];
+    $result['search']['keys'] = array_keys($result['search']['values']);
+    $result['sort'] = getSortParam($params, $allowSort);
+    return $result;
 }
 
 function getFieldNameByFunctionName($functionName)
