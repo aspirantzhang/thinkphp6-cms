@@ -1,0 +1,32 @@
+<?php
+
+namespace app\api\validate;
+
+use think\Validate;
+
+class {%modelNameUpper%} extends Validate
+{
+    protected $rule = [
+{%rule%}
+    ];
+
+    protected $message = [
+{%message%}
+    ];
+
+    protected $scene = [
+        'save' => [{%sceneSave%}],
+        'update' => [{%sceneUpdate%}],
+        'read' => ['id'],
+        'delete' => ['ids'],
+        'restore' => ['ids'],
+        'add' => [''],
+    ];
+
+    public function sceneHome()
+    {
+        $this->only(['page', 'per_page', 'id', 'status', 'create_time', {%sceneHome%}]){%sceneHomeExclude%}
+            ->remove('id', 'require')
+            ->remove('create_time', 'require');
+    }
+}

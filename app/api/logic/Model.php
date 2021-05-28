@@ -252,4 +252,148 @@ $data
 END;
         return file_put_contents(base_path() . 'api\lang\fields\\' . $this->getCurrentLanguage() . '\\' . $modelName . '.php', $fileContent);
     }
+
+    /**
+     * Create validate rules (+translate field prefix)
+     * @param array $fields
+     * @param string $modelName
+     * @return string[]
+     */
+    protected function createValidateRules($fields, $modelName)
+    {
+        $rules = [
+            'id' => 'require|number',
+            'ids' => 'require|numberArray',
+            'status' => 'numberTag',
+            'page' => 'number',
+            'per_page' => 'number',
+            'create_time' => 'require|dateTimeRange',
+        ];
+
+        foreach ($fields as $field) {
+            $fieldName = $field['name'];
+            $ruleString = '';
+            if (!empty($field['settings']['validate'])) {
+                foreach ($field['settings']['validate'] as $validateName) {
+                    switch ($validateName) {
+                        case 'length':
+                            $min = $field['settings']['options']['length']['min'] ?? 0;
+                            $max = $field['settings']['options']['length']['max'] ?? 32;
+                            $ruleString .= $validateName . ':' . (int)$min . ',' . (int)$max . '|';
+                            break;
+                        default:
+                            $ruleString .= $validateName . '|';
+                            break;
+                    }
+                }
+            }
+            $ruleString = substr($ruleString, 0, -1);
+
+            $isTranslateField = $field['allowTranslate'] ?? false;
+            $ruleName = $isTranslateField ? $modelName . '@' . $fieldName : $fieldName;
+
+            $rules[$ruleName] = $ruleString;
+        }
+        return $rules;
+    }
+
+    protected function createMessages($rules, $modelName)
+    {
+        $result = [];
+        foreach ($rules as $name => $rule) {
+            $keyFieldName = strtr($name, [$modelName . '@' => '']);
+            if (strpos($rule, '|')) {
+                $ruleArr = explode('|', $rule);
+                foreach ($ruleArr as $subRule) {
+                    $result[$keyFieldName . '.' . $subRule] = $name . '#' . $subRule;
+                }
+            } else {
+                $result[$keyFieldName . '.' . $rule] = $name . '#' . $rule;
+            }
+        }
+        return $result;
+    }
+
+    protected function createScene($fields)
+    {
+        $scene = [
+            'save' => ['create_time', 'status'],
+            'update' => ['id', 'create_time', 'status'],
+            'read' => ['id'],
+            'delete' => ['ids'],
+            'restore' => ['ids'],
+            'add' => [''],
+            'home' => [],
+            'homeExclude' => []
+        ];
+        foreach ($fields as $field) {
+            if (isset($field['settings']['validate']) && !empty($field['settings']['validate'])) {
+                // home
+                if ($field['allowHome'] ?? false) {
+                    array_push($scene['home'], $field['name']);
+                    array_push($scene['homeExclude'], $field['name']);
+                }
+                // save
+                if ($field['allowSave'] ?? false) {
+                    array_push($scene['save'], $field['name']);
+                }
+                // update
+                if ($field['allowUpdate'] ?? false) {
+                    array_push($scene['update'], $field['name']);
+                }
+            }
+        }
+        return $scene;
+    }
+
+    protected function writeValidateFile($modelName, $rules, $messages, $scenes)
+    {
+        $modelNameUpper = Str::studly($modelName);
+        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'validate' . DIRECTORY_SEPARATOR . $modelNameUpper . '.php';
+        $stubName = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'validate' . DIRECTORY_SEPARATOR . '_validate.stub';
+
+        $ruleText = '';
+        foreach ($rules as $ruleKey => $ruleValue) {
+            $ruleText .= "        '" . strtr($ruleKey, [$modelName . '@' => '']) . "' => '" . $ruleValue . "',\n";
+        }
+        $ruleText = substr($ruleText, 0, -1);
+
+        $messageText = '';
+        foreach ($messages as $msgKey => $msgValue) {
+            if (strpos($msgKey, ':')) {
+                $msgKey = substr($msgKey, 0, strpos($msgKey, ':'));
+            }
+            $messageText .= "        '" . $msgKey . "' => '" . $msgValue . "',\n";
+        }
+        $messageText = substr($messageText, 0, -1);
+
+        $sceneSave = '\'' . implode('\', \'', $scenes['save']) . '\'';
+        $sceneUpdate = '\'' . implode('\', \'', $scenes['update']) . '\'';
+        $sceneHome = '\'' . implode('\', \'', $scenes['home']) . '\'';
+
+        $sceneHomeExclude = '';
+        foreach ($scenes['homeExclude'] as $exclude) {
+            $sceneHomeExclude .= "\n" . '            ->remove(\'' . $exclude . '\', \'require\')';
+        }
+
+        $content = file_get_contents($stubName);
+        $content = str_replace([
+            '{%modelNameUpper%}',
+            '{%rule%}',
+            '{%message%}',
+            '{%sceneSave%}',
+            '{%sceneUpdate%}',
+            '{%sceneHome%}',
+            '{%sceneHomeExclude%}',
+        ], [
+            $modelNameUpper,
+            $ruleText,
+            $messageText,
+            $sceneSave,
+            $sceneUpdate,
+            $sceneHome,
+            $sceneHomeExclude,
+        ], $content);
+        return file_put_contents($filename, $content);
+    }
 }

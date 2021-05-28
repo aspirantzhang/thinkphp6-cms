@@ -149,6 +149,14 @@ class Model extends ModelLogic
                 if ($updateDataField[0]['success'] === true) {
                     // write to i18n file
                     $this->writeLangFile($data['fields'], $modelName);
+                    // write validate filed
+                    $validateRule = $this->createValidateRules($data['fields'], $modelName);
+                    $validateMsg = $this->createMessages($validateRule, $modelName);
+                    $validateScene = $this->createScene($data['fields']);
+                    if ($this->writeValidateFile($modelName, $validateRule, $validateMsg, $validateScene) === false) {
+                        return $this->error('Write validate file failed.');
+                    }
+
                     return $this->success('Update successfully.');
                 }
                 return $this->error('Update failed.');
