@@ -97,6 +97,12 @@ class Model extends ModelLogic
                 // Remove I18n files
                 $this->deleteLangFile($modelName);
 
+                // Remove allow fields config file
+                $this->deleteAllowFieldsFile($modelName);
+
+                // Remove validate file
+                $this->deleteValidateFile($modelName);
+                
                 $model->commit();
                 return $this->success('Delete successfully.');
             } catch (\Exception $e) {

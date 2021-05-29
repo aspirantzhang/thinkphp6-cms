@@ -140,7 +140,18 @@ class Model extends ModelView
         $languages = Config::get('lang.allow_lang_list');
         foreach ($languages as $lang) {
             @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $modelName . '.php');
+            @unlink(base_path() . 'api\lang\validator\\' . $lang . '\\' . $modelName . '.php');
         }
+    }
+
+    protected function deleteValidateFile(string $modelName)
+    {
+        @unlink(base_path() . 'api\validate\\' . Str::studly($modelName) . '.php');
+    }
+
+    protected function deleteAllowFieldsFile(string $modelName)
+    {
+        @unlink(base_path() . 'api\config\\' . Str::studly($modelName) . '.php');
     }
 
     protected function createChildrenMenu(int $menuId, string $modelName, string $tableTitle)
