@@ -413,6 +413,9 @@ END;
 
     protected function writeValidateI18nFile($modelName, $messages)
     {
+        if (file_exists(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $modelName . '.php')) {
+            Lang::load(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $modelName . '.php');
+        }
         $exclude = ['id.require', 'id.number', 'ids.require', 'ids.numberArray', 'status.numberTag', 'page.number', 'per_page.number', 'create_time.require', 'create_time.dateTimeRange'];
         $msgs = array_diff_key($messages, array_flip($exclude));
 
