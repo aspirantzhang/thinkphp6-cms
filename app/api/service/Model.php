@@ -158,6 +158,10 @@ class Model extends ModelLogic
                     if ($this->writeValidateFile($modelName, $validateRule, $validateMsg, $validateScene) === false) {
                         return $this->error('Write validate file failed.');
                     }
+                    // write validator i18n file
+                    if ($this->writeValidateI18nFile($modelName, $validateMsg) === false) {
+                        return $this->error('Write validate i18n file failed.');
+                    }
                     // write allow fields file
                     if ($this->writeAllowConfigFile($modelName, $data['fields']) === false) {
                         return $this->error('Write allow fields file failed.');

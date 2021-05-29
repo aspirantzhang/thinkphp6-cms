@@ -10,6 +10,7 @@ use app\api\service\Menu as MenuService;
 use think\facade\Db;
 use think\facade\Console;
 use think\facade\Config;
+use think\facade\Lang;
 use think\helper\Str;
 
 class Model extends ModelView
@@ -238,8 +239,7 @@ class Model extends ModelView
         foreach ($fields as $field) {
             $data = $data . "        '" . $field['name'] . "' => '" . $field['title'] . "',\n";
         }
-        // remove last ,\n
-        $data = substr($data, 0, -2);
+        $data = substr($data, 0, -1);
         $fileContent = <<<END
 <?php
 
@@ -254,7 +254,7 @@ END;
     }
 
     /**
-     * Create validate rules (+translate field prefix)
+     * Create validate rules (+field prefix)
      * @param array $fields
      * @param string $modelName
      * @return string[]
@@ -288,10 +288,8 @@ END;
                 }
             }
             $ruleString = substr($ruleString, 0, -1);
-
-            $isTranslateField = $field['allowTranslate'] ?? false;
-            $ruleName = $isTranslateField ? $modelName . '@' . $fieldName : $fieldName;
-
+            // +prefix
+            $ruleName = $modelName . '@' . $fieldName;
             $rules[$ruleName] = $ruleString;
         }
         return $rules;
@@ -394,6 +392,45 @@ END;
             $sceneHome,
             $sceneHomeExclude,
         ], $content);
+        return file_put_contents($filename, $content);
+    }
+
+    private function getValidateText($langKey)
+    {
+        $fieldName = substr($langKey, 0, strpos($langKey, '#'));
+        $fieldName = strtr($fieldName, ['@' => '.']);
+        $ruleName = substr($langKey, strpos($langKey, '#') + 1);
+        $option = '';
+        if (strpos($ruleName, ':')) {
+            $ruleName = substr($ruleName, 0, strpos($ruleName, ':'));
+            $option = substr($langKey, strpos($langKey, ':') + 1);
+            if ($option) {
+                $option = strtr($option, [',' => ' - ']);
+            }
+        }
+        return Lang::get('validate.' . $ruleName, ['field' => Lang::get($fieldName), 'option' => $option]);
+    }
+
+    protected function writeValidateI18nFile($modelName, $messages)
+    {
+        $exclude = ['id.require', 'id.number', 'ids.require', 'ids.numberArray', 'status.numberTag', 'page.number', 'per_page.number', 'create_time.require', 'create_time.dateTimeRange'];
+        $msgs = array_diff_key($messages, array_flip($exclude));
+
+        $content = '';
+        foreach ($msgs as $langKey) {
+            $content .= '    \'' . $langKey . '\' => \'' . $this->getValidateText($langKey) . "',\n";
+        }
+        $content = substr($content, 0, -1);
+        $content = <<<END
+<?php
+
+return [
+$content
+];
+
+END;
+
+        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . 'validator' . DIRECTORY_SEPARATOR . Lang::getLangSet() . DIRECTORY_SEPARATOR . $modelName . '.php';
         return file_put_contents($filename, $content);
     }
 
