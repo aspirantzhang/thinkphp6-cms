@@ -8,7 +8,6 @@ use app\api\service\Model as ModelService;
 
 trait Model
 {
-
     // Accessor
     public function getCreateTimeAttr($value)
     {
@@ -62,50 +61,5 @@ trait Model
         } else {
             return ModelService::where('model_name', $this->getTableName())->find();
         }
-    }
-
-    protected function getModelFields($type = null)
-    {
-        $data = $this->getModelData('data');
-        if (!isset($data['fields'])) {
-            return [];
-        }
-        if ($data) {
-            switch ($type) {
-                case 'home':
-                case 'list':
-                    $rawArray = array_filter((array)$data['fields'], function ($value) {
-                        if (isset($value['listHideInColumn']) && $value['listHideInColumn'] === '1') {
-                            return false;
-                        }
-                        return true;
-                    });
-                    return extractValues($rawArray, 'name');
-                case 'sort':
-                    $rawArray = array_filter($data['fields'], function ($value) {
-                        if (isset($value['listSorter']) && $value['listSorter'] === '1') {
-                            return true;
-                        }
-                        return false;
-                    });
-                    return extractValues($rawArray, 'name');
-                case 'update':
-                    $rawArray = array_filter($data['fields'], function ($value) {
-                        if (isset($value['editDisabled']) && $value['editDisabled'] === '1') {
-                            return false;
-                        }
-                        return true;
-                    });
-                    return extractValues($rawArray, 'name');
-                case 'read':
-                case 'save':
-                case 'search':
-                case 'all':
-                    return extractValues($data['fields'], 'name');
-                default:
-                    return [];
-            }
-        }
-        return [];
     }
 }

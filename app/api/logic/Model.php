@@ -244,7 +244,7 @@ class Model extends ModelView
         }
     }
 
-    protected function writeLangFile($fields, $modelName)
+    protected function writeFieldLangFile($fields, $modelName)
     {
         $data = '';
         foreach ($fields as $field) {
