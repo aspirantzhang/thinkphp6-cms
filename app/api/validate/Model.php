@@ -15,6 +15,7 @@ class Model extends Validate
         'create_time' => 'require|dateTimeRange',
         'model_title' => 'require|length:2,32',
         'model_name' => 'require|length:2,10|checkModelName',
+        'type' => 'require',
     ];
 
     protected $message = [
@@ -32,6 +33,7 @@ class Model extends Validate
         'model_name.require' => 'model@model_name#require',
         'model_name.length' => 'model@model_name#length:2,10',
         'model_name.checkModelName' => 'model@model_name#checkModelName',
+        'type.require' => 'model@type#require',
     ];
 
     protected $scene = [
@@ -42,7 +44,7 @@ class Model extends Validate
         'restore' => ['ids'],
         'add' => [''],
         'design' => [''],
-        'design_update' => [''],
+        'design_update' => ['id', 'type'],
     ];
 
     public function sceneHome()

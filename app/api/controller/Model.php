@@ -67,7 +67,7 @@ class Model extends Common
 
     public function designUpdate($id)
     {
-        $result = $this->model->designUpdateAPI($id, $this->request->param('data'));
+        $result = $this->model->designUpdateAPI($id, $this->request->param('type'), $this->request->param('data'));
 
         return $this->json(...$result);
     }

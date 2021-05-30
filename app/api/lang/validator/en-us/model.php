@@ -6,4 +6,5 @@ return [
     'model@model_name#require' => 'Model Name should not be empty.',
     'model@model_name#length:2,10' => 'Model Name length should be between 2 - 10.',
     'model@model_name#checkModelName' => 'Invalid value: Model Name.',
+    'model@type#require' => 'Missing parameter: type.',
 ];
