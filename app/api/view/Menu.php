@@ -28,7 +28,7 @@ class Menu extends MenuModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/menus')->method('post'),
         ];
 
-        return Builder::page('menu.menu-add')
+        return Builder::page('menu-layout.menu-add')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -55,7 +55,7 @@ class Menu extends MenuModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/menus/' . $id)->method('put'),
         ];
 
-        return Builder::page('menu.menu-edit')
+        return Builder::page('menu-layout.menu-edit')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -92,7 +92,7 @@ class Menu extends MenuModel
             ]),
         ];
 
-        return Builder::page('menu.menu-list')
+        return Builder::page('menu-layout.menu-list')
             ->type('basic-list')
             ->searchBar(true)
             ->tableColumn($tableColumn)

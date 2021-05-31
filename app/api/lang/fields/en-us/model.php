@@ -7,8 +7,5 @@ return [
         'data' => 'Data',
         'field_design' => 'Field Design',
         'layout_design' => 'Layout Design',
-        'model-list' => 'Model List',
-        'model-add' => 'Model Add',
-        'model-edit' => 'Model Edit'
     ]
 ];

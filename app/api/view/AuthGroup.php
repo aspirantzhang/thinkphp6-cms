@@ -25,7 +25,7 @@ class AuthGroup extends GroupModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/groups')->method('post'),
         ];
 
-        return Builder::page('group.group-add')
+        return Builder::page('group-layout.group-add')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -48,7 +48,7 @@ class AuthGroup extends GroupModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/groups/' . $id)->method('put'),
         ];
 
-        return Builder::page('group.group-edit')
+        return Builder::page('group-layout.group-edit')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -82,7 +82,7 @@ class AuthGroup extends GroupModel
             ]),
         ];
 
-        return Builder::page('group.group-list')
+        return Builder::page('group-layout.group-list')
             ->type('basic-list')
             ->searchBar(true)
             ->tableColumn($tableColumn)

@@ -23,7 +23,7 @@ class Model extends ModelModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/models')->method('post'),
         ];
 
-        return Builder::page('model.model-add')
+        return Builder::page('model-layout.model-add')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -48,7 +48,7 @@ class Model extends ModelModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/models/' . $id)->method('put'),
         ];
 
-        return Builder::page('model.model-edit')
+        return Builder::page('model-layout.model-edit')
             ->type('page')
             ->tab('basic', $basic)
             ->tab('model.data', $dataTab)
@@ -79,7 +79,7 @@ class Model extends ModelModel
             ]),
         ];
 
-        return Builder::page('model.model-list')
+        return Builder::page('model-layout.model-list')
             ->type('basic-list')
             ->searchBar(true)
             ->tableColumn($tableColumn)

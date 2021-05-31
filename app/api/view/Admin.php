@@ -26,7 +26,7 @@ class Admin extends AdminModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/admins')->method('post'),
         ];
 
-        return Builder::page('admin.admin-add')
+        return Builder::page('admin-layout.admin-add')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -49,7 +49,7 @@ class Admin extends AdminModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/admins/' . $id)->method('put'),
         ];
 
-        return Builder::page('admin.admin-edit')
+        return Builder::page('admin-layout.admin-edit')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -98,7 +98,7 @@ class Admin extends AdminModel
             ];
         }
 
-        return Builder::page('admin.admin-list')
+        return Builder::page('admin-layout.admin-list')
             ->type('basic-list')
             ->searchBar(true)
             ->tableColumn($tableColumn)
