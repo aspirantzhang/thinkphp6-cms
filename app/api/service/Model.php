@@ -35,6 +35,10 @@ class Model extends ModelLogic
             // Create files
             $this->createModelFile($modelName);
 
+            if ($this->writeLayoutLangFile($modelName, $tableTitle) === false) {
+                return $this->error('Write layout language file failed.');
+            }
+
             // Create table
             $this->createTable($modelName);
 

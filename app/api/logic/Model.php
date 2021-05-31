@@ -140,6 +140,7 @@ class Model extends ModelView
         $languages = Config::get('lang.allow_lang_list');
         foreach ($languages as $lang) {
             @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $modelName . '.php');
+            @unlink(base_path() . 'api\lang\layout\\' . $lang . '\\' . $modelName . '.php');
             @unlink(base_path() . 'api\lang\validator\\' . $lang . '\\' . $modelName . '.php');
         }
     }
@@ -253,6 +254,26 @@ class Model extends ModelView
             }
         }
         return $result;
+    }
+
+    protected function writeLayoutLangFile($modelName, $modelTitle)
+    {
+        $listText = Lang::get('list');
+        $addText = Lang::get('add');
+        $editText = Lang::get('edit');
+        $fileContent = <<<END
+<?php
+
+return [
+    '$modelName-layout' =>  [
+        '$modelName-list' => '$modelTitle$listText',
+        '$modelName-add' => '$modelTitle$addText',
+        '$modelName-edit' => '$modelTitle$editText',
+    ]
+];
+
+END;
+        return file_put_contents(base_path() . 'api\lang\layout\\' . $this->getCurrentLanguage() . '\\' . $modelName . '.php', $fileContent);
     }
 
     protected function writeFieldLangFile($fields, $modelName)

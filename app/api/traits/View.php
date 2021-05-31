@@ -85,7 +85,7 @@ trait View
                 $action[] = $thisAction;
             }
 
-            return Builder::page($model['route_name'] . '.' . $model['route_name'] . '-add')
+            return Builder::page($modelName . '-layout.' . $modelName . '-add')
                             ->type('page')
                             ->tab('basic', $basic)
                             ->action('actions', $action)
@@ -129,7 +129,7 @@ trait View
                 $action[] = $thisAction;
             }
 
-            return Builder::page($model['route_name'] . '.' . $model['route_name'] . '-edit')
+            return Builder::page($modelName . '-layout.' . $modelName . '-edit')
                             ->type('page')
                             ->tab('basic', $basic)
                             ->action('actions', $action)
@@ -178,7 +178,7 @@ trait View
         $actionFields = Builder::field('actions')->data($actions);
         $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
 
-        return Builder::page($model['route_name'] . '.' . $model['route_name'] . '-list')
+        return Builder::page($modelName . '-layout.' . $modelName . '-list')
                         ->type('basic-list')
                         ->searchBar(true)
                         ->tableColumn($tableColumn)

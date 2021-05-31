@@ -2,6 +2,7 @@
 
 return [
     'basic' => '基础',
+    'list' => '列表',
     'add' => '添加',
     'edit' => '编辑',
     'reload' => '刷新',

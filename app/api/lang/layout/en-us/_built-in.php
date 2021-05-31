@@ -2,6 +2,7 @@
 
 return [
     'basic' => 'Basic',
+    'list' => 'List',
     'add' => 'Add',
     'edit' => 'Edit',
     'reload' => 'Reload',
