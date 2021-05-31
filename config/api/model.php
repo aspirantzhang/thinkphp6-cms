@@ -6,7 +6,10 @@ return [
         'create_time',
         'update_time',
         'delete_time',
-        'status'
+        'status',
+        '_id',
+        'original_id',
+        'lang_code'
     ],
     'reserved_table' => [
         'admin',

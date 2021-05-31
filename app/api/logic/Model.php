@@ -239,9 +239,20 @@ class Model extends ModelView
             return true;
         } catch (\Exception $e) {
             Db::rollback();
-            $this->error = 'Change table structure failed.';
+            $this->error = 'Change table structure failed: ' . $tableName;
             return false;
         }
+    }
+
+    protected function getTranslateFields($fields)
+    {
+        $result = [];
+        foreach ($fields as $field) {
+            if ($field['allowTranslate'] ?? false) {
+                array_push($result, $field['name']);
+            }
+        }
+        return $result;
     }
 
     protected function writeFieldLangFile($fields, $modelName)

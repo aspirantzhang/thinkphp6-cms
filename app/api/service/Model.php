@@ -141,44 +141,51 @@ class Model extends ModelLogic
         switch ($type) {
             case 'field':
                 if (!empty($data) && !empty($data['fields'])) {
-                    // Get all existing fields
-                    $existingFields = $this->getExistingFields($modelName);
                     // Get current fields
                     $currentFields = extractValues($data['fields'], 'name');
-                    // Exclude reserved fields
-                    $currentFields = array_diff($currentFields, Config::get('model.reserved_field'));
-                    // Handle table change
-                    $changeFieldInTable = $this->fieldsHandler($existingFields, $currentFields, $data, $modelName);
+                    // Get i18n fields
+                    $i18nFields = $this->getTranslateFields($data['fields']);
 
-                    if ($changeFieldInTable) {
-                        $updateDataField = $this->updateAPI($id, ['data' => $data]);
-                        if ($updateDataField[0]['success'] === true) {
-                            // write to i18n file
-                            if ($this->writeFieldLangFile($data['fields'], $modelName) === false) {
-                                return $this->error('Write field i18n file failed.');
-                            }
-                            // write validate file
-                            $validateRule = $this->createValidateRules($data['fields'], $modelName);
-                            $validateMsg = $this->createMessages($validateRule, $modelName);
-                            $validateScene = $this->createScene($data['fields']);
-                            if ($this->writeValidateFile($modelName, $validateRule, $validateMsg, $validateScene) === false) {
-                                return $this->error('Write validate file failed.');
-                            }
-                            // write validator i18n file
-                            if ($this->writeValidateI18nFile($modelName, $validateMsg) === false) {
-                                return $this->error('Write validate i18n file failed.');
-                            }
-                            // write allow fields file
-                            if ($this->writeAllowConfigFile($modelName, $data['fields']) === false) {
-                                return $this->error('Write allow fields file failed.');
-                            }
-
-                            return $this->success('Update successfully.');
-                        }
-                        return $this->error('Update failed.');
-                    } else {
+                    // main table
+                    $mainTableExist = $this->getExistingFields($modelName);
+                    // Exclude reserved and i18n fields
+                    $mainTableNew = array_diff($currentFields, Config::get('model.reserved_field'), $i18nFields);
+                    $mainTableChangeResult = $this->fieldsHandler($mainTableExist, $mainTableNew, $data, $modelName);
+                    if (!$mainTableChangeResult) {
                         return $this->error($this->error);
                     }
+                    // i18n table
+                    $i18nTableExist = $this->getExistingFields($modelName . '_i18n');
+                    $i18nTableChangeResult = $this->fieldsHandler($i18nTableExist, $i18nFields, $data, $modelName . '_i18n');
+                    if (!$i18nTableChangeResult) {
+                        return $this->error($this->error);
+                    }
+
+                    $updateDataField = $this->updateAPI($id, ['data' => $data]);
+                    if ($updateDataField[0]['success'] === true) {
+                        // write to i18n file
+                        if ($this->writeFieldLangFile($data['fields'], $modelName) === false) {
+                            return $this->error('Write field i18n file failed.');
+                        }
+                        // write validate file
+                        $validateRule = $this->createValidateRules($data['fields'], $modelName);
+                        $validateMsg = $this->createMessages($validateRule, $modelName);
+                        $validateScene = $this->createScene($data['fields']);
+                        if ($this->writeValidateFile($modelName, $validateRule, $validateMsg, $validateScene) === false) {
+                            return $this->error('Write validate file failed.');
+                        }
+                        // write validator i18n file
+                        if ($this->writeValidateI18nFile($modelName, $validateMsg) === false) {
+                            return $this->error('Write validate i18n file failed.');
+                        }
+                        // write allow fields file
+                        if ($this->writeAllowConfigFile($modelName, $data['fields']) === false) {
+                            return $this->error('Write allow fields file failed.');
+                        }
+
+                        return $this->success('Update successfully.');
+                    }
+                    return $this->error('Update failed.');
                 }
                 break;
 
