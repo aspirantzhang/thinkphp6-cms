@@ -42,11 +42,13 @@ trait View
                 if (isset($field['data'])) {
                     $row = (array)Builder::field($modelName . '.' . $field['name'])->type($field['type'])->data($field['data']);
                 }
-                if (isset($field['hideInColumn']) && $field['hideInColumn'] === '1') {
-                    continue;
-                }
-                if (isset($field['listSorter']) && $field['listSorter'] === '1') {
-                    $row['sorter'] = true;
+                if (isset($field['settings']['display'])) {
+                    if (in_array('hideInColumn', $field['settings']['display'])) {
+                        continue;
+                    }
+                    if (in_array('listSorter', $field['settings']['display'])) {
+                        $row['sorter'] = true;
+                    }
                 }
                 $result[] = $row;
             }
@@ -86,10 +88,10 @@ trait View
             }
 
             return Builder::page($modelName . '-layout.' . $modelName . '-add')
-                            ->type('page')
-                            ->tab('basic', $basic)
-                            ->action('actions', $action)
-                            ->toArray();
+                ->type('page')
+                ->tab('basic', $basic)
+                ->action('actions', $action)
+                ->toArray();
         }
         return [];
     }
@@ -106,8 +108,10 @@ trait View
                 if (isset($addField['data'])) {
                     $thisField = Builder::field($modelName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
                 }
-                if (isset($addField['editDisabled']) && $addField['editDisabled'] == 1) {
-                    $thisField->editDisabled = true;
+                if (isset($addField['settings']['display'])) {
+                    if (in_array('editDisabled', $addField['settings']['display'])) {
+                        $thisField->editDisabled = true;
+                    }
                 }
                 $basic[] = $thisField;
             }
@@ -130,10 +134,10 @@ trait View
             }
 
             return Builder::page($modelName . '-layout.' . $modelName . '-edit')
-                            ->type('page')
-                            ->tab('basic', $basic)
-                            ->action('actions', $action)
-                            ->toArray();
+                ->type('page')
+                ->tab('basic', $basic)
+                ->action('actions', $action)
+                ->toArray();
         }
         return [];
     }
@@ -179,11 +183,11 @@ trait View
         $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
 
         return Builder::page($modelName . '-layout.' . $modelName . '-list')
-                        ->type('basic-list')
-                        ->searchBar(true)
-                        ->tableColumn($tableColumn)
-                        ->tableToolBar($tableToolbar)
-                        ->batchToolBar($batchToolbar)
-                        ->toArray();
+            ->type('basic-list')
+            ->searchBar(true)
+            ->tableColumn($tableColumn)
+            ->tableToolBar($tableToolbar)
+            ->batchToolBar($batchToolbar)
+            ->toArray();
     }
 }
