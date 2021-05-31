@@ -82,12 +82,12 @@ class Model extends ModelView
         }
     }
 
-    protected function createSelfRule(string $tableTitle)
+    protected function createSelfRule(string $modelTitle)
     {
         $currentTime = date("Y-m-d H:i:s");
         $rule = (new RuleService())->saveAPI([
             'parent_id' => 0,
-            'rule_title' => $tableTitle,
+            'rule_title' => $modelTitle,
             'create_time' => $currentTime,
             'update_time' => $currentTime,
         ]);
@@ -103,31 +103,43 @@ class Model extends ModelView
     {
         $currentTime = date("Y-m-d H:i:s");
         $childrenRules = [
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Home', 'rule_path' => 'api/' . $modelName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Add', 'rule_path' => 'api/' . $modelName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Save', 'rule_path' => 'api/' . $modelName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Read', 'rule_path' => 'api/' . $modelName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Update', 'rule_path' => 'api/' . $modelName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Delete', 'rule_path' => 'api/' . $modelName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Restore', 'rule_path' => 'api/' . $modelName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_home'), 'rule_path' => 'api/' . $modelName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_add'), 'rule_path' => 'api/' . $modelName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_save'), 'rule_path' => 'api/' . $modelName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_read'), 'rule_path' => 'api/' . $modelName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_update'), 'rule_path' => 'api/' . $modelName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_delete'), 'rule_path' => 'api/' . $modelName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_restore'), 'rule_path' => 'api/' . $modelName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
         ];
         foreach ($childrenRules as $childrenRule) {
             (new RuleService())->saveAPI($childrenRule);
         }
     }
 
-    protected function createSelfMenu(string $modelName, string $tableTitle)
+    protected function createSelfMenu(string $modelName, string $modelTitle)
     {
         $currentTime = date("Y-m-d H:i:s");
         $menu = (new MenuService())->saveAPI([
             'parent_id' => 0,
-            'menu_title' => $tableTitle . ' List',
+            'menu_title' => $modelTitle . ' ' . Lang::get('list'),
             'icon' => 'icon-project',
             'path' => '/basic-list/api/' . $modelName,
             'create_time' => $currentTime,
             'update_time' => $currentTime,
         ]);
         return $menu[0]['data']['id'] ?: 0;
+    }
+
+    protected function createChildrenMenu(int $menuId, string $modelName, string $modelTitle)
+    {
+        $currentTime = date("Y-m-d H:i:s");
+        $childrenMenus = [
+            ['parent_id' => $menuId, 'menu_title' => $modelTitle . ' ' . Lang::get('add'), 'path' => '/basic-list/api/' . $modelName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $menuId, 'menu_title' => $modelTitle . ' ' . Lang::get('edit'), 'path' => '/basic-list/api/' . $modelName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+        ];
+        foreach ($childrenMenus as $childrenMenu) {
+            (new MenuService())->saveAPI($childrenMenu);
+        }
     }
 
     protected function removeMenus(int $menuId)
@@ -153,18 +165,6 @@ class Model extends ModelView
     protected function deleteAllowFieldsFile(string $modelName)
     {
         @unlink(base_path() . 'api\config\\' . Str::studly($modelName) . '.php');
-    }
-
-    protected function createChildrenMenu(int $menuId, string $modelName, string $tableTitle)
-    {
-        $currentTime = date("Y-m-d H:i:s");
-        $childrenMenus = [
-            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Add', 'path' => '/basic-list/api/' . $modelName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Edit', 'path' => '/basic-list/api/' . $modelName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-        ];
-        foreach ($childrenMenus as $childrenMenu) {
-            (new MenuService())->saveAPI($childrenMenu);
-        }
     }
 
     protected function getExistingFields(string $tableName)

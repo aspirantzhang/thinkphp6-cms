@@ -20,4 +20,11 @@ return [
     'disabled' => 'Disabled',
     'session_expired' => 'Your session has expired, please log in again.',
     'no_permission' => 'No permission.',
+    'rule_title_home' => 'Home',
+    'rule_title_add' => 'Add',
+    'rule_title_save' => 'Save',
+    'rule_title_read' => 'Read',
+    'rule_title_update' => 'Update',
+    'rule_title_delete' => 'Delete',
+    'rule_title_restore' => 'Restore',
 ];

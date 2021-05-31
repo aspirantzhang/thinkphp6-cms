@@ -20,4 +20,12 @@ return [
     'disabled' => '已停用',
     'session_expired' => '请重新登陆',
     'no_permission' => '无权限',
+    'rule_title_home' => '列表',
+    'rule_title_add' => '添加',
+    'rule_title_save' => '保存',
+    'rule_title_read' => '读取',
+    'rule_title_update' => '修改',
+    'rule_title_delete' => '删除',
+    'rule_title_restore' => '恢复',
+    
 ];

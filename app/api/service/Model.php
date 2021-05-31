@@ -12,7 +12,7 @@ class Model extends ModelLogic
     public function saveAPI($data, array $relationModel = [])
     {
         $modelName = strtolower($data['model_name']);
-        $tableTitle = (string)$data['model_title'];
+        $modelTitle = (string)$data['model_title'];
 
         if (in_array($modelName, Config::get('model.reserved_table'))) {
             return $this->error('Reserved table name.');
@@ -35,7 +35,7 @@ class Model extends ModelLogic
             // Create files
             $this->createModelFile($modelName);
 
-            if ($this->writeLayoutLangFile($modelName, $tableTitle) === false) {
+            if ($this->writeLayoutLangFile($modelName, $modelTitle) === false) {
                 return $this->error('Write layout language file failed.');
             }
 
@@ -43,19 +43,19 @@ class Model extends ModelLogic
             $this->createTable($modelName);
 
             // Add self rule
-            $ruleId = $this->createSelfRule($tableTitle);
+            $ruleId = $this->createSelfRule($modelTitle);
 
             if ($ruleId) {
                 // Add children rule
-                $this->createChildrenRule((int)$ruleId, $tableTitle, $modelName);
+                $this->createChildrenRule((int)$ruleId, $modelTitle, $modelName);
             }
 
             // Add self menu
-            $menuId = $this->createSelfMenu($modelName, $tableTitle);
+            $menuId = $this->createSelfMenu($modelName, $modelTitle);
 
             if ($menuId) {
                 // Add children menu
-                $this->createChildrenMenu((int)$menuId, $modelName, $tableTitle);
+                $this->createChildrenMenu((int)$menuId, $modelName, $modelTitle);
             }
 
             // store ruleId and menuId for facilitate deletion of model
