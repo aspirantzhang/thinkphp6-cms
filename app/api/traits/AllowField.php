@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\api\traits;
 
 use think\facade\Config;
+use think\helper\Str;
 use aspirantzhang\TPAntdBuilder\Builder;
 
 trait AllowField
@@ -24,6 +25,7 @@ trait AllowField
 
     public function getAllowHome()
     {
+        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
         $builtIn = Config::get('field.allowHome') ?: [];
         $custom = Config::get($this->getName() . '.allowHome') ?: [];
         
@@ -32,6 +34,7 @@ trait AllowField
 
     public function getAllowSort()
     {
+        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
         $builtIn = Config::get('field.allowSort') ?: [];
         $custom = Config::get($this->getName() . '.allowSort') ?: [];
 
@@ -40,6 +43,7 @@ trait AllowField
 
     public function getAllowRead()
     {
+        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
         $builtIn = Config::get('field.allowRead') ?: [];
         $custom = Config::get($this->getName() . '.allowRead') ?: [];
 
@@ -48,6 +52,7 @@ trait AllowField
 
     public function getAllowSave()
     {
+        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
         $builtIn = Config::get('field.allowSave') ?: [];
         $custom = Config::get($this->getName() . '.allowSave') ?: [];
 
@@ -56,6 +61,7 @@ trait AllowField
 
     public function getAllowUpdate()
     {
+        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
         $builtIn = Config::get('field.allowUpdate') ?: [];
         $custom = Config::get($this->getName() . '.allowUpdate') ?: [];
 
@@ -64,6 +70,7 @@ trait AllowField
 
     public function getAllowTranslate()
     {
+        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
         return Config::get($this->getName() . '.allowTranslate') ?: [];
     }
 

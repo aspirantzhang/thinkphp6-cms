@@ -21,11 +21,6 @@ class Common extends GlobalController
         Config::load('api/common/field', 'field');
         Config::load('api/common/reserved', 'reserved');
         Config::load('api/common/response', 'response');
-        $className = class_basename($this);
-        Config::load('api/allowFields/' . $className, $className);
-
-        // halt(Config::get());
-
         // load language pack
         foreach (glob(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/*.php') as $filename) {
             Lang::load($filename);

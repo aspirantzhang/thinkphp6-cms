@@ -45,14 +45,12 @@ class ModelTest extends \tests\api\TestCase
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         $this->endRequest();
-
         // invalid
         $this->startRequest('POST', ['model_name' => 'admin', 'model_title' => 'Admin']);
         $modelController = new ModelController($this->app);
         $response = $modelController->save();
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":false', $response->getContent());
-
         // exist modelName
         $this->startRequest('POST', ['model_name' => 'unit_test', 'model_title' => 'Unit Test']);
         $modelController = new ModelController($this->app);
