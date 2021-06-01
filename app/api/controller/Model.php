@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\api\controller;
 
 use app\api\service\Model as ModelService;
+use think\facade\Config;
 
 class Model extends Common
 {
@@ -32,7 +33,6 @@ class Model extends Common
 
     public function save()
     {
-        halt(Config::get('Admin.allowSave'), Config::get());
         $result = $this->model->saveAPI($this->request->only($this->model->getAllowSave()));
 
         return $this->json(...$result);
