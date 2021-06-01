@@ -14,7 +14,7 @@ class Model extends ModelLogic
         $modelName = strtolower($data['model_name']);
         $modelTitle = (string)$data['model_title'];
 
-        if (in_array($modelName, Config::get('model.reserved_table'))) {
+        if (in_array($modelName, Config::get('reserved.reserved_table'))) {
             return $this->error('Reserved table name.');
         }
 
@@ -134,7 +134,7 @@ class Model extends ModelLogic
             return $this->error('Target not found.');
         }
         // Reserved model check
-        if (in_array($modelName, Config::get('model.reserved_table'))) {
+        if (in_array($modelName, Config::get('reserved.reserved_table'))) {
             return $this->error('Reserved model, operation not allowed.');
         }
         // Check table exists
@@ -153,7 +153,7 @@ class Model extends ModelLogic
                     // main table
                     $mainTableExist = $this->getExistingFields($modelName);
                     // Exclude reserved and i18n fields
-                    $mainTableNew = array_diff($currentFields, Config::get('model.reserved_field'), $i18nFields);
+                    $mainTableNew = array_diff($currentFields, Config::get('reserved.reserved_field'), $i18nFields);
                     $mainTableChangeResult = $this->fieldsHandler($mainTableExist, $mainTableNew, $data, $modelName);
                     if (!$mainTableChangeResult) {
                         return $this->error($this->error);

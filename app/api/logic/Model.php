@@ -164,7 +164,7 @@ class Model extends ModelView
 
     protected function deleteAllowFieldsFile(string $modelName)
     {
-        @unlink(base_path() . 'api\config\\' . Str::studly($modelName) . '.php');
+        @unlink(root_path() . 'config\api\allowFields\\' . Str::studly($modelName) . '.php');
     }
 
     protected function getExistingFields(string $tableName)
@@ -227,7 +227,7 @@ class Model extends ModelView
 
         foreach ($delete as $field) {
             $method = 'DROP IF EXISTS';
-            if (!in_array($field, Config::get('model.reserved_field'))) {
+            if (!in_array($field, Config::get('reserved.reserved_field'))) {
                 $statements[] = " $method `$field`";
             }
         }
@@ -483,8 +483,8 @@ END;
     protected function writeAllowConfigFile($modelName, $fields)
     {
         $modelNameUpper = Str::studly($modelName);
-        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $modelNameUpper . '.php';
-        $stubName = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . '_config.stub';
+        $filename = root_path() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'allowFields' . DIRECTORY_SEPARATOR . $modelNameUpper . '.php';
+        $stubName = root_path() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'allowFields' . DIRECTORY_SEPARATOR . '_config.stub';
 
         $allowHome = [];
         $allowRead = [];

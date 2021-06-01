@@ -48,7 +48,6 @@ trait AllowField
 
     public function getAllowSave()
     {
-        // dump($this->getName(), Config::get('field.allowSave'), Config::get($this->getName() . '.allowSave'));
         $builtIn = Config::get('field.allowSave') ?: [];
         $custom = Config::get($this->getName() . '.allowSave') ?: [];
 
@@ -70,6 +69,6 @@ trait AllowField
 
     protected function isReservedTable()
     {
-        return in_array($this->getTableName(), Config::get('model.reserved_table'));
+        return in_array($this->getTableName(), Config::get('reserved.reserved_table'));
     }
 }

@@ -16,16 +16,16 @@ class Common extends GlobalController
     public function initialize()
     {
         parent::initialize();
-        Config::load('api/field', 'field');
-        Config::load('api/model', 'model');
-        Config::load('api/response', 'response');
 
-        // load allow field config
+        // load config
+        Config::load('api/common/field', 'field');
+        Config::load('api/common/reserved', 'reserved');
+        Config::load('api/common/response', 'response');
         $className = class_basename($this);
-        Config::load(base_path() . 'api\config\\' . $className . '.php', $className);
-        Config::load(base_path() . 'api\config\Test.json', 'test');
-        Config::load(base_path() . 'api\config\Test2.yaml', 'test2');
-        halt(base_path() . 'api\config\\' . $className . '.php', $className, Config::get('level.foo'), Config::get('test.testConfig'), Config::get());
+        Config::load('api/allowFields/' . $className, $className);
+
+        // halt(Config::get());
+
         // load language pack
         foreach (glob(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/*.php') as $filename) {
             Lang::load($filename);
