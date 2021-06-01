@@ -32,7 +32,7 @@ class Model extends Common
 
     public function save()
     {
-        halt($this->model->getAllowSave(), $this->request->param());
+        halt(Config::get('Admin.allowSave'), Config::get());
         $result = $this->model->saveAPI($this->request->only($this->model->getAllowSave()));
 
         return $this->json(...$result);
