@@ -32,6 +32,7 @@ class Model extends Common
 
     public function save()
     {
+        halt($this->model->getAllowSave(), $this->request->param());
         $result = $this->model->saveAPI($this->request->only($this->model->getAllowSave()));
 
         return $this->json(...$result);
