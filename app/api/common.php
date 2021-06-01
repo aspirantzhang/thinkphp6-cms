@@ -32,14 +32,14 @@ function getListParams($params, $allowHome, $allowSort)
     $result = [];
     $result['trash'] = $params['trash'] ?? 'withoutTrashed';
     $result['per_page'] = $params['per_page'] ?? 10;
-    $result['visible'] = array_diff($allowHome, ['sort', 'order', 'page', 'per_page', 'trash']);
+    $result['visible'] = is_array($allowHome) ? array_diff($allowHome, ['sort', 'order', 'page', 'per_page', 'trash']) : [];
     $result['search']['values'] = is_array($params) ? array_intersect_key($params, array_flip($result['visible'])) : [];
     $result['search']['keys'] = array_keys($result['search']['values']);
     $result['sort'] = getSortParam($params, $allowSort);
     return $result;
 }
 
-function getFieldNameByFunctionName($functionName)
+function getFieldNameBySearcherName(string $functionName)
 {
     return parse_name(substr(substr($functionName, 6), 0, -4));
 }

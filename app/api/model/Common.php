@@ -55,7 +55,7 @@ class Common extends GlobalModel
 
     protected function getQueryFieldName($functionName)
     {
-        $fieldName = getFieldNameByFunctionName($functionName);
+        $fieldName = getFieldNameBySearcherName($functionName);
         if ($this->isTranslateField($fieldName)) {
             return 'i.' . $fieldName;
         }
