@@ -23,7 +23,8 @@ class Common extends GlobalController
         // load allow field config
         $className = class_basename($this);
         Config::load(base_path() . 'api\config\\' . $className . '.php', $className);
-        dump(Config::get());
+        Config::load(base_path() . 'api\config\Test.php');
+        halt(base_path() . 'api\config\\' . $className . '.php', $className, Config::get(), Config::get('level.foo'));
         // load language pack
         foreach (glob(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/*.php') as $filename) {
             Lang::load($filename);

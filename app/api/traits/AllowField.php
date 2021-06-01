@@ -48,7 +48,7 @@ trait AllowField
 
     public function getAllowSave()
     {
-        dump($this->getName(), Config::get('field.allowSave'), Config::get($this->getName() . '.allowSave'));
+        // dump($this->getName(), Config::get('field.allowSave'), Config::get($this->getName() . '.allowSave'));
         $builtIn = Config::get('field.allowSave') ?: [];
         $custom = Config::get($this->getName() . '.allowSave') ?: [];
 
