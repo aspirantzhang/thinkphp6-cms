@@ -40,22 +40,6 @@ trait Delete
             } else {
                 return $this->error('Nothing to do.');
             }
-
-            // if ($type === 'deletePermanently') {
-            //     $dataSet = $this->withTrashed()->whereIn('id', array_unique($allIds))->select();
-            //     if (!$dataSet->isEmpty()) {
-            //         $body = $dataSet->toArray();
-            //         foreach ($dataSet as $item) {
-            //             $this->deleteI18nData($item->id);
-            //             $item->force()->delete();
-            //         }
-            //         $result = true;
-            //     } else {
-            //         return $this->error('Nothing to do.');
-            //     }
-            // } else {
-            //     $result = $this->withTrashed()->whereIn('id', array_unique($allIds))->select()->delete();
-            // }
             
             if ($result) {
                 return $this->success('Delete successfully.', $body);

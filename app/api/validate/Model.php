@@ -58,8 +58,7 @@ class Model extends Validate
     {
         if (preg_match("/^[a-z0-9_-]+$/i", $value) == 1) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }
