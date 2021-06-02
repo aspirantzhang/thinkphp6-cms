@@ -10,6 +10,7 @@ use app\api\service\Menu as MenuService;
 use think\facade\Db;
 use think\facade\Console;
 use think\facade\Config;
+use think\facade\Lang;
 use think\helper\Str;
 
 class Model extends ModelView
@@ -19,16 +20,15 @@ class Model extends ModelView
         try {
             Db::query("select 1 from `$tableName` LIMIT 1");
         } catch (\Exception $e) {
-            $this->error = "Table not found.";
             return false;
         }
         return true;
     }
 
-    protected function createModelFile(string $tableName, string $routeName)
+    protected function createModelFile(string $modelName)
     {
         try {
-            Console::call('make:buildModel', [Str::studly($tableName), '--route=' . $routeName]);
+            Console::call('make:buildModel', [Str::studly($modelName), '--route=' . $modelName]);
             return true;
         } catch (\Throwable $e) {
             $this->error = 'Create model file failed.';
@@ -36,10 +36,10 @@ class Model extends ModelView
         }
     }
 
-    protected function removeModelFile(string $tableName)
+    protected function removeModelFile(string $modelName)
     {
         try {
-            Console::call('make:removeModel', [Str::studly($tableName)]);
+            Console::call('make:removeModel', [Str::studly($modelName)]);
             return true;
         } catch (\Throwable $e) {
             $this->error = 'Remove model file failed.';
@@ -73,16 +73,25 @@ class Model extends ModelView
         }
     }
 
-    protected function createSelfRule(string $tableTitle)
+    protected function deleteI18nRecord($originalId)
+    {
+        try {
+            Db::name('model_i18n')->where('original_id', $originalId)->delete();
+        } catch (\Throwable $th) {
+            $this->error = 'Remove i18n record failed.';
+        }
+    }
+
+    protected function createSelfRule(string $modelTitle)
     {
         $currentTime = date("Y-m-d H:i:s");
         $rule = (new RuleService())->saveAPI([
             'parent_id' => 0,
-            'rule_title' => $tableTitle,
+            'rule_title' => $modelTitle,
             'create_time' => $currentTime,
             'update_time' => $currentTime,
         ]);
-        return $rule[0]['data']['id'];
+        return $rule[0]['data']['id'] ?: 0;
     }
 
     protected function removeRules(int $ruleId)
@@ -90,35 +99,47 @@ class Model extends ModelView
         (new RuleService())->deleteAPI([$ruleId], 'deletePermanently');
     }
 
-    protected function createChildrenRule(int $ruleId, string $tableTitle, string $tableName)
+    protected function createChildrenRule(int $ruleId, string $tableTitle, string $modelName)
     {
         $currentTime = date("Y-m-d H:i:s");
         $childrenRules = [
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Home', 'rule_path' => 'api/' . $tableName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Add', 'rule_path' => 'api/' . $tableName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Save', 'rule_path' => 'api/' . $tableName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Read', 'rule_path' => 'api/' . $tableName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Update', 'rule_path' => 'api/' . $tableName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Delete', 'rule_path' => 'api/' . $tableName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' Restore', 'rule_path' => 'api/' . $tableName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_home'), 'rule_path' => 'api/' . $modelName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_add'), 'rule_path' => 'api/' . $modelName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_save'), 'rule_path' => 'api/' . $modelName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_read'), 'rule_path' => 'api/' . $modelName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_update'), 'rule_path' => 'api/' . $modelName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_delete'), 'rule_path' => 'api/' . $modelName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_restore'), 'rule_path' => 'api/' . $modelName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
         ];
         foreach ($childrenRules as $childrenRule) {
             (new RuleService())->saveAPI($childrenRule);
         }
     }
 
-    protected function createSelfMenu(string $routeName, string $tableTitle)
+    protected function createSelfMenu(string $modelName, string $modelTitle)
     {
         $currentTime = date("Y-m-d H:i:s");
         $menu = (new MenuService())->saveAPI([
             'parent_id' => 0,
-            'menu_title' => $tableTitle . ' List',
+            'menu_title' => $modelTitle . ' ' . Lang::get('list'),
             'icon' => 'icon-project',
-            'path' => '/basic-list/api/' . $routeName,
+            'path' => '/basic-list/api/' . $modelName,
             'create_time' => $currentTime,
             'update_time' => $currentTime,
         ]);
-        return $menu[0]['data']['id'];
+        return $menu[0]['data']['id'] ?: 0;
+    }
+
+    protected function createChildrenMenu(int $menuId, string $modelName, string $modelTitle)
+    {
+        $currentTime = date("Y-m-d H:i:s");
+        $childrenMenus = [
+            ['parent_id' => $menuId, 'menu_title' => $modelTitle . ' ' . Lang::get('add'), 'path' => '/basic-list/api/' . $modelName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $menuId, 'menu_title' => $modelTitle . ' ' . Lang::get('edit'), 'path' => '/basic-list/api/' . $modelName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+        ];
+        foreach ($childrenMenus as $childrenMenu) {
+            (new MenuService())->saveAPI($childrenMenu);
+        }
     }
 
     protected function removeMenus(int $menuId)
@@ -126,24 +147,24 @@ class Model extends ModelView
         (new MenuService())->deleteAPI([$menuId], 'deletePermanently');
     }
 
-    protected function deleteLangFile(string $tableName)
+    protected function deleteLangFile(string $modelName)
     {
         $languages = Config::get('lang.allow_lang_list');
         foreach ($languages as $lang) {
-            @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $tableName . '.php');
+            @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $modelName . '.php');
+            @unlink(base_path() . 'api\lang\layout\\' . $lang . '\\' . $modelName . '.php');
+            @unlink(base_path() . 'api\lang\validator\\' . $lang . '\\' . $modelName . '.php');
         }
     }
 
-    protected function createChildrenMenu(int $menuId, string $routeName, string $tableTitle)
+    protected function deleteValidateFile(string $modelName)
     {
-        $currentTime = date("Y-m-d H:i:s");
-        $childrenMenus = [
-            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Add', 'path' => '/basic-list/api/' . $routeName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $menuId, 'menu_title' => $tableTitle . ' Edit', 'path' => '/basic-list/api/' . $routeName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-        ];
-        foreach ($childrenMenus as $childrenMenu) {
-            (new MenuService())->saveAPI($childrenMenu);
-        }
+        @unlink(base_path() . 'api\validate\\' . Str::studly($modelName) . '.php');
+    }
+
+    protected function deleteAllowFieldsFile(string $modelName)
+    {
+        @unlink(root_path() . 'config\api\allowFields\\' . Str::studly($modelName) . '.php');
     }
 
     protected function getExistingFields(string $tableName)
@@ -206,7 +227,7 @@ class Model extends ModelView
 
         foreach ($delete as $field) {
             $method = 'DROP IF EXISTS';
-            if (!in_array($field, Config::get('model.reserved_field'))) {
+            if (!in_array($field, Config::get('reserved.reserved_field'))) {
                 $statements[] = " $method `$field`";
             }
         }
@@ -219,31 +240,302 @@ class Model extends ModelView
             return true;
         } catch (\Exception $e) {
             Db::rollback();
-            $this->error = 'Change table structure failed.';
+            $this->error = 'Change table structure failed: ' . $tableName;
             return false;
         }
     }
 
-    protected function writeLangFile($fields, $tableName)
+    protected function getTranslateFields($fields)
     {
-        $data = '';
+        $result = [];
         foreach ($fields as $field) {
-            if (strpos($field['name'], $tableName . '.') !== false) {
-                $data = $data . "        '" . str_replace($tableName . '.', '', $field['name']) . "' => '" . $field['title'] . "',\n";
+            if ($field['allowTranslate'] ?? false) {
+                array_push($result, $field['name']);
             }
         }
-        // remove last ,\n
-        $data = substr($data, 0, -2);
+        return $result;
+    }
+
+    protected function writeLayoutLangFile($modelName, $modelTitle)
+    {
+        $listText = Lang::get('list');
+        $addText = Lang::get('add');
+        $editText = Lang::get('edit');
         $fileContent = <<<END
 <?php
 
 return [
-    '$tableName' => [
+    '$modelName-layout' =>  [
+        '$modelName-list' => '$modelTitle$listText',
+        '$modelName-add' => '$modelTitle$addText',
+        '$modelName-edit' => '$modelTitle$editText',
+    ]
+];
+
+END;
+        return file_put_contents(base_path() . 'api\lang\layout\\' . $this->getCurrentLanguage() . '\\' . $modelName . '.php', $fileContent);
+    }
+
+    protected function writeFieldLangFile($fields, $modelName)
+    {
+        $data = '';
+        foreach ($fields as $field) {
+            $data = $data . "        '" . $field['name'] . "' => '" . $field['title'] . "',\n";
+        }
+        $data = substr($data, 0, -1);
+        $fileContent = <<<END
+<?php
+
+return [
+    '$modelName' => [
 $data
     ]
 ];
 
 END;
-        return file_put_contents(base_path() . 'api\lang\fields\\' . $this->getCurrentLanguage() . '\\' . $tableName . '.php', $fileContent);
+        return file_put_contents(base_path() . 'api\lang\fields\\' . $this->getCurrentLanguage() . '\\' . $modelName . '.php', $fileContent);
+    }
+
+    /**
+     * Create validate rules (+field prefix)
+     * @param array $fields
+     * @param string $modelName
+     * @return string[]
+     */
+    protected function createValidateRules($fields, $modelName)
+    {
+        $rules = [
+            'id' => 'require|number',
+            'ids' => 'require|numberArray',
+            'status' => 'numberTag',
+            'page' => 'number',
+            'per_page' => 'number',
+            'create_time' => 'require|dateTimeRange',
+        ];
+
+        foreach ($fields as $field) {
+            $fieldName = $field['name'];
+            $ruleString = '';
+            if (!empty($field['settings']['validate'])) {
+                foreach ($field['settings']['validate'] as $validateName) {
+                    switch ($validateName) {
+                        case 'length':
+                            $min = $field['settings']['options']['length']['min'] ?? 0;
+                            $max = $field['settings']['options']['length']['max'] ?? 32;
+                            $ruleString .= $validateName . ':' . (int)$min . ',' . (int)$max . '|';
+                            break;
+                        default:
+                            $ruleString .= $validateName . '|';
+                            break;
+                    }
+                }
+            }
+            $ruleString = substr($ruleString, 0, -1);
+            // +prefix
+            $ruleName = $modelName . '@' . $fieldName;
+            $rules[$ruleName] = $ruleString;
+        }
+        return $rules;
+    }
+
+    protected function createMessages($rules, $modelName)
+    {
+        $result = [];
+        foreach ($rules as $name => $rule) {
+            $keyFieldName = strtr($name, [$modelName . '@' => '']);
+            if (strpos($rule, '|')) {
+                $ruleArr = explode('|', $rule);
+                foreach ($ruleArr as $subRule) {
+                    $result[$keyFieldName . '.' . $subRule] = $name . '#' . $subRule;
+                }
+            } else {
+                $result[$keyFieldName . '.' . $rule] = $name . '#' . $rule;
+            }
+        }
+        return $result;
+    }
+
+    protected function createScene($fields)
+    {
+        $scene = [
+            'save' => ['create_time', 'status'],
+            'update' => ['id', 'create_time', 'status'],
+            'read' => ['id'],
+            'delete' => ['ids'],
+            'restore' => ['ids'],
+            'add' => [''],
+            'home' => [],
+            'homeExclude' => []
+        ];
+        foreach ($fields as $field) {
+            if (isset($field['settings']['validate']) && !empty($field['settings']['validate'])) {
+                // home
+                if ($field['allowHome'] ?? false) {
+                    array_push($scene['home'], $field['name']);
+                    array_push($scene['homeExclude'], $field['name']);
+                }
+                // save
+                if ($field['allowSave'] ?? false) {
+                    array_push($scene['save'], $field['name']);
+                }
+                // update
+                if ($field['allowUpdate'] ?? false) {
+                    array_push($scene['update'], $field['name']);
+                }
+            }
+        }
+        return $scene;
+    }
+
+    protected function writeValidateFile($modelName, $rules, $messages, $scenes)
+    {
+        $modelNameUpper = Str::studly($modelName);
+        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'validate' . DIRECTORY_SEPARATOR . $modelNameUpper . '.php';
+        $stubName = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'validate' . DIRECTORY_SEPARATOR . '_validate.stub';
+
+        $ruleText = '';
+        foreach ($rules as $ruleKey => $ruleValue) {
+            $ruleText .= "        '" . strtr($ruleKey, [$modelName . '@' => '']) . "' => '" . $ruleValue . "',\n";
+        }
+        $ruleText = substr($ruleText, 0, -1);
+
+        $messageText = '';
+        foreach ($messages as $msgKey => $msgValue) {
+            if (strpos($msgKey, ':')) {
+                $msgKey = substr($msgKey, 0, strpos($msgKey, ':'));
+            }
+            $messageText .= "        '" . $msgKey . "' => '" . $msgValue . "',\n";
+        }
+        $messageText = substr($messageText, 0, -1);
+
+        $sceneSave = $scenes['save'] ? '\'' . implode('\', \'', $scenes['save']) . '\'' : '';
+        $sceneUpdate = $scenes['update'] ? '\'' . implode('\', \'', $scenes['update']) . '\'' : '';
+        $sceneHome = $scenes['home'] ? '\'' . implode('\', \'', $scenes['home']) . '\'' : '';
+
+        $sceneHomeExclude = '';
+        foreach ($scenes['homeExclude'] as $exclude) {
+            $sceneHomeExclude .= "\n" . '            ->remove(\'' . $exclude . '\', \'require\')';
+        }
+
+        $content = file_get_contents($stubName);
+        $content = str_replace([
+            '{%modelNameUpper%}',
+            '{%rule%}',
+            '{%message%}',
+            '{%sceneSave%}',
+            '{%sceneUpdate%}',
+            '{%sceneHome%}',
+            '{%sceneHomeExclude%}',
+        ], [
+            $modelNameUpper,
+            $ruleText,
+            $messageText,
+            $sceneSave,
+            $sceneUpdate,
+            $sceneHome,
+            $sceneHomeExclude,
+        ], $content);
+        return file_put_contents($filename, $content);
+    }
+
+    private function getValidateText($langKey)
+    {
+        $fieldName = substr($langKey, 0, strpos($langKey, '#'));
+        $fieldName = strtr($fieldName, ['@' => '.']);
+        $ruleName = substr($langKey, strpos($langKey, '#') + 1);
+        $option = '';
+        if (strpos($ruleName, ':')) {
+            $ruleName = substr($ruleName, 0, strpos($ruleName, ':'));
+            $option = substr($langKey, strpos($langKey, ':') + 1);
+            if ($option) {
+                $option = strtr($option, [',' => ' - ']);
+            }
+        }
+        return Lang::get('validate.' . $ruleName, ['field' => Lang::get($fieldName), 'option' => $option]);
+    }
+
+    protected function writeValidateI18nFile($modelName, $messages)
+    {
+        if (file_exists(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $modelName . '.php')) {
+            Lang::load(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $modelName . '.php');
+        }
+        $exclude = ['id.require', 'id.number', 'ids.require', 'ids.numberArray', 'status.numberTag', 'page.number', 'per_page.number', 'create_time.require', 'create_time.dateTimeRange'];
+        $msgs = array_diff_key($messages, array_flip($exclude));
+
+        $content = '';
+        foreach ($msgs as $langKey) {
+            $content .= '    \'' . $langKey . '\' => \'' . $this->getValidateText($langKey) . "',\n";
+        }
+        $content = substr($content, 0, -1);
+        $content = <<<END
+<?php
+
+return [
+$content
+];
+
+END;
+
+        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . 'validator' . DIRECTORY_SEPARATOR . Lang::getLangSet() . DIRECTORY_SEPARATOR . $modelName . '.php';
+        return file_put_contents($filename, $content);
+    }
+
+    protected function writeAllowConfigFile($modelName, $fields)
+    {
+        $modelNameUpper = Str::studly($modelName);
+        $filename = root_path() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'allowFields' . DIRECTORY_SEPARATOR . $modelNameUpper . '.php';
+        $stubName = root_path() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'allowFields' . DIRECTORY_SEPARATOR . '_config.stub';
+
+        $allowHome = [];
+        $allowRead = [];
+        $allowSave = [];
+        $allowUpdate = [];
+        $allowTranslate = [];
+        
+        foreach ($fields as $field) {
+            // home
+            if ($field['allowHome'] ?? false) {
+                array_push($allowHome, $field['name']);
+            }
+            // read
+            if ($field['allowRead'] ?? false) {
+                array_push($allowRead, $field['name']);
+            }
+            // save
+            if ($field['allowSave'] ?? false) {
+                array_push($allowSave, $field['name']);
+            }
+            // update
+            if ($field['allowUpdate'] ?? false) {
+                array_push($allowUpdate, $field['name']);
+            }
+            // translate
+            if ($field['allowTranslate'] ?? false) {
+                array_push($allowTranslate, $field['name']);
+            }
+        }
+
+        $allowHomeText = $allowHome ? '\'' . implode('\', \'', $allowHome) . '\'' : '';
+        $allowReadText = $allowRead ? '\'' . implode('\', \'', $allowRead) . '\'' : '';
+        $allowSaveText = $allowSave ? '\'' . implode('\', \'', $allowSave) . '\'' : '';
+        $allowUpdateText = $allowUpdate ? '\'' . implode('\', \'', $allowUpdate) . '\'' : '';
+        $allowTranslateText = $allowTranslate ? '\'' . implode('\', \'', $allowTranslate) . '\'' : '';
+
+
+        $content = file_get_contents($stubName);
+        $content = str_replace([
+            '{%allowHome%}',
+            '{%allowRead%}',
+            '{%allowSave%}',
+            '{%allowUpdate%}',
+            '{%allowTranslate%}',
+        ], [
+            $allowHomeText,
+            $allowReadText,
+            $allowSaveText,
+            $allowUpdateText,
+            $allowTranslateText,
+        ], $content);
+        return file_put_contents($filename, $content);
     }
 }

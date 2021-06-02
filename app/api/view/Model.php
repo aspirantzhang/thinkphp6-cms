@@ -13,8 +13,7 @@ class Model extends ModelModel
     {
         $basic = [
             Builder::field('model.model_title')->type('input'),
-            Builder::field('model.table_name')->type('input'),
-            Builder::field('model.route_name')->type('input'),
+            Builder::field('model.model_name')->type('input'),
             Builder::field('create_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
@@ -24,7 +23,7 @@ class Model extends ModelModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/models')->method('post'),
         ];
 
-        return Builder::page('model.model-add')
+        return Builder::page('model-layout.model-add')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -35,8 +34,7 @@ class Model extends ModelModel
     {
         $basic = [
             Builder::field('model.model_title')->type('input')->editDisabled(true),
-            Builder::field('model.table_name')->type('input')->editDisabled(true),
-            Builder::field('model.route_name')->type('input')->editDisabled(true),
+            Builder::field('model.model_name')->type('input')->editDisabled(true),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
@@ -50,7 +48,7 @@ class Model extends ModelModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/models/' . $id)->method('put'),
         ];
 
-        return Builder::page('model.model-edit')
+        return Builder::page('model-layout.model-edit')
             ->type('page')
             ->tab('basic', $basic)
             ->tab('model.data', $dataTab)
@@ -70,18 +68,18 @@ class Model extends ModelModel
         }
         $tableColumn = [
             Builder::field('model.model_title')->type('input'),
-            Builder::field('model.table_name')->type('input'),
-            Builder::field('model.route_name')->type('input'),
+            Builder::field('model.model_name')->type('input'),
             Builder::field('create_time')->type('datetime')->sorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('actions')->data([
                 Builder::button('edit')->type('primary')->call('page')->uri('/api/models/:id'),
-                Builder::button('model.design')->type('primary')->call('modelDesign')->uri('/api/models/design/:id'),
+                Builder::button('model.field_design')->type('default')->call('page')->uri('/api/models/field-design/api/models/design/:id'),
+                Builder::button('model.layout_design')->type('default')->call('page')->uri('/api/models/layout-design/api/models/design/:id'),
                 Builder::button('deletePermanently')->type('danger')->call('deletePermanently')->uri('/api/models/delete')->method('post'),
             ]),
         ];
 
-        return Builder::page('model.model-list')
+        return Builder::page('model-layout.model-list')
             ->type('basic-list')
             ->searchBar(true)
             ->tableColumn($tableColumn)

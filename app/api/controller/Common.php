@@ -16,14 +16,16 @@ class Common extends GlobalController
     public function initialize()
     {
         parent::initialize();
-        Config::load('api/field', 'field');
-        Config::load('api/model', 'model');
-        Config::load('api/response', 'response');
-        $className = class_basename($this);
-        Config::load(base_path() . 'api\config\\' . $className . '.php', $className);
-        
-        // load field language pack
+
+        // load config
+        Config::load('api/common/field', 'field');
+        Config::load('api/common/reserved', 'reserved');
+        Config::load('api/common/response', 'response');
+        // load language pack
         foreach (glob(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/*.php') as $filename) {
+            Lang::load($filename);
+        }
+        foreach (glob(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/*.php') as $filename) {
             Lang::load($filename);
         }
     }

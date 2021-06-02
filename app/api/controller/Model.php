@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\api\controller;
 
 use app\api\service\Model as ModelService;
+use think\facade\Config;
 
 class Model extends Common
 {
@@ -67,7 +68,7 @@ class Model extends Common
 
     public function designUpdate($id)
     {
-        $result = $this->model->designUpdateAPI($id, $this->request->param('data'));
+        $result = $this->model->designUpdateAPI($id, $this->request->param('type'), $this->request->param('data'));
 
         return $this->json(...$result);
     }

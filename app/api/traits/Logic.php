@@ -11,54 +11,28 @@ trait Logic
     
     /**
      * Get the list data.
-     * @param mixed $params Request parameters used for search, sort, pagination etc.
+     * @param mixed $parameters Request parameters
      * @param array $withRelation Relational model array used for Model->with() argument.
      * @return array
      */
-    protected function getListData($params = [], array $withRelation = []): array
+    protected function getListData(array $parameters = [], array $withRelation = [], string $type = 'normal'): array
     {
-        $params['trash'] = $params['trash'] ?? 'withoutTrashed';
-        $search = getSearchParam($params, $this->getAllowSearch());
-        $sort = getSortParam($params, $this->getAllowSort());
-
+        $params = getListParams($parameters, $this->getAllowHome(), $this->getAllowSort());
         $result = $this;
 
         if ($params['trash'] !== 'withoutTrashed') {
             $result = $result->{$params['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
         }
 
-        return $this->addI18n($result->with($withRelation))
-            ->withSearch(array_keys($search), $search)
-            ->order($sort['name'], $sort['order'])
-            ->visible($this->getAllowList())
-            ->select()
-            ->toArray();
-    }
+        $result = $this->addI18n($result->with($withRelation))
+            ->withSearch($params['search']['keys'], $params['search']['values'])
+            ->order($params['sort']['name'], $params['sort']['order'])
+            ->visible($params['visible']);
 
-    /**
-     * Get the list data with pagination.
-     * @param mixed $params Request parameters used for search, sort, pagination etc.
-     * @param array $withRelation Relational model array used for Model->with() argument.
-     * @return array
-     */
-    protected function getPaginatedListData($params = [], array $withRelation = []): array
-    {
-        $search = getSearchParam($params, $this->getAllowSearch());
-        $sort = getSortParam($params, $this->getAllowSort());
-        $perPage = $params['per_page'] ?? 10;
-       
-        $result = $this;
-
-        if ($params['trash'] !== 'withoutTrashed') {
-            $result = $result->{$params['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
+        if ($type === 'paginated') {
+            return $result->paginate($params['per_page'])->toArray();
         }
-
-        return $this->addI18n($result->with($withRelation))
-            ->withSearch(array_keys($search), $search)
-            ->order($sort['name'], $sort['order'])
-            ->visible($this->getAllowList())
-            ->paginate($perPage)
-            ->toArray();
+        return $result->select()->toArray();
     }
 
     /**

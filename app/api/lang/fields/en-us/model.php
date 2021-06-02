@@ -3,12 +3,9 @@
 return [
     'model' =>  [
         'model_title' => 'Title',
-        'table_name' => 'Table Name',
-        'route_name' => 'Route Name',
+        'model_name' => 'Model Name',
         'data' => 'Data',
-        'design' => 'Design',
-        'model-list' => 'Model List',
-        'model-add' => 'Model Add',
-        'model-edit' => 'Model Edit'
+        'field_design' => 'Field Design',
+        'layout_design' => 'Layout Design',
     ]
 ];

@@ -26,7 +26,7 @@ class AuthRule extends AuthRuleModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/rules')->method('post'),
         ];
 
-        return Builder::page('rule.rule-add')
+        return Builder::page('rule-layout.rule-add')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -51,7 +51,7 @@ class AuthRule extends AuthRuleModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/rules/' . $id)->method('put'),
         ];
 
-        return Builder::page('rule.rule-edit')
+        return Builder::page('rule-layout.rule-edit')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -86,7 +86,7 @@ class AuthRule extends AuthRuleModel
             ]),
         ];
 
-        return Builder::page('rule.rule-list')
+        return Builder::page('rule-layout.rule-list')
             ->type('basic-list')
             ->searchBar(true)
             ->tableColumn($tableColumn)

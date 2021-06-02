@@ -28,8 +28,8 @@ class BackendAuth
     public function handle($request, \Closure $next)
     {
         Config::load('api/response', 'response');
-        foreach (glob(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/*.php') as $filename) {
-            Lang::load($filename);
+        if (file_exists(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/_built-in.php')) {
+            Lang::load(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/_built-in.php');
         }
 
         $appName = parse_name(app('http')->getName());

@@ -11,15 +11,14 @@ class Model extends ModelLogic
 {
     public function saveAPI($data, array $relationModel = [])
     {
-        $tableName = strtolower($data['table_name']);
-        $routeName = strtolower($data['route_name']);
-        $tableTitle = (string)$data['model_title'];
+        $modelName = strtolower($data['model_name']);
+        $modelTitle = (string)$data['model_title'];
 
-        if (in_array($tableName, Config::get('model.reserved_table'))) {
+        if (in_array($modelName, Config::get('reserved.reserved_table'))) {
             return $this->error('Reserved table name.');
         }
 
-        if ($this->existsTable($tableName)) {
+        if ($this->existsTable($modelName)) {
             return $this->error('Table already exists.');
         }
 
@@ -34,25 +33,29 @@ class Model extends ModelLogic
             $this->saveI18nData($data, $this->getData('id'));
             
             // Create files
-            $this->createModelFile($tableName, $routeName);
+            $this->createModelFile($modelName);
+
+            if ($this->writeLayoutLangFile($modelName, $modelTitle) === false) {
+                return $this->error('Write layout language file failed.');
+            }
 
             // Create table
-            $this->createTable($tableName);
+            $this->createTable($modelName);
 
             // Add self rule
-            $ruleId = $this->createSelfRule($tableTitle);
+            $ruleId = $this->createSelfRule($modelTitle);
 
             if ($ruleId) {
                 // Add children rule
-                $this->createChildrenRule((int)$ruleId, $tableTitle, $tableName);
+                $this->createChildrenRule((int)$ruleId, $modelTitle, $modelName);
             }
 
             // Add self menu
-            $menuId = $this->createSelfMenu($routeName, $tableTitle);
+            $menuId = $this->createSelfMenu($modelName, $modelTitle);
 
             if ($menuId) {
                 // Add children menu
-                $this->createChildrenMenu((int)$menuId, $routeName, $tableTitle);
+                $this->createChildrenMenu((int)$menuId, $modelName, $modelTitle);
             }
 
             // store ruleId and menuId for facilitate deletion of model
@@ -76,15 +79,18 @@ class Model extends ModelLogic
             try {
                 $model->force()->delete();
 
-                $tableName = $model->table_name;
+                // delete i18n table record
+                $this->deleteI18nRecord($ids[0]);
+
+                $modelName = $model->model_name;
                 $ruleId = $model->rule_id;
                 $menuId = $model->menu_id;
 
                 // Remove model file
-                $this->removeModelFile($tableName);
+                $this->removeModelFile($modelName);
 
                 // Remove Table
-                $this->removeTable($tableName);
+                $this->removeTable($modelName);
 
                 // Remove rules
                 $this->removeRules($ruleId);
@@ -93,8 +99,14 @@ class Model extends ModelLogic
                 $this->removeMenus($menuId);
 
                 // Remove I18n files
-                $this->deleteLangFile($tableName);
+                $this->deleteLangFile($modelName);
 
+                // Remove allow fields config file
+                $this->deleteAllowFieldsFile($modelName);
+
+                // Remove validate file
+                $this->deleteValidateFile($modelName);
+                
                 $model->commit();
                 return $this->success('Delete successfully.');
             } catch (\Exception $e) {
@@ -114,46 +126,80 @@ class Model extends ModelLogic
         }
     }
 
-    public function designUpdateAPI($id, $data)
+    public function designUpdateAPI($id, $type, $data)
     {
-        $tableName = $this->where('id', $id)->value('table_name');
+        $modelName = $this->where('id', $id)->value('model_name');
 
-        if (!$tableName) {
+        if (!$modelName) {
             return $this->error('Target not found.');
         }
-
         // Reserved model check
-        if (in_array($tableName, Config::get('model.reserved_table'))) {
+        if (in_array($modelName, Config::get('reserved.reserved_table'))) {
             return $this->error('Reserved model, operation not allowed.');
         }
-
         // Check table exists
-        if (!$this->existsTable($tableName)) {
-            return $this->error($this->error);
+        if (!$this->existsTable($modelName)) {
+            return $this->error('Model table not exist.');
         }
 
-        if (!empty($data) && !empty($data['fields'])) {
-            // Get all existing fields
-            $existingFields = $this->getExistingFields($tableName);
-            // Get current fields
-            $currentFields = extractValues($data['fields'], 'name');
-            // Exclude reserved fields
-            $currentFields = array_diff($currentFields, Config::get('model.reserved_field'));
-            // Handle table change
-            $changeFieldInTable = $this->fieldsHandler($existingFields, $currentFields, $data, $tableName);
+        switch ($type) {
+            case 'field':
+                if (!empty($data) && !empty($data['fields'])) {
+                    // Get current fields
+                    $currentFields = extractValues($data['fields'], 'name');
+                    // Get i18n fields
+                    $i18nFields = $this->getTranslateFields($data['fields']);
 
-            if ($changeFieldInTable) {
-                $updateDataField = $this->updateAPI($id, ['data' => $data]);
-                if ($updateDataField[0]['success'] === true) {
-                    // write to i18n file
-                    $this->writeLangFile($data['fields'], $tableName);
-                    return $this->success('Update successfully.');
+                    // main table
+                    $mainTableExist = $this->getExistingFields($modelName);
+                    // Exclude reserved and i18n fields
+                    $mainTableNew = array_diff($currentFields, Config::get('reserved.reserved_field'), $i18nFields);
+                    $mainTableChangeResult = $this->fieldsHandler($mainTableExist, $mainTableNew, $data, $modelName);
+                    if (!$mainTableChangeResult) {
+                        return $this->error($this->error);
+                    }
+                    // i18n table
+                    $i18nTableExist = $this->getExistingFields($modelName . '_i18n');
+                    $i18nTableChangeResult = $this->fieldsHandler($i18nTableExist, $i18nFields, $data, $modelName . '_i18n');
+                    if (!$i18nTableChangeResult) {
+                        return $this->error($this->error);
+                    }
+
+                    $updateDataField = $this->updateAPI($id, ['data' => $data]);
+                    if ($updateDataField[0]['success'] === true) {
+                        // write to i18n file
+                        if ($this->writeFieldLangFile($data['fields'], $modelName) === false) {
+                            return $this->error('Write field i18n file failed.');
+                        }
+                        // write validate file
+                        $validateRule = $this->createValidateRules($data['fields'], $modelName);
+                        $validateMsg = $this->createMessages($validateRule, $modelName);
+                        $validateScene = $this->createScene($data['fields']);
+                        if ($this->writeValidateFile($modelName, $validateRule, $validateMsg, $validateScene) === false) {
+                            return $this->error('Write validate file failed.');
+                        }
+                        // write validator i18n file
+                        if ($this->writeValidateI18nFile($modelName, $validateMsg) === false) {
+                            return $this->error('Write validate i18n file failed.');
+                        }
+                        // write allow fields file
+                        if ($this->writeAllowConfigFile($modelName, $data['fields']) === false) {
+                            return $this->error('Write allow fields file failed.');
+                        }
+
+                        return $this->success('Update successfully.');
+                    }
+                    return $this->error('Update failed.');
                 }
-                return $this->error('Update failed.');
-            } else {
-                return $this->error($this->error);
-            }
+                break;
+
+            case 'layout':
+                return $this->updateAPI($id, ['data' => $data]);
+            
+            default:
+                break;
         }
+        
         return $this->error('Nothing to do.');
     }
 }
