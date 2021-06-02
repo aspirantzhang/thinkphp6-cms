@@ -27,5 +27,4 @@ return [
     'rule_title_update' => '修改',
     'rule_title_delete' => '删除',
     'rule_title_restore' => '恢复',
-    
 ];
