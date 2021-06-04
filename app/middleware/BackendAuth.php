@@ -27,7 +27,7 @@ class BackendAuth
 
     public function handle($request, \Closure $next)
     {
-        Config::load('api/response', 'response');
+        Config::load('api/common/response', 'response');
         if (file_exists(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/_built-in.php')) {
             Lang::load(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/_built-in.php');
         }
@@ -41,7 +41,7 @@ class BackendAuth
         if (in_array($fullPath, $this->noNeedAuth) || $request->param('X-API-KEY') == 'antd') {
             return $next($request);
         } else {
-            $auth = new Auth();
+            $auth = Auth::getInstance();
             if (!Session::has('adminId')) {
                 $data = [
                     'success' => false,

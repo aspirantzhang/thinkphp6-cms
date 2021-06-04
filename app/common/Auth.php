@@ -13,11 +13,9 @@ use app\api\service\AuthGroup;
 
 class Auth
 {
-    /**
-     * @var object 对象实例
-     */
+ 
     protected static $instance;
-/**
+    /**
      * 默认配置
      * 优先级低于 config/auth.php
      */
@@ -29,16 +27,20 @@ class Auth
         'auth_rule' => 'auth_rule', // 权限规则表
         'auth_user' => 'admin', // 用户信息表
     ];
-/**
+    /**
      * 构造方法
      * Auth constructor.
      */
-    public function __construct()
+    private function __construct()
     {
         //可设置配置项 auth, 此配置项为数组。
         if ($auth = Config::get('auth')) {
             $this->config = array_merge($this->config, $auth);
         }
+    }
+    
+    private function __clone()
+    {
     }
 
     /**
@@ -47,7 +49,7 @@ class Auth
      * @param array $options 参数
      * @return \think\Request
      */
-    public static function instance(array $options = []): Auth
+    public static function getInstance(array $options = []): Auth
     {
         if (is_null(self::$instance)) {
             self::$instance = new static($options);
