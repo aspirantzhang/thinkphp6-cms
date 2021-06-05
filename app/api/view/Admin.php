@@ -76,7 +76,7 @@ class Admin extends AdminModel
             Builder::field('admin.admin_name')->type('input'),
             Builder::field('admin.groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
             Builder::field('admin.display_name')->type('input'),
-            Builder::field('create_time')->type('datetime')->sorter(true),
+            Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('trash')->type('trash'),
             Builder::field('actions')->data([
@@ -89,7 +89,7 @@ class Admin extends AdminModel
                 Builder::field('admin.admin_name')->type('input'),
                 Builder::field('admin.groups')->type('tree')->data($addonData['groups'])->hideInColumn(true),
                 Builder::field('admin.display_name')->type('input'),
-                Builder::field('delete_time')->type('datetime')->sorter(true),
+                Builder::field('delete_time')->type('datetime')->listSorter(true),
                 Builder::field('status')->type('switch')->data($addonData['status']),
                 Builder::field('trash')->type('trash'),
                 Builder::field('actions')->data([

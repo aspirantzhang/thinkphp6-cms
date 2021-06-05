@@ -77,7 +77,7 @@ class AuthRule extends AuthRuleModel
         $tableColumn = [
             Builder::field('rule.rule_title')->type('input'),
             Builder::field('rule.rule_path')->type('input'),
-            Builder::field('create_time')->type('datetime')->sorter(true),
+            Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('trash')->type('trash'),
             Builder::field('actions')->data([

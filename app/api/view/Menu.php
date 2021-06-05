@@ -83,7 +83,7 @@ class Menu extends MenuModel
             Builder::field('menu.icon')->type('input'),
             Builder::field('menu.path')->type('input'),
             Builder::field('menu.hide_in_menu')->type('switch')->data($addonData['hide_in_menu']),
-            Builder::field('create_time')->type('datetime')->sorter(true),
+            Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('trash')->type('trash'),
             Builder::field('actions')->data([

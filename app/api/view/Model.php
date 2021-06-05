@@ -69,7 +69,7 @@ class Model extends ModelModel
         $tableColumn = [
             Builder::field('model.model_title')->type('input'),
             Builder::field('model.model_name')->type('input'),
-            Builder::field('create_time')->type('datetime')->sorter(true),
+            Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('actions')->data([
                 Builder::button('edit')->type('primary')->call('page')->uri('/api/models/:id'),
