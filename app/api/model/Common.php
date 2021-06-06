@@ -24,9 +24,9 @@ class Common extends GlobalModel
     use AllowFieldTrait;
 
     protected $deleteTime = 'delete_time';
-    protected $unique;
     protected $defaultLanguage = 'en-us';
-    protected $titleField = '';
+    protected $uniqueField = null;
+    protected $titleField = null;
 
     protected function getTableName()
     {

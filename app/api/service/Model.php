@@ -18,12 +18,12 @@ class Model extends ModelLogic
             return $this->error('Reserved table name.');
         }
 
-        if ($this->existsTable($modelName)) {
-            return $this->error('Table already exists.');
+        if ($this->checkUniqueFields($data, $this->getTableName()) === false) {
+            return $this->error($this->error);
         }
 
-        if ($this->checkUniqueFields($data) === false) {
-            return $this->error($this->error);
+        if ($this->existsTable($modelName)) {
+            return $this->error('Table already exists.');
         }
 
         $this->startTrans();

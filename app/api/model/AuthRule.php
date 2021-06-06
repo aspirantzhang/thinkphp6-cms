@@ -10,7 +10,6 @@ use aspirantzhang\TPAntdBuilder\Builder;
 class AuthRule extends Common
 {
     protected $readonly = ['id'];
-    protected $unique = [];
     protected $titleField = 'rule_title';
 
     protected function setAddonData($params = [])

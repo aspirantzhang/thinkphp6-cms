@@ -9,7 +9,7 @@ use app\api\service\AuthGroup as AuthGroupService;
 class Admin extends Common
 {
     protected $readonly = ['id', 'admin_name'];
-    protected $unique = [ 'admin_name' => 'Admin Name' ];
+    protected $uniqueField = ['admin_name'];
     protected $titleField = 'admin_name';
 
     public function setAddonData()
