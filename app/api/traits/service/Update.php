@@ -28,7 +28,7 @@ trait Update
     {
         $model = $this->where('id', $id)->find();
         if ($model) {
-            if ($model->checkUniqueFields($data) === false) {
+            if ($model->checkUniqueFields($data, $this->getTableName()) === false) {
                 return $this->error($this->error);
             }
             $model->startTrans();

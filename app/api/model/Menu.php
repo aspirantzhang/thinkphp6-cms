@@ -9,7 +9,6 @@ use aspirantzhang\TPAntdBuilder\Builder;
 class Menu extends Common
 {
     protected $readonly = ['id'];
-    protected $unique = [];
     protected $titleField = 'menu_title';
 
     protected function setAddonData($params = [])

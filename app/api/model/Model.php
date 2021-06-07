@@ -11,7 +11,7 @@ class Model extends Common
     protected $json = ['data'];
     protected $jsonAssoc = true;
     protected $readonly = ['id', 'model_title', 'model_name'];
-    protected $unique = ['model_title' => 'Model Title', 'model_name' => 'Model Name'];
+    protected $uniqueField = ['model_title', 'model_name'];
 
     // Mutator
     public function setModelNameAttr($value)

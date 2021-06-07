@@ -26,7 +26,7 @@ trait Save
 
     public function saveAPI($data, array $relationModel = [])
     {
-        if ($this->checkUniqueFields($data) === false) {
+        if ($this->checkUniqueFields($data, $this->getTableName()) === false) {
             return $this->error($this->error);
         }
         $this->startTrans();

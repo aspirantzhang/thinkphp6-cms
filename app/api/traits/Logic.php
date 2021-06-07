@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\api\traits;
 
 use think\facade\Db;
+use think\facade\Lang;
 
 trait Logic
 {
@@ -40,13 +41,13 @@ trait Logic
      * @param mixed $data Request data
      * @return bool
      */
-    protected function checkUniqueFields($data): bool
+    protected function checkUniqueFields($data, $modelName): bool
     {
-        $uniqueFields = $this->unique ?? [];
+        $uniqueFields = $this->uniqueField ?? [];
         if (is_array($uniqueFields) && !empty($uniqueFields)) {
-            foreach ($uniqueFields as $field => $title) {
+            foreach ($uniqueFields as $field) {
                 if (isset($data[$field]) && $this->ifExists($field, $data[$field])) {
-                    $this->error = 'The ' . $title . ' already exists.';
+                    $this->error = 'The ' . Lang::get($modelName . '.' . $field) . ' already exists.';
                     return false;
                 }
             }
