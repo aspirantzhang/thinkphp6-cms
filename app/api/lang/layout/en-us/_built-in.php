@@ -18,8 +18,6 @@ return [
     'withoutTrashed' => 'Without Trashed',
     'enabled' => 'Enabled',
     'disabled' => 'Disabled',
-    'session_expired' => 'Your session has expired, please log in again.',
-    'no_permission' => 'No permission.',
     'rule_title_home' => 'Home',
     'rule_title_add' => 'Add',
     'rule_title_save' => 'Save',
@@ -27,4 +25,6 @@ return [
     'rule_title_update' => 'Update',
     'rule_title_delete' => 'Delete',
     'rule_title_restore' => 'Restore',
+    'session_expired' => 'Your session has expired, please log in again.',
+    'no_permission' => 'No permission.',
 ];

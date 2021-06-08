@@ -18,8 +18,6 @@ return [
     'withoutTrashed' => '不包含已删除',
     'enabled' => '已启用',
     'disabled' => '已停用',
-    'session_expired' => '请重新登陆',
-    'no_permission' => '无权限',
     'rule_title_home' => '列表',
     'rule_title_add' => '添加',
     'rule_title_save' => '保存',
@@ -27,4 +25,7 @@ return [
     'rule_title_update' => '修改',
     'rule_title_delete' => '删除',
     'rule_title_restore' => '恢复',
+    'session_expired' => '请重新登陆',
+    'no_permission' => '无权限',
+    'Incorrect username or password' => '用户名或密码不正确',
 ];

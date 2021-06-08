@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\api\service;
 
 use app\api\logic\Admin as AdminLogic;
+use think\facade\Lang;
 
 class Admin extends AdminLogic
 {
@@ -22,6 +23,6 @@ class Admin extends AdminLogic
             }
         }
 
-        return $this->error('Incorrect username or password.');
+        return $this->error(__('Incorrect username or password'));
     }
 }
