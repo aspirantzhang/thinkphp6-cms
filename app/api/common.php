@@ -158,7 +158,7 @@ function getDescendantSet(string $wantedColumn, string $findFieldName, $findValu
     if (!$treeStructureArray) {
         return [];
     }
-    $array = findSubArray($findValue, $findFieldName, $treeStructureArray);
+    $array = searchArrayByElement($findValue, $findFieldName, $treeStructureArray);
     if (!$descendant) {
         if (isset($array['children'])) {
             return array_column($array['children'], $wantedColumn);
@@ -177,21 +177,16 @@ function getDescendantSet(string $wantedColumn, string $findFieldName, $findValu
     return findFieldInDescendant($wantedColumn, $array['children']);
 }
 
-// TODO:rewrite & improve
-function findSubArray($value, string $field, $treeStructureArray = [])
+function searchArrayByElement($value, string $key, array $haystack)
 {
+    $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($haystack));
 
-    $array = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($treeStructureArray));
-
-    $result = [];
-    foreach ($array as $subArray) {
-        $subArray = $array->getSubIterator();
-        if (isset($subArray[$field]) && $subArray[$field] == $value) {
-            $result = iterator_to_array($subArray);
+    foreach ($iterator as $currentIteratorValue) {
+        $subIterator = $iterator->getSubIterator();
+        if (isset($subIterator[$key]) && $subIterator[$key] === $value) {
+            return (iterator_to_array($subIterator));
         }
     }
-
-    return $result;
 }
 
 // TODO:rewrite & improve
