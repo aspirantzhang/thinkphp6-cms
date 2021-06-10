@@ -152,29 +152,23 @@ function extractValues(array $array = [], string $targetKeyName = 'id', string $
     return [];
 }
 
-// TODO:rewrite & improve
-function getDescendantSet(string $wantedColumn, string $findFieldName, $findValue, $treeStructureArray = [], $descendant = true)
+function searchDescendantValueAggregation(string $keyName, string $elementKey, $elementValue, array $haystack, $deepSearch = true)
 {
-    if (!$treeStructureArray) {
-        return [];
-    }
-    $array = searchArrayByElement($findValue, $findFieldName, $treeStructureArray);
-    if (!$descendant) {
-        if (isset($array['children'])) {
-            return array_column($array['children'], $wantedColumn);
+    $currentElement = searchArrayByElement($elementValue, $elementKey, $haystack);
+
+    if (!isset($currentElement['children'])) {
+        if (isset($currentElement[$keyName])) {
+            return [$currentElement[$keyName]];
         } else {
             return [];
         }
     }
-    if (!isset($array['children'])) {
-        if (isset($array[$wantedColumn])) {
-            return [$array[$wantedColumn]];
-        } else {
-            return [];
-        }
+    
+    if (!$deepSearch) {
+        return array_column($currentElement['children'], $keyName);
     }
 
-    return findFieldInDescendant($wantedColumn, $array['children']);
+    return recursiveSearchChildrenValue($keyName, $currentElement['children']);
 }
 
 function searchArrayByElement($value, string $key, array $haystack)
@@ -189,14 +183,13 @@ function searchArrayByElement($value, string $key, array $haystack)
     }
 }
 
-// TODO:rewrite & improve
-function findFieldInDescendant(string $field, $array = [])
+function recursiveSearchChildrenValue($needle, array $haystack)
 {
-    $result = array_column($array, $field);
+    $result = array_column($haystack, $needle);
 
-    foreach ($array as $arr) {
-        if (isset($arr['children'])) {
-            $result = array_merge($result, findFieldInDescendant($field, $arr['children']));
+    foreach ($haystack as $array) {
+        if (isset($array['children']) && is_array($array['children'])) {
+            $result = array_merge($result, recursiveSearchChildrenValue($needle, $array['children']));
         }
     }
 

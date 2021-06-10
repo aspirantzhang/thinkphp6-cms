@@ -21,8 +21,9 @@ trait Delete
             $allIds = [];
             $body = [];
             foreach ($ids as $id) {
-                $allIds[] = (int)$id;
-                $allIds = array_merge($allIds, getDescendantSet('id', 'id', $id, $tree));
+                $id = (int)$id;
+                $allIds[] = $id;
+                $allIds = array_merge($allIds, searchDescendantValueAggregation('id', 'id', $id, $tree));
             }
 
             $dataSet = $this->withTrashed()->whereIn('id', array_unique($allIds))->select();

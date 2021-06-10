@@ -31,7 +31,7 @@ trait Restore
     {
         $tree = $this->treeDataAPI(['trash' => 'withTrashed']);
         // get all the ids of the record's children
-        $childrenIds = getDescendantSet('id', 'id', $record['id'], $tree, false);
+        $childrenIds = searchDescendantValueAggregation('id', 'id', (int)$record['id'], $tree, false);
         if (!empty($childrenIds)) {
             // calculate the id that not included in this operation
             // they should set the parent_id = 0
