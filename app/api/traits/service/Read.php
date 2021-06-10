@@ -38,7 +38,7 @@ trait Read
 
             return $this->success('', $layout);
         } else {
-            return $this->error('Target not found.');
+            return $this->error(__('no target'));
         }
     }
 }

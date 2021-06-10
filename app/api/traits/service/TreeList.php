@@ -23,7 +23,7 @@ trait TreeList
             if (isTreeArray($data)) {
                 $layout['dataSource'] = arrayToTree($data);
             } else {
-                return $this->error('Data loading error.');
+                return $this->error(__('unable to load page data'));
             }
         }
         return $this->success('', $layout);
@@ -41,7 +41,7 @@ trait TreeList
 
         if (!empty($data)) {
             if (!isTreeArray($data) || !isset($this->titleField)) {
-                $this->error = 'Not a valid tree array';
+                $this->error = __('invalid data structure');
                 return [];
             }
             $data = array_map(function ($model) use ($parentTreeExceptId) {

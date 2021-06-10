@@ -38,16 +38,16 @@ trait Delete
                 }
                 $result = true;
             } else {
-                return $this->error('Nothing to do.');
+                return $this->error(__('no target'));
             }
             
             if ($result) {
-                return $this->success('Delete successfully.', $body);
+                return $this->success(__('delete successfully'), $body);
             } else {
-                return $this->error('Delete failed.');
+                return $this->error(__('operation failed'));
             }
         } else {
-            return $this->error('Nothing to do.');
+            return $this->error(__('no target'));
         }
     }
 }
