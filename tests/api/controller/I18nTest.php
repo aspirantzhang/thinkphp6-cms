@@ -57,6 +57,6 @@ class I18nTest extends \tests\api\TestCase
         $adminController = new AdminController($this->app);
         $response = $adminController->read(3);
         $this->assertEquals(200, $response->getCode());
-        $this->assertStringStartsWith('{"success":false,"message":"Target not found."', $response->getContent());
+        $this->assertStringStartsWith('{"success":false', $response->getContent());
     }
 }

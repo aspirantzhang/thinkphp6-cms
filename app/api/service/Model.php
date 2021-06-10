@@ -19,7 +19,7 @@ class Model extends ModelLogic
         }
 
         if ($this->checkUniqueFields($data, $this->getTableName()) === false) {
-            return $this->error($this->error);
+            return $this->error($this->getError());
         }
 
         if ($this->existsTable($modelName)) {
@@ -157,13 +157,13 @@ class Model extends ModelLogic
                     $mainTableNew = array_diff($currentFields, Config::get('reserved.reserved_field'), $i18nFields);
                     $mainTableChangeResult = $this->fieldsHandler($mainTableExist, $mainTableNew, $data, $modelName);
                     if (!$mainTableChangeResult) {
-                        return $this->error($this->error);
+                        return $this->error($this->getError());
                     }
                     // i18n table
                     $i18nTableExist = $this->getExistingFields($modelName . '_i18n');
                     $i18nTableChangeResult = $this->fieldsHandler($i18nTableExist, $i18nFields, $data, $modelName . '_i18n');
                     if (!$i18nTableChangeResult) {
-                        return $this->error($this->error);
+                        return $this->error($this->getError());
                     }
 
                     $updateDataField = $this->updateAPI($id, ['data' => $data]);
