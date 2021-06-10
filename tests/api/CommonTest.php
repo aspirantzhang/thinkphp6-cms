@@ -317,14 +317,14 @@ class CommonTest extends TestCase
         $this->assertEqualsCanonicalizing($expect6, $actual6);
     }
 
-    public function testGetDescendantSetInvalidParam()
+    public function testSearchDescendantInvalidParam()
     {
-        $actual = getDescendantSet('', '', '');
+        $actual = searchDescendantValueAggregation('', '', '', []);
         $expect = [];
         $this->assertEqualsCanonicalizing($expect, $actual);
     }
 
-    public function testGetDescendantSetValidParam()
+    public function testSearchDescendantValidParam()
     {
         $array = [
             [
@@ -355,23 +355,23 @@ class CommonTest extends TestCase
             ]
         ];
 
-        $actual1 = getDescendantSet('id', 'name', 'two', $array);
+        $actual1 = searchDescendantValueAggregation('id', 'name', 'two', $array);
         $expect1 = [3, 4, 5];
         $this->assertEqualsCanonicalizing($expect1, $actual1);
 
-        $actual2 = getDescendantSet('id', 'name', 'two', $array, false);
+        $actual2 = searchDescendantValueAggregation('id', 'name', 'two', $array, false);
         $expect2 = [3];
         $this->assertEqualsCanonicalizing($expect2, $actual2);
 
-        $actual3 = getDescendantSet('id', 'name', 'four', $array);
+        $actual3 = searchDescendantValueAggregation('id', 'name', 'four', $array);
         $expect3 = [4];
         $this->assertEqualsCanonicalizing($expect3, $actual3);
 
-        $actual4 = getDescendantSet('id', 'name', 'unknown', $array);
+        $actual4 = searchDescendantValueAggregation('id', 'name', 'unknown', $array);
         $expect4 = [];
         $this->assertEqualsCanonicalizing($expect4, $actual4);
 
-        $actual5 = getDescendantSet('id', 'name', 'unknown', $array, false);
+        $actual5 = searchDescendantValueAggregation('id', 'name', 'unknown', $array, false);
         $expect5 = [];
         $this->assertEqualsCanonicalizing($expect5, $actual5);
     }
