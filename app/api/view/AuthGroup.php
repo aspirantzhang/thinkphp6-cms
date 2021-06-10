@@ -12,9 +12,9 @@ class AuthGroup extends GroupModel
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('group.group_title')->type('input'),
+            Builder::field('auth_group.group_title')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
-            Builder::field('group.rules')->type('tree')->data($addonData['rules']),
+            Builder::field('auth_group.rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
@@ -25,7 +25,7 @@ class AuthGroup extends GroupModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/groups')->method('post'),
         ];
 
-        return Builder::page('group-layout.group-add')
+        return Builder::page('auth_group-layout.group-add')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -35,9 +35,9 @@ class AuthGroup extends GroupModel
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('group.group_title')->type('input'),
+            Builder::field('auth_group.group_title')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
-            Builder::field('group.rules')->type('tree')->data($addonData['rules']),
+            Builder::field('auth_group.rules')->type('tree')->data($addonData['rules']),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
@@ -48,7 +48,7 @@ class AuthGroup extends GroupModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/groups/' . $id)->method('put'),
         ];
 
-        return Builder::page('group-layout.group-edit')
+        return Builder::page('auth_group-layout.group-edit')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -72,7 +72,7 @@ class AuthGroup extends GroupModel
             ];
         }
         $tableColumn = [
-            Builder::field('group.group_title')->type('input'),
+            Builder::field('auth_group.group_title')->type('input'),
             Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('trash')->type('trash'),
@@ -82,7 +82,7 @@ class AuthGroup extends GroupModel
             ]),
         ];
 
-        return Builder::page('group-layout.group-list')
+        return Builder::page('auth_group-layout.group-list')
             ->type('basic-list')
             ->searchBar(true)
             ->tableColumn($tableColumn)

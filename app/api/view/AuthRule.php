@@ -12,11 +12,11 @@ class AuthRule extends AuthRuleModel
     public function addBuilder($addonData = [])
     {
         $basic = [
-            Builder::field('rule.rule_title')->type('input'),
-            Builder::field('rule.rule_path')->type('input'),
+            Builder::field('auth_rule.rule_title')->type('input'),
+            Builder::field('auth_rule.rule_path')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rule.type')->type('input'),
-            Builder::field('rule.condition')->type('input'),
+            Builder::field('auth_rule.type')->type('input'),
+            Builder::field('auth_rule.condition')->type('input'),
             Builder::field('create_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
@@ -26,7 +26,7 @@ class AuthRule extends AuthRuleModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/rules')->method('post'),
         ];
 
-        return Builder::page('rule-layout.rule-add')
+        return Builder::page('auth_rule-layout.rule-add')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -36,11 +36,11 @@ class AuthRule extends AuthRuleModel
     public function editBuilder($id, $addonData = [])
     {
         $basic = [
-            Builder::field('rule.rule_title')->type('input'),
-            Builder::field('rule.rule_path')->type('input'),
+            Builder::field('auth_rule.rule_title')->type('input'),
+            Builder::field('auth_rule.rule_path')->type('input'),
             Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
-            Builder::field('rule.type')->type('input'),
-            Builder::field('rule.condition')->type('input'),
+            Builder::field('auth_rule.type')->type('input'),
+            Builder::field('auth_rule.condition')->type('input'),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
@@ -51,7 +51,7 @@ class AuthRule extends AuthRuleModel
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/rules/' . $id)->method('put'),
         ];
 
-        return Builder::page('rule-layout.rule-edit')
+        return Builder::page('auth_rule-layout.rule-edit')
             ->type('page')
             ->tab('basic', $basic)
             ->action('actions', $action)
@@ -75,8 +75,8 @@ class AuthRule extends AuthRuleModel
             ];
         }
         $tableColumn = [
-            Builder::field('rule.rule_title')->type('input'),
-            Builder::field('rule.rule_path')->type('input'),
+            Builder::field('auth_rule.rule_title')->type('input'),
+            Builder::field('auth_rule.rule_path')->type('input'),
             Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('trash')->type('trash'),
@@ -86,7 +86,7 @@ class AuthRule extends AuthRuleModel
             ]),
         ];
 
-        return Builder::page('rule-layout.rule-list')
+        return Builder::page('auth_rule-layout.rule-list')
             ->type('basic-list')
             ->searchBar(true)
             ->tableColumn($tableColumn)

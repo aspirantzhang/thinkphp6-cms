@@ -47,7 +47,6 @@ trait Logic
         if (is_array($uniqueFields) && !empty($uniqueFields)) {
             foreach ($uniqueFields as $field) {
                 if (isset($data[$field]) && $this->ifExists($field, $data[$field])) {
-                    halt(Lang::get($modelName . '.' . $field), Lang::get());
                     $this->error = __('field value already exists', ['fieldName' => Lang::get($modelName . '.' . $field)]);
                     return false;
                 }

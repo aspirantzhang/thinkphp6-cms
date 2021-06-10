@@ -27,8 +27,8 @@ class AuthRule extends Validate
         'per_page.number' => 'per_page#number',
         'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
-        'rule_title.require' => 'rule@rule_title#require',
-        'rule_path.length' => 'rule@rule_path#length:0,255'
+        'rule_title.require' => 'auth_rule@rule_title#require',
+        'rule_path.length' => 'auth_rule@rule_path#length:0,255'
     ];
 
     protected $scene = [

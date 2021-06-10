@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'group' =>  [
+    'auth_group' =>  [
         'group_title' => 'Group Title',
         'rules' => 'Rules',
     ]

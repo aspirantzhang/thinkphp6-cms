@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'rule-layout' =>  [
+    'auth_rule-layout' =>  [
         'rule-list' => 'Rule List',
         'rule-add' => 'Rule Add',
         'rule-edit' => 'Rule Edit'
