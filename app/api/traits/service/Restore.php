@@ -57,11 +57,11 @@ trait Restore
                     }
                     $this->handleChildrenRestore($record, $ids);
                 }
-                return $this->success('Restore successfully.');
+                return $this->success(__('restore successfully'));
             }
-            return $this->error('Nothing to do.');
+            return $this->error(__('no target'));
         } else {
-            return $this->error('Nothing to do.');
+            return $this->error(__('no target'));
         }
     }
 }

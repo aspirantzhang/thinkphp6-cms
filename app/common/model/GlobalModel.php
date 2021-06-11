@@ -8,10 +8,10 @@ use think\Model;
 
 class GlobalModel extends Model
 {
-    protected $error;
+    protected $error = '';
 
-    public function getError()
+    public function getError(): string
     {
-        return $this->error;
+        return $this->error ?: '';
     }
 }

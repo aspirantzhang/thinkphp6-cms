@@ -31,7 +31,7 @@ class Model extends ModelView
             Console::call('make:buildModel', [Str::studly($modelName), '--route=' . $modelName]);
             return true;
         } catch (\Throwable $e) {
-            $this->error = 'Create model file failed.';
+            $this->error = __('failed to write model file');
             return false;
         }
     }
@@ -42,7 +42,7 @@ class Model extends ModelView
             Console::call('make:removeModel', [Str::studly($modelName)]);
             return true;
         } catch (\Throwable $e) {
-            $this->error = 'Remove model file failed.';
+            $this->error = __('failed to remove model file');
             return false;
         }
     }
@@ -55,7 +55,7 @@ class Model extends ModelView
             Db::execute("CREATE TABLE `$i18nTable` ( `_id` int unsigned NOT NULL AUTO_INCREMENT , `original_id` int unsigned NOT NULL , `lang_code` char(5) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '', PRIMARY KEY (`_id`), UNIQUE KEY `original_id` (`original_id`,`lang_code`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
             return true;
         } catch (\Throwable $e) {
-            $this->error = 'Create table failed.';
+            $this->error = __('create table failed', ['tableName' => $tableName]);
             return false;
         }
     }
@@ -68,7 +68,7 @@ class Model extends ModelView
             Db::execute("DROP TABLE IF EXISTS `$i18nTable`");
             return true;
         } catch (\Throwable $e) {
-            $this->error = 'Remove table failed.';
+            $this->error = __('remove table failed', ['tableName' => $tableName]);
             return false;
         }
     }
@@ -78,7 +78,7 @@ class Model extends ModelView
         try {
             Db::name('model_i18n')->where('original_id', $originalId)->delete();
         } catch (\Throwable $th) {
-            $this->error = 'Remove i18n record failed.';
+            $this->error = __('remove i18n record failed');
         }
     }
 
@@ -240,7 +240,7 @@ class Model extends ModelView
             return true;
         } catch (\Exception $e) {
             Db::rollback();
-            $this->error = 'Change table structure failed: ' . $tableName;
+            $this->error = __('change table structure failed', ['tableName' => $tableName]);
             return false;
         }
     }

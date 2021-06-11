@@ -19,7 +19,7 @@ trait Save
             Db::name($this->getLangTableName())->save($data);
             return true;
         } catch (\Throwable $e) {
-            $this->error = 'Write data to i18n table failed.';
+            $this->error = __('failed to store i18n data');
             return false;
         }
     }
@@ -27,7 +27,7 @@ trait Save
     public function saveAPI($data, array $relationModel = [])
     {
         if ($this->checkUniqueFields($data, $this->getTableName()) === false) {
-            return $this->error($this->error);
+            return $this->error($this->getError());
         }
         $this->startTrans();
         try {
@@ -41,10 +41,10 @@ trait Save
                 }
             }
             $this->commit();
-            return $this->success('Add successfully.', ['id' => $id]);
+            return $this->success(__('add successfully'), ['id' => $id]);
         } catch (\Exception $e) {
             $this->rollback();
-            return $this->error($this->error ?: 'Save failed.');
+            return $this->error($this->error ?: __('operation failed'));
         }
     }
 }

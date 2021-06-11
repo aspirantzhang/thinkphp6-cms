@@ -13,7 +13,7 @@ trait Add
         if ($page) {
             return $this->success('', $page);
         } else {
-            return $this->error('Get page data failed.');
+            return $this->error(__('unable to load page data'));
         }
     }
 }

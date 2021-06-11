@@ -19,7 +19,7 @@ trait Update
                 ->update($filteredData);
             return true;
         } catch (\Throwable $e) {
-            $this->error = 'Write data to i18n table failed.';
+            $this->error = __('failed to store i18n data');
             return false;
         }
     }
@@ -29,7 +29,7 @@ trait Update
         $model = $this->where('id', $id)->find();
         if ($model) {
             if ($model->checkUniqueFields($data, $this->getTableName()) === false) {
-                return $this->error($this->error);
+                return $this->error($this->getError());
             }
             $model->startTrans();
             try {
@@ -44,14 +44,14 @@ trait Update
                 }
                 $model->commit();
 
-                return $this->success('Update successfully.');
+                return $this->success(__('update successfully'));
             } catch (\Exception $e) {
                 $model->rollback();
 
-                return $this->error($this->error ?: 'Update failed.');
+                return $this->error($this->error ?: __('operation failed'));
             }
         } else {
-            return $this->error('Target not found.');
+            return $this->error(__('no target'));
         }
     }
 }

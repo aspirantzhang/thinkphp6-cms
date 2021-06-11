@@ -15,15 +15,15 @@ class Model extends ModelLogic
         $modelTitle = (string)$data['model_title'];
 
         if (in_array($modelName, Config::get('reserved.reserved_table'))) {
-            return $this->error('Reserved table name.');
+            return $this->error(__('reserved table name'));
         }
 
         if ($this->checkUniqueFields($data, $this->getTableName()) === false) {
-            return $this->error($this->error);
+            return $this->error($this->getError());
         }
 
         if ($this->existsTable($modelName)) {
-            return $this->error('Table already exists.');
+            return $this->error(__('table already exists', ['tableName' => $modelName]));
         }
 
         $this->startTrans();
@@ -36,7 +36,7 @@ class Model extends ModelLogic
             $this->createModelFile($modelName);
 
             if ($this->writeLayoutLangFile($modelName, $modelTitle) === false) {
-                return $this->error('Write layout language file failed.');
+                return $this->error(__('failed to write layout i18n file'));
             }
 
             // Create table
@@ -64,10 +64,10 @@ class Model extends ModelLogic
             }
             
             $this->commit();
-            return $this->success('Add successfully.');
+            return $this->success(__('add successfully'));
         } catch (\Exception $e) {
             $this->rollback();
-            return $this->error($this->error ?: 'Save failed.');
+            return $this->error($this->error ?: __('operation failed'));
         }
     }
 
@@ -108,12 +108,13 @@ class Model extends ModelLogic
                 $this->deleteValidateFile($modelName);
                 
                 $model->commit();
-                return $this->success('Delete successfully.');
+                return $this->success(__('delete successfully'));
             } catch (\Exception $e) {
                 $model->rollback();
+                return $this->error($this->error ?: __('operation failed'));
             }
         }
-        return $this->error('Nothing to do.');
+        return $this->error(__('no target'));
     }
 
     public function designAPI($id)
@@ -122,7 +123,7 @@ class Model extends ModelLogic
         if ($result) {
             return $this->success('', $result->toArray());
         } else {
-            return $this->error('Target not found.');
+            return $this->error(__('no target'));
         }
     }
 
@@ -131,15 +132,15 @@ class Model extends ModelLogic
         $modelName = $this->where('id', $id)->value('model_name');
 
         if (!$modelName) {
-            return $this->error('Target not found.');
+            return $this->error(__('no target'));
         }
         // Reserved model check
         if (in_array($modelName, Config::get('reserved.reserved_table'))) {
-            return $this->error('Reserved model, operation not allowed.');
+            return $this->error(__('reserved model not allowed'));
         }
         // Check table exists
         if (!$this->existsTable($modelName)) {
-            return $this->error('Model table not exist.');
+            return $this->error(__('table not exist', ['tableName' => $modelName]));
         }
 
         switch ($type) {
@@ -156,40 +157,40 @@ class Model extends ModelLogic
                     $mainTableNew = array_diff($currentFields, Config::get('reserved.reserved_field'), $i18nFields);
                     $mainTableChangeResult = $this->fieldsHandler($mainTableExist, $mainTableNew, $data, $modelName);
                     if (!$mainTableChangeResult) {
-                        return $this->error($this->error);
+                        return $this->error($this->getError());
                     }
                     // i18n table
                     $i18nTableExist = $this->getExistingFields($modelName . '_i18n');
                     $i18nTableChangeResult = $this->fieldsHandler($i18nTableExist, $i18nFields, $data, $modelName . '_i18n');
                     if (!$i18nTableChangeResult) {
-                        return $this->error($this->error);
+                        return $this->error($this->getError());
                     }
 
                     $updateDataField = $this->updateAPI($id, ['data' => $data]);
                     if ($updateDataField[0]['success'] === true) {
                         // write to i18n file
                         if ($this->writeFieldLangFile($data['fields'], $modelName) === false) {
-                            return $this->error('Write field i18n file failed.');
+                            return $this->error(__('failed to write field i18n file'));
                         }
                         // write validate file
                         $validateRule = $this->createValidateRules($data['fields'], $modelName);
                         $validateMsg = $this->createMessages($validateRule, $modelName);
                         $validateScene = $this->createScene($data['fields']);
                         if ($this->writeValidateFile($modelName, $validateRule, $validateMsg, $validateScene) === false) {
-                            return $this->error('Write validate file failed.');
+                            return $this->error(__('failed to write validate file'));
                         }
                         // write validator i18n file
                         if ($this->writeValidateI18nFile($modelName, $validateMsg) === false) {
-                            return $this->error('Write validate i18n file failed.');
+                            return $this->error(__('failed to write validate i18n file'));
                         }
                         // write allow fields file
                         if ($this->writeAllowConfigFile($modelName, $data['fields']) === false) {
-                            return $this->error('Write allow fields file failed.');
+                            return $this->error(__('failed to write allow fields config file'));
                         }
 
-                        return $this->success('Update successfully.');
+                        return $this->success(__('update successfully'));
                     }
-                    return $this->error('Update failed.');
+                    return $this->error(__('operation failed'));
                 }
                 break;
 
@@ -200,6 +201,6 @@ class Model extends ModelLogic
                 break;
         }
         
-        return $this->error('Nothing to do.');
+        return $this->error(__('no target'));
     }
 }
