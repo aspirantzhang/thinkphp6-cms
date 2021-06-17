@@ -43,7 +43,6 @@ class Model extends ModelModel
             Builder::field('model.data')->type('textarea'),
         ];
         $action = [
-            Builder::button('reset')->type('dashed')->call('reset'),
             Builder::button('cancel')->type('default')->call('cancel'),
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/models/' . $id)->method('put'),
         ];

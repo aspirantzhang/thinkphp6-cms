@@ -43,7 +43,6 @@ class AuthGroup extends GroupModel
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
         $action = [
-            Builder::button('reset')->type('dashed')->call('reset'),
             Builder::button('cancel')->type('default')->call('cancel'),
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/groups/' . $id)->method('put'),
         ];

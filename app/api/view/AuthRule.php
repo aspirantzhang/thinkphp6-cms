@@ -46,7 +46,6 @@ class AuthRule extends AuthRuleModel
             Builder::field('update_time')->type('datetime'),
         ];
         $action = [
-            Builder::button('reset')->type('dashed')->call('reset'),
             Builder::button('cancel')->type('default')->call('cancel'),
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/rules/' . $id)->method('put'),
         ];
