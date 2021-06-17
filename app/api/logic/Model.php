@@ -329,11 +329,11 @@ END;
                             break;
                     }
                 }
+                $ruleString = substr($ruleString, 0, -1);
+                // +prefix
+                $ruleName = $modelName . '@' . $fieldName;
+                $rules[$ruleName] = $ruleString;
             }
-            $ruleString = substr($ruleString, 0, -1);
-            // +prefix
-            $ruleName = $modelName . '@' . $fieldName;
-            $rules[$ruleName] = $ruleString;
         }
         return $rules;
     }
