@@ -6,10 +6,35 @@ namespace app\api\traits;
 
 use think\facade\Db;
 use think\facade\Lang;
+use think\facade\Config;
 
 trait Logic
 {
-    
+    public function addTranslationStatus($rawDataSource)
+    {
+        $dataSource = [];
+
+        // add lang element for all
+        $languages = Config::get('lang.allow_lang_list');
+        foreach ($rawDataSource as $record) {
+            foreach ($languages as $langCode) {
+                $record['i18n'][$langCode] = null;
+            }
+            $dataSource[] = $record;
+        }
+
+        $ids = array_column($dataSource, 'id');
+        $idsFlipped = array_flip($ids);
+        $i18nData = Db::table($this->getLangTableName())->whereIn('original_id', implode(',', $ids))->select()->toArray();
+        foreach ($i18nData as $i18n) {
+            $originalIdIndex = $idsFlipped[$i18n['original_id']];
+            // $record['i18n']['en-us'] = '2021-06-18T14:33:38+08:00';
+            $translateTime = $i18n['translate_time'] ? (new \DateTime($i18n['translate_time']))->format('Y-m-d\TH:i:sP') : null;
+            $dataSource[$originalIdIndex]['i18n'][$i18n['lang_code']] = $translateTime;
+        }
+
+        return $dataSource;
+    }
     /**
      * Get the list data.
      * @param mixed $parameters Request parameters
