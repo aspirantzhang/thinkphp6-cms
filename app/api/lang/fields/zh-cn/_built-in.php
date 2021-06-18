@@ -10,4 +10,5 @@ return [
     'per_page' => '每页页码(per_page)',
     'trash' => '回收站',
     'actions' => '动作',
+    'i18n' => '国际化',
 ];

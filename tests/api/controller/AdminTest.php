@@ -67,10 +67,10 @@ class AdminTest extends \tests\api\TestCase
         $this->startRequest();
         // valid
         $adminController = new AdminController($this->app);
-        $response = $adminController->read(2);
+        $response = $adminController->read(3);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
-        $this->assertStringContainsString('"id":2,"admin_name":"UnitTest"', $response->getContent());
+        $this->assertStringContainsString('"id":3,"admin_name":"UnitTest"', $response->getContent());
         // not exist
         $responseNotExist = $adminController->read(0);
         $this->assertEquals(200, $responseNotExist->getCode());
@@ -82,7 +82,7 @@ class AdminTest extends \tests\api\TestCase
         $this->startRequest('PUT', ['display_name' => 'UnitTest2']);
         // valid
         $adminController = new AdminController($this->app);
-        $response = $adminController->update(2);
+        $response = $adminController->update(3);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         // not exist
@@ -93,7 +93,7 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminDelete()
     {
-        $this->startRequest('POST', ['type' => 'delete', 'ids' => [2]]);
+        $this->startRequest('POST', ['type' => 'delete', 'ids' => [3]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->delete();
 
@@ -103,7 +103,7 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminRestore()
     {
-        $this->startRequest('POST', ['ids' => [2]]);
+        $this->startRequest('POST', ['ids' => [3]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->restore();
 
@@ -157,7 +157,7 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminDeletePermanently()
     {
-        $this->startRequest('POST', ['type' => 'deletePermanently', 'ids' => [2]]);
+        $this->startRequest('POST', ['type' => 'deletePermanently', 'ids' => [3]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->delete();
 

@@ -10,4 +10,5 @@ return [
     'per_page' => 'Per-page',
     'trash' => 'Trash',
     'actions' => 'Actions',
+    'i18n' => 'I18n',
 ];

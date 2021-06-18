@@ -40,7 +40,7 @@ class I18nTest extends \tests\api\TestCase
         $this->mockLang('zh-cn');
         $this->startRequest();
         $adminController = new AdminController($this->app);
-        $response = $adminController->read(3);
+        $response = $adminController->read(4);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         $this->assertStringContainsString('"display_name":"单元测试"', $response->getContent());
@@ -55,7 +55,7 @@ class I18nTest extends \tests\api\TestCase
         $this->mockLang('en-us');
         $this->startRequest();
         $adminController = new AdminController($this->app);
-        $response = $adminController->read(3);
+        $response = $adminController->read(4);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":false', $response->getContent());
     }

@@ -27,6 +27,7 @@ final class MenuTable extends AbstractMigration
         $groupI18nTable->addColumn('original_id', 'integer', ['signed' => false])
             ->addColumn('lang_code', 'char', ['limit' => 5, 'null' => false, 'default' => ''])
             ->addColumn('menu_title', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
+            ->addColumn('translate_time', 'datetime', ['null' => true])
             ->addIndex(['original_id', 'lang_code'], ['unique' => true])
             ->create();
     }
