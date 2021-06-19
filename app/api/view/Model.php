@@ -70,6 +70,7 @@ class Model extends ModelModel
             Builder::field('model.model_name')->type('input'),
             Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('i18n')->type('i18n'),
             Builder::field('actions')->data([
                 Builder::button('edit')->type('primary')->call('page')->uri('/api/models/:id'),
                 Builder::button('model.field_design')->type('default')->call('page')->uri('/api/models/field-design/api/models/design/:id'),

@@ -80,7 +80,7 @@ class Admin extends AdminModel
             Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('admin.comment')->type('textarea'),
-            Builder::field('i18n')->type('select')->data(['zh-cn','en-us']),
+            Builder::field('i18n')->type('i18n'),
             Builder::field('trash')->type('trash'),
             Builder::field('actions')->data([
                 Builder::button('edit')->type('primary')->call('modal')->uri('/api/admins/:id'),
