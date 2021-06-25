@@ -101,4 +101,20 @@ trait Logic
             ->update(['parent_id' => 0]);
         return true;
     }
+
+    protected function saveI18nData($rawData, $originalId, $langTableName)
+    {
+        $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
+        $data = array_merge($filteredData, [
+            'original_id' => $originalId,
+            'lang_code' => $langTableName
+        ]);
+        try {
+            Db::name($this->getLangTableName())->save($data);
+            return true;
+        } catch (\Throwable $e) {
+            $this->error = __('failed to store i18n data');
+            return false;
+        }
+    }
 }

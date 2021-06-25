@@ -30,7 +30,9 @@ class Model extends ModelLogic
         try {
             // Save basic data
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
-            $this->saveI18nData($data, $this->getData('id'));
+            if ($this->saveI18nData($data, $this->getData('id'), $this->getCurrentLanguage()) === false) {
+                return $this->error($this->getError());
+            }
             
             // Create files
             $this->createModelFile($modelName);
