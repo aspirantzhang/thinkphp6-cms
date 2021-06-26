@@ -69,6 +69,20 @@ final class RuleData extends AbstractMigration
                 'update_time'  => $currentTime,
             ],
             [
+                'id' => 43,
+                'parent_id'  => 1,
+                'rule_path' => 'api/admin/i18n',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
+            [
+                'id' => 44,
+                'parent_id'  => 1,
+                'rule_path' => 'api/admin/i18n_update',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
+            [
                 'id' => 9,
                 'parent_id'  => 0,
                 'rule_path' => '',
@@ -121,6 +135,20 @@ final class RuleData extends AbstractMigration
                 'id' => 16,
                 'parent_id'  => 9,
                 'rule_path' => 'api/auth_group/restore',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
+            [
+                'id' => 45,
+                'parent_id'  => 9,
+                'rule_path' => 'api/auth_group/i18n',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
+            [
+                'id' => 46,
+                'parent_id'  => 9,
+                'rule_path' => 'api/auth_group/i18n_update',
                 'create_time'  => $currentTime,
                 'update_time'  => $currentTime,
             ],
@@ -181,6 +209,20 @@ final class RuleData extends AbstractMigration
                 'update_time'  => $currentTime,
             ],
             [
+                'id' => 47,
+                'parent_id'  => 17,
+                'rule_path' => 'api/auth_rule/i18n',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
+            [
+                'id' => 48,
+                'parent_id'  => 17,
+                'rule_path' => 'api/auth_rule/i18n_update',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
+            [
                 'id' => 25,
                 'parent_id'  => 0,
                 'rule_path' => '',
@@ -233,6 +275,20 @@ final class RuleData extends AbstractMigration
                 'id' => 32,
                 'parent_id'  => 25,
                 'rule_path' => 'api/menu/restore',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
+            [
+                'id' => 49,
+                'parent_id'  => 25,
+                'rule_path' => 'api/menu/i18n',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
+            [
+                'id' => 50,
+                'parent_id'  => 25,
+                'rule_path' => 'api/menu/i18n_update',
                 'create_time'  => $currentTime,
                 'update_time'  => $currentTime,
             ],
@@ -306,6 +362,20 @@ final class RuleData extends AbstractMigration
                 'create_time'  => $currentTime,
                 'update_time'  => $currentTime,
             ],
+            [
+                'id' => 51,
+                'parent_id'  => 33,
+                'rule_path' => 'api/model/i18n',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
+            [
+                'id' => 52,
+                'parent_id'  => 33,
+                'rule_path' => 'api/model/i18n_update',
+                'create_time'  => $currentTime,
+                'update_time'  => $currentTime,
+            ],
         ];
         $this->table('auth_rule')->insert($ruleRows)->save();
 
@@ -359,6 +429,18 @@ final class RuleData extends AbstractMigration
                 'translate_time' => $currentTime,
             ],
             [
+                'original_id' => 43,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Admin I18n',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 44,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Admin I18n Update',
+                'translate_time' => $currentTime,
+            ],
+            [
                 'original_id' => 9,
                 'lang_code' => 'en-us',
                 'rule_title'  => 'Group',
@@ -404,6 +486,18 @@ final class RuleData extends AbstractMigration
                 'original_id' => 16,
                 'lang_code' => 'en-us',
                 'rule_title'  => 'Group Restore',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 45,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Group I18n',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 46,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Group I18n Update',
                 'translate_time' => $currentTime,
             ],
             [
@@ -455,6 +549,18 @@ final class RuleData extends AbstractMigration
                 'translate_time' => $currentTime,
             ],
             [
+                'original_id' => 47,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Rule I18n',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 48,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Rule I18n Update',
+                'translate_time' => $currentTime,
+            ],
+            [
                 'original_id' => 25,
                 'lang_code' => 'en-us',
                 'rule_title'  => 'Menu',
@@ -500,6 +606,18 @@ final class RuleData extends AbstractMigration
                 'original_id' => 32,
                 'lang_code' => 'en-us',
                 'rule_title'  => 'Menu Restore',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 49,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Menu I18n',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 50,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Menu I18n Update',
                 'translate_time' => $currentTime,
             ],
             [
@@ -563,6 +681,18 @@ final class RuleData extends AbstractMigration
                 'translate_time' => $currentTime,
             ],
             [
+                'original_id' => 51,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Model I18n',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 52,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Model I18n Update',
+                'translate_time' => $currentTime,
+            ],
+            [
                 'original_id' => 1,
                 'lang_code' => 'zh-cn',
                 'rule_title'  => '管理员',
@@ -608,6 +738,18 @@ final class RuleData extends AbstractMigration
                 'original_id' => 8,
                 'lang_code' => 'zh-cn',
                 'rule_title'  => '管理员恢复',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 43,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '管理员国际化',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 44,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '管理员国际化编辑',
                 'translate_time' => $currentTime,
             ],
             [
@@ -659,6 +801,18 @@ final class RuleData extends AbstractMigration
                 'translate_time' => $currentTime,
             ],
             [
+                'original_id' => 45,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '用户组国际化',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 46,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '用户组国际化编辑',
+                'translate_time' => $currentTime,
+            ],
+            [
                 'original_id' => 17,
                 'lang_code' => 'zh-cn',
                 'rule_title'  => '权限',
@@ -707,6 +861,18 @@ final class RuleData extends AbstractMigration
                 'translate_time' => $currentTime,
             ],
             [
+                'original_id' => 47,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '权限国际化',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 48,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '权限国际化编辑',
+                'translate_time' => $currentTime,
+            ],
+            [
                 'original_id' => 25,
                 'lang_code' => 'zh-cn',
                 'rule_title'  => '菜单',
@@ -752,6 +918,18 @@ final class RuleData extends AbstractMigration
                 'original_id' => 32,
                 'lang_code' => 'zh-cn',
                 'rule_title'  => '菜单恢复',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 49,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '菜单国际化',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 50,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '菜单国际化编辑',
                 'translate_time' => $currentTime,
             ],
             [
@@ -812,6 +990,18 @@ final class RuleData extends AbstractMigration
                 'original_id' => 42,
                 'lang_code' => 'zh-cn',
                 'rule_title'  => '模型设计更新',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 51,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '模型国际化',
+                'translate_time' => $currentTime,
+            ],
+            [
+                'original_id' => 52,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '模型国际化编辑',
                 'translate_time' => $currentTime,
             ],
         ];
