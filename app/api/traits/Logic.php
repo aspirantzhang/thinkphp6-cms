@@ -102,9 +102,12 @@ trait Logic
         return true;
     }
 
-    protected function saveI18nData($rawData, $originalId, $langCode)
+    protected function saveI18nData($rawData, $originalId, $langCode, $currentTime = null)
     {
         $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
+        if ($currentTime) {
+            $filteredData['translate_time'] =  $currentTime;
+        }
         $data = array_merge($filteredData, [
             'original_id' => $originalId,
             'lang_code' => $langCode
@@ -118,9 +121,13 @@ trait Logic
         }
     }
 
-    protected function updateI18nData($rawData, $originalId, $langCode)
+    protected function updateI18nData($rawData, $originalId, $langCode, $currentTime = null)
     {
         $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
+
+        if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
+            $filteredData['translate_time'] =  $currentTime;
+        }
 
         $record = Db::name($this->getLangTableName())
             ->where('original_id', $originalId)
@@ -141,6 +148,9 @@ trait Logic
             }
         }
         // add new
+        if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
+            return $this->saveI18nData($rawData, $originalId, $langCode, $currentTime);
+        }
         return $this->saveI18nData($rawData, $originalId, $langCode);
     }
 }

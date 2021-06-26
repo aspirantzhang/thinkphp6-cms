@@ -37,7 +37,8 @@ class Admin extends AdminLogic
                 return $this->error($validate->getError());
             }
             // handle update
-            if ($this->updateI18nData($fieldsData, $id, $langCode) === false) {
+            $currentTime = date("Y-m-d H:i:s");
+            if ($this->updateI18nData($fieldsData, $id, $langCode, $currentTime) === false) {
                 return $this->error($this->getError());
             }
         }
