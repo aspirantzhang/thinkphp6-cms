@@ -31,7 +31,6 @@ final class AdminData extends AbstractMigration
 
         $adminI18nRows = [
             [
-                '_id'    =>  1,
                 'original_id' => 1,
                 'lang_code' => 'en-us',
                 'display_name' => 'Administrator',
@@ -39,7 +38,6 @@ final class AdminData extends AbstractMigration
                 'translate_time' => $currentTime,
             ],
             [
-                '_id'    =>  2,
                 'original_id' => 1,
                 'lang_code' => 'zh-cn',
                 'display_name' => '网站管理员',
@@ -47,7 +45,6 @@ final class AdminData extends AbstractMigration
                 'translate_time' => $currentTime,
             ],
             [
-                '_id'    =>  4,
                 'original_id' => 2,
                 'lang_code' => 'zh-cn',
                 'display_name' => '测试01',

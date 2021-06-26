@@ -23,14 +23,12 @@ final class GroupData extends AbstractMigration
 
         $groupI18nRows = [
             [
-                '_id'    =>  1,
                 'original_id' => 1,
                 'lang_code' => 'en-us',
                 'group_title'  => 'Admin Group',
                 'translate_time' => $currentTime,
             ],
             [
-                '_id'    =>  2,
                 'original_id' => 1,
                 'lang_code' => 'zh-cn',
                 'group_title'  => '管理员组',
