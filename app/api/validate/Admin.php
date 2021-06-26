@@ -47,6 +47,7 @@ class Admin extends Validate
         'login' => [''],
         'logout' => [''],
         'info' => [''],
+        'i18n_update' => ['id'],
     ];
 
     public function sceneHome()
