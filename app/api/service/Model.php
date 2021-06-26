@@ -30,7 +30,7 @@ class Model extends ModelLogic
         try {
             // Save basic data
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
-            if ($this->saveI18nData($data, $this->getData('id'), $this->getCurrentLanguage()) === false) {
+            if ($this->saveI18nData($data, $this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time'])) === false) {
                 return $this->error($this->getError());
             }
             

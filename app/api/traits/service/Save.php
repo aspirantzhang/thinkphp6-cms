@@ -17,7 +17,7 @@ trait Save
         try {
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
             $id = $this->getData('id');
-            $this->saveI18nData($data, $id, $this->getCurrentLanguage());
+            $this->saveI18nData($data, $id, $this->getCurrentLanguage(), convertTime($data['create_time']));
             if (!empty($relationModel)) {
                 foreach ($relationModel as $relation) {
                     $data[$relation] = $data[$relation] ?? [];
