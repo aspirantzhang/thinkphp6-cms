@@ -102,12 +102,12 @@ trait Logic
         return true;
     }
 
-    protected function saveI18nData($rawData, $originalId, $langTableName)
+    protected function saveI18nData($rawData, $originalId, $langCode)
     {
         $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
         $data = array_merge($filteredData, [
             'original_id' => $originalId,
-            'lang_code' => $langTableName
+            'lang_code' => $langCode
         ]);
         try {
             Db::name($this->getLangTableName())->save($data);
@@ -116,5 +116,31 @@ trait Logic
             $this->error = __('failed to store i18n data');
             return false;
         }
+    }
+
+    protected function updateI18nData($rawData, $originalId, $langCode)
+    {
+        $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
+
+        $record = Db::name($this->getLangTableName())
+            ->where('original_id', $originalId)
+            ->where('lang_code', $langCode)
+            ->find();
+
+        if ($record) {
+            // update
+            try {
+                Db::name($this->getLangTableName())
+                    ->where('original_id', $originalId)
+                    ->where('lang_code', $langCode)
+                    ->update($filteredData);
+                return true;
+            } catch (\Throwable $e) {
+                $this->error = __('failed to store i18n data');
+                return false;
+            }
+        }
+        // add new
+        return $this->saveI18nData($rawData, $originalId, $langCode);
     }
 }
