@@ -6,6 +6,7 @@ namespace app\api\view;
 
 use app\api\model\Admin as AdminModel;
 use aspirantzhang\TPAntdBuilder\Builder;
+use think\facade\Config;
 
 class Admin extends AdminModel
 {
@@ -109,5 +110,15 @@ class Admin extends AdminModel
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)
             ->toArray();
+    }
+
+    public function i18nBuilder($id, $addonData = [])
+    {
+        $fields = [
+            Builder::field('admin.display_name')->type('input'),
+            Builder::field('admin.comment')->type('textarea'),
+        ];
+
+        return Builder::i18n(Config::get('lang.allow_lang_list'), $fields)->toArray();
     }
 }

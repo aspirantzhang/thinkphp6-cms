@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp-antdesign-builder.git",
-                "reference": "3a739d5f9fcf145660da2a5e67c2c08fac9df3b2"
+                "reference": "633f3d408859539abda4cde6579a1965dabae6fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp-antdesign-builder/zipball/3a739d5f9fcf145660da2a5e67c2c08fac9df3b2",
-                "reference": "3a739d5f9fcf145660da2a5e67c2c08fac9df3b2",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp-antdesign-builder/zipball/633f3d408859539abda4cde6579a1965dabae6fb",
+                "reference": "633f3d408859539abda4cde6579a1965dabae6fb",
                 "shasum": ""
             },
             "require-dev": {
@@ -46,7 +46,7 @@
                 "issues": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/issues",
                 "source": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/tree/master"
             },
-            "time": "2021-06-18T11:38:49+00:00"
+            "time": "2021-06-27T07:04:32+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp6-fast-command",

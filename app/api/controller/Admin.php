@@ -157,6 +157,13 @@ class Admin extends Common
         }
     }
 
+    public function i18n($id)
+    {
+        $result = $this->admin->i18nAPI($id);
+
+        return $this->json(...$result);
+    }
+
     public function i18nUpdate($id)
     {
         $result = $this->admin->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
