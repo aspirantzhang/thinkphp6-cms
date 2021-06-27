@@ -119,6 +119,8 @@ class Admin extends AdminModel
             Builder::field('admin.comment')->type('textarea'),
         ];
 
-        return Builder::i18n(Config::get('lang.allow_lang_list'), $fields)->toArray();
+        return Builder::i18n('admin-layout.admin-i18n')
+            ->layout(Config::get('lang.allow_lang_list'), $fields)
+            ->toArray();
     }
 }
