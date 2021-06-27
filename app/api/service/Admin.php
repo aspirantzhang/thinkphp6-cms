@@ -59,6 +59,8 @@ class Admin extends AdminLogic
 
     public function i18nUpdateAPI($id, $data)
     {
+        $currentTime = date("Y-m-d H:i:s");
+
         foreach ($data as $langCode => $fieldsData) {
             // validator check
             $modelValidator = '\app\api\validate\\' . $this->getName();
@@ -68,7 +70,6 @@ class Admin extends AdminLogic
                 return $this->error($validate->getError());
             }
             // handle update
-            $currentTime = date("Y-m-d H:i:s");
             if ($this->updateI18nData($fieldsData, $id, $langCode, $currentTime) === false) {
                 return $this->error($this->getError());
             }
