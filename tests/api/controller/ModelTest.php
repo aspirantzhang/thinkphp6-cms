@@ -39,7 +39,7 @@ class ModelTest extends \tests\api\TestCase
     public function testModelSave()
     {
         // valid
-        $this->startRequest('POST', ['model_name' => 'unit_test', 'model_title' => 'Unit Test', 'create_time' => '2021-04-16T13:25:32+08:00']);
+        $this->startRequest('POST', ['model_name' => 'unit_test', 'model_title' => 'Unit Test', 'create_time' => (new \DateTime('NOW'))->format('Y-m-d\TH:i:sP'), 'status' => true]);
         $modelController = new ModelController($this->app);
         $response = $modelController->save();
         $this->assertEquals(200, $response->getCode());
@@ -152,7 +152,7 @@ class ModelTest extends \tests\api\TestCase
     public function testNewModelSave()
     {
         // valid
-        $this->startRequest('POST', ['nickname' => 'unit_test']);
+        $this->startRequest('POST', ['nickname' => 'unit_test', 'create_time' => (new \DateTime('NOW'))->format('Y-m-d\TH:i:sP'), 'status' => true]);
         $newController = new \app\api\controller\UnitTest($this->app);
         $response = $newController->save();
         $this->assertEquals(200, $response->getCode());

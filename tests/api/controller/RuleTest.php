@@ -48,7 +48,7 @@ class RuleTest extends \tests\api\TestCase
 
     public function testRuleSave()
     {
-        $validData = ['parent_id' => 0, 'rule_path' => 'UnitTest', 'rule_title' => 'UnitTest'];
+        $validData = ['parent_id' => 0, 'rule_path' => 'UnitTest', 'rule_title' => 'UnitTest', 'create_time' => (new \DateTime('NOW'))->format('Y-m-d\TH:i:sP'), 'status' => true];
         $this->startRequest('POST', $validData);
         $ruleController = new RuleController($this->app);
         $response = $ruleController->save();

@@ -48,7 +48,7 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminSave()
     {
-        $validData = ['admin_name' => 'UnitTest', 'password' => 'UnitTest', 'display_name' => 'UnitTest'];
+        $validData = ['admin_name' => 'UnitTest', 'password' => 'UnitTest', 'display_name' => 'UnitTest', 'create_time' => (new \DateTime('NOW'))->format('Y-m-d\TH:i:sP'), 'status' => true];
         $this->startRequest('POST', $validData);
         $adminController = new AdminController($this->app);
         $response = $adminController->save();

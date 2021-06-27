@@ -49,7 +49,7 @@ class GroupTest extends \tests\api\TestCase
 
     public function testGroupSave()
     {
-        $validData = ['group_title' => 'UnitTest'];
+        $validData = ['group_title' => 'UnitTest', 'create_time' => (new \DateTime('NOW'))->format('Y-m-d\TH:i:sP'), 'status' => true];
         $this->startRequest('POST', $validData);
         $groupController = new GroupController($this->app);
         $response = $groupController->save();

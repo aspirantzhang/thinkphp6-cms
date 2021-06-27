@@ -23,7 +23,7 @@ class I18nTest extends \tests\api\TestCase
     public function testSaveI18n()
     {
         $this->mockLang('zh-cn');
-        $validData = ['admin_name' => 'UnitTest2', 'password' => 'UnitTest2', 'display_name' => '单元测试'];
+        $validData = ['admin_name' => 'UnitTest2', 'password' => 'UnitTest2', 'display_name' => '单元测试', 'create_time' => (new \DateTime('NOW'))->format('Y-m-d\TH:i:sP'), 'status' => true];
         $this->startRequest('POST', $validData);
         $adminController = new AdminController($this->app);
         $response = $adminController->save();
