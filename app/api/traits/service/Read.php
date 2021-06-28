@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\traits\service;
 
+use think\facade\Config;
+use think\facade\DB;
+
 trait Read
 {
     public function readAPI($id, $relationModel = [])
@@ -36,6 +39,36 @@ trait Read
             $layout = $this->editBuilder($id, $this->getAddonData(['id' => $id]));
             $layout['dataSource'] = $model;
 
+            return $this->success('', $layout);
+        } else {
+            return $this->error(__('no target'));
+        }
+    }
+
+    public function i18nAPI($id)
+    {
+        $originalRecord = $this->where('id', $id)->find();
+        if ($originalRecord) {
+            $layout = $this->i18nBuilder($id);
+
+            $languages = Config::get('lang.allow_lang_list');
+    
+            $i18nRecords = DB::name($this->getLangTableName())
+                ->where('original_id', $id)
+                ->whereIn('lang_code', implode(',', $languages))
+                ->select()->toArray();
+            
+            $dataSource = [];
+            foreach ($i18nRecords as $record) {
+                $langCode = $record['lang_code'];
+                unset($record['_id']);
+                unset($record['original_id']);
+                unset($record['lang_code']);
+                $dataSource[$langCode] = $record;
+            }
+    
+            $layout['dataSource'] = $dataSource;
+    
             return $this->success('', $layout);
         } else {
             return $this->error(__('no target'));
