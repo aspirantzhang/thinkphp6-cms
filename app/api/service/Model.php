@@ -197,8 +197,10 @@ class Model extends ModelLogic
                 break;
 
             case 'layout':
-                return $this->updateAPI($id, ['data' => $data]);
-            
+                $model = $this->where('id', $id)->find();
+                $modelData = $model->data;
+                $modelData['layout'] = $data['layout'] ?? null;
+                return $this->updateAPI($id, ['data' => $modelData]);
             default:
                 break;
         }
