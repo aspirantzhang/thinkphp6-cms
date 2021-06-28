@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\view;
 
+use think\facade\Config;
 use app\api\model\Model as ModelModel;
 use aspirantzhang\TPAntdBuilder\Builder;
 
@@ -85,6 +86,17 @@ class Model extends ModelModel
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)
+            ->toArray();
+    }
+
+    public function i18nBuilder($id, $addonData = [])
+    {
+        $fields = [
+            Builder::field('model.model_title')->type('input'),
+        ];
+
+        return Builder::i18n('menu-layout.menu-i18n')
+            ->layout(Config::get('lang.allow_lang_list'), $fields)
             ->toArray();
     }
 }

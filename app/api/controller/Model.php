@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace app\api\controller;
 
-use app\api\service\Model as ModelService;
 use think\facade\Config;
+use app\api\service\Model as ModelService;
 
 class Model extends Common
 {
@@ -69,6 +69,20 @@ class Model extends Common
     public function designUpdate($id)
     {
         $result = $this->model->designUpdateAPI($id, $this->request->param('type'), $this->request->param('data'));
+
+        return $this->json(...$result);
+    }
+
+    public function i18n($id)
+    {
+        $result = $this->model->i18nAPI($id);
+
+        return $this->json(...$result);
+    }
+
+    public function i18nUpdate($id)
+    {
+        $result = $this->model->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
 
         return $this->json(...$result);
     }

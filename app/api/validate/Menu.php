@@ -38,6 +38,8 @@ class Menu extends Validate
         'restore' => ['ids'],
         'add' => [''],
         'backend' => [''],
+        'i18n' => ['id'],
+        'i18n_update' => ['id'],
     ];
 
     public function sceneHome()

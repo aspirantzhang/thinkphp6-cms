@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\controller;
 
-use app\api\service\Admin as AdminService;
 use think\facade\Session;
 use think\facade\Config;
+use app\api\service\Admin as AdminService;
 
 class Admin extends Common
 {

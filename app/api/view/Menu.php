@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\view;
 
+use think\facade\Config;
 use app\api\model\Menu as MenuModel;
 use aspirantzhang\TPAntdBuilder\Builder;
 
@@ -98,6 +99,17 @@ class Menu extends MenuModel
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)
+            ->toArray();
+    }
+
+    public function i18nBuilder($id, $addonData = [])
+    {
+        $fields = [
+            Builder::field('menu.menu_title')->type('input'),
+        ];
+
+        return Builder::i18n('menu-layout.menu-i18n')
+            ->layout(Config::get('lang.allow_lang_list'), $fields)
             ->toArray();
     }
 }

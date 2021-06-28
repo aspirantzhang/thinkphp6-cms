@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\view;
 
+use think\facade\Config;
 use app\api\model\Admin as AdminModel;
 use aspirantzhang\TPAntdBuilder\Builder;
-use think\facade\Config;
 
 class Admin extends AdminModel
 {

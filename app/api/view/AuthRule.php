@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\view;
 
+use think\facade\Config;
 use app\api\model\AuthRule as AuthRuleModel;
 use aspirantzhang\TPAntdBuilder\Builder;
 
@@ -92,6 +93,17 @@ class AuthRule extends AuthRuleModel
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)
+            ->toArray();
+    }
+
+    public function i18nBuilder($id, $addonData = [])
+    {
+        $fields = [
+            Builder::field('auth_rule.rule_title')->type('input'),
+        ];
+
+        return Builder::i18n('auth_rule-layout.rule-i18n')
+            ->layout(Config::get('lang.allow_lang_list'), $fields)
             ->toArray();
     }
 }
