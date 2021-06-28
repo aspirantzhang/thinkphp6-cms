@@ -2779,16 +2779,16 @@
     "packages-dev": [
         {
             "name": "aspirantzhang/thinkphp6-unit-test",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp6-unit-test.git",
-                "reference": "f713cbdecbf03a8a8edbe95a28028990795a5d03"
+                "reference": "7094d0874f6aef214c3ef9da1149eb764142b3f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-unit-test/zipball/f713cbdecbf03a8a8edbe95a28028990795a5d03",
-                "reference": "f713cbdecbf03a8a8edbe95a28028990795a5d03",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-unit-test/zipball/7094d0874f6aef214c3ef9da1149eb764142b3f7",
+                "reference": "7094d0874f6aef214c3ef9da1149eb764142b3f7",
                 "shasum": ""
             },
             "require": {
@@ -2817,9 +2817,9 @@
             "description": "A simple tool for unit testing with PHPUnit and ThinkPHP 6",
             "support": {
                 "issues": "https://github.com/aspirantzhang/thinkphp6-unit-test/issues",
-                "source": "https://github.com/aspirantzhang/thinkphp6-unit-test/tree/1.1.1"
+                "source": "https://github.com/aspirantzhang/thinkphp6-unit-test/tree/1.1.2"
             },
-            "time": "2021-05-18T16:35:22+00:00"
+            "time": "2021-06-28T06:12:35+00:00"
         },
         {
             "name": "doctrine/instantiator",

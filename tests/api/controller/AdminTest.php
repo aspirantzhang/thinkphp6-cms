@@ -164,4 +164,54 @@ class AdminTest extends \tests\api\TestCase
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
+    
+    public function testAdminI18nRead()
+    {
+        $this->startRequest();
+        // valid
+        $adminController = new AdminController($this->app);
+        $response = $adminController->i18n(2);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        $this->assertStringContainsString('"layout":[{"name":"en-us","data":[{"name":"display_name"', $response->getContent());
+        // not exist
+        $responseNotExist = $adminController->i18n(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
+        $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
+    }
+
+    public function testAdminI18nUpdate()
+    {
+        $validData = [
+            'en-us' => [
+                "display_name" => "test01",
+                "comment" => "comment en-us",
+                "complete" => true
+            ],
+            'zh-cn' => [
+                "display_name" => "测试01",
+                "comment" => "备注 zh-cn",
+                "complete" => true
+            ],
+        ];
+        $this->startRequest('PATCH', $validData);
+        // valid
+        $adminController = new AdminController($this->app);
+        $response = $adminController->i18nUpdate(2);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // not exist
+        $responseNotExist = $adminController->i18nUpdate(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
+        $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
+        $this->endRequest();
+        // invalid - validator check
+        $invalidData = $validData;
+        $invalidData['en-us']['display_name'] = 'few';
+        $this->startRequest('PATCH', $invalidData);
+        $adminController = new AdminController($this->app);
+        $response = $adminController->i18nUpdate(2);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":false,"message":"Display name length', $response->getContent());
+    }
 }

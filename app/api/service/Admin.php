@@ -53,27 +53,32 @@ class Admin extends AdminLogic
     
             return $this->success('', $layout);
         } else {
-                return $this->error(__('no target'));
+            return $this->error(__('no target'));
         }
     }
 
     public function i18nUpdateAPI($id, $data)
     {
-        $currentTime = date("Y-m-d H:i:s");
+        $originalRecord = $this->where('id', $id)->find();
+        if ($originalRecord) {
+            $currentTime = date("Y-m-d H:i:s");
 
-        foreach ($data as $langCode => $fieldsData) {
-            // validator check
-            $modelValidator = '\app\api\validate\\' . $this->getName();
-            $validate = new $modelValidator();
-            $result = $validate->only($this->getAllowTranslate())->check($fieldsData);
-            if (!$result) {
-                return $this->error($validate->getError());
+            foreach ($data as $langCode => $fieldsData) {
+                // validator check
+                $modelValidator = '\app\api\validate\\' . $this->getName();
+                $validate = new $modelValidator();
+                $result = $validate->only($this->getAllowTranslate())->check($fieldsData);
+                if (!$result) {
+                    return $this->error($validate->getError());
+                }
+                // handle update
+                if ($this->updateI18nData($fieldsData, $id, $langCode, $currentTime) === false) {
+                    return $this->error($this->getError());
+                }
             }
-            // handle update
-            if ($this->updateI18nData($fieldsData, $id, $langCode, $currentTime) === false) {
-                return $this->error($this->getError());
-            }
+            return $this->success(__('update successfully'));
+        } else {
+            return $this->error(__('no target'));
         }
-        return $this->success(__('update successfully'));
     }
 }
