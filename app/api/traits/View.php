@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\api\traits;
 
 use aspirantzhang\TPAntdBuilder\Builder;
+use think\facade\Config;
 
 trait View
 {
@@ -62,7 +63,7 @@ trait View
         $model = $this->getModelData();
         $modelName = $model->model_name;
 
-        if (isset($model['data']['fields']) && isset($model['data']['addAction'])) {
+        if (isset($model['data']['fields']) && isset($model['data']['layout']['addAction'])) {
             $basic = [];
             foreach ($model['data']['fields'] as $addField) {
                 $thisField = Builder::field($modelName . '.' . $addField['name'])->type($addField['type']);
@@ -79,7 +80,7 @@ trait View
             $basic = array_merge($basic, $addonFields);
 
             $action = [];
-            foreach ($model['data']['addAction'] as $addAction) {
+            foreach ($model['data']['layout']['addAction'] as $addAction) {
                 $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->call($addAction['call'])->method($addAction['method']);
                 if (isset($addAction['uri'])) {
                     $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->call($addAction['call'])->uri($addAction['uri'])->method($addAction['method']);
@@ -101,7 +102,7 @@ trait View
         $model = $this->getModelData();
         $modelName = $model->model_name;
 
-        if (isset($model['data']['fields']) && isset($model['data']['editAction'])) {
+        if (isset($model['data']['fields']) && isset($model['data']['layout']['editAction'])) {
             $basic = [];
             foreach ($model['data']['fields'] as $addField) {
                 $thisField = Builder::field($modelName . '.' . $addField['name'])->type($addField['type']);
@@ -123,7 +124,7 @@ trait View
             $basic = array_merge($basic, $addonFields);
 
             $action = [];
-            foreach ($model['data']['editAction'] as $editAction) {
+            foreach ($model['data']['layout']['editAction'] as $editAction) {
                 $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->call($editAction['call'])->method($editAction['method']);
                 if (isset($editAction['uri'])) {
                     $editAction['uri'] = str_replace(':id', $id, $editAction['uri']);
@@ -148,19 +149,19 @@ trait View
         $modelName = $model->model_name;
 
         $tableToolbar = [];
-        if (isset($model['data']['tableToolbar'])) {
-            $tableToolbar = $this->actionBuilder($model['data']['tableToolbar']);
+        if (isset($model['data']['layout']['tableToolbar'])) {
+            $tableToolbar = $this->actionBuilder($model['data']['layout']['tableToolbar']);
         }
 
         $batchToolbar = [];
-        if (isset($model['data']['batchToolbar'])) {
-            $batchToolbar = $this->actionBuilder($model['data']['batchToolbar']);
+        if (isset($model['data']['layout']['batchToolbar'])) {
+            $batchToolbar = $this->actionBuilder($model['data']['layout']['batchToolbar']);
         }
 
         if ($this->isTrash($params)) {
             $batchToolbar = [];
-            if (isset($model['data']['batchToolbarTrashed'])) {
-                $batchToolbar = $this->actionBuilder($model['data']['batchToolbarTrashed']);
+            if (isset($model['data']['layout']['batchToolbarTrashed'])) {
+                $batchToolbar = $this->actionBuilder($model['data']['layout']['batchToolbarTrashed']);
             }
         }
 
@@ -172,12 +173,13 @@ trait View
         $addonFields = [
             Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('i18n')->type('i18n'),
             Builder::field('trash')->type('trash'),
         ];
 
         $actions = [];
-        if (isset($model['data']['listAction'])) {
-            $actions = $this->actionBuilder($model['data']['listAction']);
+        if (isset($model['data']['layout']['listAction'])) {
+            $actions = $this->actionBuilder($model['data']['layout']['listAction']);
         }
         $actionFields = Builder::field('actions')->data($actions);
         $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
@@ -188,6 +190,28 @@ trait View
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolbar)
             ->batchToolBar($batchToolbar)
+            ->toArray();
+    }
+
+    public function i18nBuilder($id, $addonData = [])
+    {
+        $model = $this->getModelData();
+        $modelName = $model->model_name;
+
+        $translateFields = [];
+        foreach ($model['data']['fields'] as $field) {
+            if ($field['allowTranslate'] ?? false) {
+                $translateFields[] = $field;
+            }
+        }
+
+        $fields = [];
+        if (!empty($translateFields)) {
+            $fields = $this->fieldBuilder($translateFields, $modelName);
+        }
+
+        return Builder::i18n('admin-layout.admin-i18n')
+            ->layout(Config::get('lang.allow_lang_list'), $fields)
             ->toArray();
     }
 }

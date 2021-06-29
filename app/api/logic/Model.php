@@ -110,6 +110,8 @@ class Model extends ModelView
             ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_update'), 'rule_path' => 'api/' . $modelName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
             ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_delete'), 'rule_path' => 'api/' . $modelName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
             ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_restore'), 'rule_path' => 'api/' . $modelName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_i18n'), 'rule_path' => 'api/' . $modelName . '/i18n', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_i18nUpdate'), 'rule_path' => 'api/' . $modelName . '/i18n_update', 'create_time' => $currentTime, 'update_time' => $currentTime],
         ];
         foreach ($childrenRules as $childrenRule) {
             (new RuleService())->saveAPI($childrenRule);
@@ -261,6 +263,7 @@ class Model extends ModelView
         $listText = Lang::get('list');
         $addText = Lang::get('add');
         $editText = Lang::get('edit');
+        $i18nText = Lang::get('i18n');
         $fileContent = <<<END
 <?php
 
@@ -269,6 +272,7 @@ return [
         '$modelName-list' => '$modelTitle$listText',
         '$modelName-add' => '$modelTitle$addText',
         '$modelName-edit' => '$modelTitle$editText',
+        '$modelName-i18n' => '$modelTitle$i18nText',
     ]
 ];
 
@@ -363,6 +367,8 @@ END;
             'read' => ['id'],
             'delete' => ['ids'],
             'restore' => ['ids'],
+            'i18n' => ['id'],
+            'i18n_update' => ['id'],
             'add' => [''],
             'home' => [],
             'homeExclude' => []

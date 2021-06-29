@@ -54,12 +54,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp6-fast-command.git",
-                "reference": "068526cf606022be1eb0ecd86c8d522b7fc33cfd"
+                "reference": "78ee30eddd96ce3401a09e8d12c68aea4bd21dbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-fast-command/zipball/068526cf606022be1eb0ecd86c8d522b7fc33cfd",
-                "reference": "068526cf606022be1eb0ecd86c8d522b7fc33cfd",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-fast-command/zipball/78ee30eddd96ce3401a09e8d12c68aea4bd21dbd",
+                "reference": "78ee30eddd96ce3401a09e8d12c68aea4bd21dbd",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
                 "issues": "https://github.com/aspirantzhang/thinkphp6-fast-command/issues",
                 "source": "https://github.com/aspirantzhang/thinkphp6-fast-command/tree/master"
             },
-            "time": "2021-06-01T16:15:33+00:00"
+            "time": "2021-06-28T09:07:29+00:00"
         },
         {
             "name": "cakephp/core",
