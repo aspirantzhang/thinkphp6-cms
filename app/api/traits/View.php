@@ -193,7 +193,7 @@ trait View
             ->toArray();
     }
 
-    public function i18nBuilder($id, $addonData = [])
+    public function i18nBuilder($addonData = [])
     {
         $model = $this->getModelData();
         $modelName = $model->model_name;

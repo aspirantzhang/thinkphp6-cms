@@ -112,7 +112,7 @@ class Admin extends AdminModel
             ->toArray();
     }
 
-    public function i18nBuilder($id, $addonData = [])
+    public function i18nBuilder($addonData = [])
     {
         $fields = [
             Builder::field('admin.display_name')->type('input'),

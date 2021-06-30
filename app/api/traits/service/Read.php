@@ -49,7 +49,7 @@ trait Read
     {
         $originalRecord = $this->where('id', $id)->find();
         if ($originalRecord) {
-            $layout = $this->i18nBuilder($id);
+            $layout = $this->i18nBuilder();
 
             $languages = Config::get('lang.allow_lang_list');
     

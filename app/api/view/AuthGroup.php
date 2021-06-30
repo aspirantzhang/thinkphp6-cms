@@ -92,7 +92,7 @@ class AuthGroup extends GroupModel
             ->toArray();
     }
 
-    public function i18nBuilder($id, $addonData = [])
+    public function i18nBuilder($addonData = [])
     {
         $fields = [
             Builder::field('auth_group.group_title')->type('input'),

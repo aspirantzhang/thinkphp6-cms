@@ -102,7 +102,7 @@ class Menu extends MenuModel
             ->toArray();
     }
 
-    public function i18nBuilder($id, $addonData = [])
+    public function i18nBuilder($addonData = [])
     {
         $fields = [
             Builder::field('menu.menu_title')->type('input'),

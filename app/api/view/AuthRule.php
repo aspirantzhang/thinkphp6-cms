@@ -96,7 +96,7 @@ class AuthRule extends AuthRuleModel
             ->toArray();
     }
 
-    public function i18nBuilder($id, $addonData = [])
+    public function i18nBuilder($addonData = [])
     {
         $fields = [
             Builder::field('auth_rule.rule_title')->type('input'),
