@@ -8,22 +8,6 @@ use think\facade\Db;
 
 trait Save
 {
-    protected function saveI18nData($rawData, $originalId)
-    {
-        $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
-        $data = array_merge($filteredData, [
-            'original_id' => $originalId,
-            'lang_code' => $this->getCurrentLanguage()
-        ]);
-        try {
-            Db::name($this->getLangTableName())->save($data);
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = __('failed to store i18n data');
-            return false;
-        }
-    }
-
     public function saveAPI($data, array $relationModel = [])
     {
         if ($this->checkUniqueFields($data, $this->getTableName()) === false) {
@@ -33,7 +17,7 @@ trait Save
         try {
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
             $id = $this->getData('id');
-            $this->saveI18nData($data, $id);
+            $this->saveI18nData($data, $id, $this->getCurrentLanguage(), convertTime($data['create_time']));
             if (!empty($relationModel)) {
                 foreach ($relationModel as $relation) {
                     $data[$relation] = $data[$relation] ?? [];

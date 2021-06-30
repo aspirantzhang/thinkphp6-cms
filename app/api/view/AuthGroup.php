@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\view;
 
+use think\facade\Config;
 use app\api\model\AuthGroup as GroupModel;
 use aspirantzhang\TPAntdBuilder\Builder;
 
@@ -74,6 +75,7 @@ class AuthGroup extends GroupModel
             Builder::field('auth_group.group_title')->type('input'),
             Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('i18n')->type('i18n'),
             Builder::field('trash')->type('trash'),
             Builder::field('actions')->data([
                 Builder::button('edit')->type('primary')->call('page')->uri('/api/groups/:id'),
@@ -87,6 +89,17 @@ class AuthGroup extends GroupModel
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)
+            ->toArray();
+    }
+
+    public function i18nBuilder()
+    {
+        $fields = [
+            Builder::field('auth_group.group_title')->type('input'),
+        ];
+
+        return Builder::i18n('auth_group-layout.group-i18n')
+            ->layout(Config::get('lang.allow_lang_list'), $fields)
             ->toArray();
     }
 }

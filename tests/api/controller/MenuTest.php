@@ -49,7 +49,7 @@ class MenuTest extends \tests\api\TestCase
 
     public function testMenuSave()
     {
-        $validData = ['parent_id' => 0, 'path' => 'UnitTest', 'menu_title' => 'UnitTest'];
+        $validData = ['parent_id' => 0, 'path' => 'UnitTest', 'menu_title' => 'UnitTest', 'create_time' => (new \DateTime('NOW'))->format('Y-m-d\TH:i:sP'), 'status' => true];
         $this->startRequest('POST', $validData);
         $menuController = new MenuController($this->app);
         $response = $menuController->save();

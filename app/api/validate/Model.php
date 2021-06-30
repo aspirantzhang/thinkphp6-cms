@@ -45,6 +45,8 @@ class Model extends Validate
         'add' => [''],
         'design' => [''],
         'design_update' => ['id', 'type'],
+        'i18n' => ['id'],
+        'i18n_update' => ['id'],
     ];
 
     public function sceneHome()

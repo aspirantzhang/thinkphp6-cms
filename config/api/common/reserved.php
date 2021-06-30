@@ -9,7 +9,8 @@ return [
         'status',
         '_id',
         'original_id',
-        'lang_code'
+        'lang_code',
+        'translate_time'
     ],
     'reserved_table' => [
         'admin',

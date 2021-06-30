@@ -30,7 +30,9 @@ class Model extends ModelLogic
         try {
             // Save basic data
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
-            $this->saveI18nData($data, $this->getData('id'));
+            if ($this->saveI18nData($data, $this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time'])) === false) {
+                return $this->error($this->getError());
+            }
             
             // Create files
             $this->createModelFile($modelName);
@@ -195,8 +197,10 @@ class Model extends ModelLogic
                 break;
 
             case 'layout':
-                return $this->updateAPI($id, ['data' => $data]);
-            
+                $model = $this->where('id', $id)->find();
+                $modelData = $model->data;
+                $modelData['layout'] = $data['layout'] ?? null;
+                return $this->updateAPI($id, ['data' => $modelData]);
             default:
                 break;
         }

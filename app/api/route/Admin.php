@@ -7,6 +7,8 @@ Route::group('admins', function () {
     Route::get('add', 'add');
     Route::get('logout', 'logout');
     Route::get('info', 'info');
+    Route::get(':id/i18n', 'i18n');
+    Route::patch(':id/i18n', 'i18nUpdate');
     Route::get(':id', 'read');
     Route::put(':id', 'update');
     Route::post('login', 'login');

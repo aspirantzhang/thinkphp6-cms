@@ -16,9 +16,9 @@ class Model extends Common
     // Mutator
     public function setModelNameAttr($value)
     {
-        $modelDataField = new \StdClass();
-        $modelDataField->modelName = $value;
-        $this->set('data', $modelDataField);
+        $data = [];
+        $data['layout']['modelName'] = $value;
+        $this->set('data', $data);
         return strtolower($value);
     }
 }

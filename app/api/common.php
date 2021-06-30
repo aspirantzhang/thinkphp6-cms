@@ -9,6 +9,12 @@ function validateDateTime($date, $format = 'Y-m-d H:i:s')
     return false;
 }
 
+function convertTime(string $timeString, string $format = 'Y-m-d H:i:s')
+{
+    $date = new \DateTime($timeString);
+    return $date->format($format);
+}
+
 function getSortParam($data, $allowSort)
 {
     $sort = [

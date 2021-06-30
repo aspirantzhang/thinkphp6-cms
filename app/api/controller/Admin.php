@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\controller;
 
-use app\api\service\Admin as AdminService;
 use think\facade\Session;
+use think\facade\Config;
+use app\api\service\Admin as AdminService;
 
 class Admin extends Common
 {
@@ -154,5 +155,19 @@ class Admin extends Common
             ];
             return $this->json($notLogin, 401);
         }
+    }
+
+    public function i18n($id)
+    {
+        $result = $this->admin->i18nAPI($id);
+
+        return $this->json(...$result);
+    }
+
+    public function i18nUpdate($id)
+    {
+        $result = $this->admin->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
+
+        return $this->json(...$result);
     }
 }

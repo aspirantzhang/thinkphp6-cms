@@ -11,20 +11,17 @@ trait Model
     // Accessor
     public function getCreateTimeAttr($value)
     {
-        $date = new \DateTime($value);
-        return $date->format('Y-m-d\TH:i:sP');
+        return convertTime($value, 'Y-m-d\TH:i:sP');
     }
     public function getUpdateTimeAttr($value)
     {
-        $date = new \DateTime($value);
-        return $date->format('Y-m-d\TH:i:sP');
+        return convertTime($value, 'Y-m-d\TH:i:sP');
     }
 
     // Mutator
     public function setCreateTimeAttr($value)
     {
-        $date = new \DateTime($value);
-        return $date->format('Y-m-d H:i:s');
+        return convertTime($value);
     }
 
     // Searcher

@@ -48,7 +48,7 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminSave()
     {
-        $validData = ['admin_name' => 'UnitTest', 'password' => 'UnitTest', 'display_name' => 'UnitTest'];
+        $validData = ['admin_name' => 'UnitTest', 'password' => 'UnitTest', 'display_name' => 'UnitTest', 'create_time' => (new \DateTime('NOW'))->format('Y-m-d\TH:i:sP'), 'status' => true];
         $this->startRequest('POST', $validData);
         $adminController = new AdminController($this->app);
         $response = $adminController->save();
@@ -67,10 +67,10 @@ class AdminTest extends \tests\api\TestCase
         $this->startRequest();
         // valid
         $adminController = new AdminController($this->app);
-        $response = $adminController->read(2);
+        $response = $adminController->read(3);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
-        $this->assertStringContainsString('"id":2,"admin_name":"UnitTest"', $response->getContent());
+        $this->assertStringContainsString('"id":3,"admin_name":"UnitTest"', $response->getContent());
         // not exist
         $responseNotExist = $adminController->read(0);
         $this->assertEquals(200, $responseNotExist->getCode());
@@ -82,7 +82,7 @@ class AdminTest extends \tests\api\TestCase
         $this->startRequest('PUT', ['display_name' => 'UnitTest2']);
         // valid
         $adminController = new AdminController($this->app);
-        $response = $adminController->update(2);
+        $response = $adminController->update(3);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         // not exist
@@ -93,7 +93,7 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminDelete()
     {
-        $this->startRequest('POST', ['type' => 'delete', 'ids' => [2]]);
+        $this->startRequest('POST', ['type' => 'delete', 'ids' => [3]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->delete();
 
@@ -103,7 +103,7 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminRestore()
     {
-        $this->startRequest('POST', ['ids' => [2]]);
+        $this->startRequest('POST', ['ids' => [3]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->restore();
 
@@ -157,11 +157,61 @@ class AdminTest extends \tests\api\TestCase
 
     public function testAdminDeletePermanently()
     {
-        $this->startRequest('POST', ['type' => 'deletePermanently', 'ids' => [2]]);
+        $this->startRequest('POST', ['type' => 'deletePermanently', 'ids' => [3]]);
         $adminController = new AdminController($this->app);
         $response = $adminController->delete();
 
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
+    }
+    
+    public function testAdminI18nRead()
+    {
+        $this->startRequest();
+        // valid
+        $adminController = new AdminController($this->app);
+        $response = $adminController->i18n(2);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        $this->assertStringContainsString('"layout":[{"name":"en-us","data":[{"name":"display_name"', $response->getContent());
+        // not exist
+        $responseNotExist = $adminController->i18n(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
+        $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
+    }
+
+    public function testAdminI18nUpdate()
+    {
+        $validData = [
+            'en-us' => [
+                "display_name" => "test01",
+                "comment" => "comment en-us",
+                "complete" => true
+            ],
+            'zh-cn' => [
+                "display_name" => "测试01",
+                "comment" => "备注 zh-cn",
+                "complete" => true
+            ],
+        ];
+        $this->startRequest('PATCH', $validData);
+        // valid
+        $adminController = new AdminController($this->app);
+        $response = $adminController->i18nUpdate(2);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true', $response->getContent());
+        // not exist
+        $responseNotExist = $adminController->i18nUpdate(0);
+        $this->assertEquals(200, $responseNotExist->getCode());
+        $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
+        $this->endRequest();
+        // invalid - validator check
+        $invalidData = $validData;
+        $invalidData['en-us']['display_name'] = 'few';
+        $this->startRequest('PATCH', $invalidData);
+        $adminController = new AdminController($this->app);
+        $response = $adminController->i18nUpdate(2);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":false,"message":"Display name length', $response->getContent());
     }
 }

@@ -6,10 +6,35 @@ namespace app\api\traits;
 
 use think\facade\Db;
 use think\facade\Lang;
+use think\facade\Config;
 
 trait Logic
 {
-    
+    public function addTranslationStatus($rawDataSource)
+    {
+        $dataSource = [];
+
+        // add lang element for all
+        $languages = Config::get('lang.allow_lang_list');
+        foreach ($rawDataSource as $record) {
+            foreach ($languages as $langCode) {
+                $record['i18n'][$langCode] = null;
+            }
+            $dataSource[] = $record;
+        }
+
+        $ids = array_column($dataSource, 'id');
+        $idsFlipped = array_flip($ids);
+        $i18nData = Db::table($this->getLangTableName())->whereIn('original_id', implode(',', $ids))->select()->toArray();
+        foreach ($i18nData as $i18n) {
+            $originalIdIndex = $idsFlipped[$i18n['original_id']];
+            // $record['i18n']['en-us'] = '2021-06-18T14:33:38+08:00';
+            $translateTime = $i18n['translate_time'] ? (new \DateTime($i18n['translate_time']))->format('Y-m-d\TH:i:sP') : null;
+            $dataSource[$originalIdIndex]['i18n'][$i18n['lang_code']] = $translateTime;
+        }
+
+        return $dataSource;
+    }
     /**
      * Get the list data.
      * @param mixed $parameters Request parameters
@@ -75,5 +100,57 @@ trait Logic
             ->where('id', $id)
             ->update(['parent_id' => 0]);
         return true;
+    }
+
+    protected function saveI18nData($rawData, $originalId, $langCode, $currentTime = null)
+    {
+        $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
+        if ($currentTime) {
+            $filteredData['translate_time'] =  $currentTime;
+        }
+        $data = array_merge($filteredData, [
+            'original_id' => $originalId,
+            'lang_code' => $langCode
+        ]);
+        try {
+            Db::name($this->getLangTableName())->save($data);
+            return true;
+        } catch (\Throwable $e) {
+            $this->error = __('failed to store i18n data');
+            return false;
+        }
+    }
+
+    protected function updateI18nData($rawData, $originalId, $langCode, $currentTime = null)
+    {
+        $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
+
+        if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
+            $filteredData['translate_time'] =  $currentTime;
+        }
+
+        $record = Db::name($this->getLangTableName())
+            ->where('original_id', $originalId)
+            ->where('lang_code', $langCode)
+            ->find();
+
+        if ($record) {
+            // update
+            try {
+                Db::name($this->getLangTableName())
+                    ->where('original_id', $originalId)
+                    ->where('lang_code', $langCode)
+                    ->update($filteredData);
+                return true;
+            } catch (\Throwable $e) {
+                $this->error = __('failed to store i18n data');
+                return false;
+            }
+        }
+        // add new
+        if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
+            return $this->saveI18nData($rawData, $originalId, $langCode, $currentTime);
+        }
+        return $this->saveI18nData($rawData, $originalId, $langCode);
     }
 }

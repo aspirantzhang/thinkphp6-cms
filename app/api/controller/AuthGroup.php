@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\controller;
 
+use think\facade\Config;
 use app\api\service\AuthGroup as AuthGroupService;
 
 class AuthGroup extends Common
@@ -62,6 +63,20 @@ class AuthGroup extends Common
     {
         $result = $this->authGroup->restoreAPI($this->request->param('ids'));
         
+        return $this->json(...$result);
+    }
+
+    public function i18n($id)
+    {
+        $result = $this->authGroup->i18nAPI($id);
+
+        return $this->json(...$result);
+    }
+
+    public function i18nUpdate($id)
+    {
+        $result = $this->authGroup->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
+
         return $this->json(...$result);
     }
 }

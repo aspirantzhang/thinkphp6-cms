@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\view;
 
+use think\facade\Config;
 use app\api\model\Model as ModelModel;
 use aspirantzhang\TPAntdBuilder\Builder;
 
@@ -70,6 +71,7 @@ class Model extends ModelModel
             Builder::field('model.model_name')->type('input'),
             Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('i18n')->type('i18n'),
             Builder::field('actions')->data([
                 Builder::button('edit')->type('primary')->call('page')->uri('/api/models/:id'),
                 Builder::button('model.field_design')->type('default')->call('page')->uri('/api/models/field-design/api/models/design/:id'),
@@ -84,6 +86,17 @@ class Model extends ModelModel
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)
+            ->toArray();
+    }
+
+    public function i18nBuilder()
+    {
+        $fields = [
+            Builder::field('model.model_title')->type('input'),
+        ];
+
+        return Builder::i18n('menu-layout.menu-i18n')
+            ->layout(Config::get('lang.allow_lang_list'), $fields)
             ->toArray();
     }
 }

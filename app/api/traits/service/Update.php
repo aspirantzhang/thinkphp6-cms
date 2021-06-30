@@ -8,22 +8,6 @@ use think\facade\Db;
 
 trait Update
 {
-    protected function updateI18nData($rawData, $originalId)
-    {
-        $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
-
-        try {
-            Db::name($this->getLangTableName())
-                ->where('original_id', $originalId)
-                ->where('lang_code', $this->getCurrentLanguage())
-                ->update($filteredData);
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = __('failed to store i18n data');
-            return false;
-        }
-    }
-
     public function updateAPI($id, $data, array $relationModel = [])
     {
         $model = $this->where('id', $id)->find();
@@ -34,7 +18,7 @@ trait Update
             $model->startTrans();
             try {
                 $model->allowField($this->getNoNeedToTranslateFields('update'))->save($data);
-                $this->updateI18nData($data, $id);
+                $this->updateI18nData($data, $id, $this->getCurrentLanguage());
                 if ($relationModel) {
                     foreach ($relationModel as $relation) {
                         if (isset($data[$relation])) {
@@ -50,6 +34,31 @@ trait Update
 
                 return $this->error($this->error ?: __('operation failed'));
             }
+        } else {
+            return $this->error(__('no target'));
+        }
+    }
+
+    public function i18nUpdateAPI($id, $data)
+    {
+        $originalRecord = $this->where('id', $id)->find();
+        if ($originalRecord) {
+            $currentTime = date("Y-m-d H:i:s");
+
+            foreach ($data as $langCode => $fieldsData) {
+                // validator check
+                $modelValidator = '\app\api\validate\\' . $this->getName();
+                $validate = new $modelValidator();
+                $result = $validate->only($this->getAllowTranslate())->check($fieldsData);
+                if (!$result) {
+                    return $this->error($validate->getError());
+                }
+                // handle update
+                if ($this->updateI18nData($fieldsData, $id, $langCode, $currentTime) === false) {
+                    return $this->error($this->getError());
+                }
+            }
+            return $this->success(__('update successfully'));
         } else {
             return $this->error(__('no target'));
         }

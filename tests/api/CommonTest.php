@@ -32,6 +32,20 @@ class CommonTest extends TestCase
         $this->assertTrue(validateDateTime('2020-04-02 11:59:59'));
     }
 
+    public function testInvalidParamConvertTimeShouldReturnCurrent()
+    {
+        $this->assertEquals(convertTime(''), date('Y-m-d H:i:s'));
+        $this->assertEquals(convertTime("\t"), date('Y-m-d H:i:s'));
+        $this->assertEquals(convertTime("\n"), date('Y-m-d H:i:s'));
+        $this->assertEquals(convertTime(' '), date('Y-m-d H:i:s'));
+    }
+
+    public function testValidParamsConvertTimeShouldReturnCorrectResult()
+    {
+        $this->assertEquals(convertTime('2021-06-27T00:22:10+08:00'), '2021-06-27 00:22:10');
+        $this->assertEquals(convertTime('2021-06-27T00:22:10+08:00', 'Y-m-d\TH:i:sP'), '2021-06-27T00:22:10+08:00');
+    }
+
     public function testGetSortParamInvalidParam()
     {
         $expect = [

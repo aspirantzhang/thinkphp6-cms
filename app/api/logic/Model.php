@@ -52,7 +52,7 @@ class Model extends ModelView
         try {
             Db::execute("CREATE TABLE `$tableName` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `create_time` DATETIME NOT NULL , `update_time` DATETIME NOT NULL , `delete_time` DATETIME NULL DEFAULT NULL , `status` TINYINT(1) NOT NULL DEFAULT '1' , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
             $i18nTable = $tableName . '_i18n';
-            Db::execute("CREATE TABLE `$i18nTable` ( `_id` int unsigned NOT NULL AUTO_INCREMENT , `original_id` int unsigned NOT NULL , `lang_code` char(5) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '', PRIMARY KEY (`_id`), UNIQUE KEY `original_id` (`original_id`,`lang_code`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
+            Db::execute("CREATE TABLE `$i18nTable` ( `_id` int unsigned NOT NULL AUTO_INCREMENT , `original_id` int unsigned NOT NULL , `lang_code` char(5) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '', `translate_time` DATETIME NOT NULL, PRIMARY KEY (`_id`), UNIQUE KEY `original_id` (`original_id`,`lang_code`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
             return true;
         } catch (\Throwable $e) {
             $this->error = __('create table failed', ['tableName' => $tableName]);
@@ -110,6 +110,8 @@ class Model extends ModelView
             ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_update'), 'rule_path' => 'api/' . $modelName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
             ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_delete'), 'rule_path' => 'api/' . $modelName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
             ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_restore'), 'rule_path' => 'api/' . $modelName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_i18n'), 'rule_path' => 'api/' . $modelName . '/i18n', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_i18nUpdate'), 'rule_path' => 'api/' . $modelName . '/i18n_update', 'create_time' => $currentTime, 'update_time' => $currentTime],
         ];
         foreach ($childrenRules as $childrenRule) {
             (new RuleService())->saveAPI($childrenRule);
@@ -261,6 +263,7 @@ class Model extends ModelView
         $listText = Lang::get('list');
         $addText = Lang::get('add');
         $editText = Lang::get('edit');
+        $i18nText = Lang::get('i18n');
         $fileContent = <<<END
 <?php
 
@@ -269,6 +272,7 @@ return [
         '$modelName-list' => '$modelTitle$listText',
         '$modelName-add' => '$modelTitle$addText',
         '$modelName-edit' => '$modelTitle$editText',
+        '$modelName-i18n' => '$modelTitle$i18nText',
     ]
 ];
 
@@ -363,6 +367,8 @@ END;
             'read' => ['id'],
             'delete' => ['ids'],
             'restore' => ['ids'],
+            'i18n' => ['id'],
+            'i18n_update' => ['id'],
             'add' => [''],
             'home' => [],
             'homeExclude' => []

@@ -38,6 +38,8 @@ class AuthRule extends Validate
         'delete' => ['ids'],
         'restore' => ['ids'],
         'add' => [''],
+        'i18n' => ['id'],
+        'i18n_update' => ['id'],
     ];
 
     public function sceneHome()

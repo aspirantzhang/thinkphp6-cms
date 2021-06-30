@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\controller;
 
+use think\facade\Config;
 use app\api\service\Menu as MenuService;
 
 class Menu extends Common
@@ -70,5 +71,19 @@ class Menu extends Common
         $result = $this->menu->treeDataAPI(['order' => 'asc']);
 
         return $this->json($result);
+    }
+
+    public function i18n($id)
+    {
+        $result = $this->menu->i18nAPI($id);
+
+        return $this->json(...$result);
+    }
+
+    public function i18nUpdate($id)
+    {
+        $result = $this->menu->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
+
+        return $this->json(...$result);
     }
 }

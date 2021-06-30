@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'allowHome' => ['groups', 'admin_name', 'display_name'],
-    'allowRead' => ['admin_name', 'display_name'],
-    'allowSave' => ['admin_name', 'password', 'groups', 'display_name'],
-    'allowUpdate' => ['password', 'display_name', 'groups'],
-    'allowTranslate' => ['display_name'],
+    'allowHome' => ['groups', 'admin_name', 'display_name', 'comment'],
+    'allowRead' => ['admin_name', 'display_name', 'comment'],
+    'allowSave' => ['admin_name', 'password', 'groups', 'display_name', 'comment'],
+    'allowUpdate' => ['password', 'display_name', 'comment', 'groups'],
+    'allowTranslate' => ['display_name', 'comment'],
 ];

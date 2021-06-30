@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\controller;
 
+use think\facade\Config;
 use app\api\service\AuthRule as AuthRuleService;
 
 class AuthRule extends Common
@@ -62,6 +63,20 @@ class AuthRule extends Common
     {
         $result = $this->authRule->restoreAPI($this->request->param('ids'));
         
+        return $this->json(...$result);
+    }
+
+    public function i18n($id)
+    {
+        $result = $this->authRule->i18nAPI($id);
+
+        return $this->json(...$result);
+    }
+
+    public function i18nUpdate($id)
+    {
+        $result = $this->authRule->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
+
         return $this->json(...$result);
     }
 }

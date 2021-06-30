@@ -6,5 +6,6 @@ return [
         'password' => '密码',
         'groups'    =>  '用户组',
         'display_name'  => '显示名称',
+        'comment'  => '备注',
     ]
 ];

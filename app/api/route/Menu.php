@@ -6,6 +6,8 @@ Route::group('menus', function () {
     Route::get('backend', 'backend');
     Route::get('', 'home');
     Route::get('add', 'add');
+    Route::get(':id/i18n', 'i18n');
+    Route::patch(':id/i18n', 'i18nUpdate');
     Route::get(':id', 'read');
     Route::put(':id', 'update');
     Route::post('delete', 'delete');

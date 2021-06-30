@@ -18,7 +18,11 @@ trait TreeList
             'per_page' => 10,
             'page' => 1,
         ];
+
         $data = $this->getListData($params, $withRelation);
+
+        $data = $this->addTranslationStatus($data);
+
         if ($data) {
             if (isTreeArray($data)) {
                 $layout['dataSource'] = arrayToTree($data);
