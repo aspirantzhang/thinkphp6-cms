@@ -13,7 +13,7 @@ class Menu extends Validate
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
-        'menu_title' => 'require|length:6,32',
+        'menu_title' => 'require|length:2,32',
     ];
 
     protected $message = [
@@ -27,7 +27,7 @@ class Menu extends Validate
         'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
         'menu_title.require' => 'menu@menu_title#require',
-        'menu_title.length' => 'menu@menu_title#length:6,32',
+        'menu_title.length' => 'menu@menu_title#length:2,32',
     ];
 
     protected $scene = [
