@@ -89,7 +89,7 @@ class Model extends ModelModel
             ->toArray();
     }
 
-    public function i18nBuilder($addonData = [])
+    public function i18nBuilder()
     {
         $fields = [
             Builder::field('model.model_title')->type('input'),
