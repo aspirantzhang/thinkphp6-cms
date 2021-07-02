@@ -251,7 +251,7 @@ class Model extends ModelView
     {
         $result = [];
         foreach ($fields as $field) {
-            if ($field['allowTranslate'] ?? false) {
+            if (($field['type'] === 'input' || $field['type'] === 'textarea') && $field['allowTranslate'] ?? false) {
                 array_push($result, $field['name']);
             }
         }
