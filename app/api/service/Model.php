@@ -152,6 +152,9 @@ class Model extends ModelLogic
                     $currentFields = extractValues($data['fields'], 'name');
                     // Get i18n fields
                     $i18nFields = $this->getTranslateFields($data['fields']);
+                    if (!$i18nFields) {
+                        return $this->error($this->getError());
+                    }
 
                     // main table
                     $mainTableExist = $this->getExistingFields($modelName);

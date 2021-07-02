@@ -252,6 +252,10 @@ class Model extends ModelView
         $result = [];
         foreach ($fields as $field) {
             if (($field['type'] === 'input' || $field['type'] === 'textarea') && $field['allowTranslate'] ?? false) {
+                if (isset($field['settings']['display']) && in_array('editDisabled', $field['settings']['display'])) {
+                    $this->error = __('edit disabled fields cannot set as translate', ['fieldName' => $field['name']]);
+                    return false;
+                }
                 array_push($result, $field['name']);
             }
         }
