@@ -62,7 +62,6 @@ class Admin extends AdminModel
     {
         $tableToolBar = [
             Builder::button('add')->type('primary')->call('modal')->uri('/api/admins/add'),
-            Builder::button('reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [
             Builder::button('delete')->type('danger')->call('delete')->uri('/api/admins/delete')->method('post'),

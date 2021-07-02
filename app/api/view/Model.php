@@ -60,7 +60,6 @@ class Model extends ModelModel
     {
         $tableToolBar = [
             Builder::button('add')->type('primary')->call('modal')->uri('/api/models/add'),
-            Builder::button('reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [];
         if ($this->isTrash($params)) {
