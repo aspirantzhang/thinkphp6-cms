@@ -121,9 +121,10 @@ class Model extends ModelLogic
 
     public function designAPI($id)
     {
-        $result = $this->field('data')->find($id);
+        $result = $this->field('data')->find($id)->toArray();
+        $result['page']['title'] = __('model design');
         if ($result) {
-            return $this->success('', $result->toArray());
+            return $this->success('', $result);
         } else {
             return $this->error(__('no target'));
         }

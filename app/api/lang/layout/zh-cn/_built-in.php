@@ -27,6 +27,7 @@ return [
     'rule_title_restore' => '恢复',
     'rule_title_i18n' => '国际化',
     'rule_title_i18nUpdate' => '国际化编辑',
+    'model design' => '模型设计',
     'session expired' => '请重新登陆',
     'no permission' => '无权限',
     'no target' => '未找到操作目标。',

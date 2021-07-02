@@ -28,6 +28,7 @@ return [
     'rule_title_restore' => 'Restore',
     'rule_title_i18n' => 'I18n',
     'rule_title_i18nUpdate' => 'I18n Update',
+    'model design' => 'Model Design',
     'session expired' => 'Your session has expired, please log in again.',
     'no permission' => 'No permission.',
     'no target' => 'No operation target.',
