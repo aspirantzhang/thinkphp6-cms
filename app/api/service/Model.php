@@ -123,7 +123,9 @@ class Model extends ModelLogic
     {
         $result = $this->field('data')->find($id);
         if ($result) {
-            return $this->success('', $result->toArray());
+            $result = $result->toArray();
+            $result['page']['title'] = __('model design');
+            return $this->success('', $result);
         } else {
             return $this->error(__('no target'));
         }
@@ -152,6 +154,9 @@ class Model extends ModelLogic
                     $currentFields = extractValues($data['fields'], 'name');
                     // Get i18n fields
                     $i18nFields = $this->getTranslateFields($data['fields']);
+                    if (!$i18nFields) {
+                        return $this->error($this->getError());
+                    }
 
                     // main table
                     $mainTableExist = $this->getExistingFields($modelName);

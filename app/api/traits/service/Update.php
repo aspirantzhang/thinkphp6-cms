@@ -53,6 +53,8 @@ trait Update
                 if (!$result) {
                     return $this->error($validate->getError());
                 }
+                // handle mutator
+                $fieldsData = $this->handleMutator($fieldsData);
                 // handle update
                 if ($this->updateI18nData($fieldsData, $id, $langCode, $currentTime) === false) {
                     return $this->error($this->getError());

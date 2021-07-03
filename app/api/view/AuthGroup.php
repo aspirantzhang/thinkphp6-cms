@@ -59,7 +59,6 @@ class AuthGroup extends GroupModel
     {
         $tableToolBar = [
             Builder::button('add')->type('primary')->call('modal')->uri('/api/groups/add'),
-            Builder::button('reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [
             Builder::button('delete')->type('danger')->call('delete')->uri('/api/groups/delete')->method('post'),

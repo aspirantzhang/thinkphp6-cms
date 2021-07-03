@@ -28,6 +28,7 @@ return [
     'rule_title_restore' => 'Restore',
     'rule_title_i18n' => 'I18n',
     'rule_title_i18nUpdate' => 'I18n Update',
+    'model design' => 'Model Design',
     'session expired' => 'Your session has expired, please log in again.',
     'no permission' => 'No permission.',
     'no target' => 'No operation target.',
@@ -55,5 +56,6 @@ return [
     'change table structure failed' => 'Change [{:tableName}] table structure failed',
     'unable to load page data' => 'Unable to load page data.',
     'failed to store i18n data' => 'Failed to store i18n data.',
-    'invalid data structure' => 'Invalid data structure.'
+    'invalid data structure' => 'Invalid data structure.',
+    'edit disabled fields cannot set as translate' => 'Edit disabled fields [{:fieldName}] cannot set as translate.',
 ];

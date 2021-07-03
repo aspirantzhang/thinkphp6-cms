@@ -66,7 +66,6 @@ class Menu extends MenuModel
     {
         $tableToolBar = [
             Builder::button('add')->type('primary')->call('modal')->uri('/api/menus/add'),
-            Builder::button('reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [
             Builder::button('delete')->type('danger')->call('delete')->uri('/api/menus/delete')->method('post'),

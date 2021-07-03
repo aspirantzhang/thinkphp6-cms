@@ -62,7 +62,6 @@ class AuthRule extends AuthRuleModel
     {
         $tableToolBar = [
             Builder::button('add')->type('primary')->call('modal')->uri('/api/rules/add'),
-            Builder::button('reload')->type('default')->call('reload'),
         ];
         $batchToolBar = [
             Builder::button('delete')->type('danger')->call('delete')->uri('/api/rules/delete')->method('post'),
