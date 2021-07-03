@@ -7,6 +7,7 @@ namespace app\api\traits;
 use think\facade\Db;
 use think\facade\Lang;
 use think\facade\Config;
+use think\helper\Str;
 
 trait Logic
 {
@@ -100,6 +101,17 @@ trait Logic
             ->where('id', $id)
             ->update(['parent_id' => 0]);
         return true;
+    }
+
+    protected function handleMutator($fieldsData)
+    {
+        foreach ($fieldsData as $fieldName => $fieldValue) {
+            $mutator = 'set' . Str::studly($fieldName) . 'Attr';
+            if (method_exists($this, $mutator)) {
+                $fieldsData[$fieldName] = $this->$mutator($fieldValue);
+            }
+        }
+        return $fieldsData;
     }
 
     protected function saveI18nData($rawData, $originalId, $langCode, $currentTime = null)
