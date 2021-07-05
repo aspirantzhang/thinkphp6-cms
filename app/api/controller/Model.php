@@ -55,6 +55,7 @@ class Model extends Common
     public function delete()
     {
         $result = $this->model->deleteAPI($this->request->param('ids'), $this->request->param('type'));
+        $result[0]['call'] = ['fetchMenu'];
         
         return $this->json(...$result);
     }
