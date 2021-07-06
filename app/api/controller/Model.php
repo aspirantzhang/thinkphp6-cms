@@ -34,7 +34,7 @@ class Model extends Common
     public function save()
     {
         $result = $this->model->saveAPI($this->request->only($this->model->getAllowSave()));
-        if ($result[0]['success'] = true) {
+        if ($result[0]['success'] === true) {
             $result[0]['call'] = ['fetchMenu'];
         }
 
@@ -58,7 +58,7 @@ class Model extends Common
     public function delete()
     {
         $result = $this->model->deleteAPI($this->request->param('ids'), $this->request->param('type'));
-        if ($result[0]['success'] = true) {
+        if ($result[0]['success'] === true) {
             $result[0]['call'] = ['fetchMenu'];
         }
         
