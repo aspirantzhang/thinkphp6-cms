@@ -40,9 +40,6 @@ class Model extends ModelModel
             Builder::field('update_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
-        $dataTab = [
-            Builder::field('model.data')->type('textarea'),
-        ];
         $action = [
             Builder::button('cancel')->type('default')->call('cancel'),
             Builder::button('submit')->type('primary')->call('submit')->uri('/api/models/' . $id)->method('put'),
@@ -51,7 +48,6 @@ class Model extends ModelModel
         return Builder::page('model-layout.model-edit')
             ->type('page')
             ->tab('basic', $basic)
-            ->tab('model.data', $dataTab)
             ->action('actions', $action)
             ->toArray();
     }
