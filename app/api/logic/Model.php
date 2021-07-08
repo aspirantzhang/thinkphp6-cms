@@ -104,15 +104,15 @@ class Model extends ModelView
     {
         $currentTime = date("Y-m-d H:i:s");
         $childrenRules = [
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_home'), 'rule_path' => 'api/' . $modelName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_add'), 'rule_path' => 'api/' . $modelName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_save'), 'rule_path' => 'api/' . $modelName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_read'), 'rule_path' => 'api/' . $modelName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_update'), 'rule_path' => 'api/' . $modelName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_delete'), 'rule_path' => 'api/' . $modelName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_restore'), 'rule_path' => 'api/' . $modelName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_i18n'), 'rule_path' => 'api/' . $modelName . '/i18n', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . ' ' . Lang::get('rule_title_i18nUpdate'), 'rule_path' => 'api/' . $modelName . '/i18n_update', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_home'), 'rule_path' => 'api/' . $modelName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_add'), 'rule_path' => 'api/' . $modelName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_save'), 'rule_path' => 'api/' . $modelName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_read'), 'rule_path' => 'api/' . $modelName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_update'), 'rule_path' => 'api/' . $modelName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_delete'), 'rule_path' => 'api/' . $modelName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_restore'), 'rule_path' => 'api/' . $modelName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_i18n'), 'rule_path' => 'api/' . $modelName . '/i18n', 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_i18nUpdate'), 'rule_path' => 'api/' . $modelName . '/i18n_update', 'create_time' => $currentTime, 'update_time' => $currentTime],
         ];
         $ruleIds = [];
         foreach ($childrenRules as $childrenRule) {
@@ -145,7 +145,7 @@ class Model extends ModelView
         $currentTime = date("Y-m-d H:i:s");
         $menu = (new MenuService())->saveAPI([
             'parent_id' => 0,
-            'menu_title' => $modelTitle . ' ' . Lang::get('list'),
+            'menu_title' => $modelTitle . Lang::get('list'),
             'icon' => 'icon-project',
             'path' => '/basic-list/api/' . $modelName,
             'create_time' => $currentTime,
@@ -158,8 +158,8 @@ class Model extends ModelView
     {
         $currentTime = date("Y-m-d H:i:s");
         $childrenMenus = [
-            ['parent_id' => $menuId, 'menu_title' => $modelTitle . ' ' . Lang::get('add'), 'path' => '/basic-list/api/' . $modelName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $menuId, 'menu_title' => $modelTitle . ' ' . Lang::get('edit'), 'path' => '/basic-list/api/' . $modelName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $menuId, 'menu_title' => $modelTitle . Lang::get('add'), 'path' => '/basic-list/api/' . $modelName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
+            ['parent_id' => $menuId, 'menu_title' => $modelTitle . Lang::get('edit'), 'path' => '/basic-list/api/' . $modelName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
         ];
         foreach ($childrenMenus as $childrenMenu) {
             (new MenuService())->saveAPI($childrenMenu);
