@@ -49,7 +49,19 @@ class Model extends ModelLogic
 
             if ($ruleId) {
                 // Add children rule
-                $this->createChildrenRule((int)$ruleId, $modelTitle, $modelName);
+                $childrenRuleIds = $this->createChildrenRule((int)$ruleId, $modelTitle, $modelName);
+            } else {
+                return $this->error(__('failed to create self rule'));
+            }
+
+            if (count(array_unique($childrenRuleIds)) === 9) {
+                $rulesToAdminGroup = $this->addRulesToAdminGroup([$ruleId, ...$childrenRuleIds]);
+            } else {
+                return $this->error(__('failed to create children rules'));
+            }
+
+            if ($rulesToAdminGroup === false) {
+                return $this->error($this->getError());
             }
 
             // Add self menu
@@ -105,9 +117,6 @@ class Model extends ModelLogic
 
                 // Remove allow fields config file
                 $this->deleteAllowFieldsFile($modelName);
-
-                // Remove validate file
-                $this->deleteValidateFile($modelName);
                 
                 $model->commit();
                 return $this->success(__('delete successfully'));
