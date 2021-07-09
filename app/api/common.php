@@ -123,39 +123,35 @@ function isMultiArray($array)
  */
 function extractValues(array $array = [], string $targetKeyName = 'id', string $parentKeyName = '', bool $unique = true)
 {
+    if (empty($array)) {
+        return [];
+    }
     // Depth: level two
     if ($parentKeyName) {
         $result = [];
-        if (!empty($array)) {
-            foreach ($array as $key => $value) {
-                if (isset($value[$parentKeyName])) {
-                    if (isset($value[$parentKeyName][$targetKeyName])) {
-                        $result[] = $value[$parentKeyName][$targetKeyName];
-                    } elseif (is_array($value[$parentKeyName])) {
-                        $result = array_merge($result, array_column($value[$parentKeyName], $targetKeyName));
-                    }
+        foreach ($array as $value) {
+            if (isset($value[$parentKeyName])) {
+                if (isset($value[$parentKeyName][$targetKeyName])) {
+                    $result[] = $value[$parentKeyName][$targetKeyName];
+                } elseif (is_array($value[$parentKeyName])) {
+                    $result = array_merge($result, array_column($value[$parentKeyName], $targetKeyName));
                 }
             }
-            if (!$unique) {
-                return $result;
-            }
-            if (isMultiArray($result)) {
-                return array_unique($result, SORT_REGULAR);
-            } else {
-                return array_unique($result);
-            }
         }
-        return $result;
+        if (!$unique) {
+            return $result;
+        }
+        if (isMultiArray($result)) {
+            return array_unique($result, SORT_REGULAR);
+        }
+        return array_unique($result);
     }
 
     // Depth: level 1
-    if (!empty($array)) {
-        if (!$unique) {
-            return array_column($array, $targetKeyName);
-        }
-        return array_unique(array_column($array, $targetKeyName), SORT_REGULAR);
+    if (!$unique) {
+        return array_column($array, $targetKeyName);
     }
-    return [];
+    return array_unique(array_column($array, $targetKeyName), SORT_REGULAR);
 }
 
 function searchDescendantValueAggregation(string $keyName, string $elementKey, $elementValue, array $haystack, $deepSearch = true)
