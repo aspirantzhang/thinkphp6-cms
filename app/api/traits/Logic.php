@@ -62,11 +62,7 @@ trait Logic
         return $result->select()->toArray();
     }
 
-    /**
-     * Check if the value is unique
-     * @param mixed $data Request data
-     * @return bool
-     */
+    
     protected function checkUniqueValues($data): bool
     {
         $uniqueFields = $this->getUniqueField();

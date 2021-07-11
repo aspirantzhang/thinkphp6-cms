@@ -14,11 +14,11 @@ class Model extends ModelLogic
         $modelName = $data['model_name'];
         $modelTitle = $data['model_title'];
 
-        if (in_array($modelName, Config::get('reserved.reserved_table'))) {
-            return $this->error(__('reserved table name'));
+        if ($this->isReservedTable($modelName)) {
+            return $this->error($this->getError());
         }
 
-        if ($this->checkUniqueValues($data) === false) {
+        if (!$this->checkUniqueValues($data)) {
             return $this->error($this->getError());
         }
 

@@ -16,6 +16,15 @@ use think\helper\Str;
 
 class Model extends ModelView
 {
+    protected function isReservedTable(string $tableName): bool
+    {
+        if (in_array($tableName, Config::get('reserved.reserved_table'))) {
+            $this->error = __('reserved table name');
+            return true;
+        }
+        return false;
+    }
+    
     protected function existsTable($tableName)
     {
         try {

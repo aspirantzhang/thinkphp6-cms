@@ -78,9 +78,4 @@ trait AllowField
         Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
         return Config::get($this->getName() . '.allowTranslate') ?: [];
     }
-
-    protected function isReservedTable()
-    {
-        return in_array($this->getTableName(), Config::get('reserved.reserved_table'));
-    }
 }
