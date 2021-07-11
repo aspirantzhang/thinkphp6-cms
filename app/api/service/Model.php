@@ -14,15 +14,11 @@ class Model extends ModelLogic
         $modelName = $data['model_name'];
         $modelTitle = $data['model_title'];
 
-        if ($this->isReservedTable($modelName)) {
-            return $this->error($this->getError());
-        }
-
-        if (!$this->checkUniqueValues($data)) {
-            return $this->error($this->getError());
-        }
-
-        if ($this->tableAlreadyExist($modelName)) {
+        if (
+            $this->isReservedTable($modelName) &&
+            !$this->checkUniqueValues($data) &&
+            $this->tableAlreadyExist($modelName)
+        ) {
             return $this->error($this->getError());
         }
 
