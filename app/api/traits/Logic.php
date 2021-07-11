@@ -67,15 +67,13 @@ trait Logic
      * @param mixed $data Request data
      * @return bool
      */
-    protected function checkUniqueFields($data, $modelName): bool
+    protected function checkUniqueValues($data): bool
     {
-        $uniqueFields = $this->uniqueField ?? [];
-        if (is_array($uniqueFields) && !empty($uniqueFields)) {
-            foreach ($uniqueFields as $field) {
-                if (isset($data[$field]) && $this->ifExists($field, $data[$field])) {
-                    $this->error = __('field value already exists', ['fieldName' => Lang::get($modelName . '.' . $field)]);
-                    return false;
-                }
+        $uniqueFields = $this->getUniqueField();
+        foreach ($uniqueFields as $field) {
+            if (isset($data[$field]) && $this->ifExists($field, $data[$field])) {
+                $this->error = __('field value already exists', ['fieldName' => Lang::get($this->getTableName() . '.' . $field)]);
+                return false;
             }
         }
         return true;

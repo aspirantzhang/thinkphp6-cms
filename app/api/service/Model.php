@@ -11,14 +11,14 @@ class Model extends ModelLogic
 {
     public function saveAPI($data, array $relationModel = [])
     {
-        $modelName = strtolower($data['model_name']);
-        $modelTitle = (string)$data['model_title'];
+        $modelName = $data['model_name'];
+        $modelTitle = $data['model_title'];
 
         if (in_array($modelName, Config::get('reserved.reserved_table'))) {
             return $this->error(__('reserved table name'));
         }
 
-        if ($this->checkUniqueFields($data, $this->getTableName()) === false) {
+        if ($this->checkUniqueValues($data) === false) {
             return $this->error($this->getError());
         }
 

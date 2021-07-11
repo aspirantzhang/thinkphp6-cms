@@ -12,7 +12,7 @@ trait Update
     {
         $model = $this->where('id', $id)->find();
         if ($model) {
-            if ($model->checkUniqueFields($data, $this->getTableName()) === false) {
+            if ($model->checkUniqueValues($data) === false) {
                 return $this->error($this->getError());
             }
             $model->startTrans();

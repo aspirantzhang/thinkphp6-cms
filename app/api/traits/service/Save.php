@@ -10,7 +10,7 @@ trait Save
 {
     public function saveAPI($data, array $relationModel = [])
     {
-        if ($this->checkUniqueFields($data, $this->getTableName()) === false) {
+        if ($this->checkUniqueValues($data) === false) {
             return $this->error($this->getError());
         }
         $this->startTrans();

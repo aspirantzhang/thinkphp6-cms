@@ -10,6 +10,11 @@ use aspirantzhang\TPAntdBuilder\Builder;
 
 trait AllowField
 {
+    protected function getUniqueField(): array
+    {
+        return $this->uniqueField ?? [];
+    }
+
     protected function getAddonData($params = [])
     {
         $custom = [];
