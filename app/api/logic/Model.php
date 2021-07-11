@@ -25,7 +25,7 @@ class Model extends ModelView
         return false;
     }
     
-    protected function existsTable($tableName)
+    protected function tableExists(string $tableName): bool
     {
         try {
             Db::query("select 1 from `$tableName` LIMIT 1");
@@ -33,6 +33,24 @@ class Model extends ModelView
             return false;
         }
         return true;
+    }
+
+    protected function tableAlreadyExist(string $tableName): bool
+    {
+        if ($this->tableExists($tableName)) {
+            $this->error = __('table already exists', ['tableName' => $tableName]);
+            return true;
+        }
+        return false;
+    }
+
+    public function tableNotExist(string $tableName): bool
+    {
+        if (!$this->tableExists($tableName)) {
+            $this->error = __('table not exist', ['tableName' => $tableName]);
+            return true;
+        }
+        return false;
     }
 
     protected function createModelFile(string $modelName)

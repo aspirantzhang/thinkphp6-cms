@@ -22,8 +22,8 @@ class Model extends ModelLogic
             return $this->error($this->getError());
         }
 
-        if ($this->existsTable($modelName)) {
-            return $this->error(__('table already exists', ['tableName' => $modelName]));
+        if ($this->tableAlreadyExist($modelName)) {
+            return $this->error($this->getError());
         }
 
         $this->startTrans();
@@ -151,9 +151,8 @@ class Model extends ModelLogic
         if (in_array($modelName, Config::get('reserved.reserved_table'))) {
             return $this->error(__('reserved model not allowed'));
         }
-        // Check table exists
-        if (!$this->existsTable($modelName)) {
-            return $this->error(__('table not exist', ['tableName' => $modelName]));
+        if ($this->tableNotExist($modelName)) {
+            return $this->error($this->getError());
         }
 
         switch ($type) {
