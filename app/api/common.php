@@ -33,7 +33,7 @@ function getSortParam($data, $allowSort)
     return $sort;
 }
 
-function getListParams($params, $allowHome, $allowSort)
+function getListParams($params, $allowHome, $allowSort): array
 {
     $result = [];
     $result['trash'] = $params['trash'] ?? 'withoutTrashed';
@@ -45,13 +45,13 @@ function getListParams($params, $allowHome, $allowSort)
     return $result;
 }
 
-function getFieldNameBySearcherName(string $functionName)
+function getFieldNameBySearcherName(string $functionName): string
 {
     return parse_name(substr(substr($functionName, 6), 0, -4));
 }
 
 /* Recursive branch extrusion */
-function createTreeBranch(&$parents, $children, $depth = 0)
+function createTreeBranch(array &$parents, array $children, int $depth = 0): array
 {
     $tree = [];
     $depth++;
@@ -71,7 +71,7 @@ function createTreeBranch(&$parents, $children, $depth = 0)
 * @link https://stackoverflow.com/a/22020668/8819175
 * @return array
 */
-function arrayToTree($flat, $root = 0)
+function arrayToTree(array $flat, int $root = 0): array
 {
     if (isTreeArray($flat)) {
         // if parent_id not exist, set them to zero
@@ -98,7 +98,7 @@ function arrayToTree($flat, $root = 0)
     return [];
 }
 
-function isTreeArray($array = [])
+function isTreeArray(array $array = []): bool
 {
     if (is_array($array) && isset($array[0]['id']) && isset($array[0]['parent_id'])) {
         return true;
@@ -106,7 +106,7 @@ function isTreeArray($array = [])
     return false;
 }
 
-function isMultiArray($array)
+function isMultiArray(array $array): bool
 {
     $multiCount = array_filter($array, 'is_array');
     return count($multiCount) > 0;
@@ -121,7 +121,7 @@ function isMultiArray($array)
  * @param bool $unique
  * @return array
  */
-function extractValues(array $array = [], string $targetKeyName = 'id', string $parentKeyName = '', bool $unique = true)
+function extractValues(array $array = [], string $targetKeyName = 'id', string $parentKeyName = '', bool $unique = true): array
 {
     if (empty($array)) {
         return [];
@@ -154,7 +154,7 @@ function extractValues(array $array = [], string $targetKeyName = 'id', string $
     return array_unique(array_column($array, $targetKeyName), SORT_REGULAR);
 }
 
-function searchDescendantValueAggregation(string $keyName, string $elementKey, $elementValue, array $haystack, $deepSearch = true)
+function searchDescendantValueAggregation(string $keyName, string $elementKey, $elementValue, array $haystack, bool $deepSearch = true): array
 {
     $currentElement = searchArrayByElement($elementValue, $elementKey, $haystack);
 
@@ -173,7 +173,7 @@ function searchDescendantValueAggregation(string $keyName, string $elementKey, $
     return recursiveSearchChildrenValue($keyName, $currentElement['children']);
 }
 
-function searchArrayByElement($value, string $key, array $haystack)
+function searchArrayByElement($value, string $key, array $haystack): array
 {
     $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($haystack));
 
@@ -183,9 +183,11 @@ function searchArrayByElement($value, string $key, array $haystack)
             return (iterator_to_array($subIterator));
         }
     }
+
+    return [];
 }
 
-function recursiveSearchChildrenValue($needle, array $haystack)
+function recursiveSearchChildrenValue(string $needle, array $haystack): array
 {
     $result = array_column($haystack, $needle);
 
