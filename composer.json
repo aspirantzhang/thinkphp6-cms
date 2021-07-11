@@ -24,10 +24,10 @@
     "aspirantzhang/thinkphp-antdesign-builder": "dev-master",
     "topthink/think-multi-app": "^1.0",
     "nhzex/think-phinx": "^1.1",
-    "aspirantzhang/thinkphp6-fast-command": "dev-master",
     "xiaodi/think-whoops": "^1.1",
     "topthink/think-helper": "^3.1",
-    "zircote/swagger-php": "^3.1"
+    "zircote/swagger-php": "^3.1",
+    "aspirantzhang/thinkphp6-model-creator": "dev-main"
   },
   "require-dev": {
     "symfony/var-dumper": "^4.2",
