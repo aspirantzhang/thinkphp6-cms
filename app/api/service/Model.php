@@ -24,12 +24,10 @@ class Model extends ModelLogic
 
         $this->startTrans();
         try {
-            // Save basic data
+            // save model table data
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
-            if ($this->saveI18nData($data, $this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time'])) === false) {
-                return $this->error($this->getError());
-            }
-            
+            // save i18n table data
+            $this->saveI18nData($data, (int)$this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time']));
             // Create files
             $this->createModelFile($modelName);
 
@@ -77,7 +75,7 @@ class Model extends ModelLogic
             return $this->success(__('add successfully'));
         } catch (\Exception $e) {
             $this->rollback();
-            return $this->error($this->error ?: __('operation failed'));
+            return $this->error($this->getError() ?: __('operation failed'));
         }
     }
 

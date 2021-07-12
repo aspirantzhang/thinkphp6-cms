@@ -8,6 +8,7 @@ use think\facade\Db;
 use think\facade\Lang;
 use think\facade\Config;
 use think\helper\Str;
+use think\Exception;
 
 trait Logic
 {
@@ -108,22 +109,26 @@ trait Logic
         return $fieldsData;
     }
 
-    protected function saveI18nData($rawData, $originalId, $langCode, $currentTime = null)
+    protected function saveI18nData(array $rawData, int $originalId, string $langCode, $translateTime = null)
     {
+        // keep only allowed
         $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
-        if ($currentTime) {
-            $filteredData['translate_time'] =  $currentTime;
+        // sync translate time if specific
+        if ($translateTime) {
+            $filteredData['translate_time'] =  $translateTime;
         }
         $data = array_merge($filteredData, [
             'original_id' => $originalId,
             'lang_code' => $langCode
         ]);
+        Db::startTrans();
         try {
             Db::name($this->getLangTableName())->save($data);
-            return true;
+            Db::commit();
         } catch (\Throwable $e) {
             $this->error = __('failed to store i18n data');
-            return false;
+            Db::rollback();
+            throw new Exception();
         }
     }
 
