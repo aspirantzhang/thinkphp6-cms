@@ -76,7 +76,7 @@ class Model extends ModelLogic
             return $this->success(__('add successfully'));
         } catch (\Exception $e) {
             $this->rollback();
-            return $this->error($this->getError() ?: __('operation failed'));
+            return $this->error($e->getMessage() ?: __('operation failed'));
         }
     }
 

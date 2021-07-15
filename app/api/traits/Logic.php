@@ -125,10 +125,9 @@ trait Logic
         try {
             Db::name($this->getLangTableName())->save($data);
             Db::commit();
-        } catch (\Throwable $e) {
-            $this->error = __('failed to store i18n data');
+        } catch (\Exception $e) {
             Db::rollback();
-            throw new Exception();
+            throw new Exception(__('failed to store i18n data'));
         }
     }
 
