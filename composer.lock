@@ -54,17 +54,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/thinkphp6-model-creator.git",
-                "reference": "9ee55e30523c24395c68ccb2edf27f0f749b1555"
+                "reference": "e97d1e40695b09fcb5dcef343e4fcb3fbf179243"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-model-creator/zipball/9ee55e30523c24395c68ccb2edf27f0f749b1555",
-                "reference": "9ee55e30523c24395c68ccb2edf27f0f749b1555",
+                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-model-creator/zipball/e97d1e40695b09fcb5dcef343e4fcb3fbf179243",
+                "reference": "e97d1e40695b09fcb5dcef343e4fcb3fbf179243",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.0",
-                "topthink/framework": "^6.0"
+                "php": ">=7.3.0",
+                "topthink/framework": "^6.0",
+                "topthink/think-helper": "^3.1"
             },
             "require-dev": {
                 "mockery/mockery": "^1.4",
@@ -99,7 +100,7 @@
                 "issues": "https://github.com/aspirantzhang/thinkphp6-model-creator/issues",
                 "source": "https://github.com/aspirantzhang/thinkphp6-model-creator/tree/main"
             },
-            "time": "2021-07-11T07:21:28+00:00"
+            "time": "2021-07-15T05:04:50+00:00"
         },
         {
             "name": "cakephp/core",

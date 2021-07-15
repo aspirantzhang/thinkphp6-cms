@@ -6,6 +6,7 @@ namespace app\api\service;
 
 use app\api\logic\Model as ModelLogic;
 use think\facade\Config;
+use aspirantzhang\thinkphp6ModelCreator\ModelCreator;
 
 class Model extends ModelLogic
 {
@@ -29,7 +30,7 @@ class Model extends ModelLogic
             // save i18n table data
             $this->saveI18nData($data, (int)$this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time']));
             // Create files
-            $this->createModelFile($modelName);
+            ModelCreator::file($modelName)->create();
 
             if ($this->writeLayoutLangFile($modelName, $modelTitle) === false) {
                 return $this->error(__('failed to write layout i18n file'));
@@ -95,7 +96,7 @@ class Model extends ModelLogic
                 $menuId = $model->menu_id;
 
                 // Remove model file
-                $this->removeModelFile($modelName);
+                ModelCreator::file($modelName)->remove();
 
                 // Remove Table
                 $this->removeTable($modelName);

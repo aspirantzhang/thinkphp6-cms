@@ -53,28 +53,6 @@ class Model extends ModelView
         return false;
     }
 
-    protected function createModelFile(string $modelName)
-    {
-        try {
-            Console::call('make:buildModel', [Str::studly($modelName), '--route=' . $modelName]);
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = __('failed to write model file');
-            return false;
-        }
-    }
-
-    protected function removeModelFile(string $modelName)
-    {
-        try {
-            Console::call('make:removeModel', [Str::studly($modelName)]);
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = __('failed to remove model file');
-            return false;
-        }
-    }
-
     protected function createTable(string $tableName)
     {
         try {
