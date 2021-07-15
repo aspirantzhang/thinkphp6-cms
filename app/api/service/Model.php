@@ -30,11 +30,7 @@ class Model extends ModelLogic
             // save i18n table data
             $this->saveI18nData($data, (int)$this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time']));
             // Create files
-            ModelCreator::file($modelName)->create();
-
-            if ($this->writeLayoutLangFile($modelName, $modelTitle) === false) {
-                return $this->error(__('failed to write layout i18n file'));
-            }
+            ModelCreator::file($modelName, $modelTitle, $this->getCurrentLanguage())->create();
 
             // Create table
             $this->createTable($modelName);
@@ -96,7 +92,7 @@ class Model extends ModelLogic
                 $menuId = $model->menu_id;
 
                 // Remove model file
-                ModelCreator::file($modelName)->remove();
+                ModelCreator::file($modelName, '', $this->getCurrentLanguage())->remove();
 
                 // Remove Table
                 $this->removeTable($modelName);

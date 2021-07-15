@@ -284,28 +284,6 @@ class Model extends ModelView
         return $result;
     }
 
-    protected function writeLayoutLangFile($modelName, $modelTitle)
-    {
-        $listText = Lang::get('list');
-        $addText = Lang::get('add');
-        $editText = Lang::get('edit');
-        $i18nText = Lang::get('i18n');
-        $fileContent = <<<END
-<?php
-
-return [
-    '$modelName-layout' =>  [
-        '$modelName-list' => '$modelTitle$listText',
-        '$modelName-add' => '$modelTitle$addText',
-        '$modelName-edit' => '$modelTitle$editText',
-        '$modelName-i18n' => '$modelTitle$i18nText',
-    ]
-];
-
-END;
-        return file_put_contents(base_path() . 'api\lang\layout\\' . $this->getCurrentLanguage() . '\\' . $modelName . '.php', $fileContent);
-    }
-
     protected function writeFieldLangFile($fields, $modelName)
     {
         $data = '';
