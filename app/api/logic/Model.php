@@ -53,80 +53,12 @@ class Model extends ModelView
         return false;
     }
 
-    protected function createTable(string $tableName)
-    {
-        try {
-            Db::execute("CREATE TABLE `$tableName` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `create_time` DATETIME NOT NULL , `update_time` DATETIME NOT NULL , `delete_time` DATETIME NULL DEFAULT NULL , `status` TINYINT(1) NOT NULL DEFAULT '1' , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
-            $i18nTable = $tableName . '_i18n';
-            Db::execute("CREATE TABLE `$i18nTable` ( `_id` int unsigned NOT NULL AUTO_INCREMENT , `original_id` int unsigned NOT NULL , `lang_code` char(5) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '', `translate_time` DATETIME NOT NULL, PRIMARY KEY (`_id`), UNIQUE KEY `original_id` (`original_id`,`lang_code`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;");
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = __('create table failed', ['tableName' => $tableName]);
-            return false;
-        }
-    }
-
     protected function deleteI18nRecord($originalId)
     {
         try {
             Db::name('model_i18n')->where('original_id', $originalId)->delete();
         } catch (\Throwable $th) {
             $this->error = __('remove i18n record failed');
-        }
-    }
-
-    protected function createSelfRule(string $modelTitle)
-    {
-        $currentTime = date("Y-m-d H:i:s");
-        $rule = (new RuleService())->saveAPI([
-            'parent_id' => 0,
-            'rule_title' => $modelTitle,
-            'create_time' => $currentTime,
-            'update_time' => $currentTime,
-        ]);
-        return $rule[0]['data']['id'] ?: 0;
-    }
-
-    protected function addRulesToAdminGroup(array $newRuleIds)
-    {
-        $adminGroup = GroupService::where('id', 1)->with(['rules'])->find();
-        $rulesArray = $adminGroup->toArray()['rules'];
-        $existingRuleIds = extractValues($rulesArray);
-
-        $result = (new GroupService())->updateAPI(1, [
-            'rules' => [...$existingRuleIds, ...$newRuleIds]
-        ], ['rules']);
-
-        if ($result[0]['success'] === false) {
-            $this->error = _('failed to add rules to AdminGroup');
-            return false;
-        }
-        return true;
-    }
-
-    protected function createSelfMenu(string $modelName, string $modelTitle)
-    {
-        $currentTime = date("Y-m-d H:i:s");
-        $menu = (new MenuService())->saveAPI([
-            'parent_id' => 0,
-            'menu_title' => $modelTitle . Lang::get('list'),
-            'icon' => 'icon-project',
-            'path' => '/basic-list/api/' . $modelName,
-            'create_time' => $currentTime,
-            'update_time' => $currentTime,
-        ]);
-        return $menu[0]['data']['id'] ?: 0;
-    }
-
-    protected function createChildrenMenu(int $menuId, string $modelName, string $modelTitle)
-    {
-        $currentTime = date("Y-m-d H:i:s");
-        $childrenMenus = [
-            ['parent_id' => $menuId, 'menu_title' => $modelTitle . Lang::get('add'), 'path' => '/basic-list/api/' . $modelName . '/add', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $menuId, 'menu_title' => $modelTitle . Lang::get('edit'), 'path' => '/basic-list/api/' . $modelName . '/:id', 'hide_in_menu' => 1, 'create_time' => $currentTime, 'update_time' => $currentTime],
-        ];
-        foreach ($childrenMenus as $childrenMenu) {
-            (new MenuService())->saveAPI($childrenMenu);
         }
     }
 
