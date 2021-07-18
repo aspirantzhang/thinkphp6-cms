@@ -6,7 +6,7 @@ namespace app\api\service;
 
 use app\api\logic\Model as ModelLogic;
 use think\facade\Config;
-use aspirantzhang\thinkphp6ModelCreator\ModelCreator;
+use aspirantzhang\octopusModelCreator\ModelCreator;
 
 class Model extends ModelLogic
 {
@@ -29,45 +29,12 @@ class Model extends ModelLogic
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
             // save i18n table data
             $this->saveI18nData($data, (int)$this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time']));
-            // Create files
+            // create files
             ModelCreator::file($modelName, $modelTitle, $this->getCurrentLanguage())->create();
-
-            // Create table
-            $this->createTable($modelName);
-
-            // Add self rule
-            $ruleId = $this->createSelfRule($modelTitle);
-
-            if ($ruleId) {
-                // Add children rule
-                $childrenRuleIds = $this->createChildrenRule((int)$ruleId, $modelTitle, $modelName);
-            } else {
-                return $this->error(__('failed to create self rule'));
-            }
-
-            if (count(array_unique($childrenRuleIds)) === 9) {
-                $rulesToAdminGroup = $this->addRulesToAdminGroup([$ruleId, ...$childrenRuleIds]);
-            } else {
-                return $this->error(__('failed to create children rules'));
-            }
-
-            if ($rulesToAdminGroup === false) {
-                return $this->error($this->getError());
-            }
-
-            // Add self menu
-            $menuId = $this->createSelfMenu($modelName, $modelTitle);
-
-            if ($menuId) {
-                // Add children menu
-                $this->createChildrenMenu((int)$menuId, $modelName, $modelTitle);
-            }
-
-            // store ruleId and menuId for facilitate deletion of model
-            if ($ruleId && $menuId) {
-                static::update(['rule_id' => $ruleId, 'menu_id' => $menuId], ['id' => $this->getData('id')]);
-            }
-            
+            // create tables and record
+            $modelData = ModelCreator::db($modelName, $modelTitle, $this->getCurrentLanguage())->createModel();
+            // save ruleId and menuId to model table
+            static::update(['rule_id' => $modelData['topRuleId'], 'menu_id' => $modelData['topMenuId']], ['id' => $this->getData('id')]);
             $this->commit();
             return $this->success(__('add successfully'));
         } catch (\Exception $e) {
@@ -87,26 +54,17 @@ class Model extends ModelLogic
                 // delete i18n table record
                 $this->deleteI18nRecord($ids[0]);
 
-                $modelName = $model->model_name;
-                $ruleId = $model->rule_id;
-                $menuId = $model->menu_id;
+                $modelName = $model->getAttr('model_name');
+                $ruleId = $model->getAttr('rule_id');
+                $menuId = $model->getAttr('menu_id');
 
-                // Remove model file
+                // remove model file
                 ModelCreator::file($modelName, '', $this->getCurrentLanguage())->remove();
-
-                // Remove Table
-                $this->removeTable($modelName);
-
-                // Remove rules
-                $this->removeRules($ruleId);
-
-                // Remove menus
-                $this->removeMenus($menuId);
-
-                // Remove I18n files
+                // remove db record
+                ModelCreator::db($modelName, '', $this->getCurrentLanguage())->removeModel($ruleId, $menuId);
+                // remove I18n files
                 $this->deleteLangFile($modelName);
-
-                // Remove allow fields config file
+                // remove allow fields config file
                 $this->deleteAllowFieldsFile($modelName);
                 
                 $model->commit();

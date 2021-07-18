@@ -66,19 +66,6 @@ class Model extends ModelView
         }
     }
 
-    protected function removeTable(string $tableName)
-    {
-        try {
-            Db::execute("DROP TABLE IF EXISTS `$tableName`");
-            $i18nTable = $tableName . '_i18n';
-            Db::execute("DROP TABLE IF EXISTS `$i18nTable`");
-            return true;
-        } catch (\Throwable $e) {
-            $this->error = __('remove table failed', ['tableName' => $tableName]);
-            return false;
-        }
-    }
-
     protected function deleteI18nRecord($originalId)
     {
         try {
@@ -98,34 +85,6 @@ class Model extends ModelView
             'update_time' => $currentTime,
         ]);
         return $rule[0]['data']['id'] ?: 0;
-    }
-
-    protected function removeRules(int $ruleId)
-    {
-        (new RuleService())->deleteAPI([$ruleId], 'deletePermanently');
-    }
-
-    protected function createChildrenRule(int $ruleId, string $tableTitle, string $modelName)
-    {
-        $currentTime = date("Y-m-d H:i:s");
-        $childrenRules = [
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_home'), 'rule_path' => 'api/' . $modelName . '/home', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_add'), 'rule_path' => 'api/' . $modelName . '/add', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_save'), 'rule_path' => 'api/' . $modelName . '/save', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_read'), 'rule_path' => 'api/' . $modelName . '/read', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_update'), 'rule_path' => 'api/' . $modelName . '/update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_delete'), 'rule_path' => 'api/' . $modelName . '/delete', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_restore'), 'rule_path' => 'api/' . $modelName . '/restore', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_i18n'), 'rule_path' => 'api/' . $modelName . '/i18n', 'create_time' => $currentTime, 'update_time' => $currentTime],
-            ['parent_id' => $ruleId, 'rule_title' => $tableTitle . Lang::get('rule_title_i18nUpdate'), 'rule_path' => 'api/' . $modelName . '/i18n_update', 'create_time' => $currentTime, 'update_time' => $currentTime],
-        ];
-        $ruleIds = [];
-        foreach ($childrenRules as $childrenRule) {
-            $rule = (new RuleService())->saveAPI($childrenRule);
-            $ruleIds[] = $rule[0]['data']['id'] ?: 0;
-        }
-        
-        return $ruleIds;
     }
 
     protected function addRulesToAdminGroup(array $newRuleIds)
@@ -171,17 +130,11 @@ class Model extends ModelView
         }
     }
 
-    protected function removeMenus(int $menuId)
-    {
-        (new MenuService())->deleteAPI([$menuId], 'deletePermanently');
-    }
-
     protected function deleteLangFile(string $modelName)
     {
         $languages = Config::get('lang.allow_lang_list');
         foreach ($languages as $lang) {
             @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $modelName . '.php');
-            @unlink(base_path() . 'api\lang\layout\\' . $lang . '\\' . $modelName . '.php');
             @unlink(base_path() . 'api\lang\validator\\' . $lang . '\\' . $modelName . '.php');
         }
     }
