@@ -27,7 +27,8 @@
     "xiaodi/think-whoops": "^1.1",
     "topthink/think-helper": "^3.1",
     "zircote/swagger-php": "^3.1",
-    "aspirantzhang/thinkphp6-model-creator": "dev-main"
+    "aspirantzhang/octopus-helper": "dev-main",
+    "aspirantzhang/octopus-model-creator": "dev-main"
   },
   "require-dev": {
     "symfony/var-dumper": "^4.2",

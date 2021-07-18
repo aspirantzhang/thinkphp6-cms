@@ -4,8 +4,107 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "97ea0c76ad0e5e98d8926e2a65cb9951",
+    "content-hash": "17dac3bf2c7b3b6401763a0cecfb4b6f",
     "packages": [
+        {
+            "name": "aspirantzhang/octopus-helper",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/octopus-helper.git",
+                "reference": "87f6451a81a04c13c49269774a297941c61b9e23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/87f6451a81a04c13c49269774a297941c61b9e23",
+                "reference": "87f6451a81a04c13c49269774a297941c61b9e23",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                }
+            ],
+            "description": "Provides some common functions for systems built with ThinkPHP6.",
+            "support": {
+                "issues": "https://github.com/aspirantzhang/octopus-helper/issues",
+                "source": "https://github.com/aspirantzhang/octopus-helper/tree/main"
+            },
+            "time": "2021-07-18T07:48:05+00:00"
+        },
+        {
+            "name": "aspirantzhang/octopus-model-creator",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
+                "reference": "58b0ec7b76a1a2073ca929b42a52c8aa1a8d641b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/58b0ec7b76a1a2073ca929b42a52c8aa1a8d641b",
+                "reference": "58b0ec7b76a1a2073ca929b42a52c8aa1a8d641b",
+                "shasum": ""
+            },
+            "require": {
+                "aspirantzhang/octopus-helper": "dev-main",
+                "php": ">=7.4.0",
+                "topthink/framework": "^6.0",
+                "topthink/think-helper": "^3.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "aspirantzhang\\octopusModelCreator\\Service"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "aspirantzhang\\octopusModelCreator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                }
+            ],
+            "description": "A complete model creator based on ThinkPHP6.",
+            "support": {
+                "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
+                "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
+            },
+            "time": "2021-07-18T07:00:50+00:00"
+        },
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
             "version": "dev-master",
@@ -47,60 +146,6 @@
                 "source": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/tree/master"
             },
             "time": "2021-06-27T14:56:23+00:00"
-        },
-        {
-            "name": "aspirantzhang/thinkphp6-model-creator",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aspirantzhang/thinkphp6-model-creator.git",
-                "reference": "c60e185bf0e683200b40651b420378cf21c67cfc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-model-creator/zipball/c60e185bf0e683200b40651b420378cf21c67cfc",
-                "reference": "c60e185bf0e683200b40651b420378cf21c67cfc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.3.0",
-                "topthink/framework": "^6.0",
-                "topthink/think-helper": "^3.1"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.4",
-                "phpunit/phpunit": "^9.5"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [
-                        "aspirantzhang\\thinkphp6ModelCreator\\Service"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "aspirantzhang\\thinkphp6ModelCreator\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "aspirantzhang",
-                    "email": "admin@aspirantzhang.com"
-                }
-            ],
-            "description": "A complete model creator based on thinkphp6.",
-            "support": {
-                "issues": "https://github.com/aspirantzhang/thinkphp6-model-creator/issues",
-                "source": "https://github.com/aspirantzhang/thinkphp6-model-creator/tree/main"
-            },
-            "time": "2021-07-15T08:52:24+00:00"
         },
         {
             "name": "cakephp/core",
@@ -5131,7 +5176,8 @@
     "stability-flags": {
         "topthink/think-orm": 20,
         "aspirantzhang/thinkphp-antdesign-builder": 20,
-        "aspirantzhang/thinkphp6-model-creator": 20
+        "aspirantzhang/octopus-helper": 20,
+        "aspirantzhang/octopus-model-creator": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
