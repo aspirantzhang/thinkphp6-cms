@@ -53,10 +53,10 @@ trait Model
     protected function getModelData($fieldName = '')
     {
         if ($fieldName) {
-            $fieldData = ModelService::where('model_name', $this->getTableName())->find();
+            $fieldData = ModelService::where('table_name', $this->getTableName())->find();
             return $fieldData['data'] ?? [];
         } else {
-            return ModelService::where('model_name', $this->getTableName())->find();
+            return ModelService::where('table_name', $this->getTableName())->find();
         }
     }
 }

@@ -12,13 +12,13 @@ class Model extends ModelLogic
 {
     public function saveAPI($data, array $relationModel = [])
     {
-        $modelName = $data['model_name'];
+        $tableName = $data['table_name'];
         $modelTitle = $data['model_title'];
 
         if (
-            $this->isReservedTable($modelName) &&
+            $this->isReservedTable($tableName) &&
             !$this->checkUniqueValues($data) &&
-            $this->tableAlreadyExist($modelName)
+            $this->tableAlreadyExist($tableName)
         ) {
             return $this->error($this->getError());
         }
@@ -30,9 +30,9 @@ class Model extends ModelLogic
             // save i18n table data
             $this->saveI18nData($data, (int)$this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time']));
             // create files
-            ModelCreator::file($modelName, $modelTitle, $this->getCurrentLanguage())->create();
+            ModelCreator::file($tableName, $modelTitle, $this->getCurrentLanguage())->create();
             // create tables and record
-            $modelData = ModelCreator::db($modelName, $modelTitle, $this->getCurrentLanguage())->createModel();
+            $modelData = ModelCreator::db($tableName, $modelTitle, $this->getCurrentLanguage())->createModel();
             // save ruleId and menuId to model table
             static::update(['rule_id' => $modelData['topRuleId'], 'menu_id' => $modelData['topMenuId']], ['id' => $this->getData('id')]);
             $this->commit();
@@ -45,33 +45,31 @@ class Model extends ModelLogic
 
     public function deleteAPI($ids = [], $type = 'delete')
     {
-        if (!empty($ids)) {
+        if (isset($ids[0]) && $ids[0]) {
             $model = $this->withTrashed()->find($ids[0]);
-            $model->startTrans();
-            try {
-                $model->force()->delete();
-
-                // delete i18n table record
-                $this->deleteI18nRecord($ids[0]);
-
-                $modelName = $model->getAttr('model_name');
+            if ($model) {
+                $tableName = $model->getAttr('table_name');
                 $ruleId = $model->getAttr('rule_id');
                 $menuId = $model->getAttr('menu_id');
-
-                // remove model file
-                ModelCreator::file($modelName, '', $this->getCurrentLanguage())->remove();
-                // remove db record
-                ModelCreator::db($modelName, '', $this->getCurrentLanguage())->removeModel($ruleId, $menuId);
-                // remove I18n files
-                $this->deleteLangFile($modelName);
-                // remove allow fields config file
-                $this->deleteAllowFieldsFile($modelName);
-                
-                $model->commit();
-                return $this->success(__('delete successfully'));
-            } catch (\Exception $e) {
-                $model->rollback();
-                return $this->error($this->error ?: __('operation failed'));
+                $model->startTrans();
+                try {
+                    $model->force()->delete();
+                    // delete i18n table record
+                    $this->deleteI18nRecord($ids[0]);
+                    // remove model file
+                    ModelCreator::file($tableName, '', $this->getCurrentLanguage())->remove();
+                    // remove db record
+                    ModelCreator::db($tableName, '', $this->getCurrentLanguage())->removeModel($ruleId, $menuId);
+                    // remove I18n files
+                    $this->deleteLangFile($tableName);
+                    // remove allow fields config file
+                    $this->deleteAllowFieldsFile($tableName);
+                    $model->commit();
+                    return $this->success(__('delete successfully'));
+                } catch (\Exception $e) {
+                    $model->rollback();
+                    return $this->error($this->error ?: __('operation failed'));
+                }
             }
         }
         return $this->error(__('no target'));
@@ -91,78 +89,89 @@ class Model extends ModelLogic
 
     public function designUpdateAPI($id, $type, $data)
     {
-        $modelName = $this->where('id', $id)->value('model_name');
-
-        if (!$modelName) {
+        $model = $this->where('id', $id)->find();
+        if (!$model) {
             return $this->error(__('no target'));
         }
-        // Reserved model check
-        if (in_array($modelName, Config::get('reserved.reserved_table'))) {
-            return $this->error(__('reserved model not allowed'));
-        }
-        if ($this->tableNotExist($modelName)) {
+
+        $tableName = $model->getAttr('table_name');
+        $modelData = $model->getAttr('data');
+        if (
+            $this->isReservedTable($tableName) &&
+            $this->tableNotExist($tableName)
+        ) {
             return $this->error($this->getError());
         }
 
+        $model->startTrans();
         switch ($type) {
             case 'field':
                 if (!empty($data) && !empty($data['fields'])) {
-                    // Get current fields
-                    $currentFields = extractValues($data['fields'], 'name');
-                    // Get i18n fields
-                    $i18nFields = $this->getTranslateFields($data['fields']);
-                    if (!$i18nFields) {
-                        return $this->error($this->getError());
-                    }
+                    try {
+                        $reservedFields = Config::get('reserved.reserved_field');
+                        $allFields = extractValues($data['fields'], 'name');
+                        $i18nTableFields = $this->extractTranslateFields($data['fields']);
+                        $mainTableFields = array_diff($allFields, $reservedFields, $i18nTableFields);
 
-                    // main table
-                    $mainTableExist = $this->getExistingFields($modelName);
-                    // Exclude reserved and i18n fields
-                    $mainTableNew = array_diff($currentFields, Config::get('reserved.reserved_field'), $i18nFields);
-                    $mainTableChangeResult = $this->fieldsHandler($mainTableExist, $mainTableNew, $data, $modelName);
-                    if (!$mainTableChangeResult) {
-                        return $this->error($this->getError());
-                    }
-                    // i18n table
-                    $i18nTableExist = $this->getExistingFields($modelName . '_i18n');
-                    $i18nTableChangeResult = $this->fieldsHandler($i18nTableExist, $i18nFields, $data, $modelName . '_i18n');
-                    if (!$i18nTableChangeResult) {
-                        return $this->error($this->getError());
-                    }
+                        // main table fields
+                        $this->fieldsHandler($tableName, $mainTableFields, $data, $reservedFields);
+                        if (!empty($i18nTableFields)) {
+                            // i18n table fields
+                            $this->fieldsHandler($tableName . '_i18n', $i18nTableFields, $data, $reservedFields);
+                        }
 
-                    $updateDataField = $this->updateAPI($id, ['data' => $data]);
-                    if ($updateDataField[0]['success'] === true) {
                         // write to i18n file
-                        if ($this->writeFieldLangFile($data['fields'], $modelName) === false) {
+                        if ($this->writeFieldLangFile($data['fields'], $tableName) === false) {
                             return $this->error(__('failed to write field i18n file'));
                         }
                         // write validate file
-                        $validateRule = $this->createValidateRules($data['fields'], $modelName);
-                        $validateMsg = $this->createMessages($validateRule, $modelName);
+                        $validateRule = $this->createValidateRules($data['fields'], $tableName);
+                        $validateMsg = $this->createMessages($validateRule, $tableName);
                         $validateScene = $this->createScene($data['fields']);
-                        if ($this->writeValidateFile($modelName, $validateRule, $validateMsg, $validateScene) === false) {
+                        if ($this->writeValidateFile($tableName, $validateRule, $validateMsg, $validateScene) === false) {
                             return $this->error(__('failed to write validate file'));
                         }
                         // write validator i18n file
-                        if ($this->writeValidateI18nFile($modelName, $validateMsg) === false) {
+                        if ($this->writeValidateI18nFile($tableName, $validateMsg) === false) {
                             return $this->error(__('failed to write validate i18n file'));
                         }
                         // write allow fields file
-                        if ($this->writeAllowConfigFile($modelName, $data['fields']) === false) {
+                        if ($this->writeAllowConfigFile($tableName, $data['fields']) === false) {
                             return $this->error(__('failed to write allow fields config file'));
                         }
 
+                        // model table save
+                        $model->data = $data;
+                        $model->save();
+
+                        $model->commit();
                         return $this->success(__('update successfully'));
+                    } catch (\Exception $e) {
+                        $model->rollback();
+                        return $this->error($e->getMessage());
                     }
-                    return $this->error(__('operation failed'));
+
+                    // $updateDataField = $this->updateAPI($id, ['data' => $data]);
+                    // if ($updateDataField[0]['success'] === true) {
+
+                    // }
+                    // return $this->error(__('operation failed'));
                 }
                 break;
-
             case 'layout':
-                $model = $this->where('id', $id)->find();
-                $modelData = $model->data;
-                $modelData['layout'] = $data['layout'] ?? null;
-                return $this->updateAPI($id, ['data' => $modelData]);
+                if (!empty($data) && !empty($data['layout'])) {
+                    try {
+                        $modelData['layout'] = $data['layout'] ?? null;
+                        $model->data = $modelData;
+                        $model->save();
+                        $model->commit();
+                        return $this->success(__('update successfully'));
+                    } catch (\Exception $e) {
+                        $model->rollback();
+                        return $this->error($e->getMessage());
+                    }
+                }
+                break;
             default:
                 break;
         }

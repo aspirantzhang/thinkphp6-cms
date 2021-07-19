@@ -62,39 +62,40 @@ class Model extends ModelView
         }
     }
 
-    protected function deleteLangFile(string $modelName)
+    protected function deleteLangFile(string $tableName)
     {
         $languages = Config::get('lang.allow_lang_list');
         foreach ($languages as $lang) {
-            @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $modelName . '.php');
-            @unlink(base_path() . 'api\lang\validator\\' . $lang . '\\' . $modelName . '.php');
+            @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $tableName . '.php');
+            @unlink(base_path() . 'api\lang\validator\\' . $lang . '\\' . $tableName . '.php');
         }
     }
 
-    protected function deleteAllowFieldsFile(string $modelName)
+    protected function deleteAllowFieldsFile(string $tableName)
     {
-        @unlink(root_path() . 'config\api\allowFields\\' . Str::studly($modelName) . '.php');
+        @unlink(root_path() . 'config\api\allowFields\\' . Str::studly($tableName) . '.php');
     }
 
     protected function getExistingFields(string $tableName)
     {
         $existingFields = [];
-        $columnsQuery = Db::query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '$tableName';");
+        $columnsQuery = Db::query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = :tableName;", ['tableName' => $tableName]);
         if ($columnsQuery) {
             $existingFields = extractValues($columnsQuery, 'COLUMN_NAME');
         }
         return $existingFields;
     }
 
-    protected function fieldsHandler($existingFields, $currentFields, $data, $tableName)
+    protected function fieldsHandler(string $tableName, array $processedFields, array $fieldsData, array $reservedFields)
     {
-        // Get fields group by types
-        $delete = array_diff($existingFields, $currentFields);
-        $add = array_diff($currentFields, $existingFields);
-        $change = array_intersect($currentFields, $existingFields);
+        $existingFields = $this->getExistingFields($tableName);
+        // group by types
+        $delete = array_diff($existingFields, $processedFields);
+        $add = array_diff($processedFields, $existingFields);
+        $change = array_intersect($processedFields, $existingFields);
 
         $statements = [];
-        foreach ($data['fields'] as $field) {
+        foreach ($fieldsData['fields'] as $field) {
             switch ($field['type']) {
                 case 'longtext':
                     $type = 'LONGTEXT';
@@ -136,7 +137,7 @@ class Model extends ModelView
 
         foreach ($delete as $field) {
             $method = 'DROP IF EXISTS';
-            if (!in_array($field, Config::get('reserved.reserved_field'))) {
+            if (!in_array($field, $reservedFields)) {
                 $statements[] = " $method `$field`";
             }
         }
@@ -146,22 +147,28 @@ class Model extends ModelView
         Db::startTrans();
         try {
             Db::query($alterTableSql);
-            return true;
         } catch (\Exception $e) {
             Db::rollback();
-            $this->error = __('change table structure failed', ['tableName' => $tableName]);
-            return false;
+            throw new \Exception(__('change table structure failed', ['tableName' => $tableName]));
         }
     }
 
-    protected function getTranslateFields($fields)
+    protected function extractTranslateFields($allFields)
     {
         $result = [];
-        foreach ($fields as $field) {
-            if (($field['type'] === 'input' || $field['type'] === 'textarea') && $field['allowTranslate'] ?? false) {
-                if (isset($field['settings']['display']) && in_array('editDisabled', $field['settings']['display'])) {
-                    $this->error = __('edit disabled fields cannot set as translate', ['fieldName' => $field['name']]);
-                    return false;
+        foreach ($allFields as $field) {
+            // only 'input' and 'textarea' can be translated
+            if (
+                isset($field['type']) &&
+                ($field['type'] === 'input' || $field['type'] === 'textarea') &&
+                $field['allowTranslate'] ?? false
+            ) {
+                // cannot be marked as 'editDisabled' and 'translate' ATST
+                if (
+                    isset($field['settings']['display']) &&
+                    in_array('editDisabled', $field['settings']['display'])
+                ) {
+                    throw new \Exception(__('edit disabled fields cannot set as translate', ['fieldName' => $field['name']]));
                 }
                 array_push($result, $field['name']);
             }
@@ -169,7 +176,7 @@ class Model extends ModelView
         return $result;
     }
 
-    protected function writeFieldLangFile($fields, $modelName)
+    protected function writeFieldLangFile($fields, $tableName)
     {
         $data = '';
         foreach ($fields as $field) {
@@ -180,22 +187,22 @@ class Model extends ModelView
 <?php
 
 return [
-    '$modelName' => [
+    '$tableName' => [
 $data
     ]
 ];
 
 END;
-        return file_put_contents(base_path() . 'api\lang\fields\\' . $this->getCurrentLanguage() . '\\' . $modelName . '.php', $fileContent);
+        return file_put_contents(base_path() . 'api\lang\fields\\' . $this->getCurrentLanguage() . '\\' . $tableName . '.php', $fileContent);
     }
 
     /**
      * Create validate rules (+field prefix)
      * @param array $fields
-     * @param string $modelName
+     * @param string $tableName
      * @return string[]
      */
-    protected function createValidateRules($fields, $modelName)
+    protected function createValidateRules($fields, $tableName)
     {
         $rules = [
             'id' => 'require|number',
@@ -224,18 +231,18 @@ END;
                 }
                 $ruleString = substr($ruleString, 0, -1);
                 // +prefix
-                $ruleName = $modelName . '@' . $fieldName;
+                $ruleName = $tableName . '@' . $fieldName;
                 $rules[$ruleName] = $ruleString;
             }
         }
         return $rules;
     }
 
-    protected function createMessages($rules, $modelName)
+    protected function createMessages($rules, $tableName)
     {
         $result = [];
         foreach ($rules as $name => $rule) {
-            $keyFieldName = strtr($name, [$modelName . '@' => '']);
+            $keyFieldName = strtr($name, [$tableName . '@' => '']);
             if (strpos($rule, '|')) {
                 $ruleArr = explode('|', $rule);
                 foreach ($ruleArr as $subRule) {
@@ -282,15 +289,15 @@ END;
         return $scene;
     }
 
-    protected function writeValidateFile($modelName, $rules, $messages, $scenes)
+    protected function writeValidateFile($tableName, $rules, $messages, $scenes)
     {
-        $modelNameUpper = Str::studly($modelName);
-        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'validate' . DIRECTORY_SEPARATOR . $modelNameUpper . '.php';
+        $modelName = Str::studly($tableName);
+        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'validate' . DIRECTORY_SEPARATOR . $modelName . '.php';
         $stubName = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'validate' . DIRECTORY_SEPARATOR . '_validate.stub';
 
         $ruleText = '';
         foreach ($rules as $ruleKey => $ruleValue) {
-            $ruleText .= "        '" . strtr($ruleKey, [$modelName . '@' => '']) . "' => '" . $ruleValue . "',\n";
+            $ruleText .= "        '" . strtr($ruleKey, [$tableName . '@' => '']) . "' => '" . $ruleValue . "',\n";
         }
         $ruleText = substr($ruleText, 0, -1);
 
@@ -314,7 +321,7 @@ END;
 
         $content = file_get_contents($stubName);
         $content = str_replace([
-            '{%modelNameUpper%}',
+            '{%modelName%}',
             '{%rule%}',
             '{%message%}',
             '{%sceneSave%}',
@@ -322,7 +329,7 @@ END;
             '{%sceneHome%}',
             '{%sceneHomeExclude%}',
         ], [
-            $modelNameUpper,
+            $modelName,
             $ruleText,
             $messageText,
             $sceneSave,
@@ -349,10 +356,10 @@ END;
         return Lang::get('validate.' . $ruleName, ['field' => Lang::get($fieldName), 'option' => $option]);
     }
 
-    protected function writeValidateI18nFile($modelName, $messages)
+    protected function writeValidateI18nFile($tableName, $messages)
     {
-        if (file_exists(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $modelName . '.php')) {
-            Lang::load(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $modelName . '.php');
+        if (file_exists(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $tableName . '.php')) {
+            Lang::load(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $tableName . '.php');
         }
         $exclude = ['id.require', 'id.number', 'ids.require', 'ids.numberArray', 'status.numberTag', 'page.number', 'per_page.number', 'create_time.require', 'create_time.dateTimeRange'];
         $msgs = array_diff_key($messages, array_flip($exclude));
@@ -371,14 +378,14 @@ $content
 
 END;
 
-        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . 'validator' . DIRECTORY_SEPARATOR . Lang::getLangSet() . DIRECTORY_SEPARATOR . $modelName . '.php';
+        $filename = base_path() . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . 'validator' . DIRECTORY_SEPARATOR . Lang::getLangSet() . DIRECTORY_SEPARATOR . $tableName . '.php';
         return file_put_contents($filename, $content);
     }
 
-    protected function writeAllowConfigFile($modelName, $fields)
+    protected function writeAllowConfigFile($tableName, $fields)
     {
-        $modelNameUpper = Str::studly($modelName);
-        $filename = root_path() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'allowFields' . DIRECTORY_SEPARATOR . $modelNameUpper . '.php';
+        $modelName = Str::studly($tableName);
+        $filename = root_path() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'allowFields' . DIRECTORY_SEPARATOR . $modelName . '.php';
         $stubName = root_path() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'allowFields' . DIRECTORY_SEPARATOR . '_config.stub';
 
         $allowHome = [];
