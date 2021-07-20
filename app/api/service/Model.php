@@ -120,10 +120,8 @@ class Model extends ModelLogic
                             $this->fieldsHandler($tableName . '_i18n', $i18nTableFields, $data, $reservedFields);
                         }
 
-                        // write to i18n file
-                        if ($this->writeFieldLangFile($data['fields'], $tableName) === false) {
-                            return $this->error(__('failed to write field i18n file'));
-                        }
+                        ModelCreator::file($tableName, '', $this->getCurrentLanguage())->createLangField($data['fields']);
+
                         // write validate file
                         $validateRule = $this->createValidateRules($data['fields'], $tableName);
                         $validateMsg = $this->createMessages($validateRule, $tableName);
