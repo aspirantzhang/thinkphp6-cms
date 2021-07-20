@@ -358,8 +358,8 @@ END;
 
     protected function writeValidateI18nFile($tableName, $messages)
     {
-        if (file_exists(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $tableName . '.php')) {
-            Lang::load(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/' . $tableName . '.php');
+        if (file_exists(base_path() . 'api/lang/field/' . Lang::getLangSet() . '/' . $tableName . '.php')) {
+            Lang::load(base_path() . 'api/lang/field/' . Lang::getLangSet() . '/' . $tableName . '.php');
         }
         $exclude = ['id.require', 'id.number', 'ids.require', 'ids.numberArray', 'status.numberTag', 'page.number', 'per_page.number', 'create_time.require', 'create_time.dateTimeRange'];
         $msgs = array_diff_key($messages, array_flip($exclude));

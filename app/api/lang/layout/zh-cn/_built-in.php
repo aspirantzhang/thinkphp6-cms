@@ -50,7 +50,6 @@ return [
     'failed to write validate file' => '无法写入验证文件。',
     'failed to write model file' => '无法写入模型文件。',
     'failed to write layout i18n file' => '无法写入布局国际化文件。',
-    'failed to write field i18n file' => '无法写入字段国际化文件。',
     'failed to write validate i18n file' => '无法写入验证国际化文件。',
     'failed to write allow fields config file' => '无法写入允许字段配置文件。',
     'failed to remove model file' => '删除模型文件失败。',

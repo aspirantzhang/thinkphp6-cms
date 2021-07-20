@@ -51,7 +51,6 @@ return [
     'failed to write validate file' => 'Failed to write validate file.',
     'failed to write model file' => 'Failed to write model file.',
     'failed to write layout i18n file' => 'Failed to write layout i18n file.',
-    'failed to write field i18n file' => 'Failed to write field i18n file.',
     'failed to write validate i18n file' => 'Failed to write validate i18n file.',
     'failed to write allow fields config file' => 'Failed to write allow fields config file.',
     'failed to remove model file' => 'Failed to remove model file.',
