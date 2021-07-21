@@ -121,18 +121,20 @@ class Model extends ModelLogic
                         }
 
                         ModelCreator::file($tableName, '', $this->getCurrentLanguage())->createLangField($data['fields']);
+                        ModelCreator::file($tableName, '', $this->getCurrentLanguage())->createValidateFile($data['fields']);
+                        ModelCreator::file($tableName, '', $this->getCurrentLanguage())->createValidateI18n($data['fields']);
 
-                        // write validate file
-                        $validateRule = $this->createValidateRules($data['fields'], $tableName);
-                        $validateMsg = $this->createMessages($validateRule, $tableName);
-                        $validateScene = $this->createScene($data['fields']);
-                        if ($this->writeValidateFile($tableName, $validateRule, $validateMsg, $validateScene) === false) {
-                            return $this->error(__('failed to write validate file'));
-                        }
+                        // // write validate file
+                        // $validateRule = $this->createValidateRules($data['fields'], $tableName);
+                        // $validateMsg = $this->createMessages($validateRule, $tableName);
+                        // $validateScene = $this->createScene($data['fields']);
+                        // if ($this->writeValidateFile($tableName, $validateRule, $validateMsg, $validateScene) === false) {
+                        //     return $this->error(__('failed to write validate file'));
+                        // }
                         // write validator i18n file
-                        if ($this->writeValidateI18nFile($tableName, $validateMsg) === false) {
-                            return $this->error(__('failed to write validate i18n file'));
-                        }
+                        // if ($this->writeValidateI18nFile($tableName, $validateMsg) === false) {
+                        //     return $this->error(__('failed to write validate i18n file'));
+                        // }
                         // write allow fields file
                         if ($this->writeAllowConfigFile($tableName, $data['fields']) === false) {
                             return $this->error(__('failed to write allow fields config file'));
