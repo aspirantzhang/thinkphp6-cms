@@ -144,11 +144,9 @@ class Model extends ModelView
 
         $alterTableSql = 'ALTER TABLE `' . $tableName . '` ' . implode(',', $statements) . ';';
 
-        Db::startTrans();
         try {
             Db::query($alterTableSql);
         } catch (\Exception $e) {
-            Db::rollback();
             throw new \Exception(__('change table structure failed', ['tableName' => $tableName]));
         }
     }
