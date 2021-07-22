@@ -159,8 +159,8 @@ trait Logic
         }
         // add new
         if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
-            return $this->saveI18nData($rawData, $originalId, $langCode, $currentTime);
+            $this->saveI18nData($rawData, $originalId, $langCode, $currentTime);
         }
-        return $this->saveI18nData($rawData, $originalId, $langCode);
+        $this->saveI18nData($rawData, $originalId, $langCode);
     }
 }
