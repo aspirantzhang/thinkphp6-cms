@@ -110,12 +110,11 @@ class Model extends ModelLogic
                         $allFields = extractValues($data['fields'], 'name');
                         $i18nTableFields = $this->extractTranslateFields($data['fields']);
                         $mainTableFields = array_diff($allFields, $reservedFields, $i18nTableFields);
-
                         // main table fields
-                        $this->fieldsHandler($tableName, $mainTableFields, $data, $reservedFields);
+                        ModelCreator::db($tableName, '', $this->getCurrentLanguage())->fieldsHandler($mainTableFields, $data['fields'], $reservedFields);
                         if (!empty($i18nTableFields)) {
                             // i18n table fields
-                            $this->fieldsHandler($tableName . '_i18n', $i18nTableFields, $data, $reservedFields);
+                            ModelCreator::db($tableName . '_i18n', '', $this->getCurrentLanguage())->fieldsHandler($i18nTableFields, $data['fields'], $reservedFields);
                         }
                         // fields/validator translation etc.
                         ModelCreator::file($tableName, '', $this->getCurrentLanguage())->update($data['fields']);
