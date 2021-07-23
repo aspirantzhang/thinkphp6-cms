@@ -130,6 +130,7 @@ trait Logic
 
     protected function updateI18nData($rawData, $originalId, $langCode, $currentTime = null)
     {
+        $originalId = (int)$originalId;
         $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
 
         if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
@@ -149,7 +150,7 @@ trait Logic
                     ->where('lang_code', $langCode)
                     ->update($filteredData);
                 return true;
-            } catch (\Throwable $e) {
+            } catch (Exception $e) {
                 $this->error = __('failed to store i18n data');
                 return false;
             }

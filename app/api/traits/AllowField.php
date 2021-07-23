@@ -28,54 +28,60 @@ trait AllowField
         return array_merge($builtIn, $custom);
     }
 
+    private function loadAllowFieldsConfig()
+    {
+        $modelName = $this->getModelName();
+        Config::load(createPath('api', 'allowFields', $modelName), $modelName);
+    }
+
     public function getAllowHome()
     {
-        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
+        $this->loadAllowFieldsConfig();
         $builtIn = Config::get('field.allowHome') ?: [];
-        $custom = Config::get($this->getName() . '.allowHome') ?: [];
+        $custom = Config::get($this->getModelName() . '.allowHome') ?: [];
         
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowSort()
     {
-        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
+        $this->loadAllowFieldsConfig();
         $builtIn = Config::get('field.allowSort') ?: [];
-        $custom = Config::get($this->getName() . '.allowSort') ?: [];
+        $custom = Config::get($this->getModelName() . '.allowSort') ?: [];
 
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowRead()
     {
-        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
+        $this->loadAllowFieldsConfig();
         $builtIn = Config::get('field.allowRead') ?: [];
-        $custom = Config::get($this->getName() . '.allowRead') ?: [];
+        $custom = Config::get($this->getModelName() . '.allowRead') ?: [];
 
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowSave()
     {
-        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
+        $this->loadAllowFieldsConfig();
         $builtIn = Config::get('field.allowSave') ?: [];
-        $custom = Config::get($this->getName() . '.allowSave') ?: [];
+        $custom = Config::get($this->getModelName() . '.allowSave') ?: [];
 
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowUpdate()
     {
-        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
+        $this->loadAllowFieldsConfig();
         $builtIn = Config::get('field.allowUpdate') ?: [];
-        $custom = Config::get($this->getName() . '.allowUpdate') ?: [];
+        $custom = Config::get($this->getModelName() . '.allowUpdate') ?: [];
 
         return array_merge($builtIn, $custom);
     }
 
     public function getAllowTranslate()
     {
-        Config::load('api/allowFields/' . Str::studly($this->getName()), $this->getName());
-        return Config::get($this->getName() . '.allowTranslate') ?: [];
+        $this->loadAllowFieldsConfig();
+        return Config::get($this->getModelName() . '.allowTranslate') ?: [];
     }
 }

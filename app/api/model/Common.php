@@ -28,6 +28,11 @@ class Common extends GlobalModel
     protected $uniqueField = null;
     protected $titleField = null;
 
+    protected function getModelName()
+    {
+        return $this->getName();
+    }
+
     protected function getTableName()
     {
         return parse_name($this->getName());

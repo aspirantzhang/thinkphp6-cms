@@ -7,6 +7,7 @@ namespace app\api\service;
 use app\api\logic\Model as ModelLogic;
 use think\facade\Config;
 use think\facade\Lang;
+use think\Exception;
 use aspirantzhang\octopusModelCreator\ModelCreator;
 
 class Model extends ModelLogic
@@ -38,7 +39,7 @@ class Model extends ModelLogic
             static::update(['rule_id' => $modelData['topRuleId'], 'menu_id' => $modelData['topMenuId']], ['id' => $this->getData('id')]);
             $this->commit();
             return $this->success(__('add successfully'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->rollback();
             return $this->error($e->getMessage() ?: __('operation failed'));
         }
@@ -63,7 +64,7 @@ class Model extends ModelLogic
                     ModelCreator::db($tableName, '', $this->getCurrentLanguage())->removeModel($ruleId, $menuId);
                     $model->commit();
                     return $this->success(__('delete successfully'));
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $model->rollback();
                     return $this->error($this->error ?: __('operation failed'));
                 }
@@ -132,7 +133,7 @@ class Model extends ModelLogic
 
                         $model->commit();
                         return $this->success(__('update successfully'));
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         $model->rollback();
                         return $this->error($e->getMessage());
                     }
@@ -146,7 +147,7 @@ class Model extends ModelLogic
                         $model->save();
                         $model->commit();
                         return $this->success(__('update successfully'));
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         $model->rollback();
                         return $this->error($e->getMessage());
                     }

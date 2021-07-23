@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\traits\service;
 
-use think\facade\Db;
+use think\Exception;
 
 trait Update
 {
@@ -27,11 +27,9 @@ trait Update
                     }
                 }
                 $model->commit();
-
                 return $this->success(__('update successfully'));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $model->rollback();
-
                 return $this->error($this->error ?: __('operation failed'));
             }
         } else {
@@ -47,7 +45,7 @@ trait Update
 
             foreach ($data as $langCode => $fieldsData) {
                 // validator check
-                $modelValidator = '\app\api\validate\\' . $this->getName();
+                $modelValidator = '\app\api\validate\\' . $this->getModelName();
                 $validate = new $modelValidator();
                 $result = $validate->only($this->getAllowTranslate())->check($fieldsData);
                 if (!$result) {
