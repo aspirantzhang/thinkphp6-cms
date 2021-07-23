@@ -5,14 +5,10 @@ declare(strict_types=1);
 namespace app\api\logic;
 
 use app\api\view\Model as ModelView;
-use app\api\service\AuthRule as RuleService;
-use app\api\service\Menu as MenuService;
-use app\api\service\AuthGroup as GroupService;
 use think\facade\Db;
-use think\facade\Console;
 use think\facade\Config;
-use think\facade\Lang;
 use think\helper\Str;
+use think\Exception;
 
 class Model extends ModelView
 {
@@ -29,7 +25,7 @@ class Model extends ModelView
     {
         try {
             Db::query("select 1 from `$tableName` LIMIT 1");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
         return true;
@@ -146,8 +142,8 @@ class Model extends ModelView
 
         try {
             Db::query($alterTableSql);
-        } catch (\Exception $e) {
-            throw new \Exception(__('change table structure failed', ['tableName' => $tableName]));
+        } catch (Exception $e) {
+            throw new Exception(__('change table structure failed', ['tableName' => $tableName]));
         }
     }
 
@@ -166,7 +162,7 @@ class Model extends ModelView
                     isset($field['settings']['display']) &&
                     in_array('editDisabled', $field['settings']['display'])
                 ) {
-                    throw new \Exception(__('edit disabled fields cannot set as translate', ['fieldName' => $field['name']]));
+                    throw new Exception(__('edit disabled fields cannot set as translate', ['fieldName' => $field['name']]));
                 }
                 array_push($result, $field['name']);
             }
