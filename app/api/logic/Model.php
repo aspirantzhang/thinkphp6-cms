@@ -53,23 +53,9 @@ class Model extends ModelView
     {
         try {
             Db::name('model_i18n')->where('original_id', $originalId)->delete();
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             $this->error = __('remove i18n record failed');
         }
-    }
-
-    protected function deleteLangFile(string $tableName)
-    {
-        $languages = Config::get('lang.allow_lang_list');
-        foreach ($languages as $lang) {
-            @unlink(base_path() . 'api\lang\fields\\' . $lang . '\\' . $tableName . '.php');
-            @unlink(base_path() . 'api\lang\validator\\' . $lang . '\\' . $tableName . '.php');
-        }
-    }
-
-    protected function deleteAllowFieldsFile(string $tableName)
-    {
-        @unlink(root_path() . 'config\api\allowFields\\' . Str::studly($tableName) . '.php');
     }
 
     protected function getExistingFields(string $tableName)

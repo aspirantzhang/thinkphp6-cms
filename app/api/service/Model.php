@@ -61,10 +61,6 @@ class Model extends ModelLogic
                     ModelCreator::file($tableName, '', $this->getCurrentLanguage())->remove();
                     // remove db record
                     ModelCreator::db($tableName, '', $this->getCurrentLanguage())->removeModel($ruleId, $menuId);
-                    // remove I18n files
-                    $this->deleteLangFile($tableName);
-                    // remove allow fields config file
-                    $this->deleteAllowFieldsFile($tableName);
                     $model->commit();
                     return $this->success(__('delete successfully'));
                 } catch (\Exception $e) {
