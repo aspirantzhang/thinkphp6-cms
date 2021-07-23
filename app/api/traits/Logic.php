@@ -63,7 +63,6 @@ trait Logic
         return $result->select()->toArray();
     }
 
-    
     protected function checkUniqueValues($data): bool
     {
         $uniqueFields = $this->getUniqueField();
