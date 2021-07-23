@@ -28,7 +28,7 @@ trait Save
             return $this->success(__('add successfully'), ['id' => $id]);
         } catch (\Exception $e) {
             $this->rollback();
-            return $this->error($this->error ?: __('operation failed'));
+            return $this->error($e->getMessage() ?: __('operation failed'));
         }
     }
 }

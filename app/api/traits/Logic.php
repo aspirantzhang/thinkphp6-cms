@@ -148,17 +148,20 @@ trait Logic
                     ->where('original_id', $originalId)
                     ->where('lang_code', $langCode)
                     ->update($filteredData);
-                return true;
+                return;
             } catch (Exception $e) {
-                $this->error = __('failed to store i18n data');
-                return false;
+                throw new Exception(__('failed to store i18n data'));
             }
         }
         // add new
-        if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
-            $this->saveI18nData($rawData, $originalId, $langCode, $currentTime);
-        } else {
+        try {
+            if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
+                $this->saveI18nData($rawData, $originalId, $langCode, $currentTime);
+                return;
+            }
             $this->saveI18nData($rawData, $originalId, $langCode);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }

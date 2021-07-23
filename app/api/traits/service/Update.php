@@ -30,7 +30,7 @@ trait Update
                 return $this->success(__('update successfully'));
             } catch (Exception $e) {
                 $model->rollback();
-                return $this->error($this->error ?: __('operation failed'));
+                return $this->error($e->getMessage() ?: __('operation failed'));
             }
         } else {
             return $this->error(__('no target'));
@@ -54,8 +54,10 @@ trait Update
                 // handle mutator
                 $fieldsData = $this->handleMutator($fieldsData);
                 // handle update
-                if ($this->updateI18nData($fieldsData, $id, $langCode, $currentTime) === false) {
-                    return $this->error($this->getError());
+                try {
+                    $this->updateI18nData($fieldsData, $id, $langCode, $currentTime);
+                } catch (Exception $e) {
+                    return $this->error($e->getMessage());
                 }
             }
             return $this->success(__('update successfully'));
