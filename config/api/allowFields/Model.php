@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'allowHome' => ['model_title', 'model_name'],
-    'allowRead' => ['model_title', 'model_name', 'data'],
-    'allowSave' => ['model_title', 'model_name', 'data'],
+    'allowHome' => ['model_title', 'table_name'],
+    'allowRead' => ['model_title', 'table_name', 'data'],
+    'allowSave' => ['model_title', 'table_name', 'data'],
     'allowUpdate' => ['data'],
     'allowTranslate' => ['model_title'],
 ];

@@ -4,8 +4,107 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "940adb09ee6857576a0569ddb72901e8",
+    "content-hash": "17dac3bf2c7b3b6401763a0cecfb4b6f",
     "packages": [
+        {
+            "name": "aspirantzhang/octopus-helper",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/octopus-helper.git",
+                "reference": "653b4d5106767143eda7810cf0a0ed2dd3b7bb88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/653b4d5106767143eda7810cf0a0ed2dd3b7bb88",
+                "reference": "653b4d5106767143eda7810cf0a0ed2dd3b7bb88",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                }
+            ],
+            "description": "Provides some common functions for systems built with ThinkPHP6.",
+            "support": {
+                "issues": "https://github.com/aspirantzhang/octopus-helper/issues",
+                "source": "https://github.com/aspirantzhang/octopus-helper/tree/main"
+            },
+            "time": "2021-07-19T11:51:27+00:00"
+        },
+        {
+            "name": "aspirantzhang/octopus-model-creator",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
+                "reference": "f4bfd6c145a406b10b408c958c557379b7c17240"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/f4bfd6c145a406b10b408c958c557379b7c17240",
+                "reference": "f4bfd6c145a406b10b408c958c557379b7c17240",
+                "shasum": ""
+            },
+            "require": {
+                "aspirantzhang/octopus-helper": "dev-main",
+                "php": ">=7.4.0",
+                "topthink/framework": "^6.0",
+                "topthink/think-helper": "^3.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "aspirantzhang\\octopusModelCreator\\Service"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "aspirantzhang\\octopusModelCreator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                }
+            ],
+            "description": "A complete model creator based on ThinkPHP6.",
+            "support": {
+                "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
+                "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
+            },
+            "time": "2021-07-23T15:12:35+00:00"
+        },
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
             "version": "dev-master",
@@ -47,55 +146,6 @@
                 "source": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/tree/master"
             },
             "time": "2021-06-27T14:56:23+00:00"
-        },
-        {
-            "name": "aspirantzhang/thinkphp6-fast-command",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aspirantzhang/thinkphp6-fast-command.git",
-                "reference": "78ee30eddd96ce3401a09e8d12c68aea4bd21dbd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp6-fast-command/zipball/78ee30eddd96ce3401a09e8d12c68aea4bd21dbd",
-                "reference": "78ee30eddd96ce3401a09e8d12c68aea4bd21dbd",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0",
-                "topthink/framework": "^6.0.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [
-                        "aspirantzhang\\thinkphp6FastCommand\\Service"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "aspirantzhang\\thinkphp6FastCommand\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "aspirantzhang",
-                    "email": "admin@aspirantzhang.com"
-                }
-            ],
-            "description": "Fast backend file generator based on thinkphp6",
-            "support": {
-                "issues": "https://github.com/aspirantzhang/thinkphp6-fast-command/issues",
-                "source": "https://github.com/aspirantzhang/thinkphp6-fast-command/tree/master"
-            },
-            "time": "2021-06-28T09:07:29+00:00"
         },
         {
             "name": "cakephp/core",
@@ -1185,16 +1235,16 @@
         },
         {
             "name": "symfony/config",
-            "version": "v5.3.2",
+            "version": "v5.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "9c307728cfacbd50914f0db28aee1e0ecd82b99f"
+                "reference": "a69e0c55528b47df88d3c4067ddedf32d485d662"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/9c307728cfacbd50914f0db28aee1e0ecd82b99f",
-                "reference": "9c307728cfacbd50914f0db28aee1e0ecd82b99f",
+                "url": "https://api.github.com/repos/symfony/config/zipball/a69e0c55528b47df88d3c4067ddedf32d485d662",
+                "reference": "a69e0c55528b47df88d3c4067ddedf32d485d662",
                 "shasum": ""
             },
             "require": {
@@ -1244,7 +1294,7 @@
             "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/config/tree/v5.3.2"
+                "source": "https://github.com/symfony/config/tree/v5.3.3"
             },
             "funding": [
                 {
@@ -1260,7 +1310,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-12T10:15:17+00:00"
+            "time": "2021-06-24T08:13:00+00:00"
         },
         {
             "name": "symfony/console",
@@ -1429,16 +1479,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v5.3.0",
+            "version": "v5.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "348116319d7fb7d1faa781d26a48922428013eb2"
+                "reference": "19b71c8f313b411172dd5f470fd61f24466d79a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/348116319d7fb7d1faa781d26a48922428013eb2",
-                "reference": "348116319d7fb7d1faa781d26a48922428013eb2",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/19b71c8f313b411172dd5f470fd61f24466d79a9",
+                "reference": "19b71c8f313b411172dd5f470fd61f24466d79a9",
                 "shasum": ""
             },
             "require": {
@@ -1471,7 +1521,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v5.3.0"
+                "source": "https://github.com/symfony/filesystem/tree/v5.3.3"
             },
             "funding": [
                 {
@@ -1487,7 +1537,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T17:43:10+00:00"
+            "time": "2021-06-30T07:27:52+00:00"
         },
         {
             "name": "symfony/finder",
@@ -2196,16 +2246,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.3.2",
+            "version": "v5.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "0732e97e41c0a590f77e231afc16a327375d50b0"
+                "reference": "bd53358e3eccec6a670b5f33ab680d8dbe1d4ae1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/0732e97e41c0a590f77e231afc16a327375d50b0",
-                "reference": "0732e97e41c0a590f77e231afc16a327375d50b0",
+                "url": "https://api.github.com/repos/symfony/string/zipball/bd53358e3eccec6a670b5f33ab680d8dbe1d4ae1",
+                "reference": "bd53358e3eccec6a670b5f33ab680d8dbe1d4ae1",
                 "shasum": ""
             },
             "require": {
@@ -2259,7 +2309,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v5.3.2"
+                "source": "https://github.com/symfony/string/tree/v5.3.3"
             },
             "funding": [
                 {
@@ -2275,20 +2325,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-06T09:51:56+00:00"
+            "time": "2021-06-27T11:44:38+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.3.2",
+            "version": "v5.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "71719ab2409401711d619765aa255f9d352a59b2"
+                "reference": "485c83a2fb5893e2ff21bf4bfc7fdf48b4967229"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/71719ab2409401711d619765aa255f9d352a59b2",
-                "reference": "71719ab2409401711d619765aa255f9d352a59b2",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/485c83a2fb5893e2ff21bf4bfc7fdf48b4967229",
+                "reference": "485c83a2fb5893e2ff21bf4bfc7fdf48b4967229",
                 "shasum": ""
             },
             "require": {
@@ -2334,7 +2384,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v5.3.2"
+                "source": "https://github.com/symfony/yaml/tree/v5.3.3"
             },
             "funding": [
                 {
@@ -2350,7 +2400,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-06T09:51:56+00:00"
+            "time": "2021-06-24T08:13:00+00:00"
         },
         {
             "name": "topthink/framework",
@@ -2514,12 +2564,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "0b01a19654c3b0376043960a30e74c9ddb55d574"
+                "reference": "375a3b11578a1740db60c4db05b8244c1de701cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/0b01a19654c3b0376043960a30e74c9ddb55d574",
-                "reference": "0b01a19654c3b0376043960a30e74c9ddb55d574",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/375a3b11578a1740db60c4db05b8244c1de701cf",
+                "reference": "375a3b11578a1740db60c4db05b8244c1de701cf",
                 "shasum": ""
             },
             "require": {
@@ -2562,7 +2612,7 @@
                 "issues": "https://github.com/top-think/think-orm/issues",
                 "source": "https://github.com/top-think/think-orm/tree/2.0"
             },
-            "time": "2021-04-29T14:52:46+00:00"
+            "time": "2021-07-08T09:10:33+00:00"
         },
         {
             "name": "topthink/think-template",
@@ -3072,16 +3122,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.10.5",
+            "version": "v4.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "4432ba399e47c66624bc73c8c0f811e5c109576f"
+                "reference": "fe14cf3672a149364fb66dfe11bf6549af899f94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/4432ba399e47c66624bc73c8c0f811e5c109576f",
-                "reference": "4432ba399e47c66624bc73c8c0f811e5c109576f",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/fe14cf3672a149364fb66dfe11bf6549af899f94",
+                "reference": "fe14cf3672a149364fb66dfe11bf6549af899f94",
                 "shasum": ""
             },
             "require": {
@@ -3122,9 +3172,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.10.5"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.11.0"
             },
-            "time": "2021-05-03T19:11:20+00:00"
+            "time": "2021-07-03T13:36:55+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -4925,16 +4975,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.4.25",
+            "version": "v4.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "31ea689a8e7d2410016b0d25fc15a1ba05a6e2e0"
+                "reference": "a586efdf2aa832d05b9249e9115d24f6a2691160"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/31ea689a8e7d2410016b0d25fc15a1ba05a6e2e0",
-                "reference": "31ea689a8e7d2410016b0d25fc15a1ba05a6e2e0",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/a586efdf2aa832d05b9249e9115d24f6a2691160",
+                "reference": "a586efdf2aa832d05b9249e9115d24f6a2691160",
                 "shasum": ""
             },
             "require": {
@@ -4994,7 +5044,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v4.4.25"
+                "source": "https://github.com/symfony/var-dumper/tree/v4.4.26"
             },
             "funding": [
                 {
@@ -5010,7 +5060,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-27T09:48:32+00:00"
+            "time": "2021-06-17T06:35:48+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -5126,7 +5176,8 @@
     "stability-flags": {
         "topthink/think-orm": 20,
         "aspirantzhang/thinkphp-antdesign-builder": 20,
-        "aspirantzhang/thinkphp6-fast-command": 20
+        "aspirantzhang/octopus-helper": 20,
+        "aspirantzhang/octopus-model-creator": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -5134,5 +5185,5 @@
         "php": ">=7.1.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

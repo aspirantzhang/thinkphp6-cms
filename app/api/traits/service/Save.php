@@ -10,13 +10,13 @@ trait Save
 {
     public function saveAPI($data, array $relationModel = [])
     {
-        if ($this->checkUniqueFields($data, $this->getTableName()) === false) {
+        if ($this->checkUniqueValues($data) === false) {
             return $this->error($this->getError());
         }
         $this->startTrans();
         try {
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
-            $id = $this->getData('id');
+            $id = (int)$this->getData('id');
             $this->saveI18nData($data, $id, $this->getCurrentLanguage(), convertTime($data['create_time']));
             if (!empty($relationModel)) {
                 foreach ($relationModel as $relation) {
@@ -28,7 +28,7 @@ trait Save
             return $this->success(__('add successfully'), ['id' => $id]);
         } catch (\Exception $e) {
             $this->rollback();
-            return $this->error($this->error ?: __('operation failed'));
+            return $this->error($e->getMessage() ?: __('operation failed'));
         }
     }
 }

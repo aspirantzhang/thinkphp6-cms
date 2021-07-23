@@ -22,7 +22,7 @@ class Common extends GlobalController
         Config::load('api/common/reserved', 'reserved');
         Config::load('api/common/response', 'response');
         // load language pack
-        foreach (glob(base_path() . 'api/lang/fields/' . Lang::getLangSet() . '/*.php') as $filename) {
+        foreach (glob(base_path() . 'api/lang/field/' . Lang::getLangSet() . '/*.php') as $filename) {
             Lang::load($filename);
         }
         foreach (glob(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/*.php') as $filename) {

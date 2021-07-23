@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\traits\service;
 
-use think\facade\Db;
+use think\Exception;
 
 trait Update
 {
@@ -12,7 +12,7 @@ trait Update
     {
         $model = $this->where('id', $id)->find();
         if ($model) {
-            if ($model->checkUniqueFields($data, $this->getTableName()) === false) {
+            if ($model->checkUniqueValues($data) === false) {
                 return $this->error($this->getError());
             }
             $model->startTrans();
@@ -27,12 +27,10 @@ trait Update
                     }
                 }
                 $model->commit();
-
                 return $this->success(__('update successfully'));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $model->rollback();
-
-                return $this->error($this->error ?: __('operation failed'));
+                return $this->error($e->getMessage() ?: __('operation failed'));
             }
         } else {
             return $this->error(__('no target'));
@@ -47,7 +45,7 @@ trait Update
 
             foreach ($data as $langCode => $fieldsData) {
                 // validator check
-                $modelValidator = '\app\api\validate\\' . $this->getName();
+                $modelValidator = '\app\api\validate\\' . $this->getModelName();
                 $validate = new $modelValidator();
                 $result = $validate->only($this->getAllowTranslate())->check($fieldsData);
                 if (!$result) {
@@ -56,8 +54,10 @@ trait Update
                 // handle mutator
                 $fieldsData = $this->handleMutator($fieldsData);
                 // handle update
-                if ($this->updateI18nData($fieldsData, $id, $langCode, $currentTime) === false) {
-                    return $this->error($this->getError());
+                try {
+                    $this->updateI18nData($fieldsData, $id, $langCode, $currentTime);
+                } catch (Exception $e) {
+                    return $this->error($e->getMessage());
                 }
             }
             return $this->success(__('update successfully'));

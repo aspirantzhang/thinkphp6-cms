@@ -33,15 +33,15 @@ trait View
         return [];
     }
 
-    protected function fieldBuilder($data, $modelName)
+    protected function fieldBuilder($data, $tableName)
     {
         if (!empty($data)) {
             $result = [];
             foreach ($data as $field) {
                 $row = [];
-                $row = (array)Builder::field($modelName . '.' . $field['name'])->type($field['type']);
+                $row = (array)Builder::field($tableName . '.' . $field['name'])->type($field['type']);
                 if (isset($field['data'])) {
-                    $row = (array)Builder::field($modelName . '.' . $field['name'])->type($field['type'])->data($field['data']);
+                    $row = (array)Builder::field($tableName . '.' . $field['name'])->type($field['type'])->data($field['data']);
                 }
                 if (isset($field['settings']['display'])) {
                     if (in_array('hideInColumn', $field['settings']['display'])) {
@@ -61,14 +61,14 @@ trait View
     public function addBuilder($addonData = [])
     {
         $model = $this->getModelData();
-        $modelName = $model->model_name;
+        $tableName = $model->table_name;
 
         if (isset($model['data']['fields']) && isset($model['data']['layout']['addAction'])) {
             $basic = [];
             foreach ($model['data']['fields'] as $addField) {
-                $thisField = Builder::field($modelName . '.' . $addField['name'])->type($addField['type']);
+                $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type']);
                 if (isset($addField['data'])) {
-                    $thisField = Builder::field($modelName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
+                    $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
                 }
                 $basic[] = $thisField;
             }
@@ -88,7 +88,7 @@ trait View
                 $action[] = $thisAction;
             }
 
-            return Builder::page($modelName . '-layout.' . $modelName . '-add')
+            return Builder::page($tableName . '-layout.' . $tableName . '-add')
                 ->type('page')
                 ->tab('basic', $basic)
                 ->action('actions', $action)
@@ -100,14 +100,14 @@ trait View
     public function editBuilder($id, $addonData = [])
     {
         $model = $this->getModelData();
-        $modelName = $model->model_name;
+        $tableName = $model->table_name;
 
         if (isset($model['data']['fields']) && isset($model['data']['layout']['editAction'])) {
             $basic = [];
             foreach ($model['data']['fields'] as $addField) {
-                $thisField = Builder::field($modelName . '.' . $addField['name'])->type($addField['type']);
+                $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type']);
                 if (isset($addField['data'])) {
-                    $thisField = Builder::field($modelName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
+                    $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
                 }
                 if (isset($addField['settings']['display'])) {
                     if (in_array('editDisabled', $addField['settings']['display'])) {
@@ -134,7 +134,7 @@ trait View
                 $action[] = $thisAction;
             }
 
-            return Builder::page($modelName . '-layout.' . $modelName . '-edit')
+            return Builder::page($tableName . '-layout.' . $tableName . '-edit')
                 ->type('page')
                 ->tab('basic', $basic)
                 ->action('actions', $action)
@@ -146,7 +146,7 @@ trait View
     public function listBuilder($addonData = [], $params = [])
     {
         $model = $this->getModelData();
-        $modelName = $model->model_name;
+        $tableName = $model->table_name;
 
         $tableToolbar = [];
         if (isset($model['data']['layout']['tableToolbar'])) {
@@ -167,7 +167,7 @@ trait View
 
         $listFields = [];
         if (isset($model['data']['fields'])) {
-            $listFields = $this->fieldBuilder($model['data']['fields'], $modelName);
+            $listFields = $this->fieldBuilder($model['data']['fields'], $tableName);
         }
 
         $addonFields = [
@@ -184,7 +184,7 @@ trait View
         $actionFields = Builder::field('actions')->data($actions);
         $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
 
-        return Builder::page($modelName . '-layout.' . $modelName . '-list')
+        return Builder::page($tableName . '-layout.' . $tableName . '-list')
             ->type('basic-list')
             ->searchBar(true)
             ->tableColumn($tableColumn)
@@ -196,7 +196,7 @@ trait View
     public function i18nBuilder()
     {
         $model = $this->getModelData();
-        $modelName = $model->model_name;
+        $tableName = $model->table_name;
 
         $translateFields = [];
         foreach ($model['data']['fields'] as $field) {
@@ -207,7 +207,7 @@ trait View
 
         $fields = [];
         if (!empty($translateFields)) {
-            $fields = $this->fieldBuilder($translateFields, $modelName);
+            $fields = $this->fieldBuilder($translateFields, $tableName);
         }
 
         return Builder::i18n('admin-layout.admin-i18n')

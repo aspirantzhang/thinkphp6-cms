@@ -10,14 +10,14 @@ class Model extends Common
 {
     protected $json = ['data'];
     protected $jsonAssoc = true;
-    protected $readonly = ['id', 'model_title', 'model_name'];
-    protected $uniqueField = ['model_title', 'model_name'];
+    protected $readonly = ['id', 'model_title', 'table_name'];
+    protected $uniqueField = ['model_title', 'table_name'];
 
     // Mutator
-    public function setModelNameAttr($value)
+    public function setTableNameAttr($value)
     {
         $data = [];
-        $data['layout']['modelName'] = $value;
+        $data['layout']['tableName'] = $value;
         $this->set('data', $data);
         return strtolower($value);
     }

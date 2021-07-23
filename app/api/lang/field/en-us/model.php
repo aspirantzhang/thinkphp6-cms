@@ -3,7 +3,7 @@
 return [
     'model' =>  [
         'model_title' => 'Model Title',
-        'model_name' => 'Model Name',
+        'table_name' => 'Table Name',
         'data' => 'Data',
         'field_design' => 'Field Design',
         'layout_design' => 'Layout Design',
