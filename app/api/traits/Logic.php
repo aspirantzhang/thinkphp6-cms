@@ -121,12 +121,9 @@ trait Logic
             'original_id' => $originalId,
             'lang_code' => $langCode
         ]);
-        Db::startTrans();
         try {
             Db::name($this->getLangTableName())->save($data);
-            Db::commit();
-        } catch (\Exception $e) {
-            Db::rollback();
+        } catch (Exception $e) {
             throw new Exception(__('failed to store i18n data'));
         }
     }
@@ -160,7 +157,8 @@ trait Logic
         // add new
         if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
             $this->saveI18nData($rawData, $originalId, $langCode, $currentTime);
+        } else {
+            $this->saveI18nData($rawData, $originalId, $langCode);
         }
-        $this->saveI18nData($rawData, $originalId, $langCode);
     }
 }
