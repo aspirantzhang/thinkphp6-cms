@@ -117,16 +117,8 @@ class Model extends ModelLogic
                             // i18n table fields
                             $this->fieldsHandler($tableName . '_i18n', $i18nTableFields, $data, $reservedFields);
                         }
-
-                        ModelCreator::file($tableName, '', $this->getCurrentLanguage())->createLangField($data['fields']);
-                        ModelCreator::file($tableName, '', $this->getCurrentLanguage())->createValidateFile($data['fields']);
-                        $langFieldPath = createPath(base_path(), 'api', 'lang', 'field', $this->getCurrentLanguage(), $tableName) . '.php';
-                        if (file_exists($langFieldPath)) {
-                            Lang::load($langFieldPath);
-                        }
-                        ModelCreator::file($tableName, '', $this->getCurrentLanguage())->createValidateI18n($data['fields']);
-                        ModelCreator::file($tableName, '', $this->getCurrentLanguage())->createAllowConfig($data['fields']);
-
+                        // fields/validator translation etc.
+                        ModelCreator::file($tableName, '', $this->getCurrentLanguage())->update($data['fields']);
                         // model table save
                         $model->data = $data;
                         $model->save();
