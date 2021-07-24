@@ -13,8 +13,8 @@ class ValidateExtend extends \think\Service
     public function boot()
     {
         Validate::maker(function ($validate) {
-
-            foreach (glob(base_path() . 'api/lang/validator/' . Lang::getLangSet() . '/*.php') as $filename) {
+            
+            foreach (glob(createPath(base_path(), 'api', 'lang', 'validate', Lang::getLangSet(), '*') . '.php') as $filename) {
                 Lang::load($filename);
             }
             

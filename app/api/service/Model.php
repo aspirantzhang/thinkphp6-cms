@@ -116,7 +116,7 @@ class Model extends ModelLogic
                             // i18n table fields
                             ModelCreator::db($tableName . '_i18n', '', $this->getCurrentLanguage())->fieldsHandler($i18nTableFields, $data['fields'], $reservedFields);
                         }
-                        // fields/validator translation etc.
+                        // fields/validate translation etc.
                         ModelCreator::file($tableName, '', $this->getCurrentLanguage())->update($data['fields']);
                         // model table save
                         $model->data = $data;

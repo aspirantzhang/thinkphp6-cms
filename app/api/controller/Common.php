@@ -16,21 +16,20 @@ class Common extends GlobalController
     public function initialize()
     {
         parent::initialize();
-
         // load config
         Config::load('api/common/field', 'field');
         Config::load('api/common/reserved', 'reserved');
         Config::load('api/common/response', 'response');
         // load language pack
-        foreach (glob(base_path() . 'api/lang/field/' . Lang::getLangSet() . '/*.php') as $filename) {
+        foreach (glob(createPath(base_path(), 'api', 'lang', 'field', Lang::getLangSet(), '*') . '.php') as $filename) {
             Lang::load($filename);
         }
-        foreach (glob(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/*.php') as $filename) {
+        foreach (glob(createPath(base_path(), 'api', 'lang', 'layout', Lang::getLangSet(), '*') . '.php') as $filename) {
             Lang::load($filename);
         }
     }
     
-    protected function json($data = [], $code = 200, $header = [], $options = [], ...$rest)
+    protected function json(array $data = [], int $code = 200, array $header = [], array $options = [])
     {
         return Response::create($data, 'json', $code)->header(array_merge(Config::get('response.default_header') ?: [], $header))->options($options);
     }
