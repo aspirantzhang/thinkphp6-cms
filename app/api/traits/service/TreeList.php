@@ -44,7 +44,8 @@ trait TreeList
         $data = $this->getListData($params, $withRelation);
 
         if (!empty($data)) {
-            if (!isTreeArray($data) || !isset($this->titleField)) {
+            if (!isTreeArray($data)) {
+                // TODO:refactor
                 $this->error = __('invalid data structure');
                 return [];
             }
@@ -53,7 +54,7 @@ trait TreeList
                     'id' => $model['id'],
                     'key' => $model['id'],
                     'value' => $model['id'],
-                    'title' => $model[$this->titleField],
+                    'title' => $model[$this->getTitleField()],
                     'parent_id' => $model['parent_id'],
                 ];
                 if ($model['id'] === (int)$parentTreeExceptId) {

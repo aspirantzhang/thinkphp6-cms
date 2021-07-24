@@ -103,4 +103,9 @@ class Common extends GlobalModel
         }
         return false;
     }
+
+    protected function getTitleField(): string
+    {
+        return $this->titleField ?? 'id';
+    }
 }

@@ -14,15 +14,16 @@ class Menu extends MenuLogic
         $data = $this->getListData($params, $withRelation);
         
         if (!empty($data)) {
-            if (!isTreeArray($data) || !isset($this->titleField)) {
+            if (!isTreeArray($data)) {
+                // TODO:refactor
                 return [];
             }
             $data = array_map(function ($model) use ($parentTreeExceptId) {
                 $treeMenu = [
                     'id' => $model['id'],
                     'value' => $model['id'],
-                    'name' => $model[$this->titleField],
-                    'title' => $model[$this->titleField],
+                    'name' => $model[$this->getTitleField()],
+                    'title' => $model[$this->getTitleField()],
                     'parent_id' => $model['parent_id'],
                     'hideInMenu' => $model['hide_in_menu'],
                     'hideChildrenInMenu' => $model['hide_children_in_menu'],
