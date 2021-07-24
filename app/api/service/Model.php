@@ -66,7 +66,7 @@ class Model extends ModelLogic
                     return $this->success(__('delete successfully'));
                 } catch (Exception $e) {
                     $model->rollback();
-                    return $this->error($this->error ?: __('operation failed'));
+                    return $this->error($e->getMessage() ?: __('operation failed'));
                 }
             }
         }

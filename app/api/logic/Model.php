@@ -7,7 +7,6 @@ namespace app\api\logic;
 use app\api\view\Model as ModelView;
 use think\facade\Db;
 use think\facade\Config;
-use think\helper\Str;
 use think\Exception;
 
 class Model extends ModelView
@@ -21,7 +20,7 @@ class Model extends ModelView
         return false;
     }
     
-    protected function tableExists(string $tableName): bool
+    private function tableExists(string $tableName): bool
     {
         try {
             Db::query("select 1 from `$tableName` LIMIT 1");
@@ -40,7 +39,7 @@ class Model extends ModelView
         return false;
     }
 
-    public function tableNotExist(string $tableName): bool
+    protected function tableNotExist(string $tableName): bool
     {
         if (!$this->tableExists($tableName)) {
             $this->error = __('table not exist', ['tableName' => $tableName]);
@@ -54,7 +53,7 @@ class Model extends ModelView
         try {
             Db::name('model_i18n')->where('original_id', $originalId)->delete();
         } catch (Exception $e) {
-            $this->error = __('remove i18n record failed');
+            throw new Exception(__('remove i18n record failed'));
         }
     }
 
