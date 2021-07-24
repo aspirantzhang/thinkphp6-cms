@@ -90,7 +90,7 @@ class Admin extends Common
 
     public function info()
     {
-        if (Session::has('adminId') || $this->request->param('X-API-KEY') === 'antd') {
+        if (Session::has('adminId')) {
             $data = [
                 "name" => Session::get('adminName') ?? 'API TEST',
                 "avatar" => 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',

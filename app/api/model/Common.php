@@ -24,7 +24,6 @@ class Common extends GlobalModel
     use AllowFieldTrait;
 
     protected $deleteTime = 'delete_time';
-    protected $defaultLanguage = 'en-us';
     protected $uniqueField = null;
     protected $titleField = null;
 
@@ -41,11 +40,6 @@ class Common extends GlobalModel
     protected function getLangTableName()
     {
         return $this->getTableName() . '_i18n';
-    }
-
-    protected function getDefaultLanguage()
-    {
-        return $this->defaultLanguage;
     }
 
     protected function getCurrentLanguage()
