@@ -1,0 +1,1 @@
+phpcbf --standard=PSR12 ./app && phpcs --standard=PSR12 -n -p ./app && php think misc:deleteTable && php think migrate:run && %cd%/vendor/bin/phpunit --configuration ./phpunit.xml.dist --coverage-clover runtime/.phpunit.cache/coverage.xml
