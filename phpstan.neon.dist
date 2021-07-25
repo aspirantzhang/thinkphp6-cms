@@ -2,3 +2,11 @@ parameters:
   level: 4
   paths:
     - app
+  scanFiles:
+    - vendor\topthink\framework\src\helper.php
+    - vendor\topthink\think-orm\src\db\builder\Mysql.php
+  excludePaths:
+    - app\common\Auth.php
+  ignoreErrors:
+    - '#Call to an undefined static method think\\facade\\Db::query\(\)#'
+    - '#Static call to instance method think\\db\\BaseQuery::\w+\(\)#'

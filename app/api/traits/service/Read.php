@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace app\api\traits\service;
 
 use think\facade\Config;
-use think\facade\DB;
+use think\facade\Db;
 
 trait Read
 {

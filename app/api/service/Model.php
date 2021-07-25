@@ -117,7 +117,7 @@ class Model extends ModelLogic
                         }
                         // fields/validate translation etc.
                         ModelCreator::file($tableName, '', $this->getCurrentLanguage())->update($data['fields']);
-                        // model table save
+                        // model table save @phpstan-ignore-next-line
                         $model->data = $data;
                         $model->save();
 
@@ -133,6 +133,7 @@ class Model extends ModelLogic
                 if (!empty($data) && !empty($data['layout'])) {
                     try {
                         $modelData['layout'] = $data['layout'] ?? null;
+                        // @phpstan-ignore-next-line
                         $model->data = $modelData;
                         $model->save();
                         $model->commit();

@@ -37,12 +37,7 @@ trait Logic
 
         return $dataSource;
     }
-    /**
-     * Get the list data.
-     * @param mixed $parameters Request parameters
-     * @param array $withRelation Relational model array used for Model->with() argument.
-     * @return array
-     */
+
     protected function getListData(array $parameters = [], array $withRelation = [], string $type = 'normal'): array
     {
         $params = getListParams($parameters, $this->getAllowHome(), $this->getAllowSort());
@@ -84,9 +79,9 @@ trait Logic
     protected function ifExists(string $fieldName, $value)
     {
         if ($this->isTranslateField($fieldName)) {
-            return (bool)Db::name($this->getLangTableName())->where($fieldName, $value)->where('original_id', '<>', $this->id)->find();
+            return (bool)Db::name($this->getLangTableName())->where($fieldName, $value)->where('original_id', '<>', $this->getAttr('id'))->find();
         }
-        return (bool)$this->withTrashed()->where($fieldName, $value)->where('id', '<>', $this->id)->find();
+        return (bool)$this->withTrashed()->where($fieldName, $value)->where('id', '<>', $this->getAttr('id'))->find();
     }
 
     protected function clearParentId(int $id)
