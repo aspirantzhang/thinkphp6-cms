@@ -34,7 +34,8 @@
     "symfony/var-dumper": "^4.2",
     "phpunit/phpunit": "^9.5",
     "mockery/mockery": "^1.4",
-    "aspirantzhang/thinkphp6-unit-test": "^1.0"
+    "aspirantzhang/thinkphp6-unit-test": "^1.0",
+    "phpstan/phpstan": "^0.12.93"
   },
   "autoload": {
     "psr-4": {
