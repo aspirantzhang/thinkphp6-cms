@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace app\api\traits\service;
 
-use think\facade\Db;
-
 trait Save
 {
-    public function saveAPI($data, array $relationModel = [])
+    public function saveAPI(array $data, array $relationModel = [])
     {
         if ($this->checkUniqueValues($data) === false) {
             return $this->error($this->getError());
@@ -16,7 +14,7 @@ trait Save
         $this->startTrans();
         try {
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
-            $id = (int)$this->getData('id');
+            $id = (int)$this->getAttr('id');
             $this->saveI18nData($data, $id, $this->getCurrentLanguage(), convertTime($data['create_time']));
             if (!empty($relationModel)) {
                 foreach ($relationModel as $relation) {

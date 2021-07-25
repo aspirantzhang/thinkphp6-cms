@@ -6,7 +6,7 @@ namespace app\api\traits\service;
 
 trait Restore
 {
-    private function hasParent($record)
+    private function hasParent(array $record)
     {
         return isset($record['parent_id']) && $record['parent_id'] !== 0;
     }
@@ -18,7 +18,7 @@ trait Restore
      * to let it has the correct level position in the tree structure.
      * @return bool
      */
-    private function shouldResetParent($record, $ids)
+    private function shouldResetParent(array $record, array $ids)
     {
         if ($this->hasParent($record) && !in_array($record['parent_id'], $ids)) {
             $parentInTheTrash = $this->onlyTrashed()->find($record['parent_id']);
@@ -27,7 +27,7 @@ trait Restore
         return false;
     }
 
-    private function handleChildrenRestore($record, $ids)
+    private function handleChildrenRestore(array $record, array $ids)
     {
         $tree = $this->treeDataAPI(['trash' => 'withTrashed']);
         // get all the ids of the record's children
@@ -44,24 +44,22 @@ trait Restore
         }
     }
 
-    public function restoreAPI($ids = [])
+    public function restoreAPI(array $ids = [])
     {
         if (!empty($ids)) {
             $records = $this->withTrashed()->whereIn('id', array_unique($ids))->select();
             if (!$records->isEmpty()) {
                 foreach ($records as $record) {
                     $record->restore();
-                    if ($this->shouldResetParent($record, $ids)) {
+                    if ($this->shouldResetParent($record->toArray(), $ids)) {
                         $record->parent_id = 0;
                         $record->save();
                     }
-                    $this->handleChildrenRestore($record, $ids);
+                    $this->handleChildrenRestore($record->toArray(), $ids);
                 }
                 return $this->success(__('restore successfully'));
             }
-            return $this->error(__('no target'));
-        } else {
-            return $this->error(__('no target'));
         }
+        return $this->error(__('no target'));
     }
 }

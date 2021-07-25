@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\api\traits;
 
 use think\facade\Config;
-use think\helper\Str;
 use aspirantzhang\TPAntdBuilder\Builder;
 
 trait AllowField

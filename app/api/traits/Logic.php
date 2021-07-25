@@ -12,7 +12,7 @@ use think\Exception;
 
 trait Logic
 {
-    public function addTranslationStatus($rawDataSource)
+    public function addTranslationStatus(array $rawDataSource)
     {
         $dataSource = [];
 
@@ -63,7 +63,7 @@ trait Logic
         return $result->select()->toArray();
     }
 
-    protected function checkUniqueValues($data): bool
+    protected function checkUniqueValues(array $data): bool
     {
         $uniqueFields = $this->getUniqueField();
         foreach ($uniqueFields as $field) {
@@ -89,7 +89,7 @@ trait Logic
         return (bool)$this->withTrashed()->where($fieldName, $value)->where('id', '<>', $this->id)->find();
     }
 
-    protected function clearParentId($id)
+    protected function clearParentId(int $id)
     {
         Db::table($this->getTableName())
             ->where('id', $id)
@@ -97,7 +97,7 @@ trait Logic
         return true;
     }
 
-    protected function handleMutator($fieldsData)
+    protected function handleMutator(array $fieldsData)
     {
         foreach ($fieldsData as $fieldName => $fieldValue) {
             $mutator = 'set' . Str::studly($fieldName) . 'Attr';
@@ -127,9 +127,8 @@ trait Logic
         }
     }
 
-    protected function updateI18nData($rawData, $originalId, $langCode, $currentTime = null)
+    protected function updateI18nData(array $rawData, int $originalId, string $langCode, $currentTime = null)
     {
-        $originalId = (int)$originalId;
         $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
 
         if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {

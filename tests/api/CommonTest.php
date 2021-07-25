@@ -20,15 +20,6 @@ class CommonTest extends TestCase
             'order' => 'desc',
         ];
         $this->assertEqualsCanonicalizing($expect, getSortParam([], []));
-        $this->assertEqualsCanonicalizing($expect, getSortParam(0, 0));
-        $this->assertEqualsCanonicalizing($expect, getSortParam('', ''));
-        $this->assertEqualsCanonicalizing($expect, getSortParam(null, null));
-        $this->assertEqualsCanonicalizing($expect, getSortParam("\t", "\t"));
-        $this->assertEqualsCanonicalizing($expect, getSortParam("\n", "\n"));
-        $this->assertEqualsCanonicalizing($expect, getSortParam("\r", "\r"));
-        $this->assertEqualsCanonicalizing($expect, getSortParam(' ', ' '));
-        $this->assertEqualsCanonicalizing($expect, getSortParam(true, true));
-        $this->assertEqualsCanonicalizing($expect, getSortParam(false, false));
         $this->assertEqualsCanonicalizing([
             'name' => 'id',
             'order' => 'desc',
@@ -73,15 +64,6 @@ class CommonTest extends TestCase
             ]
         ];
         $this->assertEqualsCanonicalizing($defaultValue, getListParams([], [], []));
-        $this->assertEqualsCanonicalizing($defaultValue, getListParams(0, 0, 0));
-        $this->assertEqualsCanonicalizing($defaultValue, getListParams('', '', ''));
-        $this->assertEqualsCanonicalizing($defaultValue, getListParams(null, null, null));
-        $this->assertEqualsCanonicalizing($defaultValue, getListParams("\t", "\t", "\t"));
-        $this->assertEqualsCanonicalizing($defaultValue, getListParams("\n", "\n", "\n"));
-        $this->assertEqualsCanonicalizing($defaultValue, getListParams("\r", "\r", "\r"));
-        $this->assertEqualsCanonicalizing($defaultValue, getListParams(' ', ' ', ' '));
-        $this->assertEqualsCanonicalizing($defaultValue, getListParams(true, true, true));
-        $this->assertEqualsCanonicalizing($defaultValue, getListParams(false, false, false));
     }
 
     public function testGetListParamsValidParam()

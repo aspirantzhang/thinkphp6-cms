@@ -9,17 +9,17 @@ use app\api\service\Model as ModelService;
 trait Model
 {
     // Accessor
-    public function getCreateTimeAttr($value)
+    public function getCreateTimeAttr(string $value)
     {
         return convertTime($value, 'Y-m-d\TH:i:sP');
     }
-    public function getUpdateTimeAttr($value)
+    public function getUpdateTimeAttr(string $value)
     {
         return convertTime($value, 'Y-m-d\TH:i:sP');
     }
 
     // Mutator
-    public function setCreateTimeAttr($value)
+    public function setCreateTimeAttr(string $value)
     {
         return convertTime($value);
     }
@@ -50,13 +50,14 @@ trait Model
     }
 
     // Other
-    protected function getModelData($fieldName = '')
+    protected function getModelData(string $fieldName = '')
     {
         if ($fieldName) {
-            $fieldData = ModelService::where('table_name', $this->getTableName())->find();
-            return $fieldData['data'] ?? [];
+            $result = ModelService::where('table_name', $this->getTableName())->find();
+            return $result['data'] ?? [];
         } else {
-            return ModelService::where('table_name', $this->getTableName())->find();
+            $result = ModelService::where('table_name', $this->getTableName())->find();
+            return $result ?: [];
         }
     }
 }

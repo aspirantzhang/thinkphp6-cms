@@ -8,7 +8,7 @@ use think\Exception;
 
 trait Update
 {
-    public function updateAPI($id, $data, array $relationModel = [])
+    public function updateAPI(int $id, array $data, array $relationModel = [])
     {
         $model = $this->where('id', $id)->find();
         if ($model) {
@@ -37,7 +37,7 @@ trait Update
         }
     }
 
-    public function i18nUpdateAPI($id, $data)
+    public function i18nUpdateAPI(int $id, array $data)
     {
         $originalRecord = $this->where('id', $id)->find();
         if ($originalRecord) {
@@ -57,7 +57,7 @@ trait Update
                 try {
                     $this->updateI18nData($fieldsData, $id, $langCode, $currentTime);
                 } catch (Exception $e) {
-                    return $this->error($e->getMessage());
+                    return $this->error($e->getMessage() ?: __('operation failed'));
                 }
             }
             return $this->success(__('update successfully'));

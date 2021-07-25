@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace app\api\traits\service;
 
 use think\facade\Db;
+use think\Exception;
 
 trait Delete
 {
-    protected function deleteI18nData($originalId)
+    protected function deleteI18nData(int $originalId)
     {
-        Db::name($this->getLangTableName())->where('original_id', $originalId)->delete();
+        try {
+            Db::name($this->getLangTableName())->where('original_id', $originalId)->delete();
+        } catch (Exception $e) {
+            throw new Exception(__('remove i18n record failed'));
+        }
     }
 
-    public function deleteAPI($ids = [], $type = 'delete')
+    public function deleteAPI(array $ids = [], string $type = 'delete')
     {
         if (!empty($ids)) {
             // handle descendant
@@ -32,20 +37,14 @@ trait Delete
                 foreach ($dataSet as $item) {
                     if ($type === 'deletePermanently') {
                         $item->force()->delete();
-                        $this->deleteI18nData($item->id);
+                        $this->deleteI18nData((int)$item->id);
                     } else {
                         $item->delete();
                     }
                 }
-                $result = true;
-            } else {
-                return $this->error(__('no target'));
-            }
-            
-            if ($result) {
                 return $this->success(__('delete successfully'), $body);
             } else {
-                return $this->error(__('operation failed'));
+                return $this->error(__('no target'));
             }
         } else {
             return $this->error(__('no target'));

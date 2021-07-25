@@ -6,7 +6,7 @@ namespace app\api\traits\service;
 
 trait TreeList
 {
-    public function treeListAPI($params, $withRelation = [])
+    public function treeListAPI(array $params, array $withRelation = [])
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
        
@@ -38,7 +38,7 @@ trait TreeList
      * @param mixed $params e.g.: ['status' => 1]
      * @return array
      */
-    public function treeDataAPI($params = [], $withRelation = [], $parentTreeExceptId = 0)
+    public function treeDataAPI(array $params = [], array $withRelation = [], int $parentTreeExceptId = 0)
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         $data = $this->getListData($params, $withRelation);

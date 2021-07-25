@@ -1,6 +1,6 @@
 <?php
 
-function getSortParam($data, $allowSort)
+function getSortParam(array $data, array $allowSort): array
 {
     $sort = [
         'name' => 'id',
@@ -18,7 +18,7 @@ function getSortParam($data, $allowSort)
     return $sort;
 }
 
-function getListParams($params, $allowHome, $allowSort): array
+function getListParams(array $params, array $allowHome, array $allowSort): array
 {
     $result = [];
     $result['trash'] = $params['trash'] ?? 'withoutTrashed';

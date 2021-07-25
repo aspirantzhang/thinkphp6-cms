@@ -56,12 +56,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
-                "reference": "cacc14d56bbbc71b1335c3db71380a0d70222876"
+                "reference": "5327fffcfab8057960caace503027454b440b265"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/cacc14d56bbbc71b1335c3db71380a0d70222876",
-                "reference": "cacc14d56bbbc71b1335c3db71380a0d70222876",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/5327fffcfab8057960caace503027454b440b265",
+                "reference": "5327fffcfab8057960caace503027454b440b265",
                 "shasum": ""
             },
             "require": {
@@ -103,7 +103,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
                 "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
             },
-            "time": "2021-07-24T09:33:22+00:00"
+            "time": "2021-07-25T09:39:44+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",

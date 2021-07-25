@@ -61,4 +61,5 @@ return [
     'failed to store i18n data' => 'Failed to store i18n data.',
     'invalid data structure' => 'Invalid data structure.',
     'edit disabled fields cannot set as translate' => 'Edit disabled fields [{:fieldName}] cannot set as translate.',
+    'unable to get model data' => 'Unable to get model data.',
 ];

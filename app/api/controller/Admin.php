@@ -39,14 +39,14 @@ class Admin extends Common
         return $this->json(...$result);
     }
 
-    public function read($id)
+    public function read(int $id)
     {
         $result = $this->admin->readAPI($id, ['groups']);
 
         return $this->json(...$result);
     }
 
-    public function update($id)
+    public function update(int $id)
     {
         $result = $this->admin->updateAPI($id, $this->request->only($this->admin->getAllowUpdate()), ['groups']);
 
@@ -157,14 +157,14 @@ class Admin extends Common
         }
     }
 
-    public function i18n($id)
+    public function i18n(int $id)
     {
         $result = $this->admin->i18nAPI($id);
 
         return $this->json(...$result);
     }
 
-    public function i18nUpdate($id)
+    public function i18nUpdate(int $id)
     {
         $result = $this->admin->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
 

@@ -6,10 +6,11 @@ namespace app\api\traits;
 
 use aspirantzhang\TPAntdBuilder\Builder;
 use think\facade\Config;
+use think\Exception;
 
 trait View
 {
-    protected function actionBuilder($data)
+    protected function actionBuilder(array $data)
     {
         if (!empty($data)) {
             $result = [];
@@ -33,7 +34,7 @@ trait View
         return [];
     }
 
-    protected function fieldBuilder($data, $tableName)
+    protected function fieldBuilder(array $data, string $tableName)
     {
         if (!empty($data)) {
             $result = [];
@@ -58,10 +59,13 @@ trait View
         return [];
     }
 
-    public function addBuilder($addonData = [])
+    public function addBuilder(array $addonData = [])
     {
         $model = $this->getModelData();
-        $tableName = $model->table_name;
+        if (empty($model) || !isset($model['table_name'])) {
+            throw new Exception(__('unable to get model data'));
+        }
+        $tableName = $model['table_name'];
 
         if (isset($model['data']['fields']) && isset($model['data']['layout']['addAction'])) {
             $basic = [];
@@ -97,10 +101,13 @@ trait View
         return [];
     }
 
-    public function editBuilder($id, $addonData = [])
+    public function editBuilder(int $id, array $addonData = [])
     {
         $model = $this->getModelData();
-        $tableName = $model->table_name;
+        if (empty($model) || !isset($model['table_name'])) {
+            throw new Exception(__('unable to get model data'));
+        }
+        $tableName = $model['table_name'];
 
         if (isset($model['data']['fields']) && isset($model['data']['layout']['editAction'])) {
             $basic = [];
@@ -143,10 +150,13 @@ trait View
         return [];
     }
 
-    public function listBuilder($addonData = [], $params = [])
+    public function listBuilder(array $addonData = [], array $params = [])
     {
         $model = $this->getModelData();
-        $tableName = $model->table_name;
+        if (empty($model) || !isset($model['table_name'])) {
+            throw new Exception(__('unable to get model data'));
+        }
+        $tableName = $model['table_name'];
 
         $tableToolbar = [];
         if (isset($model['data']['layout']['tableToolbar'])) {
@@ -196,12 +206,17 @@ trait View
     public function i18nBuilder()
     {
         $model = $this->getModelData();
-        $tableName = $model->table_name;
+        if (empty($model) || !isset($model['table_name'])) {
+            throw new Exception(__('unable to get model data'));
+        }
+        $tableName = $model['table_name'];
 
         $translateFields = [];
-        foreach ($model['data']['fields'] as $field) {
-            if ($field['allowTranslate'] ?? false) {
-                $translateFields[] = $field;
+        if (isset($model['data']['fields'])) {
+            foreach ($model['data']['fields'] as $field) {
+                if ($field['allowTranslate'] ?? false) {
+                    $translateFields[] = $field;
+                }
             }
         }
 

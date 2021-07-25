@@ -48,16 +48,7 @@ class Model extends ModelView
         return false;
     }
 
-    protected function deleteI18nRecord($originalId)
-    {
-        try {
-            Db::name('model_i18n')->where('original_id', $originalId)->delete();
-        } catch (Exception $e) {
-            throw new Exception(__('remove i18n record failed'));
-        }
-    }
-
-    protected function extractTranslateFields($allFields)
+    protected function extractTranslateFields(array $allFields): array
     {
         $result = [];
         foreach ($allFields as $field) {

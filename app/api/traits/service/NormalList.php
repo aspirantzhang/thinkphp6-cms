@@ -6,12 +6,12 @@ namespace app\api\traits\service;
 
 trait NormalList
 {
-    public function listAPI($params = [], $withRelation = [])
+    public function listAPI(array $params = [], array $withRelation = [])
     {
         return $this->getListData($params, $withRelation);
     }
 
-    public function paginatedListAPI($params, $withRelation = [])
+    public function paginatedListAPI(array $params, array $withRelation = [])
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
 

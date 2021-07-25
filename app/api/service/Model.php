@@ -6,7 +6,6 @@ namespace app\api\service;
 
 use app\api\logic\Model as ModelLogic;
 use think\facade\Config;
-use think\facade\Lang;
 use think\Exception;
 use aspirantzhang\octopusModelCreator\ModelCreator;
 
@@ -45,10 +44,10 @@ class Model extends ModelLogic
         }
     }
 
-    public function deleteAPI($ids = [], $type = 'delete')
+    public function deleteAPI(array $ids = [], string $type = 'delete')
     {
         if (isset($ids[0]) && $ids[0]) {
-            $model = $this->withTrashed()->find($ids[0]);
+            $model = $this->withTrashed()->find((int)$ids[0]);
             if ($model) {
                 $tableName = $model->getAttr('table_name');
                 $ruleId = $model->getAttr('rule_id');
@@ -57,7 +56,7 @@ class Model extends ModelLogic
                 try {
                     $model->force()->delete();
                     // delete i18n table record
-                    $this->deleteI18nRecord($ids[0]);
+                    $this->deleteI18nData((int)$ids[0]);
                     // remove model file
                     ModelCreator::file($tableName, '', $this->getCurrentLanguage())->remove();
                     // remove db record
@@ -73,7 +72,7 @@ class Model extends ModelLogic
         return $this->error(__('no target'));
     }
 
-    public function designAPI($id)
+    public function designAPI(int $id)
     {
         $result = $this->field('data')->find($id);
         if ($result) {
@@ -85,7 +84,7 @@ class Model extends ModelLogic
         }
     }
 
-    public function designUpdateAPI($id, $type, $data)
+    public function designUpdateAPI(int $id, string $type, array $data)
     {
         $model = $this->where('id', $id)->find();
         if (!$model) {

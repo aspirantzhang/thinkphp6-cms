@@ -9,7 +9,7 @@ use think\facade\DB;
 
 trait Read
 {
-    public function readAPI($id, $relationModel = [])
+    public function readAPI(int $id, array $relationModel = [])
     {
         $relationArray = [];
 
@@ -45,7 +45,7 @@ trait Read
         }
     }
 
-    public function i18nAPI($id)
+    public function i18nAPI(int $id)
     {
         $originalRecord = $this->where('id', $id)->find();
         if ($originalRecord) {
@@ -56,7 +56,8 @@ trait Read
             $i18nRecords = DB::name($this->getLangTableName())
                 ->where('original_id', $id)
                 ->whereIn('lang_code', implode(',', $languages))
-                ->select()->toArray();
+                ->select()
+                ->toArray();
             
             $dataSource = [];
             foreach ($i18nRecords as $record) {
