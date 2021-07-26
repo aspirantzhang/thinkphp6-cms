@@ -134,7 +134,7 @@ trait View
             foreach ($model['data']['layout']['editAction'] as $editAction) {
                 $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->call($editAction['call'])->method($editAction['method']);
                 if (isset($editAction['uri'])) {
-                    $editAction['uri'] = str_replace(':id', $id, $editAction['uri']);
+                    $editAction['uri'] = str_replace(':id', (string)$id, $editAction['uri']);
                     $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->call($editAction['call'])->uri($editAction['uri'])->method($editAction['method']);
                 }
 
