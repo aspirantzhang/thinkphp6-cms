@@ -1,0 +1,1 @@
+phpcbf --standard=PSR12 ./app && phpcs --standard=PSR12 -n -p ./app && .\vendor\bin\phpstan analyse && php think misc:deleteTable && php think migrate:run && .\vendor\bin\phpunit --configuration ./phpunit.xml.dist --coverage-clover runtime/.phpunit.cache/coverage.xml && php think misc:deleteTable && php think migrate:run

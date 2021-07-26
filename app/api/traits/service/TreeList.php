@@ -33,11 +33,6 @@ trait TreeList
         return $this->success('', $layout);
     }
 
-    /**
-     * Get the tree structure of the list data
-     * @param mixed $params e.g.: ['status' => 1]
-     * @return array
-     */
     public function treeDataAPI(array $params = [], array $withRelation = [], int $parentTreeExceptId = 0)
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';

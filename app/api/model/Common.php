@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\api\model;
 
 use think\facade\Lang;
-use think\facade\Config;
 use app\common\model\GlobalModel;
 use think\model\concern\SoftDelete;
 use app\api\traits\Model as ModelTrait;
