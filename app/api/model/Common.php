@@ -60,7 +60,7 @@ class Common extends GlobalModel
         return $fieldName;
     }
 
-    protected function addI18n($instance)
+    protected function withI18n($instance)
     {
         // o = original table
         // i = i18n table

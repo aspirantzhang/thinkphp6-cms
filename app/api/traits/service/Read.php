@@ -21,7 +21,7 @@ trait Read
             }
         }
 
-        $model = $this->addI18n($this)
+        $model = $this->withI18n($this)
             ->where('o.id', $id)
             ->with($relationArray)
             ->visible($this->getAllowRead())
@@ -29,7 +29,7 @@ trait Read
 
         if ($model) {
             $model = $model->toArray();
-            
+
             if ($relationModel) {
                 foreach ($relationModel as $relation) {
                     $model[$relation] = extractValues($model[$relation], 'id');
@@ -52,13 +52,13 @@ trait Read
             $layout = $this->i18nBuilder();
 
             $languages = Config::get('lang.allow_lang_list');
-    
+
             $i18nRecords = DB::name($this->getLangTableName())
                 ->where('original_id', $id)
                 ->whereIn('lang_code', implode(',', $languages))
                 ->select()
                 ->toArray();
-            
+
             $dataSource = [];
             foreach ($i18nRecords as $record) {
                 $langCode = $record['lang_code'];
@@ -67,9 +67,9 @@ trait Read
                 unset($record['lang_code']);
                 $dataSource[$langCode] = $record;
             }
-    
+
             $layout['dataSource'] = $dataSource;
-    
+
             return $this->success('', $layout);
         } else {
             return $this->error(__('no target'));

@@ -47,7 +47,7 @@ trait Logic
             $result = $result->{$params['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
         }
 
-        $result = $this->addI18n($result->with($withRelation))
+        $result = $this->withI18n($result->with($withRelation))
             ->withSearch($params['search']['keys'], $params['search']['values'])
             ->order($params['sort']['name'], $params['sort']['order'])
             ->visible($params['visible']);
