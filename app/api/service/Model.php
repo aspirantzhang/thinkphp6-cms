@@ -31,9 +31,9 @@ class Model extends ModelLogic
             // save i18n table data
             $this->saveI18nData($data, (int)$this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time']));
             // create files
-            ModelCreator::file($tableName, $modelTitle, $this->getCurrentLanguage())->create();
+            ModelCreator::file($tableName, $modelTitle)->create();
             // create tables and record
-            $modelData = ModelCreator::db($tableName, $modelTitle, $this->getCurrentLanguage())->createModel();
+            $modelData = ModelCreator::db($tableName, $modelTitle)->create();
             // save ruleId and menuId to model table
             static::update(['rule_id' => $modelData['topRuleId'], 'menu_id' => $modelData['topMenuId']], ['id' => $this->getData('id')]);
             $this->commit();
@@ -57,10 +57,8 @@ class Model extends ModelLogic
                     $model->force()->delete();
                     // delete i18n table record
                     $this->deleteI18nData((int)$ids[0]);
-                    // remove model file
-                    ModelCreator::file($tableName, '', $this->getCurrentLanguage())->remove();
-                    // remove db record
-                    ModelCreator::db($tableName, '', $this->getCurrentLanguage())->removeModel($ruleId, $menuId);
+                    ModelCreator::file($tableName)->remove();
+                    ModelCreator::db($tableName)->remove($ruleId, $menuId);
                     $model->commit();
                     return $this->success(__('delete successfully'));
                 } catch (Exception $e) {
@@ -86,12 +84,13 @@ class Model extends ModelLogic
 
     public function designUpdateAPI(int $id, string $type, array $data)
     {
-        $model = $this->where('id', $id)->find();
+        $model = $this->withI18n($this)->where('id', $id)->find();
         if (!$model) {
             return $this->error(__('no target'));
         }
 
         $tableName = $model->getAttr('table_name');
+        $modelTitle = $model->getAttr('model_title');
         $modelData = $model->getAttr('data');
         if (
             $this->isReservedTable($tableName) &&
@@ -109,14 +108,9 @@ class Model extends ModelLogic
                         $allFields = extractValues($data['fields'], 'name');
                         $i18nTableFields = $this->extractTranslateFields($data['fields']);
                         $mainTableFields = array_diff($allFields, $reservedFields, $i18nTableFields);
-                        // main table fields
-                        ModelCreator::db($tableName, '', $this->getCurrentLanguage())->fieldsHandler($mainTableFields, $data['fields'], $reservedFields);
-                        if (!empty($i18nTableFields)) {
-                            // i18n table fields
-                            ModelCreator::db($tableName . '_i18n', '', $this->getCurrentLanguage())->fieldsHandler($i18nTableFields, $data['fields'], $reservedFields);
-                        }
-                        // fields/validate translation etc.
-                        ModelCreator::file($tableName, '', $this->getCurrentLanguage())->update($data['fields']);
+
+                        ModelCreator::db($tableName, $modelTitle)->update($data['fields'], $mainTableFields, $reservedFields, $i18nTableFields);
+                        ModelCreator::file($tableName, $modelTitle)->update($data['fields']);
                         // model table save @phpstan-ignore-next-line
                         $model->data = $data;
                         $model->save();
@@ -147,7 +141,7 @@ class Model extends ModelLogic
             default:
                 break;
         }
-        
+
         return $this->error(__('no target'));
     }
 }

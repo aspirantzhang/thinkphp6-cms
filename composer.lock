@@ -12,18 +12,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-helper.git",
-                "reference": "653b4d5106767143eda7810cf0a0ed2dd3b7bb88"
+                "reference": "47b72d08a7081b4b6a006daf3210d33a8d637eb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/653b4d5106767143eda7810cf0a0ed2dd3b7bb88",
-                "reference": "653b4d5106767143eda7810cf0a0ed2dd3b7bb88",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/47b72d08a7081b4b6a006daf3210d33a8d637eb7",
+                "reference": "47b72d08a7081b4b6a006daf3210d33a8d637eb7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4.0"
+                "php": ">=7.4.0",
+                "topthink/framework": "^6.0"
             },
             "require-dev": {
+                "mockery/mockery": "^1.4",
+                "phpstan/phpstan": "^0.12.93",
                 "phpunit/phpunit": "^9.5"
             },
             "default-branch": true,
@@ -48,7 +51,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-helper/issues",
                 "source": "https://github.com/aspirantzhang/octopus-helper/tree/main"
             },
-            "time": "2021-07-19T11:51:27+00:00"
+            "time": "2021-07-28T11:34:38+00:00"
         },
         {
             "name": "aspirantzhang/octopus-model-creator",
@@ -56,22 +59,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
-                "reference": "5327fffcfab8057960caace503027454b440b265"
+                "reference": "7e3e72a427f9d5f62962d77c753060ee63e96d79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/5327fffcfab8057960caace503027454b440b265",
-                "reference": "5327fffcfab8057960caace503027454b440b265",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/7e3e72a427f9d5f62962d77c753060ee63e96d79",
+                "reference": "7e3e72a427f9d5f62962d77c753060ee63e96d79",
                 "shasum": ""
             },
             "require": {
                 "aspirantzhang/octopus-helper": "dev-main",
                 "php": ">=7.4.0",
+                "symfony/filesystem": "^5.3",
                 "topthink/framework": "^6.0",
                 "topthink/think-helper": "^3.1"
             },
             "require-dev": {
                 "mockery/mockery": "^1.4",
+                "phpstan/phpstan": "^0.12.93",
                 "phpunit/phpunit": "^9.5"
             },
             "default-branch": true,
@@ -103,7 +108,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
                 "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
             },
-            "time": "2021-07-25T09:39:44+00:00"
+            "time": "2021-08-04T11:45:37+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
