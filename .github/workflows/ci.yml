@@ -39,6 +39,7 @@ jobs:
           php -m
           composer -V
           mysqld --version
+          sudo /etc/init.d/mysql start
           mysqld -uroot -pdbpass -e "SHOW VARIABLES LIKE 'sql_mode'"
 
       - name: Get Composer Cache Directory
