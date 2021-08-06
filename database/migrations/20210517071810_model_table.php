@@ -13,7 +13,7 @@ final class ModelTable extends AbstractMigration
     {
         $modelTable = $this->table('model', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
         $modelTable->addColumn('table_name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
-            ->addColumn('data', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR, 'default' => ''])
+            ->addColumn('data', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR])
             ->addColumn('rule_id', 'integer', ['signed' => false, 'default' => 0])
             ->addColumn('menu_id', 'integer', ['signed' => false, 'default' => 0])
             ->addColumn('create_time', 'datetime')
