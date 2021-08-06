@@ -66,19 +66,10 @@ jobs:
         run: composer install
 
       - name: Import database
-        run: |
-          php think
-          php think migrate:run
+        run: php think migrate:run
 
       - name: Unit Test
-        uses: php-actions/phpunit@v3
-        with:
-          php_version: ${{ matrix.php-versions }}
-          php_extensions: xdebug pdo_mysql
-          configuration: phpunit.xml.dist
-          args: --coverage-clover runtime/.phpunit.cache/coverage.xml
-        env:
-          XDEBUG_MODE: coverage
+        run: ./vendor/bin/phpunit --configuration ./phpunit.xml.dist --coverage-clover runtime/.phpunit.cache/coverage.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
