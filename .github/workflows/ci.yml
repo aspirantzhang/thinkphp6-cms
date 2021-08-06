@@ -38,7 +38,8 @@ jobs:
           php -v
           php -m
           composer -V
-          mysql -uroot -pdbpass -e "SHOW VARIABLES LIKE 'sql_mode'"
+          mysqld --version
+          mysqld -uroot -pdbpass -e "SHOW VARIABLES LIKE 'sql_mode'"
 
       - name: Get Composer Cache Directory
         id: composer-cache
