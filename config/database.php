@@ -1,4 +1,5 @@
 <?php
+
 use think\facade\Env;
 
 return [
@@ -28,7 +29,7 @@ return [
             // 用户名
             'username'          => Env::get('database.username', 'root'),
             // 密码
-            'password'          => Env::get('database.password', ''),
+            'password'          => Env::get('database.password', 'dbpass'),
             // 端口
             'hostport'          => Env::get('database.hostport', '3306'),
             // 数据库连接参数
