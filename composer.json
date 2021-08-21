@@ -15,6 +15,12 @@
       "email": "liu21st@gmail.com"
     }
   ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/aspirantzhang/think-orm"
+    }
+  ],
   "require": {
     "php": ">=7.1.0",
     "topthink/framework": "^6.0",

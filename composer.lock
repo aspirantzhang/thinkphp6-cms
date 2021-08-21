@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e1b2acace452bb019b0a446335d3075",
+    "content-hash": "05625a0779cd55a2382b2792eb04b169",
     "packages": [
         {
             "name": "aspirantzhang/octopus-helper",
@@ -2571,14 +2571,8 @@
             "version": "2.0.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/top-think/think-orm.git",
-                "reference": "ce143de28b07c5330c9dd60b92eea252d1944a53"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/ce143de28b07c5330c9dd60b92eea252d1944a53",
-                "reference": "ce143de28b07c5330c9dd60b92eea252d1944a53",
-                "shasum": ""
+                "url": "https://github.com/aspirantzhang/think-orm",
+                "reference": "de44a0b5964c94210758ce90b7dd17bcfcd58346"
             },
             "require": {
                 "ext-json": "*",
@@ -2601,7 +2595,11 @@
                     "stubs/load_stubs.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "tests\\": "tests"
+                }
+            },
             "license": [
                 "Apache-2.0"
             ],
@@ -2616,11 +2614,7 @@
                 "database",
                 "orm"
             ],
-            "support": {
-                "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/2.0"
-            },
-            "time": "2021-08-05T13:36:52+00:00"
+            "time": "2021-08-21T08:59:59+00:00"
         },
         {
             "name": "topthink/think-template",
