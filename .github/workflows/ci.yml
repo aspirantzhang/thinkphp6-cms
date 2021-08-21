@@ -83,6 +83,4 @@ jobs:
         uses: symfonycorp/security-checker-action@v2
 
       - name: Static analysis
-        uses: php-actions/phpstan@v3
-        with:
-          command: analyse
+        run: ./vendor/bin/phpstan analyse
