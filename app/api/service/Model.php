@@ -111,7 +111,7 @@ class Model extends ModelLogic
 
                         ModelCreator::db($tableName, $modelTitle)->update($data['fields'], $mainTableFields, $reservedFields, $i18nTableFields);
                         ModelCreator::file($tableName, $modelTitle)->update($data['fields']);
-                        // model table save @phpstan-ignore-next-line
+                        // model table save
                         $model->data = $data;
                         $model->save();
 
@@ -127,7 +127,6 @@ class Model extends ModelLogic
                 if (!empty($data) && !empty($data['layout'])) {
                     try {
                         $modelData['layout'] = $data['layout'] ?? null;
-                        // @phpstan-ignore-next-line
                         $model->data = $modelData;
                         $model->save();
                         $model->commit();
