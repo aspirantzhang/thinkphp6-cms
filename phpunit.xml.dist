@@ -9,6 +9,7 @@
          processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
+         colors="true"
          verbose="true">
     <testsuites>
         <testsuite name="default">
