@@ -164,14 +164,13 @@ trait View
         }
 
         $batchToolbar = [];
-        if (isset($model['data']['layout']['batchToolbar'])) {
-            $batchToolbar = $this->actionBuilder($model['data']['layout']['batchToolbar']);
-        }
-
         if ($this->isTrash($params)) {
-            $batchToolbar = [];
             if (isset($model['data']['layout']['batchToolbarTrashed'])) {
                 $batchToolbar = $this->actionBuilder($model['data']['layout']['batchToolbarTrashed']);
+            }
+        } else {
+            if (isset($model['data']['layout']['batchToolbar'])) {
+                $batchToolbar = $this->actionBuilder($model['data']['layout']['batchToolbar']);
             }
         }
 
