@@ -71,7 +71,7 @@ class Model extends ModelModel
                 Builder::button('edit')->type('primary')->call('page')->uri('/api/models/:id'),
                 Builder::button('model.field_design')->type('default')->call('page')->uri('/api/models/field-design/api/models/design/:id'),
                 Builder::button('model.layout_design')->type('default')->call('page')->uri('/api/models/layout-design/api/models/design/:id'),
-                Builder::button('deletePermanently')->type('danger')->call('deletePermanently')->uri('/api/models/delete')->method('post'),
+                Builder::button('delete_permanently')->type('danger')->call('deletePermanently')->uri('/api/models/delete')->method('post'),
             ]),
         ];
 

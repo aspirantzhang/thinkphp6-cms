@@ -28,14 +28,14 @@ class BackendAuth
     public function handle($request, \Closure $next)
     {
         Config::load('api/common/response', 'response');
-        if (file_exists(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/_built-in.php')) {
-            Lang::load(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/_built-in.php');
+        if (file_exists(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/common.php')) {
+            Lang::load(base_path() . 'api/lang/layout/' . Lang::getLangSet() . '/common.php');
         }
 
         $appName = parse_name(app('http')->getName());
         $controllerName = parse_name($request->controller());
         $actionName = parse_name($request->action());
-        
+
         $fullPath = $appName . '/' . $controllerName . '/' . $actionName;
 
         if (in_array($fullPath, $this->noNeedAuth) || $request->param('X-API-KEY') == 'antd') {
@@ -49,7 +49,7 @@ class BackendAuth
                 ];
                 return json($data)->header(Config::get('response.default_header'));
             }
-            
+
             if ($auth->check($fullPath, Session::get('adminId'))) {
                 return $next($request);
             } else {

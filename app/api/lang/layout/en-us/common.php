@@ -11,7 +11,7 @@ return [
     'reset' => 'Reset',
     'submit' => 'Submit',
     'delete' => 'Delete',
-    'deletePermanently' => 'Delete Permanently',
+    'delete_permanently' => 'Delete Permanently',
     'restore' => 'Restore',
     'disable' => 'Disable',
     'onlyTrashed' => 'Only Trashed',

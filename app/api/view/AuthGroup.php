@@ -66,7 +66,7 @@ class AuthGroup extends GroupModel
         ];
         if ($this->isTrash($params)) {
             $batchToolBar = [
-                Builder::button('deletePermanently')->type('danger')->call('deletePermanently')->uri('/api/groups/delete')->method('post'),
+                Builder::button('delete_permanently')->type('danger')->call('deletePermanently')->uri('/api/groups/delete')->method('post'),
                 Builder::button('restore')->type('default')->call('restore')->uri('/api/groups/restore')->method('post'),
             ];
         }

@@ -69,7 +69,7 @@ class AuthRule extends AuthRuleModel
         ];
         if ($this->isTrash($params)) {
             $batchToolBar = [
-                Builder::button('deletePermanently')->type('danger')->call('deletePermanently')->uri('/api/rules/delete')->method('post'),
+                Builder::button('delete_permanently')->type('danger')->call('deletePermanently')->uri('/api/rules/delete')->method('post'),
                 Builder::button('restore')->type('default')->call('restore')->uri('/api/rules/restore')->method('post'),
             ];
         }

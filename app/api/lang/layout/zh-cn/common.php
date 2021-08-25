@@ -10,7 +10,7 @@ return [
     'reset' => '重置',
     'submit' => '提交',
     'delete' => '删除',
-    'deletePermanently' => '彻底删除',
+    'delete_permanently' => '彻底删除',
     'restore' => '恢复',
     'disable' => '禁用',
     'onlyTrashed' => '回收站',
