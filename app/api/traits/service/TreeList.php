@@ -9,7 +9,7 @@ trait TreeList
     public function treeListAPI(array $params, array $withRelation = [])
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
-       
+
         $layout = $this->listBuilder($this->getAddonData(), $params);
         $layout['page']['trash'] = $params['trash'] == 'onlyTrashed' ? true : false;
         $layout['dataSource'] = [];
@@ -21,11 +21,9 @@ trait TreeList
 
         $data = $this->getListData($params, $withRelation);
 
-        $data = $this->addTranslationStatus($data);
-
-        if ($data) {
+        if (!empty($data)) {
             if (isTreeArray($data)) {
-                $layout['dataSource'] = arrayToTree($data);
+                $layout['dataSource'] = arrayToTree($this->addI18nStatus($data));
             } else {
                 return $this->error(__('unable to load page data'));
             }
