@@ -9,4 +9,3 @@ parameters:
     - app\common\Auth.php
   ignoreErrors:
     - '#Call to an undefined static method think\\facade\\Db::query\(\)#'
-    - '#Static call to instance method think\\db\\BaseQuery::\w+\(\)#'
