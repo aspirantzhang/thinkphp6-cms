@@ -25,8 +25,8 @@ trait NormalList
 
         $data = $this->getListData($params, $withRelation, 'paginated');
 
-        if ($data && isset($data['dataSource']) && $data['pagination']) {
-            $layout['dataSource'] = $this->addTranslationStatus($data['dataSource']);
+        if (!empty($data) && isset($data['dataSource']) && isset($data['pagination'])) {
+            $layout['dataSource'] = $this->addI18nStatus($data['dataSource']);
             $layout['meta'] = $data['pagination'];
         }
 

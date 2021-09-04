@@ -12,11 +12,11 @@ use think\Exception;
 
 trait Logic
 {
-    public function addTranslationStatus(array $rawDataSource)
+    public function addI18nStatus(array $rawDataSource)
     {
         $dataSource = [];
 
-        // add lang element for all
+        // add lang value null for all element
         $languages = Config::get('lang.allow_lang_list');
         foreach ($rawDataSource as $record) {
             foreach ($languages as $langCode) {
@@ -31,7 +31,7 @@ trait Logic
         foreach ($i18nData as $i18n) {
             $originalIdIndex = $idsFlipped[$i18n['original_id']];
             // $record['i18n']['en-us'] = '2021-06-18T14:33:38+08:00';
-            $translateTime = $i18n['translate_time'] ? (new \DateTime($i18n['translate_time']))->format('Y-m-d\TH:i:sP') : null;
+            $translateTime = $i18n['translate_time'] ? convertTime($i18n['translate_time'], 'Y-m-d\TH:i:sP') : null;
             $dataSource[$originalIdIndex]['i18n'][$i18n['lang_code']] = $translateTime;
         }
 
