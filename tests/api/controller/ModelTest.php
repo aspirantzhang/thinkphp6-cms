@@ -88,12 +88,12 @@ class ModelTest extends \tests\api\TestCase
 
     public function testModelDesignUpdate()
     {
-        $this->startRequest('PUT', json_decode('{"type":"field","data":{"fields":[{"name":"nickname","title":"Nick Name","type":"input","settings":{"validate":["require","length"],"options":{"length":{"min":4,"max":32}}},"allowHome":true,"allowRead":true,"allowSave":true,"allowUpdate":true,"allowTranslate":true},{"name":"gender","title":"Gender","type":"radio","data":[{"title":"Mx","value":"mx"},{"title":"Mr","value":"mr"},{"title":"Ms","value":"ms"}],"settings":{"validate":["require"]},"allowHome":true,"allowRead":true,"allowSave":true,"allowUpdate":true},{"name":"married","title":"Married","type":"switch","hideInColumn":true,"data":[{"title":"Yes","value":1},{"title":"No","value":0}],"settings":{"display":["listSorter"],"validate":["require"]},"allowHome":true,"allowRead":true,"allowUpdate":true,"allowSave":true}],"layout":{"tableName":"unit_test"}}}', true));
+        $this->startRequest('PUT', json_decode('{"type":"field","data":{"options":{"handleFieldValidation":true,"handleAllowField":true},"data":[{"name":"nickname","title":"Nick Name","type":"input","settings":{"validate":["require","length"],"options":{"length":{"min":4,"max":32}}},"allowHome":true,"allowRead":true,"allowSave":true,"allowUpdate":true,"allowTranslate":true},{"name":"gender","title":"Gender","type":"radio","data":[{"title":"Mx","value":"mx"},{"title":"Mr","value":"mr"},{"title":"Ms","value":"ms"}],"settings":{"validate":["require"]},"allowHome":true,"allowRead":true,"allowSave":true,"allowUpdate":true},{"name":"married","title":"Married","type":"switch","hideInColumn":true,"data":[{"title":"Yes","value":1},{"title":"No","value":0}],"settings":{"display":["listSorter"],"validate":["require"]},"allowHome":true,"allowRead":true,"allowUpdate":true,"allowSave":true}]}}', true));
         $modelController = new ModelController($this->app);
         $response = $modelController->designUpdate(1);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
-        
+
         $responseNotExist = $modelController->designUpdate(0);
         $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
