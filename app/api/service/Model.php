@@ -102,19 +102,19 @@ class Model extends ModelLogic
         $model->startTrans();
         switch ($type) {
             case 'field':
-                if (!empty($data) && !empty($data['fields'])) {
+                if (!empty($data) && !empty($data['data'])) {
                     try {
                         $reservedFields = Config::get('reserved.reserved_field');
-                        $allFields = extractValues($data['fields'], 'name');
-                        $i18nTableFields = $this->extractTranslateFields($data['fields']);
+                        $allFields = extractValues($data['data'], 'name');
+                        $i18nTableFields = $this->extractTranslateFields($data['data']);
                         $mainTableFields = array_diff($allFields, $reservedFields, $i18nTableFields);
 
-                        ModelCreator::db($tableName, $modelTitle)->update($data['fields'], $mainTableFields, $reservedFields, $i18nTableFields);
-                        ModelCreator::file($tableName, $modelTitle)->update($data['fields']);
+                        ModelCreator::db($tableName, $modelTitle)->update($data['data'], $mainTableFields, $reservedFields, $i18nTableFields);
+                        ModelCreator::file($tableName, $modelTitle)->update($data['data'], $data['options']);
                         // model table save
-                        $model->data = $data;
+                        $modelData['fields'] = $data;
+                        $model->data = $modelData;
                         $model->save();
-
                         $model->commit();
                         return $this->success(__('update successfully'));
                     } catch (Exception $e) {

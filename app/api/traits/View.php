@@ -67,9 +67,9 @@ trait View
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']) && isset($model['data']['layout']['addAction'])) {
+        if (isset($model['data']['fields']['data']) && isset($model['data']['layout']['addAction'])) {
             $basic = [];
-            foreach ($model['data']['fields'] as $addField) {
+            foreach ($model['data']['fields']['data'] as $addField) {
                 $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type']);
                 if (isset($addField['data'])) {
                     $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
@@ -109,9 +109,9 @@ trait View
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']) && isset($model['data']['layout']['editAction'])) {
+        if (isset($model['data']['fields']['data']) && isset($model['data']['layout']['editAction'])) {
             $basic = [];
-            foreach ($model['data']['fields'] as $addField) {
+            foreach ($model['data']['fields']['data'] as $addField) {
                 $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type']);
                 if (isset($addField['data'])) {
                     $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
@@ -175,8 +175,8 @@ trait View
         }
 
         $listFields = [];
-        if (isset($model['data']['fields'])) {
-            $listFields = $this->fieldBuilder($model['data']['fields'], $tableName);
+        if (isset($model['data']['fields']['data'])) {
+            $listFields = $this->fieldBuilder($model['data']['fields']['data'], $tableName);
         }
 
         $addonFields = [
@@ -211,8 +211,8 @@ trait View
         $tableName = $model['table_name'];
 
         $translateFields = [];
-        if (isset($model['data']['fields'])) {
-            foreach ($model['data']['fields'] as $field) {
+        if (isset($model['data']['fields']['data'])) {
+            foreach ($model['data']['fields']['data'] as $field) {
                 if ($field['allowTranslate'] ?? false) {
                     $translateFields[] = $field;
                 }
