@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\api\traits\service;
 
 use think\Exception;
+use aspirantzhang\octopusRevision\Revision;
 
 trait Update
 {
@@ -17,6 +18,7 @@ trait Update
             }
             $model->startTrans();
             try {
+                (new Revision($this->getTableName(), $id))->add('update');
                 $model->allowField($this->getNoNeedToTranslateFields('update'))->save($data);
                 $this->updateI18nData($data, $id, $this->getCurrentLanguage());
                 if ($relationModel) {
