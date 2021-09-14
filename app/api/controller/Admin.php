@@ -173,12 +173,8 @@ class Admin extends Common
 
     public function revision(int $id)
     {
-        $result = $this->app->revision->query($this->admin->getTableName(), $id);
+        $result = $this->app->revision->listAPI($this->admin->getTableName(), $id, (int)$this->request->param('page') ?: 1);
 
-        if (empty($result)) {
-            return $this->error(__('record is empty'));
-        }
-
-        return $this->success('', $result);
+        return $this->json($result);
     }
 }

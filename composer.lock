@@ -116,15 +116,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-revision.git",
-                "reference": "afd658cac4f813719868f69c2a5b2244661134bc"
+                "reference": "f7b69f60544b5b0f661b2fcae0376e66c21314d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-revision/zipball/afd658cac4f813719868f69c2a5b2244661134bc",
-                "reference": "afd658cac4f813719868f69c2a5b2244661134bc",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-revision/zipball/f7b69f60544b5b0f661b2fcae0376e66c21314d0",
+                "reference": "f7b69f60544b5b0f661b2fcae0376e66c21314d0",
                 "shasum": ""
             },
             "require": {
+                "aspirantzhang/octopus-helper": "dev-main",
                 "php": ">=7.4.0",
                 "topthink/framework": "^6.0",
                 "topthink/think-helper": "^3.1"
@@ -163,7 +164,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-revision/issues",
                 "source": "https://github.com/aspirantzhang/octopus-revision/tree/main"
             },
-            "time": "2021-09-13T08:59:29+00:00"
+            "time": "2021-09-14T07:14:53+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",

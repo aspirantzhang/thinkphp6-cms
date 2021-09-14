@@ -44,7 +44,7 @@ class Admin extends Validate
         'delete' => ['ids'],
         'restore' => ['ids'],
         'add' => [''],
-        'revision' => [''],
+        'revision' => ['page', 'per_page'],
         'login' => [''],
         'logout' => [''],
         'info' => [''],
