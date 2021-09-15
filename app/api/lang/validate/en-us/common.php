@@ -5,6 +5,8 @@ return [
     "id#number" => "ID must be numbers only.",
     "ids#require" => "IDs should not be empty.",
     "ids#numberArray" => "IDs must be a numbers array.",
+    "revisionId#require" => "Revision ID should not be empty.",
+    "revisionId#number" => "Revision ID must be numbers only.",
     'parent_id#number' => 'Parent must be numbers only.',
     'parent_id#checkParentId' => 'Parent should not be itself.',
     "status#numberTag" => "Invalid value: Status (NumberTag)",

@@ -177,4 +177,11 @@ class Admin extends Common
 
         return $this->json($result);
     }
+
+    public function revisionRestore(int $id)
+    {
+        $result = $this->app->revision->restoreAPI($this->admin->getTableName(), $id, (int)$this->request->param('revisionId'));
+
+        return $this->json($result);
+    }
 }
