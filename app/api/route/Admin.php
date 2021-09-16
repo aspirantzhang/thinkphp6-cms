@@ -11,10 +11,10 @@ Route::group('admins', function () {
     Route::patch(':id/i18n', 'i18nUpdate');
     Route::get(':id/revision', 'revision');
     Route::post(':id/revision', 'revisionRestore');
-    Route::get(':id', 'read');
-    Route::put(':id', 'update');
     Route::post('login', 'login');
     Route::post('delete', 'delete');
     Route::post('', 'save');
     Route::post('restore', 'restore');
+    Route::get(':id', 'read');
+    Route::put(':id', 'update');
 })->prefix('admin/')->middleware(app\middleware\RouterValidate::class, 'Admin');

@@ -45,6 +45,8 @@ class AuthGroup extends Validate
         'add' => [''],
         'i18n' => ['id'],
         'i18n_update' => ['id'],
+        'revision' => ['page', 'per_page'],
+        'revision_restore' => ['revisionId'],
     ];
 
     public function sceneHome()
