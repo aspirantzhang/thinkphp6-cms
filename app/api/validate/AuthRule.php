@@ -13,6 +13,7 @@ class AuthRule extends Validate
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
+        'revisionId' => 'require|number',
         'rule_title' => 'require',
         'rule_path' => 'length:0,255',
     ];
@@ -27,6 +28,8 @@ class AuthRule extends Validate
         'per_page.number' => 'per_page#number',
         'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
+        'revisionId.require' => 'revisionId#require',
+        'revisionId.number' => 'revisionId#number',
         'rule_title.require' => 'auth_rule@rule_title#require',
         'rule_path.length' => 'auth_rule@rule_path#length:0,255'
     ];
@@ -40,6 +43,8 @@ class AuthRule extends Validate
         'add' => [''],
         'i18n' => ['id'],
         'i18n_update' => ['id'],
+        'revision' => ['page', 'per_page'],
+        'revision_restore' => ['revisionId'],
     ];
 
     public function sceneHome()

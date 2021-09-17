@@ -41,7 +41,7 @@ class Menu extends Common
     public function read(int $id)
     {
         $result = $this->menu->readAPI($id);
-        
+
         return $this->json(...$result);
     }
 
@@ -55,14 +55,14 @@ class Menu extends Common
     public function delete()
     {
         $result = $this->menu->deleteAPI($this->request->param('ids'), $this->request->param('type'));
-        
+
         return $this->json(...$result);
     }
 
     public function restore()
     {
         $result = $this->menu->restoreAPI($this->request->param('ids'));
-        
+
         return $this->json(...$result);
     }
 
@@ -85,5 +85,19 @@ class Menu extends Common
         $result = $this->menu->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
 
         return $this->json(...$result);
+    }
+
+    public function revision(int $id)
+    {
+        $result = $this->app->revision->listAPI($this->menu->getTableName(), $id, (int)$this->request->param('page') ?: 1);
+
+        return $this->json($result);
+    }
+
+    public function revisionRestore(int $id)
+    {
+        $result = $this->app->revision->restoreAPI($this->menu->getTableName(), $id, (int)$this->request->param('revisionId'));
+
+        return $this->json($result);
     }
 }

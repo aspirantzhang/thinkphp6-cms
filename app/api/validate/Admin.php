@@ -16,8 +16,8 @@ class Admin extends Validate
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
-        'groups' => 'numberTag',
         'revisionId' => 'require|number',
+        'groups' => 'numberTag',
     ];
 
     protected $message = [
@@ -25,8 +25,6 @@ class Admin extends Validate
         'id.number' => 'id#number',
         'ids.require' => 'ids#require',
         'ids.numberArray' => 'ids#numberArray',
-        'revisionId.require' => 'revisionId#require',
-        'revisionId.number' => 'revisionId#number',
         'admin_name.require' => 'admin@admin_name#require',
         'admin_name.length' => 'admin@admin_name#length:6,32',
         'password.require' => 'admin@password#require',
@@ -37,6 +35,8 @@ class Admin extends Validate
         'per_page.number' => 'per_page#number',
         'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
+        'revisionId.require' => 'revisionId#require',
+        'revisionId.number' => 'revisionId#number',
         'groups.numberTag' => 'admin@groups#numberTag',
     ];
 
