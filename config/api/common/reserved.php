@@ -25,6 +25,7 @@ return [
         'menu_i18n',
         'model',
         'model_i18n',
-        'migrations'
+        'migrations',
+        'revision',
     ],
 ];

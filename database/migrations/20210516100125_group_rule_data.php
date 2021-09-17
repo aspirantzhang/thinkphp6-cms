@@ -11,7 +11,7 @@ final class GroupRuleData extends AbstractMigration
     public function up()
     {
         $groupRuleRows = [];
-        for ($ruleId = 1; $ruleId <= 52; $ruleId++) {
+        for ($ruleId = 1; $ruleId <= 62; $ruleId++) {
             $groupRuleRows[] = [
                 'group_id' => 1,
                 'rule_id' => $ruleId,
