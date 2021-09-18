@@ -73,6 +73,11 @@ final class RuleData extends AbstractMigration
                 'rule_path' => 'api/admin/revision_restore',
             ],
             [
+                'id' => 63,
+                'parent_id'  => 1,
+                'rule_path' => 'api/admin/revision_read',
+            ],
+            [
                 'id' => 9,
                 'parent_id'  => 0,
                 'rule_path' => '',
@@ -131,6 +136,11 @@ final class RuleData extends AbstractMigration
                 'id' => 56,
                 'parent_id'  => 9,
                 'rule_path' => 'api/auth_group/revision_restore',
+            ],
+            [
+                'id' => 64,
+                'parent_id'  => 9,
+                'rule_path' => 'api/auth_group/revision_read',
             ],
             [
                 'id' => 17,
@@ -193,6 +203,11 @@ final class RuleData extends AbstractMigration
                 'rule_path' => 'api/auth_rule/revision_restore',
             ],
             [
+                'id' => 65,
+                'parent_id'  => 17,
+                'rule_path' => 'api/auth_rule/revision_read',
+            ],
+            [
                 'id' => 25,
                 'parent_id'  => 0,
                 'rule_path' => '',
@@ -251,6 +266,11 @@ final class RuleData extends AbstractMigration
                 'id' => 60,
                 'parent_id'  => 25,
                 'rule_path' => 'api/menu/revision_restore',
+            ],
+            [
+                'id' => 66,
+                'parent_id'  => 25,
+                'rule_path' => 'api/menu/revision_read',
             ],
             [
                 'id' => 33,
@@ -321,6 +341,11 @@ final class RuleData extends AbstractMigration
                 'id' => 62,
                 'parent_id'  => 33,
                 'rule_path' => 'api/model/revision_restore',
+            ],
+            [
+                'id' => 67,
+                'parent_id'  => 33,
+                'rule_path' => 'api/model/revision_read',
             ],
         ];
 
@@ -451,6 +476,16 @@ final class RuleData extends AbstractMigration
                 'rule_title'  => '管理员版本修订恢复',
             ],
             [
+                'original_id' => 63,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Admin Revision Read',
+            ],
+            [
+                'original_id' => 63,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '管理员版本修订读取',
+            ],
+            [
                 'original_id' => 9,
                 'lang_code' => 'en-us',
                 'rule_title'  => 'Group',
@@ -569,6 +604,16 @@ final class RuleData extends AbstractMigration
                 'original_id' => 56,
                 'lang_code' => 'zh-cn',
                 'rule_title'  => '用户组版本修订恢复',
+            ],
+            [
+                'original_id' => 64,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Group Revision Read',
+            ],
+            [
+                'original_id' => 64,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '用户组版本修订读取',
             ],
             [
                 'original_id' => 17,
@@ -691,6 +736,16 @@ final class RuleData extends AbstractMigration
                 'rule_title'  => '权限版本修订恢复',
             ],
             [
+                'original_id' => 65,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Rule Revision Read',
+            ],
+            [
+                'original_id' => 65,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '权限版本修订读取',
+            ],
+            [
                 'original_id' => 25,
                 'lang_code' => 'en-us',
                 'rule_title'  => 'Menu',
@@ -809,6 +864,16 @@ final class RuleData extends AbstractMigration
                 'original_id' => 60,
                 'lang_code' => 'zh-cn',
                 'rule_title'  => '菜单版本修订恢复',
+            ],
+            [
+                'original_id' => 66,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Menu Revision Read',
+            ],
+            [
+                'original_id' => 66,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '菜单版本修订读取',
             ],
             [
                 'original_id' => 33,
@@ -949,6 +1014,16 @@ final class RuleData extends AbstractMigration
                 'original_id' => 62,
                 'lang_code' => 'zh-cn',
                 'rule_title'  => '模型版本修订恢复',
+            ],
+            [
+                'original_id' => 67,
+                'lang_code' => 'en-us',
+                'rule_title'  => 'Model Revision Read',
+            ],
+            [
+                'original_id' => 67,
+                'lang_code' => 'zh-cn',
+                'rule_title'  => '模型版本修订读取',
             ],
         ];
 

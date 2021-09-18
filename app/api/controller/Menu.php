@@ -100,4 +100,11 @@ class Menu extends Common
 
         return $this->json($result);
     }
+
+    public function revisionRead(int $revisionId)
+    {
+        $result = $this->app->revision->readAPI((int)$revisionId);
+
+        return $this->json($result);
+    }
 }
