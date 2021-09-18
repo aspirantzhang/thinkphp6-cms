@@ -9,8 +9,8 @@ Route::group('models', function () {
     Route::get('add', 'add');
     Route::get(':id/i18n', 'i18n');
     Route::patch(':id/i18n', 'i18nUpdate');
-    Route::get(':id/revision', 'revision');
-    Route::post(':id/revision', 'revisionRestore');
+    Route::get(':id/revisions', 'revision');
+    Route::post(':id/revisions', 'revisionRestore');
     Route::post('delete', 'delete');
     Route::post('', 'save');
     Route::post('restore', 'restore');
