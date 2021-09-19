@@ -221,7 +221,7 @@ class AdminTest extends \tests\api\TestCase
         $adminController = new AdminController($this->app);
         $response = $adminController->revision(2);
         $this->assertEquals(200, $response->getCode());
-        $this->assertStringStartsWith('{"success":true,"message":"","data":{"dataSource":[{"id":1,"table_name":"admin","original_id":2', $response->getContent());
+        $this->assertStringStartsWith('{"success":true,"message":"","data":{"dataSource":[{"id":5,"table_name":"admin","original_id":2', $response->getContent());
     }
 
     public function testRevisionRestore()
