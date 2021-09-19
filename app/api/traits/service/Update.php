@@ -18,7 +18,7 @@ trait Update
             }
             $model->startTrans();
             try {
-                (new Revision($this->getTableName(), $id))->add('update');
+                (new Revision($this->getTableName(), $id))->add('update (autosave)');
                 $model->allowField($this->getNoNeedToTranslateFields('update'))->save($data);
                 $this->updateI18nData($data, $id, $this->getCurrentLanguage());
                 if ($relationModel) {
@@ -44,7 +44,7 @@ trait Update
         $originalRecord = $this->where('id', $id)->find();
         if ($originalRecord) {
             $currentTime = date("Y-m-d H:i:s");
-
+            (new Revision($this->getTableName(), $id))->add('i18n update (autosave)');
             foreach ($data as $langCode => $fieldsData) {
                 // validator check
                 $modelValidator = '\app\api\validate\\' . $this->getModelName();
