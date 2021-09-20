@@ -96,7 +96,12 @@ class Menu extends Common
 
     public function revisionRestore(int $id)
     {
-        $result = $this->app->revision->restoreAPI($this->menu->getTableName(), $id, (int)$this->request->param('revisionId'));
+        $result = $this->app->revision->restoreAPI(
+            $this->menu->getTableName(),
+            $id,
+            (int)$this->request->param('revisionId'),
+            $this->menu->getRevisionTable()
+        );
 
         return $this->json($result);
     }

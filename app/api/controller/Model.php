@@ -102,7 +102,12 @@ class Model extends Common
 
     public function revisionRestore(int $id)
     {
-        $result = $this->app->revision->restoreAPI($this->model->getTableName(), $id, (int)$this->request->param('revisionId'));
+        $result = $this->app->revision->restoreAPI(
+            $this->model->getTableName(),
+            $id,
+            (int)$this->request->param('revisionId'),
+            $this->model->getRevisionTable()
+        );
 
         return $this->json($result);
     }

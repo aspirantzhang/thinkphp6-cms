@@ -180,7 +180,12 @@ class Admin extends Common
 
     public function revisionRestore(int $id)
     {
-        $result = $this->app->revision->restoreAPI($this->admin->getTableName(), $id, (int)$this->request->param('revisionId'));
+        $result = $this->app->revision->restoreAPI(
+            $this->admin->getTableName(),
+            $id,
+            (int)$this->request->param('revisionId'),
+            $this->admin->getRevisionTable()
+        );
 
         return $this->json($result);
     }

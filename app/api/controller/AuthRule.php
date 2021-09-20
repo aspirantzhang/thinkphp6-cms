@@ -89,7 +89,12 @@ class AuthRule extends Common
 
     public function revisionRestore(int $id)
     {
-        $result = $this->app->revision->restoreAPI($this->authRule->getTableName(), $id, (int)$this->request->param('revisionId'));
+        $result = $this->app->revision->restoreAPI(
+            $this->authRule->getTableName(),
+            $id,
+            (int)$this->request->param('revisionId'),
+            $this->authRule->getRevisionTable()
+        );
 
         return $this->json($result);
     }
