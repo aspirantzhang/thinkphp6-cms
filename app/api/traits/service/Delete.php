@@ -6,7 +6,7 @@ namespace app\api\traits\service;
 
 use think\facade\Db;
 use think\Exception;
-use aspirantzhang\octopusRevision\Revision;
+use aspirantzhang\octopusRevision\RevisionAPI;
 
 trait Delete
 {
@@ -37,7 +37,7 @@ trait Delete
                 $body = $dataSet->toArray();
                 foreach ($dataSet as $item) {
                     if ($type === 'deletePermanently') {
-                        (new Revision($this->getTableName(), (int)$item->id))->add('destroy (autosave)');
+                        (new RevisionAPI())->saveAPI('destroy (autosave)', $this->getTableName(), (int)$item->id, $this->getRevisionTable());
                         $item->force()->delete();
                         $this->deleteI18nData((int)$item->id);
                     } else {
