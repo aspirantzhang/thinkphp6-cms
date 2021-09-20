@@ -17,6 +17,7 @@ final class Revision extends AbstractMigration
             ->addColumn('title', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('main_data', 'text', ['limit' => MysqlAdapter::TEXT_LONG])
             ->addColumn('i18n_data', 'text', ['limit' => MysqlAdapter::TEXT_LONG])
+            ->addColumn('extra_data', 'text', ['limit' => MysqlAdapter::TEXT_LONG])
             ->addColumn('create_time', 'datetime')
             ->addColumn('update_time', 'datetime')
             ->addColumn('delete_time', 'datetime', ['null' => true])

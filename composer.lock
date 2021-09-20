@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-helper.git",
-                "reference": "47b72d08a7081b4b6a006daf3210d33a8d637eb7"
+                "reference": "45440b5d2f7ac3d757b9a7a8abc441de11c022b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/47b72d08a7081b4b6a006daf3210d33a8d637eb7",
-                "reference": "47b72d08a7081b4b6a006daf3210d33a8d637eb7",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/45440b5d2f7ac3d757b9a7a8abc441de11c022b6",
+                "reference": "45440b5d2f7ac3d757b9a7a8abc441de11c022b6",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-helper/issues",
                 "source": "https://github.com/aspirantzhang/octopus-helper/tree/main"
             },
-            "time": "2021-07-28T11:34:38+00:00"
+            "time": "2021-09-19T13:39:36+00:00"
         },
         {
             "name": "aspirantzhang/octopus-model-creator",
@@ -116,12 +116,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-revision.git",
-                "reference": "5eb4b2ca1412585a173673ab7079ec54d9d446af"
+                "reference": "35a3e44b3708741d4fc9ee560dd26d3841ce5176"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-revision/zipball/5eb4b2ca1412585a173673ab7079ec54d9d446af",
-                "reference": "5eb4b2ca1412585a173673ab7079ec54d9d446af",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-revision/zipball/35a3e44b3708741d4fc9ee560dd26d3841ce5176",
+                "reference": "35a3e44b3708741d4fc9ee560dd26d3841ce5176",
                 "shasum": ""
             },
             "require": {
@@ -164,7 +164,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-revision/issues",
                 "source": "https://github.com/aspirantzhang/octopus-revision/tree/main"
             },
-            "time": "2021-09-18T07:44:51+00:00"
+            "time": "2021-09-20T07:41:07+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
