@@ -35,7 +35,7 @@ trait Misc
         }
         return [];
     }
-    
+
     public function getIDsByRelationIDsAPI(array $relationModelIDs = [], string $selfModelName = ''): array
     {
         $relationModel = $this->whereIn('id', $relationModelIDs)->with([$selfModelName])->select();

@@ -28,7 +28,7 @@ class Common extends GlobalController
             Lang::load($filename);
         }
     }
-    
+
     protected function json(array $data = [], int $code = 200, array $header = [], array $options = [])
     {
         return Response::create($data, 'json', $code)->header(array_merge(Config::get('response.default_header') ?: [], $header))->options($options);
@@ -39,7 +39,7 @@ class Common extends GlobalController
         $httpBody = ['success' => true, 'message' => $message, 'data' => $data];
         return $this->json($httpBody, 200, $header);
     }
-    
+
     protected function error(string $message = '', array $data = [], array $header = [])
     {
         $httpBody = ['success' => false, 'message' => $message, 'data' => $data];

@@ -12,7 +12,7 @@ class Menu extends MenuLogic
     {
         $params['trash'] = $params['trash'] ?? 'withoutTrashed';
         $data = $this->getListData($params, $withRelation);
-        
+
         if (!empty($data)) {
             if (!isTreeArray($data)) {
                 // TODO:refactor

@@ -38,7 +38,7 @@ trait AllowField
         $this->loadAllowFieldsConfig();
         $builtIn = Config::get('field.allowHome') ?: [];
         $custom = Config::get($this->getModelName() . '.allowHome') ?: [];
-        
+
         return array_merge($builtIn, $custom);
     }
 

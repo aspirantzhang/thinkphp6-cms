@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\api\traits\service;
 
 use think\Exception;
-use aspirantzhang\octopusRevision\Revision;
 use aspirantzhang\octopusRevision\RevisionAPI;
 
 trait Update

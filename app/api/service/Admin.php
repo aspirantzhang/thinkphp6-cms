@@ -19,7 +19,7 @@ class Admin extends AdminLogic
             ];
             return $this->success('', $data, [], $addition);
         }
-        
+
         return $this->error(__('incorrect username or password'));
     }
 }

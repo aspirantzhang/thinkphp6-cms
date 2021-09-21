@@ -19,7 +19,7 @@ class Model extends ModelView
         }
         return false;
     }
-    
+
     private function tableExists(string $tableName): bool
     {
         try {
