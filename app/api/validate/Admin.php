@@ -16,6 +16,7 @@ class Admin extends Validate
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
+        'revisionId' => 'require|number',
         'groups' => 'numberTag',
     ];
 
@@ -34,6 +35,8 @@ class Admin extends Validate
         'per_page.number' => 'per_page#number',
         'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
+        'revisionId.require' => 'revisionId#require',
+        'revisionId.number' => 'revisionId#number',
         'groups.numberTag' => 'admin@groups#numberTag',
     ];
 
@@ -49,6 +52,9 @@ class Admin extends Validate
         'info' => [''],
         'i18n' => ['id'],
         'i18n_update' => ['id'],
+        'revision' => ['page', 'per_page'],
+        'revision_restore' => ['revisionId'],
+        'revision_read' => [''],
     ];
 
     public function sceneHome()

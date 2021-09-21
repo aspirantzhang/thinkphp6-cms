@@ -62,4 +62,6 @@ return [
     'invalid data structure' => 'Invalid data structure.',
     'edit disabled fields cannot set as translate' => 'Edit disabled fields [{:fieldName}] cannot set as translate.',
     'unable to get model data' => 'Unable to get model data.',
+    'record is empty' => 'Record is empty.',
+    'get revision data failed' => 'Get revision data failed.',
 ];

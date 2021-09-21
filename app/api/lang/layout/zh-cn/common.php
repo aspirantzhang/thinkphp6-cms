@@ -61,4 +61,6 @@ return [
     'invalid data structure' => '不合理的数据结构。',
     'edit disabled fields cannot set as translate' => '禁用编辑的字段 [{:fieldName}] 不能设置为翻译。',
     'unable to get model data' => '无法获取模型数据。',
+    'record is empty' => '记录为空。',
+    'get revision data failed' => '获取修订数据失败。',
 ];

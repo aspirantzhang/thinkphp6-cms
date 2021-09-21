@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e1b2acace452bb019b0a446335d3075",
+    "content-hash": "38a425fae2faec5ca38fa920f8afb1c8",
     "packages": [
         {
             "name": "aspirantzhang/octopus-helper",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-helper.git",
-                "reference": "47b72d08a7081b4b6a006daf3210d33a8d637eb7"
+                "reference": "45440b5d2f7ac3d757b9a7a8abc441de11c022b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/47b72d08a7081b4b6a006daf3210d33a8d637eb7",
-                "reference": "47b72d08a7081b4b6a006daf3210d33a8d637eb7",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/45440b5d2f7ac3d757b9a7a8abc441de11c022b6",
+                "reference": "45440b5d2f7ac3d757b9a7a8abc441de11c022b6",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-helper/issues",
                 "source": "https://github.com/aspirantzhang/octopus-helper/tree/main"
             },
-            "time": "2021-07-28T11:34:38+00:00"
+            "time": "2021-09-19T13:39:36+00:00"
         },
         {
             "name": "aspirantzhang/octopus-model-creator",
@@ -109,6 +109,62 @@
                 "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
             },
             "time": "2021-09-06T07:13:46+00:00"
+        },
+        {
+            "name": "aspirantzhang/octopus-revision",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/octopus-revision.git",
+                "reference": "35a3e44b3708741d4fc9ee560dd26d3841ce5176"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-revision/zipball/35a3e44b3708741d4fc9ee560dd26d3841ce5176",
+                "reference": "35a3e44b3708741d4fc9ee560dd26d3841ce5176",
+                "shasum": ""
+            },
+            "require": {
+                "aspirantzhang/octopus-helper": "dev-main",
+                "php": ">=7.4.0",
+                "topthink/framework": "^6.0",
+                "topthink/think-helper": "^3.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "phpstan/phpstan": "^0.12.93",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "aspirantzhang\\octopusRevision\\Service"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "aspirantzhang\\octopusRevision\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                }
+            ],
+            "description": "Add revision feature for Octopus.",
+            "support": {
+                "issues": "https://github.com/aspirantzhang/octopus-revision/issues",
+                "source": "https://github.com/aspirantzhang/octopus-revision/tree/main"
+            },
+            "time": "2021-09-20T07:41:07+00:00"
         },
         {
             "name": "aspirantzhang/thinkphp-antdesign-builder",
@@ -5250,7 +5306,8 @@
         "topthink/think-orm": 20,
         "aspirantzhang/thinkphp-antdesign-builder": 20,
         "aspirantzhang/octopus-helper": 20,
-        "aspirantzhang/octopus-model-creator": 20
+        "aspirantzhang/octopus-model-creator": 20,
+        "aspirantzhang/octopus-revision": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

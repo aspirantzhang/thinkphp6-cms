@@ -61,7 +61,7 @@ class Model extends Common
         if ($result[0]['success'] === true) {
             $result[0]['call'] = ['fetchMenu'];
         }
-        
+
         return $this->json(...$result);
     }
 
@@ -91,5 +91,31 @@ class Model extends Common
         $result = $this->model->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
 
         return $this->json(...$result);
+    }
+
+    public function revision(int $id)
+    {
+        $result = $this->app->revision->listAPI($this->model->getTableName(), $id, (int)$this->request->param('page') ?: 1);
+
+        return $this->json($result);
+    }
+
+    public function revisionRestore(int $id)
+    {
+        $result = $this->app->revision->restoreAPI(
+            $this->model->getTableName(),
+            $id,
+            (int)$this->request->param('revisionId'),
+            $this->model->getRevisionTable()
+        );
+
+        return $this->json($result);
+    }
+
+    public function revisionRead(int $revisionId)
+    {
+        $result = $this->app->revision->readAPI((int)$revisionId);
+
+        return $this->json($result);
     }
 }

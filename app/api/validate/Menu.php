@@ -13,6 +13,7 @@ class Menu extends Validate
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
+        'revisionId' => 'require|number',
         'menu_title' => 'require|length:2,32',
     ];
 
@@ -26,6 +27,8 @@ class Menu extends Validate
         'per_page.number' => 'per_page#number',
         'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
+        'revisionId.require' => 'revisionId#require',
+        'revisionId.number' => 'revisionId#number',
         'menu_title.require' => 'menu@menu_title#require',
         'menu_title.length' => 'menu@menu_title#length:2,32',
     ];
@@ -40,6 +43,9 @@ class Menu extends Validate
         'backend' => [''],
         'i18n' => ['id'],
         'i18n_update' => ['id'],
+        'revision' => ['page', 'per_page'],
+        'revision_restore' => ['revisionId'],
+        'revision_read' => [''],
     ];
 
     public function sceneHome()

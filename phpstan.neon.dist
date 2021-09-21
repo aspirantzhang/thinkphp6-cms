@@ -9,3 +9,4 @@ parameters:
     - app\common\Auth.php
   ignoreErrors:
     - '#Call to an undefined static method think\\facade\\Db::query\(\)#'
+    - '#Access to an undefined property think\\App::\$revision#'

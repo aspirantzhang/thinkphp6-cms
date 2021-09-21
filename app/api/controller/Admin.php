@@ -56,14 +56,14 @@ class Admin extends Common
     public function delete()
     {
         $result = $this->admin->deleteAPI($this->request->param('ids'), $this->request->param('type'));
-        
+
         return $this->json(...$result);
     }
 
     public function restore()
     {
         $result = $this->admin->restoreAPI($this->request->param('ids'));
-        
+
         return $this->json(...$result);
     }
 
@@ -169,5 +169,31 @@ class Admin extends Common
         $result = $this->admin->i18nUpdateAPI($id, $this->request->only(Config::get('lang.allow_lang_list')));
 
         return $this->json(...$result);
+    }
+
+    public function revision(int $id)
+    {
+        $result = $this->app->revision->listAPI($this->admin->getTableName(), $id, (int)$this->request->param('page') ?: 1);
+
+        return $this->json($result);
+    }
+
+    public function revisionRestore(int $id)
+    {
+        $result = $this->app->revision->restoreAPI(
+            $this->admin->getTableName(),
+            $id,
+            (int)$this->request->param('revisionId'),
+            $this->admin->getRevisionTable()
+        );
+
+        return $this->json($result);
+    }
+
+    public function revisionRead(int $revisionId)
+    {
+        $result = $this->app->revision->readAPI((int)$revisionId);
+
+        return $this->json($result);
     }
 }

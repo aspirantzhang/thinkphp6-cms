@@ -164,7 +164,7 @@ class AdminTest extends \tests\api\TestCase
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
     }
-    
+
     public function testAdminI18nRead()
     {
         $this->startRequest();
@@ -213,5 +213,32 @@ class AdminTest extends \tests\api\TestCase
         $response = $adminController->i18nUpdate(2);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":false,"message":"Display name length', $response->getContent());
+    }
+
+    public function testRevisionList()
+    {
+        $this->startRequest();
+        $adminController = new AdminController($this->app);
+        $response = $adminController->revision(2);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true,"message":"","data":{"dataSource":[{"id":5,"table_name":"admin","original_id":2', $response->getContent());
+    }
+
+    public function testRevisionRestore()
+    {
+        $this->startRequest('POST', ['revisionId' => 1]);
+        $adminController = new AdminController($this->app);
+        $response = $adminController->revisionRestore(2);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertEquals('{"success":true,"message":"revision restore successfully","data":[]}', $response->getContent());
+    }
+
+    public function testRevisionRead()
+    {
+        $this->startRequest();
+        $adminController = new AdminController($this->app);
+        $response = $adminController->revisionRead(1);
+        $this->assertEquals(200, $response->getCode());
+        $this->assertStringStartsWith('{"success":true,"message":"","data":{"dataSource":{"id":1,"table_name":"admin"', $response->getContent());
     }
 }

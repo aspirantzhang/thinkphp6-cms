@@ -28,7 +28,8 @@
     "topthink/think-helper": "^3.1",
     "zircote/swagger-php": "^3.1",
     "aspirantzhang/octopus-helper": "dev-main",
-    "aspirantzhang/octopus-model-creator": "dev-main"
+    "aspirantzhang/octopus-model-creator": "dev-main",
+    "aspirantzhang/octopus-revision": "dev-main"
   },
   "require-dev": {
     "symfony/var-dumper": "^4.2",

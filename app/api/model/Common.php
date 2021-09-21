@@ -25,18 +25,19 @@ class Common extends GlobalModel
     protected $deleteTime = 'delete_time';
     protected $uniqueField = null;
     protected $titleField = null;
+    protected $revisionTable = [];
 
-    protected function getModelName()
+    public function getModelName()
     {
         return $this->getName();
     }
 
-    protected function getTableName()
+    public function getTableName()
     {
         return parse_name($this->getName());
     }
 
-    protected function getLangTableName()
+    public function getLangTableName()
     {
         return $this->getTableName() . '_i18n';
     }
@@ -106,5 +107,10 @@ class Common extends GlobalModel
     protected function getTitleField(): string
     {
         return $this->titleField ?? 'id';
+    }
+
+    public function getRevisionTable(): array
+    {
+        return $this->revisionTable ?? [];
     }
 }

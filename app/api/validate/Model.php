@@ -13,6 +13,7 @@ class Model extends Validate
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
+        'revisionId' => 'require|number',
         'model_title' => 'require|length:2,32',
         'table_name' => 'require|length:2,10|checkTableName',
         'type' => 'require',
@@ -28,6 +29,8 @@ class Model extends Validate
         'per_page.number' => 'per_page#number',
         'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
+        'revisionId.require' => 'revisionId#require',
+        'revisionId.number' => 'revisionId#number',
         'model_title.require' => 'model@model_title#require',
         'model_title.length' => 'model@model_title#length:2,32',
         'table_name.require' => 'model@table_name#require',
@@ -47,6 +50,9 @@ class Model extends Validate
         'design_update' => ['id', 'type'],
         'i18n' => ['id'],
         'i18n_update' => ['id'],
+        'revision' => ['page', 'per_page'],
+        'revision_restore' => ['revisionId'],
+        'revision_read' => [''],
     ];
 
     public function sceneHome()
