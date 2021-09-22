@@ -41,9 +41,9 @@ class Menu extends Validate
         'restore' => ['ids'],
         'add' => [''],
         'backend' => [''],
-        'i18n' => ['id'],
+        'i18n_read' => ['id'],
         'i18n_update' => ['id'],
-        'revision' => ['page', 'per_page'],
+        'revision_home' => ['page', 'per_page'],
         'revision_restore' => ['revisionId'],
         'revision_read' => [''],
     ];

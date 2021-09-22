@@ -48,9 +48,9 @@ class Model extends Validate
         'add' => [''],
         'design' => [''],
         'design_update' => ['id', 'type'],
-        'i18n' => ['id'],
+        'i18n_read' => ['id'],
         'i18n_update' => ['id'],
-        'revision' => ['page', 'per_page'],
+        'revision_home' => ['page', 'per_page'],
         'revision_restore' => ['revisionId'],
         'revision_read' => [''],
     ];

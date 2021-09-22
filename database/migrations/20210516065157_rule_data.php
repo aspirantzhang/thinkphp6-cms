@@ -55,7 +55,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 43,
                 'parent_id'  => 1,
-                'rule_path' => 'api/admin/i18n',
+                'rule_path' => 'api/admin/i18n_read',
             ],
             [
                 'id' => 44,
@@ -65,7 +65,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 53,
                 'parent_id'  => 1,
-                'rule_path' => 'api/admin/revision',
+                'rule_path' => 'api/admin/revision_home',
             ],
             [
                 'id' => 54,
@@ -120,7 +120,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 45,
                 'parent_id'  => 9,
-                'rule_path' => 'api/auth_group/i18n',
+                'rule_path' => 'api/auth_group/i18n_read',
             ],
             [
                 'id' => 46,
@@ -130,7 +130,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 55,
                 'parent_id'  => 9,
-                'rule_path' => 'api/auth_group/revision',
+                'rule_path' => 'api/auth_group/revision_home',
             ],
             [
                 'id' => 56,
@@ -185,7 +185,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 47,
                 'parent_id'  => 17,
-                'rule_path' => 'api/auth_rule/i18n',
+                'rule_path' => 'api/auth_rule/i18n_read',
             ],
             [
                 'id' => 48,
@@ -195,7 +195,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 57,
                 'parent_id'  => 17,
-                'rule_path' => 'api/auth_rule/revision',
+                'rule_path' => 'api/auth_rule/revision_home',
             ],
             [
                 'id' => 58,
@@ -250,7 +250,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 49,
                 'parent_id'  => 25,
-                'rule_path' => 'api/menu/i18n',
+                'rule_path' => 'api/menu/i18n_read',
             ],
             [
                 'id' => 50,
@@ -260,7 +260,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 59,
                 'parent_id'  => 25,
-                'rule_path' => 'api/menu/revision',
+                'rule_path' => 'api/menu/revision_home',
             ],
             [
                 'id' => 60,
@@ -325,7 +325,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 51,
                 'parent_id'  => 33,
-                'rule_path' => 'api/model/i18n',
+                'rule_path' => 'api/model/i18n_read',
             ],
             [
                 'id' => 52,
@@ -335,7 +335,7 @@ final class RuleData extends AbstractMigration
             [
                 'id' => 61,
                 'parent_id'  => 33,
-                'rule_path' => 'api/model/revision',
+                'rule_path' => 'api/model/revision_home',
             ],
             [
                 'id' => 62,

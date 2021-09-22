@@ -157,7 +157,7 @@ class Admin extends Common
         }
     }
 
-    public function i18n(int $id)
+    public function i18nRead(int $id)
     {
         $result = $this->admin->i18nAPI($id);
 
@@ -171,7 +171,7 @@ class Admin extends Common
         return $this->json(...$result);
     }
 
-    public function revision(int $id)
+    public function revisionHome(int $id)
     {
         $result = $this->app->revision->listAPI($this->admin->getTableName(), $id, (int)$this->request->param('page') ?: 1);
 

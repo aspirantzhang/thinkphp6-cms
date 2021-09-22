@@ -170,12 +170,12 @@ class AdminTest extends \tests\api\TestCase
         $this->startRequest();
         // valid
         $adminController = new AdminController($this->app);
-        $response = $adminController->i18n(2);
+        $response = $adminController->i18nRead(2);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true', $response->getContent());
         $this->assertStringContainsString('"layout":[{"name":"en-us","data":[{"name":"display_name"', $response->getContent());
         // not exist
-        $responseNotExist = $adminController->i18n(0);
+        $responseNotExist = $adminController->i18nRead(0);
         $this->assertEquals(200, $responseNotExist->getCode());
         $this->assertStringStartsWith('{"success":false', $responseNotExist->getContent());
     }
@@ -219,7 +219,7 @@ class AdminTest extends \tests\api\TestCase
     {
         $this->startRequest();
         $adminController = new AdminController($this->app);
-        $response = $adminController->revision(2);
+        $response = $adminController->revisionHome(2);
         $this->assertEquals(200, $response->getCode());
         $this->assertStringStartsWith('{"success":true,"message":"","data":{"dataSource":[{"id":5,"table_name":"admin","original_id":2', $response->getContent());
     }
