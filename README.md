@@ -11,3 +11,12 @@ Octopus
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen.svg?style=flat)](https://phpstan.org/)
 
 The project is currently under development.
+
+|  Built-in package   | Description  |
+|  ----  | ----  |
+| [Octopus Frontend](https://github.com/aspirantzhang/octopus-frontend)  | Admin frontend (React, antd) |
+| [Octopus Page Builder](https://github.com/aspirantzhang/octopus-page-builder) | Tools for building page components |
+| [Octopus Model Creator](https://github.com/aspirantzhang/octopus-model-creator)  | Toolkit for creating models |
+| [Octopus Revision](https://github.com/aspirantzhang/octopus-revision)  | Add revision support |
+| [Octopus Helper](https://github.com/aspirantzhang/octopus-helper)  | Common functions library |
+| [ThinkPHP6 Unit Test](https://github.com/aspirantzhang/thinkphp6-unit-test) | Tools to help unit testing |
