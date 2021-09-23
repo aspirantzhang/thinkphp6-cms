@@ -6,7 +6,7 @@ namespace app\api\view;
 
 use think\facade\Config;
 use app\api\model\Model as ModelModel;
-use aspirantzhang\TPAntdBuilder\Builder;
+use aspirantzhang\octopusPageBuilder\Builder;
 
 class Model extends ModelModel
 {

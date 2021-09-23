@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\model;
 
-use aspirantzhang\TPAntdBuilder\Builder;
+use aspirantzhang\octopusPageBuilder\Builder;
 
 class Menu extends Common
 {

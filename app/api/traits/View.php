@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\traits;
 
-use aspirantzhang\TPAntdBuilder\Builder;
+use aspirantzhang\octopusPageBuilder\Builder;
 use think\facade\Config;
 use think\Exception;
 

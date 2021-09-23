@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace app\api\traits;
 
 use think\facade\Config;
-use aspirantzhang\TPAntdBuilder\Builder;
+use aspirantzhang\octopusPageBuilder\Builder;
 
 trait AllowField
 {

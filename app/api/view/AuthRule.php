@@ -6,7 +6,7 @@ namespace app\api\view;
 
 use think\facade\Config;
 use app\api\model\AuthRule as AuthRuleModel;
-use aspirantzhang\TPAntdBuilder\Builder;
+use aspirantzhang\octopusPageBuilder\Builder;
 
 class AuthRule extends AuthRuleModel
 {

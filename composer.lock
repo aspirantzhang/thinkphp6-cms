@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38a425fae2faec5ca38fa920f8afb1c8",
+    "content-hash": "b2fbca1007aeb47291bbc5230b9f98f5",
     "packages": [
         {
             "name": "aspirantzhang/octopus-helper",
@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
-                "reference": "655f1a08476e7b680491ae5b866dfeed74d04324"
+                "reference": "3edab0a0e6e0ade78a4068d93e755a73565c78d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/655f1a08476e7b680491ae5b866dfeed74d04324",
-                "reference": "655f1a08476e7b680491ae5b866dfeed74d04324",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/3edab0a0e6e0ade78a4068d93e755a73565c78d3",
+                "reference": "3edab0a0e6e0ade78a4068d93e755a73565c78d3",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,54 @@
                 "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
                 "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
             },
-            "time": "2021-09-06T07:13:46+00:00"
+            "time": "2021-09-22T08:07:26+00:00"
+        },
+        {
+            "name": "aspirantzhang/octopus-page-builder",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/octopus-page-builder.git",
+                "reference": "77fc8ef1b5830159b7842baaac22edb20e168e3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-page-builder/zipball/77fc8ef1b5830159b7842baaac22edb20e168e3d",
+                "reference": "77fc8ef1b5830159b7842baaac22edb20e168e3d",
+                "shasum": ""
+            },
+            "require": {
+                "aspirantzhang/octopus-helper": "dev-main",
+                "php": ">=7.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "phpstan/phpstan": "^0.12.93",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "aspirantzhang\\octopusPageBuilder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                }
+            ],
+            "description": "Tools for building page components in Octopus.",
+            "support": {
+                "issues": "https://github.com/aspirantzhang/octopus-page-builder/issues",
+                "source": "https://github.com/aspirantzhang/octopus-page-builder/tree/master"
+            },
+            "time": "2021-09-22T10:58:08+00:00"
         },
         {
             "name": "aspirantzhang/octopus-revision",
@@ -165,48 +212,6 @@
                 "source": "https://github.com/aspirantzhang/octopus-revision/tree/main"
             },
             "time": "2021-09-20T07:41:07+00:00"
-        },
-        {
-            "name": "aspirantzhang/thinkphp-antdesign-builder",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aspirantzhang/thinkphp-antdesign-builder.git",
-                "reference": "0ea3256ae01c05caf3396ea695ca0c6e80dd5fcb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/thinkphp-antdesign-builder/zipball/0ea3256ae01c05caf3396ea695ca0c6e80dd5fcb",
-                "reference": "0ea3256ae01c05caf3396ea695ca0c6e80dd5fcb",
-                "shasum": ""
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.4",
-                "phpunit/phpunit": "^9.5"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "aspirantzhang\\TPAntdBuilder\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "aspirantzhang",
-                    "email": "admin@aspirantzhang.com"
-                }
-            ],
-            "description": "An api page builder for AntDesign based on ThinkPHP 6",
-            "support": {
-                "issues": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/issues",
-                "source": "https://github.com/aspirantzhang/thinkphp-antdesign-builder/tree/master"
-            },
-            "time": "2021-06-27T14:56:23+00:00"
         },
         {
             "name": "cakephp/core",
@@ -5304,10 +5309,10 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "topthink/think-orm": 20,
-        "aspirantzhang/thinkphp-antdesign-builder": 20,
         "aspirantzhang/octopus-helper": 20,
         "aspirantzhang/octopus-model-creator": 20,
-        "aspirantzhang/octopus-revision": 20
+        "aspirantzhang/octopus-revision": 20,
+        "aspirantzhang/octopus-page-builder": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

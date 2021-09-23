@@ -6,7 +6,7 @@ namespace app\api\view;
 
 use think\facade\Config;
 use app\api\model\AuthGroup as GroupModel;
-use aspirantzhang\TPAntdBuilder\Builder;
+use aspirantzhang\octopusPageBuilder\Builder;
 
 class AuthGroup extends GroupModel
 {

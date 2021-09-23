@@ -6,7 +6,7 @@ namespace app\api\view;
 
 use think\facade\Config;
 use app\api\model\Menu as MenuModel;
-use aspirantzhang\TPAntdBuilder\Builder;
+use aspirantzhang\octopusPageBuilder\Builder;
 
 class Menu extends MenuModel
 {

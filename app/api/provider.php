@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'think\Paginator' => 'aspirantzhang\TPAntdBuilder\AntdPaginationProvider',
+    'think\Paginator' => 'aspirantzhang\octopusPageBuilder\PaginationProvider',
 ];
