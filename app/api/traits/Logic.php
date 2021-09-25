@@ -58,11 +58,11 @@ trait Logic
         return $result->select()->toArray();
     }
 
-    protected function checkUniqueValues(array $data): bool
+    protected function checkUniqueValues(array $data, int $originalId = null): bool
     {
         $uniqueFields = $this->getUniqueField();
         foreach ($uniqueFields as $field) {
-            if (isset($data[$field]) && $this->ifExists($field, $data[$field])) {
+            if (isset($data[$field]) && $this->ifExists($field, $data[$field], $originalId)) {
                 $this->error = __('field value already exists', ['fieldName' => Lang::get($this->getTableName() . '.' . $field)]);
                 return false;
             }
@@ -72,16 +72,20 @@ trait Logic
 
     /**
      * Check if a value already exists in the database
-     * @param string $fieldName
-     * @param mixed $value
      * @return bool
      */
-    protected function ifExists(string $fieldName, $value)
+    protected function ifExists(string $fieldName, $value, ?int $originalId)
     {
         if ($this->isTranslateField($fieldName)) {
-            return (bool)Db::name($this->getLangTableName())->where($fieldName, $value)->where('original_id', '<>', $this->getAttr('id'))->find();
+            if ($originalId) {
+                return (bool)Db::name($this->getLangTableName())->where($fieldName, $value)->where('original_id', '<>', $originalId)->find();
+            }
+            return (bool)Db::name($this->getLangTableName())->where($fieldName, $value)->find();
         }
-        return (bool)$this->withTrashed()->where($fieldName, $value)->where('id', '<>', $this->getAttr('id'))->find();
+        if ($originalId) {
+            return (bool)$this->withTrashed()->where($fieldName, $value)->where('id', '<>', $originalId)->find();
+        }
+        return (bool)$this->withTrashed()->where($fieldName, $value)->find();
     }
 
     protected function clearParentId(int $id)
