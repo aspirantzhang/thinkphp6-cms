@@ -52,10 +52,10 @@ class Model extends ModelView
     {
         $result = [];
         foreach ($allFields as $field) {
-            // only 'input' and 'textarea' can be translated
+            // only input/textarea/textEditor can be translated
             if (
                 isset($field['type']) &&
-                ($field['type'] === 'input' || $field['type'] === 'textarea') &&
+                ($field['type'] === 'input' || $field['type'] === 'textarea' || $field['type'] === 'textEditor') &&
                 $field['allowTranslate'] ?? false
             ) {
                 // cannot be marked as 'editDisabled' and 'translate' ATST
