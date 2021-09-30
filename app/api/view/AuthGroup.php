@@ -84,7 +84,6 @@ class AuthGroup extends GroupModel
 
         return Builder::page('auth_group-layout.group-list')
             ->type('basic-list')
-            ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)

@@ -195,7 +195,6 @@ trait View
 
         return Builder::page($tableName . '-layout.' . $tableName . '-list')
             ->type('basic-list')
-            ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolbar)
             ->batchToolBar($batchToolbar)

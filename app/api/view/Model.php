@@ -77,7 +77,6 @@ class Model extends ModelModel
 
         return Builder::page('model-layout.model-list')
             ->type('basic-list')
-            ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)

@@ -94,7 +94,6 @@ class Menu extends MenuModel
 
         return Builder::page('menu-layout.menu-list')
             ->type('basic-list')
-            ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)
