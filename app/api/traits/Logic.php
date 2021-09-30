@@ -58,10 +58,10 @@ trait Logic
         return $result->select()->toArray();
     }
 
-    protected function checkUniqueValues(array $data, int $originalId = null): bool
+    protected function checkUniqueValue(array $data, int $originalId = null): bool
     {
-        $uniqueFields = $this->getUniqueField();
-        foreach ($uniqueFields as $field) {
+        $uniqueValue = $this->getUniqueField();
+        foreach ($uniqueValue as $field) {
             if (isset($data[$field]) && $this->ifExists($field, $data[$field], $originalId)) {
                 $this->error = __('field value already exists', ['fieldName' => Lang::get($this->getTableName() . '.' . $field)]);
                 return false;

@@ -13,7 +13,8 @@ trait Update
     {
         $model = $this->where('id', $id)->find();
         if ($model) {
-            if ($this->checkUniqueValues($data, $model->getAttr('id')) === false) {
+            $data = $this->handleDataFilter($data);
+            if ($this->checkUniqueValue($data, $model->getAttr('id')) === false) {
                 return $this->error($this->getError());
             }
             $model->startTrans();

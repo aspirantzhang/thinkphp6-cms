@@ -13,12 +13,13 @@ class Model extends ModelLogic
 {
     public function saveAPI($data, array $relationModel = [])
     {
+        $data = $this->handleDataFilter($data);
         $tableName = $data['table_name'];
         $modelTitle = $data['model_title'];
 
         if (
             $this->isReservedTable($tableName) &&
-            !$this->checkUniqueValues($data) &&
+            !$this->checkUniqueValue($data) &&
             $this->tableAlreadyExist($tableName)
         ) {
             return $this->error($this->getError());
