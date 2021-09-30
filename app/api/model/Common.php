@@ -119,7 +119,7 @@ class Common extends GlobalModel
     protected function handleDataFilter($data): array
     {
         $ignoreFilter = $this->getIgnoreFilter();
-        if (!empty($this->getIgnoreFilter())) {
+        if (!empty($ignoreFilter)) {
             $unfiltered = [];
             foreach ($ignoreFilter as $fieldName) {
                 $unfiltered[$fieldName] = Request::param($fieldName, '', null);
