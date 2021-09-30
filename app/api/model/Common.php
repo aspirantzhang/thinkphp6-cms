@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace app\api\model;
 
 use think\facade\Lang;
+use think\facade\Request;
 use app\common\model\GlobalModel;
 use think\model\concern\SoftDelete;
 use app\api\traits\Model as ModelTrait;
 use app\api\traits\Logic as LogicTrait;
 use app\api\traits\Service as ServiceTrait;
 use app\api\traits\View as ViewTrait;
-use app\api\traits\AllowField as AllowFieldTrait;
+use app\api\traits\Filter as FilterTrait;
 
 class Common extends GlobalModel
 {
@@ -20,12 +21,13 @@ class Common extends GlobalModel
     use LogicTrait;
     use ServiceTrait;
     use ViewTrait;
-    use AllowFieldTrait;
+    use FilterTrait;
 
     protected $deleteTime = 'delete_time';
-    protected $uniqueField = null;
     protected $titleField = null;
     protected $revisionTable = [];
+    protected $uniqueValue = [];
+    protected $ignoreFilter = [];
 
     public function getModelName()
     {
@@ -112,5 +114,18 @@ class Common extends GlobalModel
     public function getRevisionTable(): array
     {
         return $this->revisionTable ?? [];
+    }
+
+    protected function handleDataFilter($data): array
+    {
+        $ignoreFilter = $this->getIgnoreFilter();
+        if (!empty($this->getIgnoreFilter())) {
+            $unfiltered = [];
+            foreach ($ignoreFilter as $fieldName) {
+                $unfiltered[$fieldName] = Request::param($fieldName, '', null);
+            }
+            return array_merge($data, $unfiltered);
+        }
+        return $data;
     }
 }

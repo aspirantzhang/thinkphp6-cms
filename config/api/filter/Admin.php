@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'uniqueValue' => ['admin_name'],
+    'ignoreFilter' => [],
     'allowHome' => ['groups', 'admin_name', 'display_name', 'comment'],
     'allowRead' => ['admin_name', 'display_name', 'comment'],
     'allowSave' => ['admin_name', 'password', 'groups', 'display_name', 'comment'],

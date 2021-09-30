@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\api\model;
 
 use app\api\service\AuthGroup as AuthGroupService;
-use aspirantzhang\octopusPageBuilder\Builder;
 
 class AuthRule extends Common
 {
