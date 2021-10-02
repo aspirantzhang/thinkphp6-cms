@@ -58,7 +58,7 @@ class AuthGroup extends GroupModel
     public function listBuilder($addonData = [], $params = [])
     {
         $tableToolBar = [
-            Builder::button('add')->type('primary')->call('modal')->uri('/api/groups/add'),
+            Builder::button('add')->type('primary')->call('page')->uri('/api/groups/add'),
         ];
         $batchToolBar = [
             Builder::button('delete')->type('danger')->call('delete')->uri('/api/groups/delete')->method('post'),
