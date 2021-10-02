@@ -56,7 +56,7 @@ class Model extends ModelView
             if (
                 isset($field['type']) &&
                 ($field['type'] === 'input' || $field['type'] === 'textarea' || $field['type'] === 'textEditor') &&
-                $field['allowTranslate'] ?? false
+                ($field['allowTranslate'] ?? false)
             ) {
                 // cannot be marked as 'editDisabled' and 'translate' ATST
                 if (
