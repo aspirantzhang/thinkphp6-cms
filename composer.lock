@@ -116,12 +116,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-page-builder.git",
-                "reference": "77fc8ef1b5830159b7842baaac22edb20e168e3d"
+                "reference": "a4bafad790a2e321da3450fb06c5065ca200a024"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-page-builder/zipball/77fc8ef1b5830159b7842baaac22edb20e168e3d",
-                "reference": "77fc8ef1b5830159b7842baaac22edb20e168e3d",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-page-builder/zipball/a4bafad790a2e321da3450fb06c5065ca200a024",
+                "reference": "a4bafad790a2e321da3450fb06c5065ca200a024",
                 "shasum": ""
             },
             "require": {
@@ -155,7 +155,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-page-builder/issues",
                 "source": "https://github.com/aspirantzhang/octopus-page-builder/tree/master"
             },
-            "time": "2021-09-22T10:58:08+00:00"
+            "time": "2021-10-02T06:21:52+00:00"
         },
         {
             "name": "aspirantzhang/octopus-revision",
