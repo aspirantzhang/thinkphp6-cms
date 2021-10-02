@@ -41,6 +41,7 @@ return [
     'operation failed' => '操作失败，请重试。',
     'incorrect username or password' => '用户名或密码不正确。',
     'reserved table name' => '保留表，无法进行操作。',
+    'reserved field name' => '无法使用保留字段名 [{:fieldName}]',
     'mysql reserved keyword' => '无法使用MySQL保留关键字 [{:keyword}]',
     'field value already exists' => '[{:fieldName}] 的值已经存在。',
     'table already exists' => '[{:tableName}] 表已经存在。',

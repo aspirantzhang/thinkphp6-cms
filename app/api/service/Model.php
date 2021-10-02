@@ -19,6 +19,7 @@ class Model extends ModelLogic
 
         if (
             $this->isReservedTable($tableName) ||
+            $this->existMysqlReservedKeywords([$tableName]) ||
             !$this->checkUniqueValue($data) ||
             $this->tableAlreadyExist($tableName)
         ) {
@@ -89,7 +90,6 @@ class Model extends ModelLogic
         if (!$model) {
             return $this->error(__('no target'));
         }
-
         $tableName = $model->getAttr('table_name');
         $modelTitle = $model->getAttr('model_title');
         $modelData = $model->getAttr('data');
@@ -104,9 +104,15 @@ class Model extends ModelLogic
         switch ($type) {
             case 'field':
                 if (!empty($data) && !empty($data['data'])) {
+                    $allFields = extractValues($data['data'], 'name');
+                    if (
+                        $this->existMysqlReservedKeywords($allFields) ||
+                        $this->existReservedFieldNames($allFields)
+                    ) {
+                        return $this->error($this->getError());
+                    }
                     try {
                         $reservedFields = Config::get('reserved.reserved_field');
-                        $allFields = extractValues($data['data'], 'name');
                         $i18nTableFields = $this->extractTranslateFields($data['data']);
                         $mainTableFields = array_diff($allFields, $reservedFields, $i18nTableFields);
 

@@ -42,6 +42,7 @@ return [
     'operation failed' => 'Operation failed, please try again.',
     'incorrect username or password' => 'Incorrect username or password.',
     'reserved table name' => 'Reserved table name.',
+    'reserved field name' => 'Reserved field name [{:fieldName}]',
     'mysql reserved keyword' => 'Cannot use MySQL reserved keyword [{:keyword}]',
     'field value already exists' => 'Value of [{:fieldName}] already exists.',
     'table already exists' => 'Table [{:tableName}] already exists.',

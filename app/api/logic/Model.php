@@ -11,19 +11,34 @@ use think\Exception;
 
 class Model extends ModelView
 {
+    protected function existMysqlReservedKeywords(array $fieldNames)
+    {
+        $mysqlReservedKeywords = include createPath(root_path(), 'config', 'api', 'common', 'mysql_reserved') . '.php';
+        $intersect = array_intersect($mysqlReservedKeywords, $fieldNames);
+        if (empty($intersect)) {
+            return false;
+        }
+        $this->error = __('mysql reserved keyword', ['keyword' => implode(',', $intersect)]);
+        return true;
+    }
+
+    protected function existReservedFieldNames(array $fieldNames)
+    {
+        $reservedFieldNames = Config::get('reserved.reserved_field');
+        $intersect = array_intersect($reservedFieldNames, $fieldNames);
+        if (empty($intersect)) {
+            return false;
+        }
+        $this->error = __('reserved field name', ['fieldName' => implode(',', $intersect)]);
+        return true;
+    }
+
     protected function isReservedTable(string $tableName): bool
     {
         if (in_array($tableName, Config::get('reserved.reserved_table'))) {
             $this->error = __('reserved table name');
             return true;
         }
-
-        $mysqlReservedKeywords = include createPath(root_path(), 'config', 'api', 'common', 'mysql_reserved') . '.php';
-        if (in_array($tableName, $mysqlReservedKeywords)) {
-            $this->error = __('mysql reserved keyword', ['keyword' => $tableName]);
-            return true;
-        }
-
         return false;
     }
 
