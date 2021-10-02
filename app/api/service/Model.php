@@ -18,8 +18,8 @@ class Model extends ModelLogic
         $modelTitle = $data['model_title'];
 
         if (
-            $this->isReservedTable($tableName) &&
-            !$this->checkUniqueValue($data) &&
+            $this->isReservedTable($tableName) ||
+            !$this->checkUniqueValue($data) ||
             $this->tableAlreadyExist($tableName)
         ) {
             return $this->error($this->getError());
@@ -94,7 +94,7 @@ class Model extends ModelLogic
         $modelTitle = $model->getAttr('model_title');
         $modelData = $model->getAttr('data');
         if (
-            $this->isReservedTable($tableName) &&
+            $this->isReservedTable($tableName) ||
             $this->tableNotExist($tableName)
         ) {
             return $this->error($this->getError());

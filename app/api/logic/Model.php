@@ -17,6 +17,13 @@ class Model extends ModelView
             $this->error = __('reserved table name');
             return true;
         }
+
+        $mysqlReservedKeywords = include createPath(root_path(), 'config', 'api', 'common', 'mysql_reserved') . '.php';
+        if (in_array($tableName, $mysqlReservedKeywords)) {
+            $this->error = __('mysql reserved keyword', ['keyword' => $tableName]);
+            return true;
+        }
+
         return false;
     }
 
