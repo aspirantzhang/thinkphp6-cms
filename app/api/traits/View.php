@@ -34,7 +34,7 @@ trait View
         return [];
     }
 
-    protected function fieldBuilder(array $data, string $tableName)
+    protected function fieldBuilder(array $data, string $tableName, $type = 'list')
     {
         if (!empty($data)) {
             $result = [];
@@ -45,7 +45,7 @@ trait View
                     $row = (array)Builder::field($tableName . '.' . $field['name'])->type($field['type'])->data($field['data']);
                 }
                 if (isset($field['settings']['display'])) {
-                    if (in_array('hideInColumn', $field['settings']['display'])) {
+                    if ($type === 'list' && in_array('hideInColumn', $field['settings']['display'])) {
                         continue;
                     }
                     if (in_array('listSorter', $field['settings']['display'])) {
@@ -220,7 +220,7 @@ trait View
 
         $fields = [];
         if (!empty($translateFields)) {
-            $fields = $this->fieldBuilder($translateFields, $tableName);
+            $fields = $this->fieldBuilder($translateFields, $tableName, 'search');
         }
 
         return Builder::i18n('admin-layout.admin-i18n')
