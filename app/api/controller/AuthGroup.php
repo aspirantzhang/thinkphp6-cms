@@ -68,7 +68,7 @@ class AuthGroup extends Common
 
     public function i18nRead(int $id)
     {
-        $result = $this->authGroup->i18nAPI($id);
+        $result = $this->authGroup->i18nReadAPI($id);
 
         return $this->json(...$result);
     }

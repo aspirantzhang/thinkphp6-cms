@@ -45,7 +45,7 @@ trait Read
         }
     }
 
-    public function i18nAPI(int $id)
+    public function i18nReadAPI(int $id)
     {
         $originalRecord = $this->where('id', $id)->find();
         if ($originalRecord) {
@@ -62,9 +62,7 @@ trait Read
             $dataSource = [];
             foreach ($i18nRecords as $record) {
                 $langCode = $record['lang_code'];
-                unset($record['_id']);
-                unset($record['original_id']);
-                unset($record['lang_code']);
+                unset($record['_id'], $record['original_id'], $record['lang_code']);
                 $dataSource[$langCode] = $record;
             }
 

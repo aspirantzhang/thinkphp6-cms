@@ -16,7 +16,7 @@ class Model extends Common
     public function setTableNameAttr($value)
     {
         $data = [];
-        $data['layout']['tableName'] = $value;
+        $data['layout']['tableName'] = strtolower($value);
         $this->set('data', $data);
         return strtolower($value);
     }
