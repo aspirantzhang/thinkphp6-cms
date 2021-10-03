@@ -116,15 +116,29 @@ class Common extends GlobalModel
         return $this->revisionTable ?? [];
     }
 
-    protected function handleDataFilter($data): array
+    protected function handleDataFilter(array $data, bool $i18n = false): array
     {
+        if (empty($data)) {
+            return [];
+        }
         $ignoreFilter = $this->getIgnoreFilter();
         if (!empty($ignoreFilter)) {
-            $unfiltered = [];
-            foreach ($ignoreFilter as $fieldName) {
-                $unfiltered[$fieldName] = Request::param($fieldName, '', null);
+            if ($i18n) {
+                // i18n, first level is language
+                foreach ($data as $langName => $langFields) {
+                    foreach ($ignoreFilter as $fieldName) {
+                        $data[$langName][$fieldName] = Request::param($langName . '.' . $fieldName, '', null);
+                    }
+                }
+                return $data;
+            } else {
+                // normal, one level
+                $unfiltered = [];
+                foreach ($ignoreFilter as $fieldName) {
+                    $unfiltered[$fieldName] = Request::param($fieldName, '', null);
+                }
+                return array_merge($data, $unfiltered);
             }
-            return array_merge($data, $unfiltered);
         }
         return $data;
     }

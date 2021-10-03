@@ -46,6 +46,7 @@ trait Update
         if ($originalRecord) {
             $currentTime = date("Y-m-d H:i:s");
             (new RevisionAPI())->saveAPI('i18n update (autosave)', $this->getTableName(), $id, $this->revisionTable);
+            $data = $this->handleDataFilter($data, true);
             foreach ($data as $langCode => $fieldsData) {
                 // validator check
                 $modelValidator = '\app\api\validate\\' . $this->getModelName();
