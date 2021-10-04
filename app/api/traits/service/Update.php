@@ -21,7 +21,7 @@ trait Update
             try {
                 (new RevisionAPI())->saveAPI('update (autosave)', $this->getTableName(), $id, $this->revisionTable);
                 $model->allowField($this->getNoNeedToTranslateFields('update'))->save($data);
-                $this->updateI18nData($data, $id, $this->getCurrentLanguage());
+                $this->updateI18nData($data, $id, $this->getCurrentLanguage(), date('Y-m-d H:i:s'), true);
                 if ($relationModel) {
                     foreach ($relationModel as $relation) {
                         if (isset($data[$relation])) {

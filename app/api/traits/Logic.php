@@ -126,11 +126,18 @@ trait Logic
         }
     }
 
-    protected function updateI18nData(array $rawData, int $originalId, string $langCode, $currentTime = null)
-    {
+    protected function updateI18nData(
+        array $rawData,
+        int $originalId,
+        string $langCode,
+        string $currentTime = null,
+        bool $forceSetTime = false
+    ) {
         $filteredData = array_intersect_key($rawData, array_flip($this->getAllowTranslate()));
 
-        if (isset($rawData['complete']) && (bool)$rawData['complete'] === true) {
+        $rawData['complete'] = isset($rawData['complete']) ? (bool)$rawData['complete'] : false;
+
+        if ($rawData['complete'] || $forceSetTime) {
             $filteredData['translate_time'] =  $currentTime;
         }
 
