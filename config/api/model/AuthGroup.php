@@ -8,4 +8,5 @@ return [
     'allowSave' => ['parent_id', 'group_title', 'rules'],
     'allowUpdate' => ['parent_id', 'group_title', 'rules'],
     'allowTranslate' => ['group_title'],
+    'revisionTable' => ['auth_group_rule' => 'group_id'],
 ];

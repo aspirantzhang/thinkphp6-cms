@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
-                "reference": "a86e905323ab48d646ecf8c9a7338fbd7598e504"
+                "reference": "b579f0b8537a52fa542f8c4410a4ec7810418a61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/a86e905323ab48d646ecf8c9a7338fbd7598e504",
-                "reference": "a86e905323ab48d646ecf8c9a7338fbd7598e504",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/b579f0b8537a52fa542f8c4410a4ec7810418a61",
+                "reference": "b579f0b8537a52fa542f8c4410a4ec7810418a61",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
                 "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
             },
-            "time": "2021-10-03T11:35:41+00:00"
+            "time": "2021-10-04T07:13:41+00:00"
         },
         {
             "name": "aspirantzhang/octopus-page-builder",
@@ -163,12 +163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-revision.git",
-                "reference": "35a3e44b3708741d4fc9ee560dd26d3841ce5176"
+                "reference": "b930aecf26ef0a6cf12a4410c9f2d07bebe4c572"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-revision/zipball/35a3e44b3708741d4fc9ee560dd26d3841ce5176",
-                "reference": "35a3e44b3708741d4fc9ee560dd26d3841ce5176",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-revision/zipball/b930aecf26ef0a6cf12a4410c9f2d07bebe4c572",
+                "reference": "b930aecf26ef0a6cf12a4410c9f2d07bebe4c572",
                 "shasum": ""
             },
             "require": {
@@ -211,7 +211,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-revision/issues",
                 "source": "https://github.com/aspirantzhang/octopus-revision/tree/main"
             },
-            "time": "2021-09-20T07:41:07+00:00"
+            "time": "2021-10-04T08:00:24+00:00"
         },
         {
             "name": "cakephp/core",

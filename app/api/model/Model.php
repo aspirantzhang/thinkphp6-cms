@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace app\api\model;
 
-use aspirantzhang\octopusPageBuilder\Builder;
-
 class Model extends Common
 {
     protected $json = ['data'];

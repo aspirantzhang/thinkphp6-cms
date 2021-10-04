@@ -22,27 +22,21 @@ trait Filter
         return array_merge($builtIn, $custom);
     }
 
-    private function loadFilterConfig()
-    {
-        $modelName = $this->getModelName();
-        Config::load(createPath('api', 'filter', $modelName), $modelName);
-    }
-
     protected function getUniqueField()
     {
-        $this->loadFilterConfig();
+        $this->loadModelConfig();
         return Config::get($this->getModelName() . '.uniqueValue') ?: [];
     }
 
     protected function getIgnoreFilter()
     {
-        $this->loadFilterConfig();
+        $this->loadModelConfig();
         return Config::get($this->getModelName() . '.ignoreFilter') ?: [];
     }
 
     public function getAllowHome()
     {
-        $this->loadFilterConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowHome') ?: [];
         $custom = Config::get($this->getModelName() . '.allowHome') ?: [];
 
@@ -51,7 +45,7 @@ trait Filter
 
     public function getAllowSort()
     {
-        $this->loadFilterConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowSort') ?: [];
         $custom = Config::get($this->getModelName() . '.allowSort') ?: [];
 
@@ -60,7 +54,7 @@ trait Filter
 
     public function getAllowRead()
     {
-        $this->loadFilterConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowRead') ?: [];
         $custom = Config::get($this->getModelName() . '.allowRead') ?: [];
 
@@ -69,7 +63,7 @@ trait Filter
 
     public function getAllowSave()
     {
-        $this->loadFilterConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowSave') ?: [];
         $custom = Config::get($this->getModelName() . '.allowSave') ?: [];
 
@@ -78,7 +72,7 @@ trait Filter
 
     public function getAllowUpdate()
     {
-        $this->loadFilterConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowUpdate') ?: [];
         $custom = Config::get($this->getModelName() . '.allowUpdate') ?: [];
 
@@ -87,7 +81,7 @@ trait Filter
 
     public function getAllowTranslate()
     {
-        $this->loadFilterConfig();
+        $this->loadModelConfig();
         return Config::get($this->getModelName() . '.allowTranslate') ?: [];
     }
 }

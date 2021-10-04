@@ -8,4 +8,5 @@ return [
     'allowSave' => ['model_title', 'table_name', 'data'],
     'allowUpdate' => ['data'],
     'allowTranslate' => ['model_title'],
+    'revisionTable' => [],
 ];

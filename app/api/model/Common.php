@@ -6,6 +6,7 @@ namespace app\api\model;
 
 use think\facade\Lang;
 use think\facade\Request;
+use think\facade\Config;
 use app\common\model\GlobalModel;
 use think\model\concern\SoftDelete;
 use app\api\traits\Model as ModelTrait;
@@ -13,6 +14,7 @@ use app\api\traits\Logic as LogicTrait;
 use app\api\traits\Service as ServiceTrait;
 use app\api\traits\View as ViewTrait;
 use app\api\traits\Filter as FilterTrait;
+use aspirantzhang\octopusRevision\traits\Revision as RevisionTrait;
 
 class Common extends GlobalModel
 {
@@ -22,12 +24,10 @@ class Common extends GlobalModel
     use ServiceTrait;
     use ViewTrait;
     use FilterTrait;
+    use RevisionTrait;
 
     protected $deleteTime = 'delete_time';
     protected $titleField = null;
-    protected $revisionTable = [];
-    protected $uniqueValue = [];
-    protected $ignoreFilter = [];
 
     public function getModelName()
     {
@@ -47,6 +47,12 @@ class Common extends GlobalModel
     protected function getCurrentLanguage()
     {
         return Lang::getLangSet();
+    }
+
+    private function loadModelConfig()
+    {
+        $modelName = $this->getModelName();
+        Config::load(createPath('api', 'model', $modelName), $modelName);
     }
 
     protected function isTranslateField($fieldName)
@@ -109,11 +115,6 @@ class Common extends GlobalModel
     protected function getTitleField(): string
     {
         return $this->titleField ?? 'id';
-    }
-
-    public function getRevisionTable(): array
-    {
-        return $this->revisionTable ?? [];
     }
 
     protected function handleDataFilter(array $data, bool $i18n = false): array

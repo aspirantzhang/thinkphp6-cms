@@ -10,7 +10,6 @@ class AuthRule extends Common
 {
     protected $readonly = ['id'];
     protected $titleField = 'rule_title';
-    protected $revisionTable = [];
 
     protected function setAddonData($params = [])
     {

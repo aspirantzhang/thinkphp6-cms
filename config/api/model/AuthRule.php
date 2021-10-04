@@ -8,4 +8,5 @@ return [
     'allowSave' => ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'],
     'allowUpdate' => ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'],
     'allowTranslate' => ['rule_title'],
+    'revisionTable' => [],
 ];

@@ -11,7 +11,6 @@ class AuthGroup extends Common
 {
     protected $readonly = ['id'];
     protected $titleField = 'group_title';
-    protected $revisionTable = ['auth_group_rule' => 'group_id'];
 
     protected function setAddonData($params = [])
     {

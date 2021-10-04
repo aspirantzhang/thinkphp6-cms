@@ -8,4 +8,5 @@ return [
     'allowSave' => ['admin_name', 'password', 'groups', 'display_name', 'comment'],
     'allowUpdate' => ['password', 'display_name', 'comment', 'groups'],
     'allowTranslate' => ['display_name', 'comment'],
+    'revisionTable' => ['auth_admin_group'],
 ];
