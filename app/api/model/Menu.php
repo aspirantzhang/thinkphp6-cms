@@ -9,7 +9,6 @@ use aspirantzhang\octopusPageBuilder\Builder;
 class Menu extends Common
 {
     protected $readonly = ['id'];
-    protected $titleField = 'menu_title';
 
     protected function setAddonData($params = [])
     {

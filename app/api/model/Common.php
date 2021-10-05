@@ -27,7 +27,6 @@ class Common extends GlobalModel
     use RevisionTrait;
 
     protected $deleteTime = 'delete_time';
-    protected $titleField = null;
 
     public function getModelName()
     {
@@ -110,11 +109,6 @@ class Common extends GlobalModel
             return true;
         }
         return false;
-    }
-
-    protected function getTitleField(): string
-    {
-        return $this->titleField ?? 'id';
     }
 
     protected function handleDataFilter(array $data, bool $i18n = false): array

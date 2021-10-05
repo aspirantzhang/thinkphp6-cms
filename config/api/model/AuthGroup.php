@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'titleField' => 'group_title',
     'uniqueValue' => ['group_title'],
     'ignoreFilter' => [],
     'allowHome' => ['parent_id', 'group_title', 'rules'],

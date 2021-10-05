@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'titleField' => 'admin_name',
     'uniqueValue' => ['admin_name'],
     'ignoreFilter' => [],
     'allowHome' => ['groups', 'admin_name', 'display_name', 'comment'],

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'titleField' => 'rule_title',
     'uniqueValue' => [],
     'ignoreFilter' => [],
     'allowHome' => ['parent_id', 'rule_path', 'rule_title', 'type', 'condition'],

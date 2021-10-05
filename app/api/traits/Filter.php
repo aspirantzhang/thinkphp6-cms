@@ -22,13 +22,19 @@ trait Filter
         return array_merge($builtIn, $custom);
     }
 
-    protected function getUniqueField()
+    public function getTitleField(): string
+    {
+        $this->loadModelConfig();
+        return Config::get($this->getModelName() . '.titleField') ?: [];
+    }
+
+    public function getUniqueField()
     {
         $this->loadModelConfig();
         return Config::get($this->getModelName() . '.uniqueValue') ?: [];
     }
 
-    protected function getIgnoreFilter()
+    public function getIgnoreFilter()
     {
         $this->loadModelConfig();
         return Config::get($this->getModelName() . '.ignoreFilter') ?: [];

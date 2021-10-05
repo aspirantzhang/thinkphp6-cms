@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'titleField' => 'table_name',
     'uniqueValue' => ['model_title', 'table_name'],
     'ignoreFilter' => [],
     'allowHome' => ['model_title', 'table_name'],
