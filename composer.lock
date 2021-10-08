@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2fbca1007aeb47291bbc5230b9f98f5",
+    "content-hash": "272435e9eb3db463a1283d913a59e846",
     "packages": [
         {
             "name": "aspirantzhang/octopus-helper",
@@ -2766,6 +2766,82 @@
             "time": "2019-11-06T11:40:13+00:00"
         },
         {
+            "name": "twig/twig",
+            "version": "v3.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "a27fa056df8a6384316288ca8b0fa3a35fdeb569"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a27fa056df8a6384316288ca8b0fa3a35fdeb569",
+                "reference": "a27fa056df8a6384316288ca8b0fa3a35fdeb569",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/polyfill-ctype": "^1.8",
+                "symfony/polyfill-mbstring": "^1.3"
+            },
+            "require-dev": {
+                "psr/container": "^1.0",
+                "symfony/phpunit-bridge": "^4.4.9|^5.0.9|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Twig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Twig Team",
+                    "role": "Contributors"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "https://twig.symfony.com",
+            "keywords": [
+                "templating"
+            ],
+            "support": {
+                "issues": "https://github.com/twigphp/Twig/issues",
+                "source": "https://github.com/twigphp/Twig/tree/v3.3.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-09-17T08:44:23+00:00"
+        },
+        {
             "name": "xiaodi/think-whoops",
             "version": "v1.1.8",
             "source": {
@@ -2821,6 +2897,53 @@
                 "source": "https://github.com/friendsofthinkphp/think-whoops/tree/v1.1.8"
             },
             "time": "2020-07-06T11:29:44+00:00"
+        },
+        {
+            "name": "yunwuxin/think-twig",
+            "version": "v3.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yunwuxin/think-twig.git",
+                "reference": "849edb3207766467be63764241ed99d8af95c3de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yunwuxin/think-twig/zipball/849edb3207766467be63764241ed99d8af95c3de",
+                "reference": "849edb3207766467be63764241ed99d8af95c3de",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "^6.0",
+                "twig/twig": "^3.1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "yunwuxin\\twig\\": "src/"
+                },
+                "classmap": [
+                    "src/Twig.php"
+                ],
+                "files": [
+                    "src/help.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "Twig Template For ThinkPHP5",
+            "support": {
+                "issues": "https://github.com/yunwuxin/think-twig/issues",
+                "source": "https://github.com/yunwuxin/think-twig/tree/v3.0.5"
+            },
+            "time": "2020-12-17T10:02:06+00:00"
         },
         {
             "name": "zircote/swagger-php",

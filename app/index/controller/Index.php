@@ -3,19 +3,17 @@
 namespace app\index\controller;
 
 use app\BaseController;
-use think\facade\Config;
+use think\facade\View;
 
 class Index extends BaseController
 {
-    public function home()
+    public function test()
     {
-        return redirect('/admin/api');
+        return View::fetch('test', ['username' => 'zhang']);
     }
-    public function api()
+
+    public function page404()
     {
-        $openapi = \OpenApi\scan(base_path());
-        return response()->data($openapi->toYaml())->header(array_merge(Config::get('route.default_header'), [
-            'Content-Type' => 'application/x-yaml',
-        ]));
+        return View::fetch('404');
     }
 }
