@@ -1,1 +1,1 @@
-php think misc:deleteTable && php think migrate:run
+php think db:deleteReservedTable && php think migrate:run
