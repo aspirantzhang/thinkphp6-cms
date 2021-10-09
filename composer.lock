@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "272435e9eb3db463a1283d913a59e846",
+    "content-hash": "7f769f39ee4c88b05304b1992503ac04",
     "packages": [
         {
             "name": "aspirantzhang/octopus-helper",
@@ -2903,14 +2903,8 @@
             "version": "v3.0.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/yunwuxin/think-twig.git",
+                "url": "https://github.com/yunwuxin/think-twig",
                 "reference": "849edb3207766467be63764241ed99d8af95c3de"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yunwuxin/think-twig/zipball/849edb3207766467be63764241ed99d8af95c3de",
-                "reference": "849edb3207766467be63764241ed99d8af95c3de",
-                "shasum": ""
             },
             "require": {
                 "topthink/framework": "^6.0",
@@ -2928,7 +2922,6 @@
                     "src/help.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -2939,10 +2932,6 @@
                 }
             ],
             "description": "Twig Template For ThinkPHP5",
-            "support": {
-                "issues": "https://github.com/yunwuxin/think-twig/issues",
-                "source": "https://github.com/yunwuxin/think-twig/tree/v3.0.5"
-            },
             "time": "2020-12-17T10:02:06+00:00"
         },
         {

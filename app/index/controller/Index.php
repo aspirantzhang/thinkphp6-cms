@@ -4,10 +4,11 @@ namespace app\index\controller;
 
 use app\BaseController;
 use think\facade\View;
+use app\api\service\Admin;
 
 class Index extends BaseController
 {
-    public function test()
+    public function admins()
     {
         return View::fetch('test', ['username' => 'zhang']);
     }

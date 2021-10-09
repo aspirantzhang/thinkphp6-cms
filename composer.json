@@ -15,6 +15,12 @@
       "email": "liu21st@gmail.com"
     }
   ],
+  "repositories": [
+    {
+      "url": "https://github.com/yunwuxin/think-twig",
+      "type": "git"
+    }
+  ],
   "require": {
     "php": ">=7.1.0",
     "topthink/framework": "^6.0",
