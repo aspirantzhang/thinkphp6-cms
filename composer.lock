@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f769f39ee4c88b05304b1992503ac04",
+    "content-hash": "f6153f39cda9b099d54d3417dfc65978",
     "packages": [
         {
             "name": "aspirantzhang/octopus-helper",
@@ -212,6 +212,57 @@
                 "source": "https://github.com/aspirantzhang/octopus-revision/tree/main"
             },
             "time": "2021-10-07T09:45:44+00:00"
+        },
+        {
+            "name": "aspirantzhang/octopus-twig-bridge",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/octopus-twig-bridge.git",
+                "reference": "9f2c3fed67fe382c67eecb33647c23da8ca634e6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-twig-bridge/zipball/9f2c3fed67fe382c67eecb33647c23da8ca634e6",
+                "reference": "9f2c3fed67fe382c67eecb33647c23da8ca634e6",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "^6.0",
+                "twig/twig": "^3.1.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "aspirantzhang\\octopusTwigBridge\\": "src/"
+                },
+                "classmap": [
+                    "src/Twig.php"
+                ],
+                "files": [
+                    "src/help.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                },
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "Integrate Twig into Thinkphp to make it easy to use and expand",
+            "support": {
+                "source": "https://github.com/aspirantzhang/octopus-twig-bridge/tree/main"
+            },
+            "time": "2021-10-10T09:16:47+00:00"
         },
         {
             "name": "cakephp/core",
@@ -2899,42 +2950,6 @@
             "time": "2020-07-06T11:29:44+00:00"
         },
         {
-            "name": "yunwuxin/think-twig",
-            "version": "v3.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yunwuxin/think-twig",
-                "reference": "849edb3207766467be63764241ed99d8af95c3de"
-            },
-            "require": {
-                "topthink/framework": "^6.0",
-                "twig/twig": "^3.1.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "yunwuxin\\twig\\": "src/"
-                },
-                "classmap": [
-                    "src/Twig.php"
-                ],
-                "files": [
-                    "src/help.php"
-                ]
-            },
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "yunwuxin",
-                    "email": "448901948@qq.com"
-                }
-            ],
-            "description": "Twig Template For ThinkPHP5",
-            "time": "2020-12-17T10:02:06+00:00"
-        },
-        {
             "name": "zircote/swagger-php",
             "version": "3.2.3",
             "source": {
@@ -5424,7 +5439,8 @@
         "aspirantzhang/octopus-helper": 20,
         "aspirantzhang/octopus-model-creator": 20,
         "aspirantzhang/octopus-revision": 20,
-        "aspirantzhang/octopus-page-builder": 20
+        "aspirantzhang/octopus-page-builder": 20,
+        "aspirantzhang/octopus-twig-bridge": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

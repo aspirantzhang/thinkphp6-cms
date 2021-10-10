@@ -15,12 +15,6 @@
       "email": "liu21st@gmail.com"
     }
   ],
-  "repositories": [
-    {
-      "url": "https://github.com/yunwuxin/think-twig",
-      "type": "git"
-    }
-  ],
   "require": {
     "php": ">=7.1.0",
     "topthink/framework": "^6.0",
@@ -36,7 +30,7 @@
     "aspirantzhang/octopus-model-creator": "dev-main",
     "aspirantzhang/octopus-revision": "dev-main",
     "aspirantzhang/octopus-page-builder": "dev-master",
-    "yunwuxin/think-twig": "^3.0"
+    "aspirantzhang/octopus-twig-bridge": "dev-main"
   },
   "require-dev": {
     "symfony/var-dumper": "^4.2",
