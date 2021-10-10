@@ -9,7 +9,9 @@
 </head>
 
 <body>
-    ok {{ model('zhang') }}
+    test {% set lipsum = model('admin', 'paginatedList', [
+        {'admin_name': 'admin'}
+    ]) %} end
 </body>
 
 </html>

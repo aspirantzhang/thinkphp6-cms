@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6153f39cda9b099d54d3417dfc65978",
+    "content-hash": "a4bc02011a63f6fb0e7efaec3f6461d6",
     "packages": [
         {
             "name": "aspirantzhang/octopus-helper",
@@ -219,12 +219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-twig-bridge.git",
-                "reference": "9f2c3fed67fe382c67eecb33647c23da8ca634e6"
+                "reference": "2060f090a6ab726b04549f92adb0a0eaf019fdff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-twig-bridge/zipball/9f2c3fed67fe382c67eecb33647c23da8ca634e6",
-                "reference": "9f2c3fed67fe382c67eecb33647c23da8ca634e6",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-twig-bridge/zipball/2060f090a6ab726b04549f92adb0a0eaf019fdff",
+                "reference": "2060f090a6ab726b04549f92adb0a0eaf019fdff",
                 "shasum": ""
             },
             "require": {
@@ -262,7 +262,7 @@
             "support": {
                 "source": "https://github.com/aspirantzhang/octopus-twig-bridge/tree/main"
             },
-            "time": "2021-10-10T09:16:47+00:00"
+            "time": "2021-10-10T11:26:00+00:00"
         },
         {
             "name": "cakephp/core",

@@ -9,7 +9,7 @@ class TwigExtend extends \Twig\Extension\AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig\TwigFunction('model', [TwigRuntimeExtension::class, 'readModel']),
+            new \Twig\TwigFunction('model', [TwigRuntimeExtension::class, 'model']),
         ];
     }
 }

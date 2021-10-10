@@ -23,7 +23,7 @@ return [
     'taglib_begin'  => '{',
     // 标签库标签结束标记
     'taglib_end'    => '}',
-    'runtime' => app\index\RuntimeLoader::class,
+    'runtime' => app\index\TwigRuntimeLoader::class,
     'extensions' => [
         app\index\TwigExtend::class,
     ],
