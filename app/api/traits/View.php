@@ -7,6 +7,7 @@ namespace app\api\traits;
 use aspirantzhang\octopusPageBuilder\Builder;
 use think\facade\Config;
 use think\Exception;
+use aspirantzhang\octopusPageBuilder\PageBuilder;
 
 trait View
 {
@@ -59,6 +60,38 @@ trait View
         return [];
     }
 
+    public function buildBlockFields(PageBuilder $builder, array $blockData, string $type, string $tableName, array $addonData)
+    {
+        foreach ($blockData as $blockName => $blockFields) {
+            $fieldSet = [];
+            foreach ($blockFields as $field) {
+                $thisField = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+                if (isset($field['data'])) {
+                    $thisField = $thisField->data($field['data']);
+                }
+                if (isset($field['settings']['display'])) {
+                    if (in_array('editDisabled', $field['settings']['display'])) {
+                        $thisField->editDisabled = true;
+                    }
+                }
+                if ($field['name'] === $this->getTitleField()) {
+                    $thisField->titleField(true);
+                }
+                $fieldSet[] = $thisField->toArray();
+            }
+            if ($blockName === 'basic') {
+                $builtInFieldSet = [
+                    Builder::field('create_time')->type('datetime'),
+                    Builder::field('update_time')->type('datetime'),
+                    Builder::field('status')->type('switch')->data($addonData['status']),
+                ];
+                $fieldSet = array_merge($fieldSet, $builtInFieldSet);
+            }
+            $builder = $builder->$type($blockName, $fieldSet);
+        }
+        return $builder;
+    }
+
     public function addBuilder(array $addonData = [])
     {
         $model = $this->getModelData();
@@ -67,21 +100,11 @@ trait View
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']['data']) && isset($model['data']['layout']['addAction'])) {
-            $basic = [];
-            foreach ($model['data']['fields']['data'] as $addField) {
-                $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type']);
-                if (isset($addField['data'])) {
-                    $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
-                }
-                $basic[] = $thisField;
-            }
-            $addonFields = [
-                Builder::field('create_time')->type('datetime'),
-                Builder::field('update_time')->type('datetime'),
-                Builder::field('status')->type('switch')->data($addonData['status']),
-            ];
-            $basic = array_merge($basic, $addonFields);
+        if (isset($model['data']['fields']['tabs'])) {
+            $result = Builder::page($tableName . '-layout.' . $tableName . '-add');
+
+            $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
+            $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
 
             $action = [];
             foreach ($model['data']['layout']['addAction'] as $addAction) {
@@ -91,12 +114,9 @@ trait View
                 }
                 $action[] = $thisAction;
             }
+            $result = $result->action('actions', $action);
 
-            return Builder::page($tableName . '-layout.' . $tableName . '-add')
-                ->type('page')
-                ->tab('basic', $basic)
-                ->action('actions', $action)
-                ->toArray();
+            return $result->toArray();
         }
         return [];
     }
@@ -109,26 +129,11 @@ trait View
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']['data']) && isset($model['data']['layout']['editAction'])) {
-            $basic = [];
-            foreach ($model['data']['fields']['data'] as $addField) {
-                $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type']);
-                if (isset($addField['data'])) {
-                    $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
-                }
-                if (isset($addField['settings']['display'])) {
-                    if (in_array('editDisabled', $addField['settings']['display'])) {
-                        $thisField->editDisabled = true;
-                    }
-                }
-                $basic[] = $thisField;
-            }
-            $addonFields = [
-                Builder::field('create_time')->type('datetime'),
-                Builder::field('update_time')->type('datetime'),
-                Builder::field('status')->type('switch')->data($addonData['status']),
-            ];
-            $basic = array_merge($basic, $addonFields);
+        if (isset($model['data']['fields']['tabs'])) {
+            $result = Builder::page($tableName . '-layout.' . $tableName . '-add');
+
+            $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
+            $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
 
             $action = [];
             foreach ($model['data']['layout']['editAction'] as $editAction) {
@@ -140,12 +145,9 @@ trait View
 
                 $action[] = $thisAction;
             }
+            $result = $result->action('actions', $action);
 
-            return Builder::page($tableName . '-layout.' . $tableName . '-edit')
-                ->type('page')
-                ->tab('basic', $basic)
-                ->action('actions', $action)
-                ->toArray();
+            return $result->toArray();
         }
         return [];
     }
