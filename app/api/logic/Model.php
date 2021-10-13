@@ -92,4 +92,16 @@ class Model extends ModelView
         }
         return $result;
     }
+
+    protected function extractAllFields($designData)
+    {
+        $allFields = [];
+        foreach ($designData['tabs'] as $tab) {
+            $allFields = [...$allFields, ...$tab];
+        }
+        foreach ($designData['sidebars'] as $sidebar) {
+            $allFields = [...$allFields, ...$sidebar];
+        }
+        return $allFields;
+    }
 }

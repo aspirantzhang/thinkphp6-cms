@@ -88,7 +88,74 @@ class ModelTest extends \tests\api\TestCase
 
     public function testModelDesignUpdate()
     {
-        $this->startRequest('PUT', json_decode('{"type":"field","data":{"options":{"handleFieldValidation":true,"handleAllowField":true},"data":[{"name":"nickname","title":"Nick Name","type":"input","settings":{"validate":["require","length"],"options":{"length":{"min":4,"max":32}}},"allowHome":true,"allowRead":true,"allowSave":true,"allowUpdate":true,"allowTranslate":true},{"name":"gender","title":"Gender","type":"radio","data":[{"title":"Mx","value":"mx"},{"title":"Mr","value":"mr"},{"title":"Ms","value":"ms"}],"settings":{"validate":["require"]},"allowHome":true,"allowRead":true,"allowSave":true,"allowUpdate":true},{"name":"married","title":"Married","type":"switch","hideInColumn":true,"data":[{"title":"Yes","value":1},{"title":"No","value":0}],"settings":{"display":["listSorter"],"validate":["require"]},"allowHome":true,"allowRead":true,"allowUpdate":true,"allowSave":true}]}}', true));
+        $this->startRequest('PUT', json_decode('{
+            "type": "field",
+            "data": {
+              "options": { "handleFieldValidation": true, "handleAllowField": true },
+              "tabs": {
+                "basic": [
+                  {
+                    "name": "nickname",
+                    "title": "Nick Name",
+                    "type": "input",
+                    "settings": {
+                      "validate": ["require", "length"],
+                      "options": { "length": { "min": 4, "max": 32 } }
+                    },
+                    "allowHome": true,
+                    "allowRead": true,
+                    "allowSave": true,
+                    "allowUpdate": true,
+                    "allowTranslate": true
+                  },
+                  {
+                    "name": "gender",
+                    "title": "Gender",
+                    "type": "radio",
+                    "data": [
+                      { "title": "Mx", "value": "mx" },
+                      { "title": "Mr", "value": "mr" },
+                      { "title": "Ms", "value": "ms" }
+                    ],
+                    "settings": { "validate": ["require"] },
+                    "allowHome": true,
+                    "allowRead": true,
+                    "allowSave": true,
+                    "allowUpdate": true
+                  },
+                  {
+                    "name": "married",
+                    "title": "Married",
+                    "type": "switch",
+                    "hideInColumn": true,
+                    "data": [
+                      { "title": "Yes", "value": 1 },
+                      { "title": "No", "value": 0 }
+                    ],
+                    "settings": { "display": ["listSorter"], "validate": ["require"] },
+                    "allowHome": true,
+                    "allowRead": true,
+                    "allowUpdate": true,
+                    "allowSave": true
+                  }
+                ]
+              },
+              "sidebars": {
+                "basic": [
+                  {
+                    "name": "listOrder",
+                    "title": "Order",
+                    "type": "number",
+                    "settings": { "display": ["listSorter"], "validate": ["number"] },
+                    "allowHome": 1,
+                    "allowRead": 1,
+                    "allowSave": 1,
+                    "allowUpdate": 1
+                  }
+                ]
+              }
+            }
+          }', true));
         $modelController = new ModelController($this->app);
         $response = $modelController->designUpdate(1);
         $this->assertEquals(200, $response->getCode());

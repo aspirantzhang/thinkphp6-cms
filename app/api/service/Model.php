@@ -103,21 +103,22 @@ class Model extends ModelLogic
         $model->startTrans();
         switch ($type) {
             case 'field':
-                if (!empty($data) && !empty($data['data'])) {
-                    $allFields = extractValues($data['data'], 'name');
+                if (!empty($data) && !empty($data['tabs'])) {
+                    $allFields = $this->extractAllFields($data);
+                    $allFieldNames = extractValues($allFields, 'name');
                     if (
-                        $this->existMysqlReservedKeywords($allFields) ||
-                        $this->existReservedFieldNames($allFields)
+                        $this->existMysqlReservedKeywords($allFieldNames) ||
+                        $this->existReservedFieldNames($allFieldNames)
                     ) {
                         return $this->error($this->getError());
                     }
                     try {
                         $reservedFields = Config::get('reserved.reserved_field');
-                        $i18nTableFields = $this->extractTranslateFields($data['data']);
-                        $mainTableFields = array_diff($allFields, $reservedFields, $i18nTableFields);
+                        $i18nTableFields = $this->extractTranslateFields($allFields);
+                        $mainTableFields = array_diff($allFieldNames, $reservedFields, $i18nTableFields);
 
-                        ModelCreator::db($tableName, $modelTitle)->update($data['data'], $mainTableFields, $reservedFields, $i18nTableFields);
-                        ModelCreator::file($tableName, $modelTitle)->update($data['data'], $data['options']);
+                        ModelCreator::db($tableName, $modelTitle)->update($allFields, $mainTableFields, $reservedFields, $i18nTableFields);
+                        ModelCreator::file($tableName, $modelTitle)->update($allFields, $data['options']);
                         // model table save
                         $modelData['fields'] = $data;
                         $model->data = $modelData;
