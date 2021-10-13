@@ -25,7 +25,7 @@ trait Filter
     public function getTitleField(): string
     {
         $this->loadModelConfig();
-        return Config::get($this->getModelName() . '.titleField') ?: [];
+        return Config::get($this->getModelName() . '.titleField') ?: '';
     }
 
     public function getUniqueField()
