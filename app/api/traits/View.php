@@ -60,7 +60,7 @@ trait View
         return [];
     }
 
-    public function buildBlockFields(PageBuilder $builder, array $blockData, string $type, string $tableName, array $addonData)
+    private function buildBlockFields(PageBuilder $builder, array $blockData, string $type, string $tableName, array $addonData)
     {
         foreach ($blockData as $blockName => $blockFields) {
             $fieldSet = [];
@@ -92,6 +92,22 @@ trait View
         return $builder;
     }
 
+    private function buildBlockLayout(PageBuilder $builder, array $blockData, string $type, array $addon = [])
+    {
+        $actionSet = [];
+        foreach ($blockData as $layout) {
+            $thisAction = Builder::button($layout['name'])->type($layout['type'])->call($layout['call'])->method($layout['method']);
+            if (isset($layout['uri'])) {
+                if ($type === 'edit') {
+                    $layout['uri'] = str_replace(':id', (string)$addon['id'], $layout['uri']);
+                }
+                $thisAction = $thisAction->uri($layout['uri']);
+            }
+            $actionSet[] = $thisAction;
+        }
+        return empty($actionSet) ? $builder : $builder->action('actions', $actionSet);
+    }
+
     public function addBuilder(array $addonData = [])
     {
         $model = $this->getModelData();
@@ -105,16 +121,7 @@ trait View
 
             $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
             $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
-
-            $action = [];
-            foreach ($model['data']['layout']['addAction'] as $addAction) {
-                $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->call($addAction['call'])->method($addAction['method']);
-                if (isset($addAction['uri'])) {
-                    $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->call($addAction['call'])->uri($addAction['uri'])->method($addAction['method']);
-                }
-                $action[] = $thisAction;
-            }
-            $result = $result->action('actions', $action);
+            $result = $this->buildBlockLayout($result, $model['data']['layout']['addAction'], 'add');
 
             return $result->toArray();
         }
@@ -134,18 +141,7 @@ trait View
 
             $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
             $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
-
-            $action = [];
-            foreach ($model['data']['layout']['editAction'] as $editAction) {
-                $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->call($editAction['call'])->method($editAction['method']);
-                if (isset($editAction['uri'])) {
-                    $editAction['uri'] = str_replace(':id', (string)$id, $editAction['uri']);
-                    $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->call($editAction['call'])->uri($editAction['uri'])->method($editAction['method']);
-                }
-
-                $action[] = $thisAction;
-            }
-            $result = $result->action('actions', $action);
+            $result = $this->buildBlockLayout($result, $model['data']['layout']['editAction'], 'edit', ['id' => $id]);
 
             return $result->toArray();
         }
