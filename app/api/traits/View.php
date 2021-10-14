@@ -79,7 +79,7 @@ trait View
                 }
                 $fieldSet[] = $thisField->toArray();
             }
-            if ($blockName === 'basic') {
+            if ($type === 'sidebar' && $blockName === 'basic') {
                 $builtInFieldSet = [
                     Builder::field('create_time')->type('datetime'),
                     Builder::field('update_time')->type('datetime'),
