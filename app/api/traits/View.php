@@ -137,7 +137,7 @@ trait View
         $tableName = $model['table_name'];
 
         if (isset($model['data']['fields']['tabs'])) {
-            $result = Builder::page($tableName . '-layout.' . $tableName . '-add');
+            $result = Builder::page($tableName . '-layout.' . $tableName . '-edit');
 
             $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
             $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
