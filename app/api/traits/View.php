@@ -35,16 +35,19 @@ trait View
         return [];
     }
 
-    protected function fieldBuilder(array $data, string $tableName, $type = 'list')
+    protected function fieldBuilder(array $blockData, string $tableName, $type = 'list')
     {
-        if (!empty($data)) {
-            $result = [];
-            foreach ($data as $field) {
-                $row = [];
-                $row = (array)Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+        if (empty($blockData)) {
+            return [];
+        }
+        $result = [];
+        foreach ($blockData as $block) {
+            foreach ($block as $field) {
+                $row = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
                 if (isset($field['data'])) {
-                    $row = (array)Builder::field($tableName . '.' . $field['name'])->type($field['type'])->data($field['data']);
+                    $row = $row->data($field['data']);
                 }
+                $row = $row->toArray();
                 if (isset($field['settings']['display'])) {
                     if ($type === 'list' && in_array('hideInColumn', $field['settings']['display'])) {
                         continue;
@@ -55,9 +58,8 @@ trait View
                 }
                 $result[] = $row;
             }
-            return $result;
         }
-        return [];
+        return $result;
     }
 
     private function buildBlockFields(PageBuilder $builder, array $blockData, string $type, string $tableName, array $addonData)
@@ -173,8 +175,11 @@ trait View
         }
 
         $listFields = [];
-        if (isset($model['data']['fields']['data'])) {
-            $listFields = $this->fieldBuilder($model['data']['fields']['data'], $tableName);
+        if (isset($model['data']['fields']['tabs'])) {
+            $listFields = $this->fieldBuilder($model['data']['fields']['tabs'], $tableName);
+        }
+        if (isset($model['data']['fields']['sidebars'])) {
+            $listFields = array_merge($listFields, $this->fieldBuilder($model['data']['fields']['sidebars'], $tableName));
         }
 
         $addonFields = [
@@ -208,8 +213,15 @@ trait View
         $tableName = $model['table_name'];
 
         $translateFields = [];
-        if (isset($model['data']['fields']['data'])) {
-            foreach ($model['data']['fields']['data'] as $field) {
+        $allFields = [];
+        foreach ($model['data']['fields']['tabs'] as $tab) {
+            $allFields = array_merge($allFields, $tab);
+        }
+        foreach ($model['data']['fields']['sidebars'] as $sidebar) {
+            $allFields = array_merge($allFields, $sidebar);
+        }
+        if (!empty($allFields)) {
+            foreach ($allFields as $field) {
                 if ($field['allowTranslate'] ?? false) {
                     $translateFields[] = $field;
                 }
@@ -218,10 +230,10 @@ trait View
 
         $fields = [];
         if (!empty($translateFields)) {
-            $fields = $this->fieldBuilder($translateFields, $tableName, 'search');
+            $fields = $this->fieldBuilder([$translateFields], $tableName, 'search');
         }
 
-        return Builder::i18n('admin-layout.admin-i18n')
+        return Builder::i18n($tableName . '-layout.' . $tableName . '-i18n')
             ->layout(Config::get('lang.allow_lang_list'), $fields)
             ->toArray();
     }
