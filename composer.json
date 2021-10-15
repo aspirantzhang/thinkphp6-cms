@@ -29,7 +29,8 @@
     "aspirantzhang/octopus-helper": "dev-main",
     "aspirantzhang/octopus-model-creator": "dev-main",
     "aspirantzhang/octopus-revision": "dev-main",
-    "aspirantzhang/octopus-page-builder": "dev-master"
+    "aspirantzhang/octopus-page-builder": "dev-master",
+    "aspirantzhang/octopus-twig-bridge": "dev-main"
   },
   "require-dev": {
     "symfony/var-dumper": "^4.2",

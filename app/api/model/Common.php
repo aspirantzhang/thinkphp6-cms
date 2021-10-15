@@ -59,9 +59,14 @@ class Common extends GlobalModel
         return in_array($fieldName, $this->getAllowTranslate());
     }
 
+    private function getFieldNameBySearcherName(string $functionName): string
+    {
+        return parse_name(substr(substr($functionName, 6), 0, -4));
+    }
+
     protected function getQueryFieldName($functionName)
     {
-        $fieldName = getFieldNameBySearcherName($functionName);
+        $fieldName = $this->getFieldNameBySearcherName($functionName);
         if ($this->isTranslateField($fieldName)) {
             return 'i.' . $fieldName;
         }

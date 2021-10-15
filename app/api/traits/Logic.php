@@ -38,9 +38,39 @@ trait Logic
         return $dataSource;
     }
 
+    private function getSortParam(array $data, array $allowSort): array
+    {
+        $sort = [
+            'name' => 'id',
+            'order' => 'desc',
+        ];
+
+        if (isset($data['sort'])) {
+            // check if exist in allowed list
+            $sort['name'] = in_array($data['sort'], $allowSort) ? $data['sort'] : 'id';
+        }
+        if (isset($data['order'])) {
+            $sort['order'] = ('asc' == $data['order']) ? 'asc' : 'desc';
+        }
+
+        return $sort;
+    }
+
+    private function getListParams(array $params, array $allowHome, array $allowSort): array
+    {
+        $result = [];
+        $result['trash'] = $params['trash'] ?? 'withoutTrashed';
+        $result['per_page'] = $params['per_page'] ?? 10;
+        $result['visible'] = array_diff($allowHome, ['sort', 'order', 'page', 'per_page', 'trash']);
+        $result['search']['values'] = array_intersect_key($params, array_flip($result['visible']));
+        $result['search']['keys'] = array_keys($result['search']['values']);
+        $result['sort'] = $this->getSortParam($params, $allowSort);
+        return $result;
+    }
+
     protected function getListData(array $parameters = [], array $withRelation = [], string $type = 'normal'): array
     {
-        $params = getListParams($parameters, $this->getAllowHome(), $this->getAllowSort());
+        $params = $this->getListParams($parameters, $this->getAllowHome(), $this->getAllowSort());
         $result = $this;
 
         if ($params['trash'] !== 'withoutTrashed') {
