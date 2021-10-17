@@ -35,6 +35,24 @@ trait View
         return [];
     }
 
+    private function buildSingleField(string $tableName, array $field, string $type)
+    {
+        $result = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+        if (isset($field['data'])) {
+            $result = $result->data($field['data']);
+        }
+        $result = $result->toArray();
+        if (isset($field['settings']['display'])) {
+            if ($type === 'list' && in_array('hideInColumn', $field['settings']['display'])) {
+                return false;
+            }
+            if (in_array('listSorter', $field['settings']['display'])) {
+                $result['sorter'] = true;
+            }
+        }
+        return $result;
+    }
+
     protected function fieldBuilder(array $blockData, string $tableName, $type = 'list')
     {
         if (empty($blockData)) {
@@ -43,23 +61,31 @@ trait View
         $result = [];
         foreach ($blockData as $block) {
             foreach ($block as $field) {
-                $row = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
-                if (isset($field['data'])) {
-                    $row = $row->data($field['data']);
+                $singleField = $this->buildSingleField($tableName, $field, $type);
+                if ($singleField === false) {
+                    continue;
                 }
-                $row = $row->toArray();
-                if (isset($field['settings']['display'])) {
-                    if ($type === 'list' && in_array('hideInColumn', $field['settings']['display'])) {
-                        continue;
-                    }
-                    if (in_array('listSorter', $field['settings']['display'])) {
-                        $row['sorter'] = true;
-                    }
-                }
-                $result[] = $row;
+                $result[] = $this->buildSingleField($tableName, $field, $type);
             }
         }
         return $result;
+    }
+
+    private function buildSingleBlockField(array $field, string $tableName)
+    {
+        $result = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+        if (isset($field['data'])) {
+            $result = $result->data($field['data']);
+        }
+        if (isset($field['settings']['display'])) {
+            if (in_array('editDisabled', $field['settings']['display'])) {
+                $result->editDisabled = true;
+            }
+        }
+        if ($field['name'] === $this->getTitleField()) {
+            $result->titleField(true);
+        }
+        return $result->toArray();
     }
 
     private function buildBlockFields(PageBuilder $builder, array $blockData, string $type, string $tableName, array $addonData)
@@ -67,19 +93,7 @@ trait View
         foreach ($blockData as $blockName => $blockFields) {
             $fieldSet = [];
             foreach ($blockFields as $field) {
-                $thisField = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
-                if (isset($field['data'])) {
-                    $thisField = $thisField->data($field['data']);
-                }
-                if (isset($field['settings']['display'])) {
-                    if (in_array('editDisabled', $field['settings']['display'])) {
-                        $thisField->editDisabled = true;
-                    }
-                }
-                if ($field['name'] === $this->getTitleField()) {
-                    $thisField->titleField(true);
-                }
-                $fieldSet[] = $thisField->toArray();
+                $fieldSet[] = $this->buildSingleBlockField($field, $tableName);
             }
             if ($type === 'sidebar' && $blockName === 'basic') {
                 $builtInFieldSet = [
