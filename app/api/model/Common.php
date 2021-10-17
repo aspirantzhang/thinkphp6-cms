@@ -122,7 +122,7 @@ class Common extends GlobalModel
             return [];
         }
         $ignoreFilter = $this->getIgnoreFilter();
-        if ($ignoreFilter) {
+        if (empty($ignoreFilter)) {
             return $data;
         }
         if ($i18n) {
