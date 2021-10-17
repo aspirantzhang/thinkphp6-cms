@@ -10,3 +10,4 @@ parameters:
   ignoreErrors:
     - '#Call to an undefined static method think\\facade\\Db::query\(\)#'
     - '#Access to an undefined property think\\App::\$revision#'
+    - '#Parameter \#3 \$filter of static method think\\Request::param\(\) expects array\|string\, null given\.#'

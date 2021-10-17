@@ -104,7 +104,6 @@ class Admin extends AdminModel
 
         return Builder::page('admin-layout.admin-list')
             ->type('basic-list')
-            ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)

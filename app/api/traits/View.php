@@ -7,6 +7,7 @@ namespace app\api\traits;
 use aspirantzhang\octopusPageBuilder\Builder;
 use think\facade\Config;
 use think\Exception;
+use aspirantzhang\octopusPageBuilder\PageBuilder;
 
 trait View
 {
@@ -34,29 +35,91 @@ trait View
         return [];
     }
 
-    protected function fieldBuilder(array $data, string $tableName)
+    private function buildSingleField(string $tableName, array $field, string $type)
     {
-        if (!empty($data)) {
-            $result = [];
-            foreach ($data as $field) {
-                $row = [];
-                $row = (array)Builder::field($tableName . '.' . $field['name'])->type($field['type']);
-                if (isset($field['data'])) {
-                    $row = (array)Builder::field($tableName . '.' . $field['name'])->type($field['type'])->data($field['data']);
-                }
-                if (isset($field['settings']['display'])) {
-                    if (in_array('hideInColumn', $field['settings']['display'])) {
-                        continue;
-                    }
-                    if (in_array('listSorter', $field['settings']['display'])) {
-                        $row['sorter'] = true;
-                    }
-                }
-                $result[] = $row;
-            }
-            return $result;
+        $result = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+        if (isset($field['data'])) {
+            $result = $result->data($field['data']);
         }
-        return [];
+        $result = $result->toArray();
+        if (isset($field['settings']['display'])) {
+            if ($type === 'list' && in_array('hideInColumn', $field['settings']['display'])) {
+                return false;
+            }
+            if (in_array('listSorter', $field['settings']['display'])) {
+                $result['sorter'] = true;
+            }
+        }
+        return $result;
+    }
+
+    protected function fieldBuilder(array $blockData, string $tableName, $type = 'list')
+    {
+        if (empty($blockData)) {
+            return [];
+        }
+        $result = [];
+        foreach ($blockData as $block) {
+            foreach ($block as $field) {
+                $singleField = $this->buildSingleField($tableName, $field, $type);
+                if ($singleField === false) {
+                    continue;
+                }
+                $result[] = $this->buildSingleField($tableName, $field, $type);
+            }
+        }
+        return $result;
+    }
+
+    private function buildSingleBlockField(array $field, string $tableName)
+    {
+        $result = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+        if (isset($field['data'])) {
+            $result = $result->data($field['data']);
+        }
+        if (isset($field['settings']['display']) && in_array('editDisabled', $field['settings']['display'])) {
+            $result->editDisabled = true;
+        }
+        if ($field['name'] === $this->getTitleField()) {
+            $result->titleField(true);
+        }
+        return $result->toArray();
+    }
+
+    private function buildBlockFields(PageBuilder $builder, array $blockData, string $type, string $tableName, array $addonData)
+    {
+        foreach ($blockData as $blockName => $blockFields) {
+            $fieldSet = [];
+            foreach ($blockFields as $field) {
+                $fieldSet[] = $this->buildSingleBlockField($field, $tableName);
+            }
+            if ($type === 'sidebar' && $blockName === 'basic') {
+                $builtInFieldSet = [
+                    Builder::field('create_time')->type('datetime'),
+                    Builder::field('update_time')->type('datetime'),
+                    Builder::field('status')->type('switch')->data($addonData['status']),
+                ];
+                $fieldSet = array_merge($fieldSet, $builtInFieldSet);
+            }
+            $builder = $builder->$type($blockName, $fieldSet);
+        }
+        return $builder;
+    }
+
+    private function buildBlockLayout(PageBuilder $builder, array $blockData, string $type, array $addon = [])
+    {
+        $actionSet = [];
+        foreach ($blockData as $layout) {
+            $thisAction = Builder::button($layout['name'])->type($layout['type'])->call($layout['call'])->method($layout['method']);
+            if (isset($layout['uri'])) {
+                if ($type === 'edit') {
+                    $layout['uri'] = str_replace(':id', (string)$addon['id'], $layout['uri']);
+                }
+                $thisAction = $thisAction->uri($layout['uri']);
+            }
+            $actionSet[] = $thisAction;
+        }
+        return empty($actionSet) ? $builder : $builder->action('actions', $actionSet);
     }
 
     public function addBuilder(array $addonData = [])
@@ -67,36 +130,14 @@ trait View
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']['data']) && isset($model['data']['layout']['addAction'])) {
-            $basic = [];
-            foreach ($model['data']['fields']['data'] as $addField) {
-                $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type']);
-                if (isset($addField['data'])) {
-                    $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
-                }
-                $basic[] = $thisField;
-            }
-            $addonFields = [
-                Builder::field('create_time')->type('datetime'),
-                Builder::field('update_time')->type('datetime'),
-                Builder::field('status')->type('switch')->data($addonData['status']),
-            ];
-            $basic = array_merge($basic, $addonFields);
+        if (isset($model['data']['fields']['tabs'])) {
+            $result = Builder::page($tableName . '-layout.' . $tableName . '-add');
 
-            $action = [];
-            foreach ($model['data']['layout']['addAction'] as $addAction) {
-                $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->call($addAction['call'])->method($addAction['method']);
-                if (isset($addAction['uri'])) {
-                    $thisAction = Builder::button($addAction['name'])->type($addAction['type'])->call($addAction['call'])->uri($addAction['uri'])->method($addAction['method']);
-                }
-                $action[] = $thisAction;
-            }
+            $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
+            $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
+            $result = $this->buildBlockLayout($result, $model['data']['layout']['addAction'], 'add');
 
-            return Builder::page($tableName . '-layout.' . $tableName . '-add')
-                ->type('page')
-                ->tab('basic', $basic)
-                ->action('actions', $action)
-                ->toArray();
+            return $result->toArray();
         }
         return [];
     }
@@ -109,43 +150,14 @@ trait View
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']['data']) && isset($model['data']['layout']['editAction'])) {
-            $basic = [];
-            foreach ($model['data']['fields']['data'] as $addField) {
-                $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type']);
-                if (isset($addField['data'])) {
-                    $thisField = Builder::field($tableName . '.' . $addField['name'])->type($addField['type'])->data($addField['data']);
-                }
-                if (isset($addField['settings']['display'])) {
-                    if (in_array('editDisabled', $addField['settings']['display'])) {
-                        $thisField->editDisabled = true;
-                    }
-                }
-                $basic[] = $thisField;
-            }
-            $addonFields = [
-                Builder::field('create_time')->type('datetime'),
-                Builder::field('update_time')->type('datetime'),
-                Builder::field('status')->type('switch')->data($addonData['status']),
-            ];
-            $basic = array_merge($basic, $addonFields);
+        if (isset($model['data']['fields']['tabs'])) {
+            $result = Builder::page($tableName . '-layout.' . $tableName . '-edit');
 
-            $action = [];
-            foreach ($model['data']['layout']['editAction'] as $editAction) {
-                $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->call($editAction['call'])->method($editAction['method']);
-                if (isset($editAction['uri'])) {
-                    $editAction['uri'] = str_replace(':id', (string)$id, $editAction['uri']);
-                    $thisAction = Builder::button($editAction['name'])->type($editAction['type'])->call($editAction['call'])->uri($editAction['uri'])->method($editAction['method']);
-                }
+            $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
+            $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
+            $result = $this->buildBlockLayout($result, $model['data']['layout']['editAction'], 'edit', ['id' => $id]);
 
-                $action[] = $thisAction;
-            }
-
-            return Builder::page($tableName . '-layout.' . $tableName . '-edit')
-                ->type('page')
-                ->tab('basic', $basic)
-                ->action('actions', $action)
-                ->toArray();
+            return $result->toArray();
         }
         return [];
     }
@@ -175,8 +187,11 @@ trait View
         }
 
         $listFields = [];
-        if (isset($model['data']['fields']['data'])) {
-            $listFields = $this->fieldBuilder($model['data']['fields']['data'], $tableName);
+        if (isset($model['data']['fields']['tabs'])) {
+            $listFields = $this->fieldBuilder($model['data']['fields']['tabs'], $tableName);
+        }
+        if (isset($model['data']['fields']['sidebars'])) {
+            $listFields = array_merge($listFields, $this->fieldBuilder($model['data']['fields']['sidebars'], $tableName));
         }
 
         $addonFields = [
@@ -195,7 +210,6 @@ trait View
 
         return Builder::page($tableName . '-layout.' . $tableName . '-list')
             ->type('basic-list')
-            ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolbar)
             ->batchToolBar($batchToolbar)
@@ -211,8 +225,15 @@ trait View
         $tableName = $model['table_name'];
 
         $translateFields = [];
-        if (isset($model['data']['fields']['data'])) {
-            foreach ($model['data']['fields']['data'] as $field) {
+        $allFields = [];
+        foreach ($model['data']['fields']['tabs'] as $tab) {
+            $allFields = array_merge($allFields, $tab);
+        }
+        foreach ($model['data']['fields']['sidebars'] as $sidebar) {
+            $allFields = array_merge($allFields, $sidebar);
+        }
+        if (!empty($allFields)) {
+            foreach ($allFields as $field) {
                 if ($field['allowTranslate'] ?? false) {
                     $translateFields[] = $field;
                 }
@@ -221,10 +242,10 @@ trait View
 
         $fields = [];
         if (!empty($translateFields)) {
-            $fields = $this->fieldBuilder($translateFields, $tableName);
+            $fields = $this->fieldBuilder([$translateFields], $tableName, 'search');
         }
 
-        return Builder::i18n('admin-layout.admin-i18n')
+        return Builder::i18n($tableName . '-layout.' . $tableName . '-i18n')
             ->layout(Config::get('lang.allow_lang_list'), $fields)
             ->toArray();
     }

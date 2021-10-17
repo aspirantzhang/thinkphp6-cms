@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2fbca1007aeb47291bbc5230b9f98f5",
+    "content-hash": "a4bc02011a63f6fb0e7efaec3f6461d6",
     "packages": [
         {
             "name": "aspirantzhang/octopus-helper",
@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
-                "reference": "3edab0a0e6e0ade78a4068d93e755a73565c78d3"
+                "reference": "e519487bec17e2f99b0f5cb54c2f671b2f78822d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/3edab0a0e6e0ade78a4068d93e755a73565c78d3",
-                "reference": "3edab0a0e6e0ade78a4068d93e755a73565c78d3",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/e519487bec17e2f99b0f5cb54c2f671b2f78822d",
+                "reference": "e519487bec17e2f99b0f5cb54c2f671b2f78822d",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
                 "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
             },
-            "time": "2021-09-22T08:07:26+00:00"
+            "time": "2021-10-07T09:56:45+00:00"
         },
         {
             "name": "aspirantzhang/octopus-page-builder",
@@ -116,12 +116,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-page-builder.git",
-                "reference": "77fc8ef1b5830159b7842baaac22edb20e168e3d"
+                "reference": "778577b3a92ce623f22530e54f64c60e368a81b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-page-builder/zipball/77fc8ef1b5830159b7842baaac22edb20e168e3d",
-                "reference": "77fc8ef1b5830159b7842baaac22edb20e168e3d",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-page-builder/zipball/778577b3a92ce623f22530e54f64c60e368a81b2",
+                "reference": "778577b3a92ce623f22530e54f64c60e368a81b2",
                 "shasum": ""
             },
             "require": {
@@ -155,7 +155,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-page-builder/issues",
                 "source": "https://github.com/aspirantzhang/octopus-page-builder/tree/master"
             },
-            "time": "2021-09-22T10:58:08+00:00"
+            "time": "2021-10-11T08:35:15+00:00"
         },
         {
             "name": "aspirantzhang/octopus-revision",
@@ -163,12 +163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-revision.git",
-                "reference": "35a3e44b3708741d4fc9ee560dd26d3841ce5176"
+                "reference": "f9ed1d37ef09e5634a42888afd0223e5363f9dcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-revision/zipball/35a3e44b3708741d4fc9ee560dd26d3841ce5176",
-                "reference": "35a3e44b3708741d4fc9ee560dd26d3841ce5176",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-revision/zipball/f9ed1d37ef09e5634a42888afd0223e5363f9dcb",
+                "reference": "f9ed1d37ef09e5634a42888afd0223e5363f9dcb",
                 "shasum": ""
             },
             "require": {
@@ -211,7 +211,58 @@
                 "issues": "https://github.com/aspirantzhang/octopus-revision/issues",
                 "source": "https://github.com/aspirantzhang/octopus-revision/tree/main"
             },
-            "time": "2021-09-20T07:41:07+00:00"
+            "time": "2021-10-07T09:45:44+00:00"
+        },
+        {
+            "name": "aspirantzhang/octopus-twig-bridge",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aspirantzhang/octopus-twig-bridge.git",
+                "reference": "2060f090a6ab726b04549f92adb0a0eaf019fdff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-twig-bridge/zipball/2060f090a6ab726b04549f92adb0a0eaf019fdff",
+                "reference": "2060f090a6ab726b04549f92adb0a0eaf019fdff",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "^6.0",
+                "twig/twig": "^3.1.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "aspirantzhang\\octopusTwigBridge\\": "src/"
+                },
+                "classmap": [
+                    "src/Twig.php"
+                ],
+                "files": [
+                    "src/help.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "aspirantzhang",
+                    "email": "admin@aspirantzhang.com"
+                },
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "Integrate Twig into Thinkphp to make it easy to use and expand",
+            "support": {
+                "source": "https://github.com/aspirantzhang/octopus-twig-bridge/tree/main"
+            },
+            "time": "2021-10-10T11:26:00+00:00"
         },
         {
             "name": "cakephp/core",
@@ -2766,6 +2817,82 @@
             "time": "2019-11-06T11:40:13+00:00"
         },
         {
+            "name": "twig/twig",
+            "version": "v3.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "a27fa056df8a6384316288ca8b0fa3a35fdeb569"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a27fa056df8a6384316288ca8b0fa3a35fdeb569",
+                "reference": "a27fa056df8a6384316288ca8b0fa3a35fdeb569",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/polyfill-ctype": "^1.8",
+                "symfony/polyfill-mbstring": "^1.3"
+            },
+            "require-dev": {
+                "psr/container": "^1.0",
+                "symfony/phpunit-bridge": "^4.4.9|^5.0.9|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Twig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Twig Team",
+                    "role": "Contributors"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "https://twig.symfony.com",
+            "keywords": [
+                "templating"
+            ],
+            "support": {
+                "issues": "https://github.com/twigphp/Twig/issues",
+                "source": "https://github.com/twigphp/Twig/tree/v3.3.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-09-17T08:44:23+00:00"
+        },
+        {
             "name": "xiaodi/think-whoops",
             "version": "v1.1.8",
             "source": {
@@ -5312,7 +5439,8 @@
         "aspirantzhang/octopus-helper": 20,
         "aspirantzhang/octopus-model-creator": 20,
         "aspirantzhang/octopus-revision": 20,
-        "aspirantzhang/octopus-page-builder": 20
+        "aspirantzhang/octopus-page-builder": 20,
+        "aspirantzhang/octopus-twig-bridge": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

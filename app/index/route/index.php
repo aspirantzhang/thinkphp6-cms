@@ -3,6 +3,7 @@
 use think\facade\Route;
 
 Route::group('', function () {
-    Route::get('/', 'home');
-    Route::get('api', 'api');
+    Route::get('admins', 'admins');
 })->prefix('index/');
+
+Route::miss('page404');

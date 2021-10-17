@@ -13,12 +13,14 @@ class Model extends ModelLogic
 {
     public function saveAPI($data, array $relationModel = [])
     {
-        $tableName = $data['table_name'];
+        $data = $this->handleDataFilter($data);
+        $tableName = strtolower($data['table_name']);
         $modelTitle = $data['model_title'];
 
         if (
-            $this->isReservedTable($tableName) &&
-            !$this->checkUniqueValues($data) &&
+            $this->isReservedTable($tableName) ||
+            $this->existMysqlReservedKeywords([$tableName]) ||
+            !$this->checkUniqueValue($data) ||
             $this->tableAlreadyExist($tableName)
         ) {
             return $this->error($this->getError());
@@ -88,12 +90,11 @@ class Model extends ModelLogic
         if (!$model) {
             return $this->error(__('no target'));
         }
-
         $tableName = $model->getAttr('table_name');
         $modelTitle = $model->getAttr('model_title');
         $modelData = $model->getAttr('data');
         if (
-            $this->isReservedTable($tableName) &&
+            $this->isReservedTable($tableName) ||
             $this->tableNotExist($tableName)
         ) {
             return $this->error($this->getError());
@@ -102,15 +103,22 @@ class Model extends ModelLogic
         $model->startTrans();
         switch ($type) {
             case 'field':
-                if (!empty($data) && !empty($data['data'])) {
+                if (!empty($data) && !empty($data['tabs'])) {
+                    $allFields = $this->extractAllFields($data);
+                    $allFieldNames = extractValues($allFields, 'name');
+                    if (
+                        $this->existMysqlReservedKeywords($allFieldNames) ||
+                        $this->existReservedFieldNames($allFieldNames)
+                    ) {
+                        return $this->error($this->getError());
+                    }
                     try {
                         $reservedFields = Config::get('reserved.reserved_field');
-                        $allFields = extractValues($data['data'], 'name');
-                        $i18nTableFields = $this->extractTranslateFields($data['data']);
-                        $mainTableFields = array_diff($allFields, $reservedFields, $i18nTableFields);
+                        $i18nTableFields = $this->extractTranslateFields($allFields);
+                        $mainTableFields = array_diff($allFieldNames, $reservedFields, $i18nTableFields);
 
-                        ModelCreator::db($tableName, $modelTitle)->update($data['data'], $mainTableFields, $reservedFields, $i18nTableFields);
-                        ModelCreator::file($tableName, $modelTitle)->update($data['data'], $data['options']);
+                        ModelCreator::db($tableName, $modelTitle)->update($allFields, $mainTableFields, $reservedFields, $i18nTableFields);
+                        ModelCreator::file($tableName, $modelTitle)->update($allFields, $data['options']);
                         // model table save
                         $modelData['fields'] = $data;
                         $model->data = $modelData;

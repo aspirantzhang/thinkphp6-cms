@@ -7,13 +7,8 @@ namespace app\api\traits;
 use think\facade\Config;
 use aspirantzhang\octopusPageBuilder\Builder;
 
-trait AllowField
+trait Filter
 {
-    protected function getUniqueField(): array
-    {
-        return $this->uniqueField ?? [];
-    }
-
     protected function getAddonData($params = [])
     {
         $custom = [];
@@ -27,15 +22,27 @@ trait AllowField
         return array_merge($builtIn, $custom);
     }
 
-    private function loadAllowFieldsConfig()
+    public function getTitleField(): string
     {
-        $modelName = $this->getModelName();
-        Config::load(createPath('api', 'allowFields', $modelName), $modelName);
+        $this->loadModelConfig();
+        return Config::get($this->getModelName() . '.titleField') ?: '';
+    }
+
+    public function getUniqueField()
+    {
+        $this->loadModelConfig();
+        return Config::get($this->getModelName() . '.uniqueValue') ?: [];
+    }
+
+    public function getIgnoreFilter()
+    {
+        $this->loadModelConfig();
+        return Config::get($this->getModelName() . '.ignoreFilter') ?: [];
     }
 
     public function getAllowHome()
     {
-        $this->loadAllowFieldsConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowHome') ?: [];
         $custom = Config::get($this->getModelName() . '.allowHome') ?: [];
 
@@ -44,7 +51,7 @@ trait AllowField
 
     public function getAllowSort()
     {
-        $this->loadAllowFieldsConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowSort') ?: [];
         $custom = Config::get($this->getModelName() . '.allowSort') ?: [];
 
@@ -53,7 +60,7 @@ trait AllowField
 
     public function getAllowRead()
     {
-        $this->loadAllowFieldsConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowRead') ?: [];
         $custom = Config::get($this->getModelName() . '.allowRead') ?: [];
 
@@ -62,7 +69,7 @@ trait AllowField
 
     public function getAllowSave()
     {
-        $this->loadAllowFieldsConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowSave') ?: [];
         $custom = Config::get($this->getModelName() . '.allowSave') ?: [];
 
@@ -71,7 +78,7 @@ trait AllowField
 
     public function getAllowUpdate()
     {
-        $this->loadAllowFieldsConfig();
+        $this->loadModelConfig();
         $builtIn = Config::get('field.allowUpdate') ?: [];
         $custom = Config::get($this->getModelName() . '.allowUpdate') ?: [];
 
@@ -80,7 +87,7 @@ trait AllowField
 
     public function getAllowTranslate()
     {
-        $this->loadAllowFieldsConfig();
+        $this->loadModelConfig();
         return Config::get($this->getModelName() . '.allowTranslate') ?: [];
     }
 }

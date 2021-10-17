@@ -75,7 +75,7 @@ class Menu extends Common
 
     public function i18nRead(int $id)
     {
-        $result = $this->menu->i18nAPI($id);
+        $result = $this->menu->i18nReadAPI($id);
 
         return $this->json(...$result);
     }

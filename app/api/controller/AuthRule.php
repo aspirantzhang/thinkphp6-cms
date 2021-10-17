@@ -68,7 +68,7 @@ class AuthRule extends Common
 
     public function i18nRead(int $id)
     {
-        $result = $this->authRule->i18nAPI($id);
+        $result = $this->authRule->i18nReadAPI($id);
 
         return $this->json(...$result);
     }

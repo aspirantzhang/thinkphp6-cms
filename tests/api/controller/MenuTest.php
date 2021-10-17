@@ -6,8 +6,6 @@ namespace tests\api\controller;
 
 use app\api\controller\Menu as MenuController;
 
-require_once('./app/api/common.php');
-
 class MenuTest extends \tests\api\TestCase
 {
 

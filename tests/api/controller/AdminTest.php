@@ -6,8 +6,6 @@ namespace tests\api\controller;
 
 use app\api\controller\Admin as AdminController;
 
-require_once('./app/api/common.php');
-
 class AdminTest extends \tests\api\TestCase
 {
     protected function tearDown(): void

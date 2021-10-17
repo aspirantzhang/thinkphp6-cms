@@ -11,6 +11,28 @@ use think\Exception;
 
 class Model extends ModelView
 {
+    protected function existMysqlReservedKeywords(array $fieldNames)
+    {
+        $mysqlReservedKeywords = include createPath(root_path(), 'config', 'api', 'common', 'mysql_reserved') . '.php';
+        $intersect = array_intersect($mysqlReservedKeywords, $fieldNames);
+        if (empty($intersect)) {
+            return false;
+        }
+        $this->error = __('mysql reserved keyword', ['keyword' => implode(',', $intersect)]);
+        return true;
+    }
+
+    protected function existReservedFieldNames(array $fieldNames)
+    {
+        $reservedFieldNames = Config::get('reserved.reserved_field');
+        $intersect = array_intersect($reservedFieldNames, $fieldNames);
+        if (empty($intersect)) {
+            return false;
+        }
+        $this->error = __('reserved field name', ['fieldName' => implode(',', $intersect)]);
+        return true;
+    }
+
     protected function isReservedTable(string $tableName): bool
     {
         if (in_array($tableName, Config::get('reserved.reserved_table'))) {
@@ -52,11 +74,11 @@ class Model extends ModelView
     {
         $result = [];
         foreach ($allFields as $field) {
-            // only 'input' and 'textarea' can be translated
+            // only input/textarea/textEditor can be translated
             if (
                 isset($field['type']) &&
-                ($field['type'] === 'input' || $field['type'] === 'textarea') &&
-                $field['allowTranslate'] ?? false
+                ($field['type'] === 'input' || $field['type'] === 'textarea' || $field['type'] === 'textEditor') &&
+                ($field['allowTranslate'] ?? false)
             ) {
                 // cannot be marked as 'editDisabled' and 'translate' ATST
                 if (
@@ -69,5 +91,17 @@ class Model extends ModelView
             }
         }
         return $result;
+    }
+
+    protected function extractAllFields($designData)
+    {
+        $allFields = [];
+        foreach ($designData['tabs'] as $tab) {
+            $allFields = [...$allFields, ...$tab];
+        }
+        foreach ($designData['sidebars'] as $sidebar) {
+            $allFields = [...$allFields, ...$sidebar];
+        }
+        return $allFields;
     }
 }

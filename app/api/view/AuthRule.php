@@ -88,7 +88,6 @@ class AuthRule extends AuthRuleModel
 
         return Builder::page('auth_rule-layout.rule-list')
             ->type('basic-list')
-            ->searchBar(true)
             ->tableColumn($tableColumn)
             ->tableToolBar($tableToolBar)
             ->batchToolBar($batchToolBar)

@@ -13,14 +13,15 @@ trait Update
     {
         $model = $this->where('id', $id)->find();
         if ($model) {
-            if ($this->checkUniqueValues($data, $model->getAttr('id')) === false) {
+            $data = $this->handleDataFilter($data);
+            if ($this->checkUniqueValue($data, $model->getAttr('id')) === false) {
                 return $this->error($this->getError());
             }
             $model->startTrans();
             try {
-                (new RevisionAPI())->saveAPI('update (autosave)', $this->getTableName(), $id, $this->revisionTable);
+                (new RevisionAPI())->saveAPI('update (autosave)', $this->getTableName(), $id, $this->getRevisionTable());
                 $model->allowField($this->getNoNeedToTranslateFields('update'))->save($data);
-                $this->updateI18nData($data, $id, $this->getCurrentLanguage());
+                $this->updateI18nData($data, $id, $this->getCurrentLanguage(), date('Y-m-d H:i:s'), true);
                 if ($relationModel) {
                     foreach ($relationModel as $relation) {
                         if (isset($data[$relation])) {
@@ -44,7 +45,8 @@ trait Update
         $originalRecord = $this->where('id', $id)->find();
         if ($originalRecord) {
             $currentTime = date("Y-m-d H:i:s");
-            (new RevisionAPI())->saveAPI('i18n update (autosave)', $this->getTableName(), $id, $this->revisionTable);
+            (new RevisionAPI())->saveAPI('i18n update (autosave)', $this->getTableName(), $id, $this->getRevisionTable());
+            $data = $this->handleDataFilter($data, true);
             foreach ($data as $langCode => $fieldsData) {
                 // validator check
                 $modelValidator = '\app\api\validate\\' . $this->getModelName();

@@ -6,8 +6,6 @@ namespace tests\api\controller;
 
 use app\api\controller\AuthRule as RuleController;
 
-require_once('./app/api/common.php');
-
 class RuleTest extends \tests\api\TestCase
 {
     protected function tearDown(): void

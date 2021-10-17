@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace app\api\model;
 
 use think\facade\Lang;
+use think\facade\Request;
+use think\facade\Config;
 use app\common\model\GlobalModel;
 use think\model\concern\SoftDelete;
 use app\api\traits\Model as ModelTrait;
 use app\api\traits\Logic as LogicTrait;
 use app\api\traits\Service as ServiceTrait;
 use app\api\traits\View as ViewTrait;
-use app\api\traits\AllowField as AllowFieldTrait;
+use app\api\traits\Filter as FilterTrait;
+use aspirantzhang\octopusRevision\traits\Revision as RevisionTrait;
 
 class Common extends GlobalModel
 {
@@ -20,12 +23,10 @@ class Common extends GlobalModel
     use LogicTrait;
     use ServiceTrait;
     use ViewTrait;
-    use AllowFieldTrait;
+    use FilterTrait;
+    use RevisionTrait;
 
     protected $deleteTime = 'delete_time';
-    protected $uniqueField = null;
-    protected $titleField = null;
-    protected $revisionTable = [];
 
     public function getModelName()
     {
@@ -47,14 +48,25 @@ class Common extends GlobalModel
         return Lang::getLangSet();
     }
 
+    private function loadModelConfig()
+    {
+        $modelName = $this->getModelName();
+        Config::load(createPath('api', 'model', $modelName), $modelName);
+    }
+
     protected function isTranslateField($fieldName)
     {
         return in_array($fieldName, $this->getAllowTranslate());
     }
 
+    private function getFieldNameBySearcherName(string $functionName): string
+    {
+        return parse_name(substr(substr($functionName, 6), 0, -4));
+    }
+
     protected function getQueryFieldName($functionName)
     {
-        $fieldName = getFieldNameBySearcherName($functionName);
+        $fieldName = $this->getFieldNameBySearcherName($functionName);
         if ($this->isTranslateField($fieldName)) {
             return 'i.' . $fieldName;
         }
@@ -104,13 +116,29 @@ class Common extends GlobalModel
         return false;
     }
 
-    protected function getTitleField(): string
+    protected function handleDataFilter(array $data, bool $i18n = false): array
     {
-        return $this->titleField ?? 'id';
-    }
-
-    public function getRevisionTable(): array
-    {
-        return $this->revisionTable ?? [];
+        if (empty($data)) {
+            return [];
+        }
+        $ignoreFilter = $this->getIgnoreFilter();
+        if (empty($ignoreFilter)) {
+            return $data;
+        }
+        if ($i18n) {
+            // i18n, first level is language
+            foreach (array_keys($data) as $langName) {
+                foreach ($ignoreFilter as $fieldName) {
+                    $data[$langName][$fieldName] = Request::param($langName . '.' . $fieldName, '', null);
+                }
+            }
+            return $data;
+        }
+        // normal, one level
+        $unfiltered = [];
+        foreach ($ignoreFilter as $fieldName) {
+            $unfiltered[$fieldName] = Request::param($fieldName, '', null);
+        }
+        return array_merge($data, $unfiltered);
     }
 }

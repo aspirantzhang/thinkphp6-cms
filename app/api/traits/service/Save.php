@@ -8,7 +8,8 @@ trait Save
 {
     public function saveAPI(array $data, array $relationModel = [])
     {
-        if ($this->checkUniqueValues($data) === false) {
+        $data = $this->handleDataFilter($data);
+        if ($this->checkUniqueValue($data) === false) {
             return $this->error($this->getError());
         }
         $this->startTrans();

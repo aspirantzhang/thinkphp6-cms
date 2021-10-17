@@ -10,9 +10,6 @@ use app\api\service\AuthRule as AuthRuleService;
 class AuthGroup extends Common
 {
     protected $readonly = ['id'];
-    protected $uniqueField = ['group_title'];
-    protected $titleField = 'group_title';
-    protected $revisionTable = ['auth_group_rule' => 'group_id'];
 
     protected function setAddonData($params = [])
     {
