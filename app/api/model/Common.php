@@ -127,7 +127,7 @@ class Common extends GlobalModel
         }
         if ($i18n) {
             // i18n, first level is language
-            foreach ($data as $langName => $langFields) {
+            foreach (array_keys($data) as $langName) {
                 foreach ($ignoreFilter as $fieldName) {
                     $data[$langName][$fieldName] = Request::param($langName . '.' . $fieldName, '', null);
                 }
