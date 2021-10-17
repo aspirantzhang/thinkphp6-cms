@@ -77,10 +77,8 @@ trait View
         if (isset($field['data'])) {
             $result = $result->data($field['data']);
         }
-        if (isset($field['settings']['display'])) {
-            if (in_array('editDisabled', $field['settings']['display'])) {
-                $result->editDisabled = true;
-            }
+        if (isset($field['settings']['display']) && in_array('editDisabled', $field['settings']['display'])) {
+            $result->editDisabled = true;
         }
         if ($field['name'] === $this->getTitleField()) {
             $result->titleField(true);
