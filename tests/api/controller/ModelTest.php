@@ -6,8 +6,6 @@ namespace tests\api\controller;
 
 use app\api\controller\Model as ModelController;
 
-require_once('./app/api/common.php');
-
 class ModelTest extends \tests\api\TestCase
 {
 

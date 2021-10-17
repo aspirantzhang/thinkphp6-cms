@@ -6,8 +6,6 @@ namespace tests\api\controller;
 
 use app\api\controller\AuthGroup as GroupController;
 
-require_once('./app/api/common.php');
-
 class GroupTest extends \tests\api\TestCase
 {
 
