@@ -10,6 +10,22 @@ class Model extends Common
     protected $jsonAssoc = true;
     protected $readonly = ['id', 'model_title', 'table_name'];
 
+    protected function setAddonData($params = [])
+    {
+        return [
+            'type' => [
+                [
+                    'title' => '主模型',
+                    'value' => 1
+                ],
+                [
+                    'title' => '分类模型',
+                    'value' => 2
+                ],
+            ]
+        ];
+    }
+
     // Mutator
     public function setTableNameAttr($value)
     {
