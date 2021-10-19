@@ -14,6 +14,7 @@ final class ModelTable extends AbstractMigration
         $modelTable = $this->table('model', ['signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
         $modelTable->addColumn('table_name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('type', 'integer', ['limit' => MysqlAdapter::INT_TINY, 'signed' => false, 'default' => 1])
+            ->addColumn('parent_id', 'integer', ['signed' => false, 'default' => 0])
             ->addColumn('data', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR])
             ->addColumn('rule_id', 'integer', ['signed' => false, 'default' => 0])
             ->addColumn('menu_id', 'integer', ['signed' => false, 'default' => 0])

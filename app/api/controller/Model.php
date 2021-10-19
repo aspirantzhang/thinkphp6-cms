@@ -19,7 +19,7 @@ class Model extends Common
 
     public function home()
     {
-        $result = $this->model->paginatedListAPI($this->request->only($this->model->getAllowHome()));
+        $result = $this->model->treeListAPI($this->request->only($this->model->getAllowHome()));
 
         return $this->json(...$result);
     }

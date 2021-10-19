@@ -22,7 +22,8 @@ class Model extends Common
                     'title' => '分类模型',
                     'value' => 2
                 ],
-            ]
+            ],
+            'parent_id' => $this->treeDataAPI([], [], $params['id'] ?? 0)
         ];
     }
 

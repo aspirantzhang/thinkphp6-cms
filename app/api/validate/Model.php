@@ -17,6 +17,7 @@ class Model extends Validate
         'model_title' => 'require|length:2,32',
         'table_name' => 'require|length:2,10|checkTableName',
         'type' => 'numberTag',
+        'parent_id' => 'number|checkParentId',
     ];
 
     protected $message = [
@@ -37,10 +38,12 @@ class Model extends Validate
         'table_name.length' => 'model@table_name#length:2,10',
         'table_name.checkTableName' => 'model@table_name#checkTableName',
         'type.require' => 'model@type#numberTag',
+        'parent_id.number' => 'parent_id#number',
+        'parent_id.checkParentId' => 'parent_id#checkParentId',
     ];
 
     protected $scene = [
-        'save' => ['model_title', 'table_name', 'type', 'create_time', 'status'],
+        'save' => ['model_title', 'table_name', 'type', 'parent_id', 'create_time', 'status'],
         'update' => ['id'],
         'read' => ['id'],
         'delete' => ['ids'],
