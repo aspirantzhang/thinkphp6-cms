@@ -17,7 +17,7 @@ class Model extends Validate
         'model_title' => 'require|length:2,32',
         'table_name' => 'require|length:2,10|checkTableName',
         'type' => 'numberTag',
-        'parent_id' => 'number|checkParentId',
+        'parent_id' => 'number|checkParentId|requireIf:type,2',
     ];
 
     protected $message = [
@@ -40,6 +40,7 @@ class Model extends Validate
         'type.require' => 'model@type#numberTag',
         'parent_id.number' => 'parent_id#number',
         'parent_id.checkParentId' => 'parent_id#checkParentId',
+        'parent_id.requireIf' => 'model@parent_id#requireIf',
     ];
 
     protected $scene = [

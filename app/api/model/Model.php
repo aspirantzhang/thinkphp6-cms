@@ -15,11 +15,11 @@ class Model extends Common
         return [
             'type' => [
                 [
-                    'title' => '主模型',
+                    'title' => __('model.main_model'),
                     'value' => 1
                 ],
                 [
-                    'title' => '分类模型',
+                    'title' => __('model.category_model'),
                     'value' => 2
                 ],
             ],
