@@ -16,7 +16,9 @@ class Model extends ModelModel
             Builder::field('model.model_title')->type('input'),
             Builder::field('model.table_name')->type('input'),
             Builder::field('model.type')->type('radio')->data($addonData['type']),
-            Builder::field('parent_id')->type('parent')->data($addonData['parent_id']),
+            Builder::field('parent_id')->type('parent')->data($addonData['parent_id'])->setMyVisible([
+                'type' => 2
+            ]),
             Builder::field('create_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
