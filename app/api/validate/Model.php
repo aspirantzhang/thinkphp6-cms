@@ -16,7 +16,7 @@ class Model extends Validate
         'revisionId' => 'require|number',
         'model_title' => 'require|length:2,64',
         'table_name' => 'require|length:2,64|checkTableName',
-        'type' => 'numberTag',
+        'type' => 'require|numberTag',
         'parent_id' => 'number|checkParentId|requireIf:type,2',
     ];
 
@@ -37,7 +37,8 @@ class Model extends Validate
         'table_name.require' => 'model@table_name#require',
         'table_name.length' => 'model@table_name#length:2,64',
         'table_name.checkTableName' => 'model@table_name#checkTableName',
-        'type.require' => 'model@type#numberTag',
+        'type.require' => 'model@type#require',
+        'type.numberTag' => 'model@type#numberTag',
         'parent_id.number' => 'parent_id#number',
         'parent_id.checkParentId' => 'parent_id#checkParentId',
         'parent_id.requireIf' => 'model@parent_id#requireIf',
@@ -51,7 +52,7 @@ class Model extends Validate
         'restore' => ['ids'],
         'add' => [''],
         'design' => [''],
-        'design_update' => ['id', 'type'],
+        'design_update' => ['id'],
         'i18n_read' => ['id'],
         'i18n_update' => ['id'],
         'revision_home' => ['page', 'per_page'],
