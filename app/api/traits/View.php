@@ -71,11 +71,14 @@ trait View
         return $result;
     }
 
-    private function buildSingleBlockField(array $field, string $tableName)
+    private function buildSingleBlockField(array $field, string $tableName, array $addonData)
     {
         $result = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
         if (isset($field['data'])) {
             $result = $result->data($field['data']);
+        }
+        if ($field['type'] === 'tree' || $field['type'] === 'parent') {
+            $result = $result->data($addonData[$field['name']]);
         }
         if (isset($field['settings']['display']) && in_array('editDisabled', $field['settings']['display'])) {
             $result->editDisabled = true;
@@ -91,7 +94,7 @@ trait View
         foreach ($blockData as $blockName => $blockFields) {
             $fieldSet = [];
             foreach ($blockFields as $field) {
-                $fieldSet[] = $this->buildSingleBlockField($field, $tableName);
+                $fieldSet[] = $this->buildSingleBlockField($field, $tableName, $addonData);
             }
             if ($type === 'sidebar' && $blockName === 'basic') {
                 $builtInFieldSet = [
