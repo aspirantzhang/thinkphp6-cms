@@ -9,8 +9,11 @@ use think\facade\Config;
 use think\Exception;
 use aspirantzhang\octopusPageBuilder\PageBuilder;
 
+// TODO: need refactor, improve logic
 trait View
 {
+    private $operationType = 'add';
+
     protected function actionBuilder(array $data)
     {
         if (!empty($data)) {
@@ -80,7 +83,11 @@ trait View
         if ($field['type'] === 'tree' || $field['type'] === 'parent') {
             $result = $result->data($addonData[$field['name']]);
         }
-        if (isset($field['settings']['display']) && in_array('editDisabled', $field['settings']['display'])) {
+        if (
+            $this->operationType === 'edit' &&
+            isset($field['settings']['display']) &&
+            in_array('editDisabled', $field['settings']['display'])
+        ) {
             $result->editDisabled = true;
         }
         if ($field['name'] === $this->getTitleField()) {
@@ -127,6 +134,7 @@ trait View
 
     public function addBuilder(array $addonData = [])
     {
+        $this->operationType = 'add';
         $model = $this->getModelData();
         if (empty($model) || !isset($model['table_name'])) {
             throw new Exception(__('unable to get model data'));
@@ -147,6 +155,7 @@ trait View
 
     public function editBuilder(int $id, array $addonData = [])
     {
+        $this->operationType = 'edit';
         $model = $this->getModelData();
         if (empty($model) || !isset($model['table_name'])) {
             throw new Exception(__('unable to get model data'));
@@ -167,6 +176,7 @@ trait View
 
     public function listBuilder(array $addonData = [], array $params = [])
     {
+        $this->operationType = 'list';
         $model = $this->getModelData();
         if (empty($model) || !isset($model['table_name'])) {
             throw new Exception(__('unable to get model data'));
