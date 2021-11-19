@@ -9,7 +9,7 @@ return [
     "revisionId#number" => "Revision ID must be numbers only.",
     'parent_id#number' => 'Parent must be numbers only.',
     'parent_id#checkParentId' => 'Parent should not be itself.',
-    "status#numberTag" => "Invalid value: Status (NumberTag)",
+    "status#numberArray" => "Invalid value: Status (NumberArray)",
     "page#number" => "Page must be a numbers array.",
     "per_page#number" => "Per-page must be a numbers array.",
     "create_time#require" => "Create Time should not be empty.",

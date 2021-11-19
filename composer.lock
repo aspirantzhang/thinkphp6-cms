@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-helper.git",
-                "reference": "45440b5d2f7ac3d757b9a7a8abc441de11c022b6"
+                "reference": "b799e8fdf3490635add50b4c776b88116d448ed5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/45440b5d2f7ac3d757b9a7a8abc441de11c022b6",
-                "reference": "45440b5d2f7ac3d757b9a7a8abc441de11c022b6",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/b799e8fdf3490635add50b4c776b88116d448ed5",
+                "reference": "b799e8fdf3490635add50b4c776b88116d448ed5",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-helper/issues",
                 "source": "https://github.com/aspirantzhang/octopus-helper/tree/main"
             },
-            "time": "2021-09-19T13:39:36+00:00"
+            "time": "2021-11-19T07:00:12+00:00"
         },
         {
             "name": "aspirantzhang/octopus-model-creator",
@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
-                "reference": "08ba47ebb9f40f38921412b8e58d01ab94db2951"
+                "reference": "3196512656773bab26c6085278b7ef2217e94bd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/08ba47ebb9f40f38921412b8e58d01ab94db2951",
-                "reference": "08ba47ebb9f40f38921412b8e58d01ab94db2951",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/3196512656773bab26c6085278b7ef2217e94bd8",
+                "reference": "3196512656773bab26c6085278b7ef2217e94bd8",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
                 "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
             },
-            "time": "2021-11-14T13:11:16+00:00"
+            "time": "2021-11-19T08:30:19+00:00"
         },
         {
             "name": "aspirantzhang/octopus-page-builder",

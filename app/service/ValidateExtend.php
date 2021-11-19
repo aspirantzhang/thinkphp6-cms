@@ -32,38 +32,31 @@ class ValidateExtend extends \think\Service
                     return false;
                 }
             });
-
-            $validate->extend('numberTag', function ($value) {
+            /**
+             * support number string, number array or single number
+             */
+            $validate->extend('numberArray', function ($value) {
+                if (isInt($value)) {
+                    return true;
+                }
                 if (strpos($value, ',')) {
-                    $arr = explode(',', $value);
-                    foreach ($arr as $val) {
-                        if (!is_numeric($val)) {
+                    foreach (explode(',', $value) as $val) {
+                        if (!isInt($val)) {
                             return false;
                         }
                     }
                     return true;
-                } else {
-                    if (is_numeric($value)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
                 }
-            });
-
-            $validate->extend('numberArray', function ($value) {
                 if (is_array($value)) {
                     foreach ($value as $val) {
-                        if (!is_numeric($val)) {
+                        if (!isInt($val)) {
                             return false;
                         }
                     }
                     return true;
-                } else {
-                    return false;
                 }
+                return false;
             });
-
             $validate->extend('checkParentId', function ($value) {
                 return $value !== Request::param('id');
             });

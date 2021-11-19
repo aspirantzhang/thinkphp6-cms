@@ -6,5 +6,5 @@ return [
     "admin@password#require" => "密码 不可为空",
     "admin@password#length:6,32" => "密码 长度范围必须为 6 - 32",
     "admin@display_name#length:4,32" => "显示名称 长度范围必须为 4 - 32",
-    "admin@groups#numberTag" => "无效的值: 用户组",
+    "admin@groups#numberArray" => "无效的值: 用户组",
 ];

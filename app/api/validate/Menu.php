@@ -9,7 +9,7 @@ class Menu extends Validate
     protected $rule = [
         'id' => 'require|number',
         'parent_id' => 'number|checkParentId',
-        'status' => 'numberTag',
+        'status' => 'numberArray',
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
@@ -22,7 +22,7 @@ class Menu extends Validate
         'id.number' => 'id#number',
         'parent_id.number' => 'parent_id#number',
         'parent_id.checkParentId' => 'parent_id#checkParentId',
-        'status.numberTag' => 'status#numberTag',
+        'status.numberArray' => 'status#numberArray',
         'page.number' => 'page#number',
         'per_page.number' => 'per_page#number',
         'create_time.require' => 'create_time#require',

@@ -12,12 +12,12 @@ class Admin extends Validate
         'admin_name' => 'require|length:6,32',
         'password' => 'require|length:6,32',
         'display_name' => 'length:4,32',
-        'status' => 'numberTag',
+        'status' => 'numberArray',
         'page' => 'number',
         'per_page' => 'number',
         'create_time' => 'require|dateTimeRange',
         'revisionId' => 'require|number',
-        'groups' => 'numberTag',
+        'groups' => 'numberArray',
     ];
 
     protected $message = [
@@ -30,14 +30,14 @@ class Admin extends Validate
         'password.require' => 'admin@password#require',
         'password.length' => 'admin@password#length:6,32',
         'display_name.length' => 'admin@display_name#length:4,32',
-        'status.numberTag' => 'status#numberTag',
+        'status.numberArray' => 'status#numberArray',
         'page.number' => 'page#number',
         'per_page.number' => 'per_page#number',
         'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
         'revisionId.require' => 'revisionId#require',
         'revisionId.number' => 'revisionId#number',
-        'groups.numberTag' => 'admin@groups#numberTag',
+        'groups.numberArray' => 'admin@groups#numberArray',
     ];
 
     protected $scene = [
