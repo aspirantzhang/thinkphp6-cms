@@ -80,7 +80,7 @@ trait View
         if (isset($field['data'])) {
             $result = $result->data($field['data']);
         }
-        if ($field['type'] === 'tree' || $field['type'] === 'parent') {
+        if ($field['type'] === 'tree' || $field['type'] === 'parent' || $field['type'] === 'category') {
             $result = $result->data($addonData[$field['name']]);
         }
         if (
