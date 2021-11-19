@@ -16,7 +16,8 @@ class Model extends ModelLogic
         $data = $this->handleDataFilter($data);
         $tableName = strtolower($data['table_name']);
         $modelTitle = $data['model_title'];
-        $modelType = ['main', 'category'][($data['type'] - 1) || 0];
+        $typeIndex = isset($data['type']) ? $data['type'] - 1 : 0;
+        $modelType = ['main', 'category'][$typeIndex];
 
         if (
             $this->isReservedTable($tableName) ||
@@ -60,7 +61,8 @@ class Model extends ModelLogic
             if ($model) {
                 $tableName = $model->getAttr('table_name');
                 $modelTitle = $model->getAttr('model_title');
-                $modelType = ['main', 'category'][($model->getAttr('type') - 1) || 0];
+                $typeIndex = isset($model['type']) ? $model['type'] - 1 : 0;
+                $modelType = ['main', 'category'][$typeIndex];
                 $parentId = $model->getAttr('parent_id');
                 $ruleId = $model->getAttr('rule_id');
                 $menuId = $model->getAttr('menu_id');
