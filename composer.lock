@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
-                "reference": "3196512656773bab26c6085278b7ef2217e94bd8"
+                "reference": "59a1b697bddfaa9000826a17987b8ca1461eea19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/3196512656773bab26c6085278b7ef2217e94bd8",
-                "reference": "3196512656773bab26c6085278b7ef2217e94bd8",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/59a1b697bddfaa9000826a17987b8ca1461eea19",
+                "reference": "59a1b697bddfaa9000826a17987b8ca1461eea19",
                 "shasum": ""
             },
             "require": {
@@ -103,12 +103,12 @@
                     "email": "admin@aspirantzhang.com"
                 }
             ],
-            "description": "A complete model creator based on ThinkPHP6.",
+            "description": "A complete model creator for Octopus.",
             "support": {
                 "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
-                "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
+                "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/feature/categoryModel"
             },
-            "time": "2021-11-19T08:30:19+00:00"
+            "time": "2021-11-23T04:14:14+00:00"
         },
         {
             "name": "aspirantzhang/octopus-page-builder",

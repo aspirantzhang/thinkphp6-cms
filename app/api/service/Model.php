@@ -122,24 +122,13 @@ class Model extends ModelLogic
         switch ($type) {
             case 'field':
                 if (!empty($data) && !empty($data['tabs'])) {
-                    $allFields = $this->extractAllFields($data);
-                    $allFieldNames = extractValues($allFields, 'name');
-                    if (
-                        $this->existMysqlReservedKeywords($allFieldNames) ||
-                        $this->existReservedFieldNames($allFieldNames)
-                    ) {
-                        return $this->error($this->getError());
-                    }
                     try {
-                        $reservedFields = Config::get('reserved.reserved_field');
-                        $i18nTableFields = $this->extractTranslateFields($allFields);
-                        $mainTableFields = array_diff($allFieldNames, $reservedFields, $i18nTableFields);
                         $config = [
                             'name' => $tableName,
                             'title' => $modelTitle,
                         ];
-                        ModelCreator::db()->config($config)->update($allFields, $mainTableFields, $reservedFields, $i18nTableFields);
-                        ModelCreator::file()->config($config)->update($allFields, $data['options']);
+                        ModelCreator::db()->config($config)->update($data);
+                        ModelCreator::file()->config($config)->update($data);
                         // model table save
                         $modelData['fields'] = $data;
                         $model->data = $modelData;
@@ -169,7 +158,6 @@ class Model extends ModelLogic
             default:
                 break;
         }
-
         return $this->error(__('no target'));
     }
 }
