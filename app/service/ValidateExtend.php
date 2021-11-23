@@ -39,16 +39,16 @@ class ValidateExtend extends \think\Service
                 if (isInt($value)) {
                     return true;
                 }
-                if (strpos($value, ',')) {
-                    foreach (explode(',', $value) as $val) {
+                if (is_array($value)) {
+                    foreach ($value as $val) {
                         if (!isInt($val)) {
                             return false;
                         }
                     }
                     return true;
                 }
-                if (is_array($value)) {
-                    foreach ($value as $val) {
+                if (is_string($value) && strpos($value, ',')) {
+                    foreach (explode(',', $value) as $val) {
                         if (!isInt($val)) {
                             return false;
                         }
