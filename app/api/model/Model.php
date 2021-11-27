@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace app\api\model;
 
+use aspirantzhang\octopusModelCreator\ModelCreator;
+
 class Model extends Common
 {
     protected $json = ['data'];
@@ -28,11 +30,9 @@ class Model extends Common
     }
 
     // Mutator
-    public function setTableNameAttr($value)
+    public function setTableNameAttr($value, $data)
     {
-        $data = [];
-        $data['layout']['tableName'] = strtolower($value);
-        $this->set('data', $data);
+        $this->set('data', ModelCreator::db()->initModelDataField($data));
         return strtolower($value);
     }
 }

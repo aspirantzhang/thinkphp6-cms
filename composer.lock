@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-model-creator.git",
-                "reference": "59a1b697bddfaa9000826a17987b8ca1461eea19"
+                "reference": "83ff180edb3fa44057dd821547bd25f3810c3491"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/59a1b697bddfaa9000826a17987b8ca1461eea19",
-                "reference": "59a1b697bddfaa9000826a17987b8ca1461eea19",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-model-creator/zipball/83ff180edb3fa44057dd821547bd25f3810c3491",
+                "reference": "83ff180edb3fa44057dd821547bd25f3810c3491",
                 "shasum": ""
             },
             "require": {
@@ -106,9 +106,9 @@
             "description": "A complete model creator for Octopus.",
             "support": {
                 "issues": "https://github.com/aspirantzhang/octopus-model-creator/issues",
-                "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/feature/categoryModel"
+                "source": "https://github.com/aspirantzhang/octopus-model-creator/tree/main"
             },
-            "time": "2021-11-23T04:14:14+00:00"
+            "time": "2021-11-26T13:54:46+00:00"
         },
         {
             "name": "aspirantzhang/octopus-page-builder",
