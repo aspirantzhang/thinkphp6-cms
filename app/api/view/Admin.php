@@ -18,8 +18,6 @@ class Admin extends AdminModel
             Builder::field('admin.display_name')->type('input'),
             Builder::field('admin.groups')->type('tree')->data($addonData['groups']),
             Builder::field('admin.comment')->type('textarea'),
-            Builder::field('create_time')->type('datetime'),
-            Builder::field('update_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
         $action = [

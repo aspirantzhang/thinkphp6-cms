@@ -15,7 +15,7 @@ class Admin extends Validate
         'status' => 'numberArray',
         'page' => 'number',
         'per_page' => 'number',
-        'create_time' => 'require|dateTimeRange',
+        'create_time' => 'dateTimeRange',
         'revisionId' => 'require|number',
         'groups' => 'numberArray',
     ];
