@@ -16,7 +16,8 @@ class Model extends ModelLogic
         $data = $this->handleDataFilter($data);
         $tableName = strtolower($data['table_name']);
         $modelTitle = $data['model_title'];
-        $typeIndex = isset($data['type']) ? $data['type'] - 1 : 0;
+        $data['type'] = $data['type'] ?? 1;
+        $typeIndex = $data['type'] - 1;
         $modelType = ['main', 'category'][$typeIndex];
 
         if (
