@@ -33,7 +33,6 @@ class Admin extends Validate
         'status.numberArray' => 'status#numberArray',
         'page.number' => 'page#number',
         'per_page.number' => 'per_page#number',
-        'create_time.require' => 'create_time#require',
         'create_time.dateTimeRange' => 'create_time#dateTimeRange',
         'revisionId.require' => 'revisionId#require',
         'revisionId.number' => 'revisionId#number',
