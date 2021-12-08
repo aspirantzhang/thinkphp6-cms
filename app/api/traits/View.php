@@ -76,7 +76,8 @@ trait View
 
     private function buildSingleBlockField(array $field, string $tableName, array $addonData)
     {
-        $result = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+        $fieldName = $this->isReservedFieldName($field['name']) ? $field['name'] : ($tableName . '.' . $field['name']);
+        $result = Builder::field($fieldName)->type($field['type']);
         if (isset($field['data'])) {
             $result = $result->data($field['data']);
         }
@@ -98,21 +99,15 @@ trait View
 
     private function buildBlockFields(PageBuilder $builder, array $blockData, string $type, string $tableName, array $addonData)
     {
+        $fieldSet = [];
+
         foreach ($blockData as $blockName => $blockFields) {
-            $fieldSet = [];
             foreach ($blockFields as $field) {
                 $fieldSet[] = $this->buildSingleBlockField($field, $tableName, $addonData);
             }
-            if ($type === 'sidebar' && $blockName === 'basic') {
-                $builtInFieldSet = [
-                    Builder::field('create_time')->type('datetime'),
-                    Builder::field('update_time')->type('datetime'),
-                    Builder::field('status')->type('switch')->data($addonData['status']),
-                ];
-                $fieldSet = array_merge($fieldSet, $builtInFieldSet);
-            }
             $builder = $builder->$type($blockName, $fieldSet);
         }
+
         return $builder;
     }
 
@@ -141,16 +136,59 @@ trait View
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']['tabs'])) {
-            $result = Builder::page($tableName . '-layout.' . $tableName . '-add');
+        $result = Builder::page($tableName . '-layout.' . $tableName . '-add');
 
-            $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
-            $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
-            $result = $this->buildBlockLayout($result, $model['data']['layout']['addAction'], 'add');
-
-            return $result->toArray();
+        $basicTabs = [
+            [
+                'name' => 'title',
+                'title' => 'Title',
+                'type' => 'input',
+            ],
+            [
+                'name' => 'pathname',
+                'title' => 'Path',
+                'type' => 'input',
+            ],
+        ];
+        if (isset($model['data']['fields']['tabs']) && !empty($model['data']['fields']['tabs'])) {
+            $model['data']['fields']['tabs']['basic'] = [...$basicTabs, ...$model['data']['fields']['tabs']['basic']];
+        } else {
+            $model['data']['fields']['tabs']['basic'] = $basicTabs;
         }
-        return [];
+
+        $basicSidebars = [
+            [
+                'name' => 'create_time',
+                'title' => 'Create Time',
+                'type' => 'datetime',
+            ],
+            [
+                'name' => 'update_time',
+                'title' => 'Update Time',
+                'type' => 'datetime',
+            ],
+            [
+                'name' => 'status',
+                'title' => 'Status',
+                'type' => 'switch',
+            ],
+            [
+                'name' => 'list_order',
+                'title' => 'Order',
+                'type' => 'number',
+            ],
+        ];
+        if (isset($model['data']['fields']['sidebars']) && !empty($model['data']['fields']['sidebars'])) {
+            $model['data']['fields']['sidebars']['basic'] = [...$basicSidebars, ...$model['data']['fields']['sidebars']['basic']];
+        } else {
+            $model['data']['fields']['sidebars']['basic'] = $basicSidebars;
+        }
+
+        $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
+        $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
+        $result = $this->buildBlockLayout($result, $model['data']['layout']['addAction'] ?? [], 'add');
+
+        return $result->toArray();
     }
 
     public function editBuilder(int $id, array $addonData = [])
@@ -199,6 +237,10 @@ trait View
             }
         }
 
+        $builtInFront = [
+            Builder::field('title')->type('input'),
+        ];
+
         $listFields = [];
         if (isset($model['data']['fields']['tabs'])) {
             $listFields = $this->fieldBuilder($model['data']['fields']['tabs'], $tableName);
@@ -207,19 +249,20 @@ trait View
             $listFields = array_merge($listFields, $this->fieldBuilder($model['data']['fields']['sidebars'], $tableName));
         }
 
-        $addonFields = [
-            Builder::field('create_time')->type('datetime')->listSorter(true),
-            Builder::field('status')->type('switch')->data($addonData['status']),
-            Builder::field('i18n')->type('i18n'),
-            Builder::field('trash')->type('trash'),
-        ];
-
         $actions = [];
         if (isset($model['data']['layout']['listAction'])) {
             $actions = $this->actionBuilder($model['data']['layout']['listAction']);
         }
-        $actionFields = Builder::field('actions')->data($actions);
-        $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
+
+        $builtInEnd = [
+            Builder::field('create_time')->type('datetime')->listSorter(true),
+            Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('i18n')->type('i18n'),
+            Builder::field('trash')->type('trash'),
+            Builder::field('actions')->data($actions)
+        ];
+
+        $tableColumn = array_merge($builtInFront, $listFields, $builtInEnd);
 
         return Builder::page($tableName . '-layout.' . $tableName . '-list')
             ->type('basic-list')

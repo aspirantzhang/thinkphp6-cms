@@ -88,6 +88,9 @@ trait Filter
     public function getAllowTranslate()
     {
         $this->loadModelConfig();
-        return Config::get($this->getModelName() . '.allowTranslate') ?: [];
+        $builtIn = Config::get('field.allowTranslate') ?: [];
+        $custom = Config::get($this->getModelName() . '.allowTranslate') ?: [];
+
+        return array_merge($builtIn, $custom);
     }
 }

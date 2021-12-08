@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'title' => 'Title',
+    'pathname' => 'Pathname',
+    'list_order' => 'Order',
     'parent_id' => 'Parent ID',
     'create_time' => 'Create Time',
     'update_time' => 'Update Time',

@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'title' => '标题',
+    'pathname' => '网址路径名',
+    'list_order' => '排序权重',
     'parent_id' => '所属上级',
     'create_time' => '创建时间',
     'update_time' => '更新时间',

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace app\api\traits;
 
-use app\api\service\Model as ModelService;
-
 trait Model
 {
     // Accessor
@@ -47,17 +45,5 @@ trait Model
         $value = urldecode($value);
         $valueArray = (array)explode(',', $value);
         $query->whereBetweenTime('create_time', $valueArray[0], $valueArray[1]);
-    }
-
-    // Other
-    protected function getModelData(string $fieldName = '')
-    {
-        if ($fieldName) {
-            $result = ModelService::where('table_name', $this->getTableName())->find();
-            return $result['data'] ?? [];
-        } else {
-            $result = ModelService::where('table_name', $this->getTableName())->find();
-            return $result ?: [];
-        }
     }
 }

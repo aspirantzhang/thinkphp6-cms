@@ -3,6 +3,9 @@
 return [
     'reserved_field' => [
         'id',
+        'title',
+        'pathname',
+        'list_order',
         'create_time',
         'update_time',
         'delete_time',
