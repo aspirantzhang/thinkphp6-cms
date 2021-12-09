@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace app\api\traits;
 
-use aspirantzhang\octopusPageBuilder\Builder;
 use think\facade\Config;
 use think\Exception;
+use aspirantzhang\octopusPageBuilder\Builder;
 use aspirantzhang\octopusPageBuilder\PageBuilder;
+use aspirantzhang\octopusModelCreator\ModelCreator;
 
 // TODO: need refactor, improve logic
 trait View
@@ -136,54 +137,8 @@ trait View
         }
         $tableName = $model['table_name'];
 
+        $model = ModelCreator::db()->integrateWithBuiltInFields($model);
         $result = Builder::page($tableName . '-layout.' . $tableName . '-add');
-
-        $basicTabs = [
-            [
-                'name' => 'title',
-                'title' => 'Title',
-                'type' => 'input',
-            ],
-            [
-                'name' => 'pathname',
-                'title' => 'Path',
-                'type' => 'input',
-            ],
-        ];
-        if (isset($model['data']['fields']['tabs']) && !empty($model['data']['fields']['tabs'])) {
-            $model['data']['fields']['tabs']['basic'] = [...$basicTabs, ...$model['data']['fields']['tabs']['basic']];
-        } else {
-            $model['data']['fields']['tabs']['basic'] = $basicTabs;
-        }
-
-        $basicSidebars = [
-            [
-                'name' => 'create_time',
-                'title' => 'Create Time',
-                'type' => 'datetime',
-            ],
-            [
-                'name' => 'update_time',
-                'title' => 'Update Time',
-                'type' => 'datetime',
-            ],
-            [
-                'name' => 'status',
-                'title' => 'Status',
-                'type' => 'switch',
-            ],
-            [
-                'name' => 'list_order',
-                'title' => 'Order',
-                'type' => 'number',
-            ],
-        ];
-        if (isset($model['data']['fields']['sidebars']) && !empty($model['data']['fields']['sidebars'])) {
-            $model['data']['fields']['sidebars']['basic'] = [...$basicSidebars, ...$model['data']['fields']['sidebars']['basic']];
-        } else {
-            $model['data']['fields']['sidebars']['basic'] = $basicSidebars;
-        }
-
         $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
         $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
         $result = $this->buildBlockLayout($result, $model['data']['layout']['addAction'] ?? [], 'add');
@@ -200,16 +155,13 @@ trait View
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']['tabs'])) {
-            $result = Builder::page($tableName . '-layout.' . $tableName . '-edit');
+        $model = ModelCreator::db()->integrateWithBuiltInFields($model);
+        $result = Builder::page($tableName . '-layout.' . $tableName . '-edit');
+        $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
+        $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
+        $result = $this->buildBlockLayout($result, $model['data']['layout']['editAction'], 'edit', ['id' => $id]);
 
-            $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
-            $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
-            $result = $this->buildBlockLayout($result, $model['data']['layout']['editAction'], 'edit', ['id' => $id]);
-
-            return $result->toArray();
-        }
-        return [];
+        return $result->toArray();
     }
 
     public function listBuilder(array $addonData = [], array $params = [])
