@@ -41,7 +41,8 @@ trait View
 
     private function buildSingleField(string $tableName, array $field, string $type)
     {
-        $result = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+        $fieldName = $this->isReservedFieldName($field['name']) ? $field['name'] : ($tableName . '.' . $field['name']);
+        $result = Builder::field($fieldName)->type($field['type']);
         if (isset($field['data'])) {
             $result = $result->data($field['data']);
         }
@@ -232,14 +233,11 @@ trait View
         }
         $tableName = $model['table_name'];
 
+
+        $model = ModelCreator::db()->integrateWithBuiltInFields($model);
+        $allFields = ModelCreator::helper()->extractAllFields($model['data']['fields']);
+
         $translateFields = [];
-        $allFields = [];
-        foreach ($model['data']['fields']['tabs'] as $tab) {
-            $allFields = array_merge($allFields, $tab);
-        }
-        foreach ($model['data']['fields']['sidebars'] as $sidebar) {
-            $allFields = array_merge($allFields, $sidebar);
-        }
         if (!empty($allFields)) {
             foreach ($allFields as $field) {
                 if ($field['allowTranslate'] ?? false) {
