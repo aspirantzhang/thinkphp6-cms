@@ -104,6 +104,7 @@ trait View
         $fieldSet = [];
 
         foreach ($blockData as $blockName => $blockFields) {
+            $fieldSet = [];
             foreach ($blockFields as $field) {
                 $fieldSet[] = $this->buildSingleBlockField($field, $tableName, $addonData);
             }
