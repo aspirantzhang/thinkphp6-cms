@@ -12,11 +12,13 @@ trait Save
         if ($this->checkUniqueValue($data) === false) {
             return $this->error($this->getError());
         }
+
         $this->startTrans();
         try {
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
+
             $id = (int)$this->getAttr('id');
-            $this->saveI18nData($data, $id, $this->getCurrentLanguage(), convertTime($data['create_time']));
+            $this->saveI18nData($data, $id, $this->getCurrentLanguage(), convertTime($data['create_time'] ?? date('Y-m-d H:i:s')));
             if (!empty($relationModel)) {
                 foreach ($relationModel as $relation) {
                     $data[$relation] = $data[$relation] ?? [];

@@ -15,6 +15,10 @@ class Model extends ModelModel
         $basic = [
             Builder::field('model.model_title')->type('input'),
             Builder::field('model.table_name')->type('input'),
+            Builder::field('model.type')->type('radio')->data($addonData['type']),
+            Builder::field('parent_id')->type('parent')->data($addonData['parent_id'])->setMyVisible([
+                'type' => 2
+            ]),
             Builder::field('create_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
         ];
@@ -36,6 +40,8 @@ class Model extends ModelModel
         $basic = [
             Builder::field('model.model_title')->type('input')->editDisabled(true),
             Builder::field('model.table_name')->type('input')->editDisabled(true),
+            Builder::field('model.type')->type('radio')->data($addonData['type'])->editDisabled(true),
+            Builder::field('parent_id')->type('parent')->data($addonData['parent_id'])->editDisabled(true),
             Builder::field('create_time')->type('datetime'),
             Builder::field('update_time')->type('datetime'),
             Builder::field('status')->type('switch')->data($addonData['status']),
@@ -64,6 +70,7 @@ class Model extends ModelModel
         $tableColumn = [
             Builder::field('model.model_title')->type('input'),
             Builder::field('model.table_name')->type('input'),
+            Builder::field('model.type')->type('radio')->data($addonData['type']),
             Builder::field('create_time')->type('datetime')->listSorter(true),
             Builder::field('status')->type('switch')->data($addonData['status']),
             Builder::field('i18n')->type('i18n'),

@@ -25,7 +25,7 @@ trait Filter
     public function getTitleField(): string
     {
         $this->loadModelConfig();
-        return Config::get($this->getModelName() . '.titleField') ?: '';
+        return Config::get($this->getModelName() . '.titleField') ?: 'title';
     }
 
     public function getUniqueField()
@@ -88,6 +88,9 @@ trait Filter
     public function getAllowTranslate()
     {
         $this->loadModelConfig();
-        return Config::get($this->getModelName() . '.allowTranslate') ?: [];
+        $builtIn = Config::get('field.allowTranslate') ?: [];
+        $custom = Config::get($this->getModelName() . '.allowTranslate') ?: [];
+
+        return array_merge($builtIn, $custom);
     }
 }

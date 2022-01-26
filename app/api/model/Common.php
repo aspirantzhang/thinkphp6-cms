@@ -9,6 +9,7 @@ use think\facade\Request;
 use think\facade\Config;
 use app\common\model\GlobalModel;
 use think\model\concern\SoftDelete;
+use app\api\service\Model as ModelService;
 use app\api\traits\Model as ModelTrait;
 use app\api\traits\Logic as LogicTrait;
 use app\api\traits\Service as ServiceTrait;
@@ -140,5 +141,22 @@ class Common extends GlobalModel
             $unfiltered[$fieldName] = Request::param($fieldName, '', null);
         }
         return array_merge($data, $unfiltered);
+    }
+
+    protected function getModelData()
+    {
+        $result = ModelService::where('table_name', $this->getTableName())->find();
+        if ($result) {
+            return $result->toArray();
+        }
+        return [];
+    }
+
+    protected function isReservedFieldName(string $fieldName)
+    {
+        if (in_array($fieldName, Config::get('reserved.reserved_field'))) {
+            return true;
+        }
+        return false;
     }
 }

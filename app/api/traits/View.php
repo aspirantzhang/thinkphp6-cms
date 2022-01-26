@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace app\api\traits;
 
-use aspirantzhang\octopusPageBuilder\Builder;
 use think\facade\Config;
 use think\Exception;
+use aspirantzhang\octopusPageBuilder\Builder;
 use aspirantzhang\octopusPageBuilder\PageBuilder;
+use aspirantzhang\octopusModelCreator\ModelCreator;
 
+// TODO: need refactor, improve logic
 trait View
 {
+    private $operationType = 'add';
+
     protected function actionBuilder(array $data)
     {
         if (!empty($data)) {
@@ -37,7 +41,8 @@ trait View
 
     private function buildSingleField(string $tableName, array $field, string $type)
     {
-        $result = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+        $fieldName = $this->isReservedFieldName($field['name']) ? $field['name'] : ($tableName . '.' . $field['name']);
+        $result = Builder::field($fieldName)->type($field['type']);
         if (isset($field['data'])) {
             $result = $result->data($field['data']);
         }
@@ -71,13 +76,21 @@ trait View
         return $result;
     }
 
-    private function buildSingleBlockField(array $field, string $tableName)
+    private function buildSingleBlockField(array $field, string $tableName, array $addonData)
     {
-        $result = Builder::field($tableName . '.' . $field['name'])->type($field['type']);
+        $fieldName = $this->isReservedFieldName($field['name']) ? $field['name'] : ($tableName . '.' . $field['name']);
+        $result = Builder::field($fieldName)->type($field['type']);
         if (isset($field['data'])) {
             $result = $result->data($field['data']);
         }
-        if (isset($field['settings']['display']) && in_array('editDisabled', $field['settings']['display'])) {
+        if ($field['type'] === 'tree' || $field['type'] === 'parent' || $field['type'] === 'category') {
+            $result = $result->data($addonData[$field['name']]);
+        }
+        if (
+            $this->operationType === 'edit' &&
+            isset($field['settings']['display']) &&
+            in_array('editDisabled', $field['settings']['display'])
+        ) {
             $result->editDisabled = true;
         }
         if ($field['name'] === $this->getTitleField()) {
@@ -88,21 +101,16 @@ trait View
 
     private function buildBlockFields(PageBuilder $builder, array $blockData, string $type, string $tableName, array $addonData)
     {
+        $fieldSet = [];
+
         foreach ($blockData as $blockName => $blockFields) {
             $fieldSet = [];
             foreach ($blockFields as $field) {
-                $fieldSet[] = $this->buildSingleBlockField($field, $tableName);
-            }
-            if ($type === 'sidebar' && $blockName === 'basic') {
-                $builtInFieldSet = [
-                    Builder::field('create_time')->type('datetime'),
-                    Builder::field('update_time')->type('datetime'),
-                    Builder::field('status')->type('switch')->data($addonData['status']),
-                ];
-                $fieldSet = array_merge($fieldSet, $builtInFieldSet);
+                $fieldSet[] = $this->buildSingleBlockField($field, $tableName, $addonData);
             }
             $builder = $builder->$type($blockName, $fieldSet);
         }
+
         return $builder;
     }
 
@@ -124,46 +132,43 @@ trait View
 
     public function addBuilder(array $addonData = [])
     {
+        $this->operationType = 'add';
         $model = $this->getModelData();
         if (empty($model) || !isset($model['table_name'])) {
             throw new Exception(__('unable to get model data'));
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']['tabs'])) {
-            $result = Builder::page($tableName . '-layout.' . $tableName . '-add');
+        $model = ModelCreator::db()->integrateWithBuiltInFields($model);
+        $result = Builder::page($tableName . '-layout.' . $tableName . '-add');
+        $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
+        $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
+        $result = $this->buildBlockLayout($result, $model['data']['layout']['addAction'] ?? [], 'add');
 
-            $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
-            $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
-            $result = $this->buildBlockLayout($result, $model['data']['layout']['addAction'], 'add');
-
-            return $result->toArray();
-        }
-        return [];
+        return $result->toArray();
     }
 
     public function editBuilder(int $id, array $addonData = [])
     {
+        $this->operationType = 'edit';
         $model = $this->getModelData();
         if (empty($model) || !isset($model['table_name'])) {
             throw new Exception(__('unable to get model data'));
         }
         $tableName = $model['table_name'];
 
-        if (isset($model['data']['fields']['tabs'])) {
-            $result = Builder::page($tableName . '-layout.' . $tableName . '-edit');
+        $model = ModelCreator::db()->integrateWithBuiltInFields($model);
+        $result = Builder::page($tableName . '-layout.' . $tableName . '-edit');
+        $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
+        $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
+        $result = $this->buildBlockLayout($result, $model['data']['layout']['editAction'], 'edit', ['id' => $id]);
 
-            $result = $this->buildBlockFields($result, $model['data']['fields']['tabs'], 'tab', $tableName, $addonData);
-            $result = $this->buildBlockFields($result, $model['data']['fields']['sidebars'], 'sidebar', $tableName, $addonData);
-            $result = $this->buildBlockLayout($result, $model['data']['layout']['editAction'], 'edit', ['id' => $id]);
-
-            return $result->toArray();
-        }
-        return [];
+        return $result->toArray();
     }
 
     public function listBuilder(array $addonData = [], array $params = [])
     {
+        $this->operationType = 'list';
         $model = $this->getModelData();
         if (empty($model) || !isset($model['table_name'])) {
             throw new Exception(__('unable to get model data'));
@@ -186,6 +191,10 @@ trait View
             }
         }
 
+        $builtInFront = [
+            Builder::field('title')->type('input'),
+        ];
+
         $listFields = [];
         if (isset($model['data']['fields']['tabs'])) {
             $listFields = $this->fieldBuilder($model['data']['fields']['tabs'], $tableName);
@@ -194,19 +203,20 @@ trait View
             $listFields = array_merge($listFields, $this->fieldBuilder($model['data']['fields']['sidebars'], $tableName));
         }
 
-        $addonFields = [
-            Builder::field('create_time')->type('datetime')->listSorter(true),
-            Builder::field('status')->type('switch')->data($addonData['status']),
-            Builder::field('i18n')->type('i18n'),
-            Builder::field('trash')->type('trash'),
-        ];
-
         $actions = [];
         if (isset($model['data']['layout']['listAction'])) {
             $actions = $this->actionBuilder($model['data']['layout']['listAction']);
         }
-        $actionFields = Builder::field('actions')->data($actions);
-        $tableColumn = array_merge($listFields, $addonFields, [$actionFields]);
+
+        $builtInEnd = [
+            Builder::field('create_time')->type('datetime')->listSorter(true),
+            Builder::field('status')->type('switch')->data($addonData['status']),
+            Builder::field('i18n')->type('i18n'),
+            Builder::field('trash')->type('trash'),
+            Builder::field('actions')->data($actions)
+        ];
+
+        $tableColumn = array_merge($builtInFront, $listFields, $builtInEnd);
 
         return Builder::page($tableName . '-layout.' . $tableName . '-list')
             ->type('basic-list')
@@ -224,14 +234,11 @@ trait View
         }
         $tableName = $model['table_name'];
 
+
+        $model = ModelCreator::db()->integrateWithBuiltInFields($model);
+        $allFields = ModelCreator::helper()->extractAllFields($model['data']['fields']);
+
         $translateFields = [];
-        $allFields = [];
-        foreach ($model['data']['fields']['tabs'] as $tab) {
-            $allFields = array_merge($allFields, $tab);
-        }
-        foreach ($model['data']['fields']['sidebars'] as $sidebar) {
-            $allFields = array_merge($allFields, $sidebar);
-        }
         if (!empty($allFields)) {
             foreach ($allFields as $field) {
                 if ($field['allowTranslate'] ?? false) {

@@ -16,6 +16,9 @@ class Model extends ModelLogic
         $data = $this->handleDataFilter($data);
         $tableName = strtolower($data['table_name']);
         $modelTitle = $data['model_title'];
+        $data['type'] = $data['type'] ?? 1;
+        $typeIndex = $data['type'] - 1;
+        $modelType = ['main', 'category'][$typeIndex];
 
         if (
             $this->isReservedTable($tableName) ||
@@ -32,10 +35,16 @@ class Model extends ModelLogic
             $this->allowField($this->getNoNeedToTranslateFields('save'))->save($data);
             // save i18n table data
             $this->saveI18nData($data, (int)$this->getData('id'), $this->getCurrentLanguage(), convertTime($data['create_time']));
+            $config = [
+                'name' => $tableName,
+                'title' => $modelTitle,
+                'type' => $modelType,
+                'parentId' => $data['parent_id'] ?? 0,
+            ];
             // create files
-            ModelCreator::file($tableName, $modelTitle)->create();
+            ModelCreator::file()->config($config)->create();
             // create tables and record
-            $modelData = ModelCreator::db($tableName, $modelTitle)->create();
+            $modelData = ModelCreator::db()->config($config)->create();
             // save ruleId and menuId to model table
             static::update(['rule_id' => $modelData['topRuleId'], 'menu_id' => $modelData['topMenuId']], ['id' => $this->getData('id')]);
             $this->commit();
@@ -49,9 +58,13 @@ class Model extends ModelLogic
     public function deleteAPI(array $ids = [], string $type = 'delete')
     {
         if (isset($ids[0]) && $ids[0]) {
-            $model = $this->withTrashed()->find((int)$ids[0]);
+            $model = $this->withI18n($this->withTrashed())->find((int)$ids[0]);
             if ($model) {
                 $tableName = $model->getAttr('table_name');
+                $modelTitle = $model->getAttr('model_title');
+                $typeIndex = isset($model['type']) ? $model['type'] - 1 : 0;
+                $modelType = ['main', 'category'][$typeIndex];
+                $parentId = $model->getAttr('parent_id');
                 $ruleId = $model->getAttr('rule_id');
                 $menuId = $model->getAttr('menu_id');
                 $model->startTrans();
@@ -59,8 +72,14 @@ class Model extends ModelLogic
                     $model->force()->delete();
                     // delete i18n table record
                     $this->deleteI18nData((int)$ids[0]);
-                    ModelCreator::file($tableName)->remove();
-                    ModelCreator::db($tableName)->remove($ruleId, $menuId);
+                    $config = [
+                        'name' => $tableName,
+                        'title' => $modelTitle,
+                        'type' => $modelType,
+                        'parentId' => $parentId
+                    ];
+                    ModelCreator::file()->config($config)->remove();
+                    ModelCreator::db()->config($config)->remove($ruleId, $menuId);
                     $model->commit();
                     return $this->success(__('delete successfully'));
                 } catch (Exception $e) {
@@ -104,21 +123,13 @@ class Model extends ModelLogic
         switch ($type) {
             case 'field':
                 if (!empty($data) && !empty($data['tabs'])) {
-                    $allFields = $this->extractAllFields($data);
-                    $allFieldNames = extractValues($allFields, 'name');
-                    if (
-                        $this->existMysqlReservedKeywords($allFieldNames) ||
-                        $this->existReservedFieldNames($allFieldNames)
-                    ) {
-                        return $this->error($this->getError());
-                    }
                     try {
-                        $reservedFields = Config::get('reserved.reserved_field');
-                        $i18nTableFields = $this->extractTranslateFields($allFields);
-                        $mainTableFields = array_diff($allFieldNames, $reservedFields, $i18nTableFields);
-
-                        ModelCreator::db($tableName, $modelTitle)->update($allFields, $mainTableFields, $reservedFields, $i18nTableFields);
-                        ModelCreator::file($tableName, $modelTitle)->update($allFields, $data['options']);
+                        $config = [
+                            'name' => $tableName,
+                            'title' => $modelTitle,
+                        ];
+                        ModelCreator::db()->config($config)->update($data);
+                        ModelCreator::file()->config($config)->update($data);
                         // model table save
                         $modelData['fields'] = $data;
                         $model->data = $modelData;
@@ -148,7 +159,6 @@ class Model extends ModelLogic
             default:
                 break;
         }
-
         return $this->error(__('no target'));
     }
 }

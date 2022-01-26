@@ -6,5 +6,5 @@ return [
     "admin@password#require" => "Password should not be empty.",
     "admin@password#length:6,32" => "Password length should be between 6 - 32.",
     "admin@display_name#length:4,32" => "Display name length should be between 4 - 32.",
-    "admin@groups#numberTag" => "Invalid value: Groups",
+    "admin@groups#numberArray" => "Invalid value: Groups",
 ];
