@@ -18,8 +18,7 @@
   "require": {
     "php": ">=7.1.0",
     "topthink/framework": "^6.0",
-    "topthink/think-orm": "2.0.*-dev",
-    "topthink/think-view": "^1.0",
+    "topthink/think-orm": "^2.0",
     "nette/utils": "^3.0",
     "topthink/think-multi-app": "^1.0",
     "nhzex/think-phinx": "^1.1",
@@ -37,7 +36,8 @@
     "phpunit/phpunit": "^9.5",
     "mockery/mockery": "^1.4",
     "aspirantzhang/thinkphp6-unit-test": "^1.0",
-    "phpstan/phpstan": "^0.12.93"
+    "phpstan/phpstan": "^0.12.93",
+    "topthink/think-trace": "^1.4"
   },
   "autoload": {
     "psr-4": {

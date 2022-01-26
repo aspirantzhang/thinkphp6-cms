@@ -1,9 +1,9 @@
 <?php
 
-use think\facade\Env;
-
 return [
-    'default' => Env::get('filesystem.driver', 'local'),
+    // 默认磁盘
+    'default' => env('filesystem.driver', 'local'),
+    // 磁盘列表
     'disks'   => [
         'local'  => [
             'type' => 'local',

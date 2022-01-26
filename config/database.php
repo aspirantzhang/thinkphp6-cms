@@ -17,6 +17,9 @@ return [
     // 时间字段取出后的默认时间格式
     'datetime_format' => 'Y-m-d H:i:s',
 
+    // 时间字段配置 配置格式：create_time,update_time
+    'datetime_field'  => '',
+
     // 数据库连接配置信息
     'connections'     => [
         'mysql' => [
@@ -54,8 +57,6 @@ return [
             'trigger_sql'       => Env::get('database.debug', false),
             // 开启字段缓存
             'fields_cache'      => false,
-            // 字段缓存路径
-            'schema_cache_path' => app()->getRuntimePath() . 'schema' . DIRECTORY_SEPARATOR,
         ],
 
         // 更多的数据库配置信息
