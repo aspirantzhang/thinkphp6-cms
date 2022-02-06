@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\api\traits\service;
 
+use think\model\Relation;
 use think\facade\Config;
 use think\facade\Db;
 
@@ -15,8 +16,8 @@ trait Read
 
         if (!empty($relationModel)) {
             foreach ($relationModel as $relation) {
-                $relationArray[$relation] = function ($query) {
-                    $query->scope('status')->visible(['id']);
+                $relationArray[$relation] = function (Relation $query) {
+                    $query->getQuery()->where('status', 1);
                 };
             }
         }
