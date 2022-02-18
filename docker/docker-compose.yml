@@ -1,0 +1,53 @@
+version: "3.4"
+services:
+  web:
+    container_name: php-8.1-apache
+    image: php:8.1.2-apache
+    volumes:
+      - ../:/var/www/
+      - ../public/:/var/www/html/
+    ports:
+      - 3300:80
+    build: "./php"
+    networks:
+      - php-net
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: mysql
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      TZ: Asia/Shanghai
+    networks:
+      - php-net
+    ports:
+      - "3305:3306"
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 3304:80
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - PMA_USER=user
+      - PMA_PASSWORD=pass
+    networks:
+      - php-net
+    depends_on:
+      - mysql
+
+networks:
+  php-net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.2.1/24
