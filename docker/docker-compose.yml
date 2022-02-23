@@ -1,7 +1,7 @@
-version: "3.4"
+version: "3.9"
 services:
   web:
-    container_name: php-8.1-apache
+    container_name: php-apache
     image: php:8.1.2-apache
     volumes:
       - ../:/var/www/
@@ -11,8 +11,16 @@ services:
     build: "./php"
     networks:
       - php-net
+    command: >
+      sh -c "
+          /var/www/docker/magrate-db.sh &&
+          tail -f /dev/null
+        "
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    tty: true
+    stdin_open: true
 
   mysql:
     container_name: mysql
@@ -28,6 +36,19 @@ services:
       - php-net
     ports:
       - "3305:3306"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u$$MYSQL_USER",
+          "-p$$MYSQL_PASSWORD",
+        ]
+      timeout: 2s
+      retries: 10
 
   phpmyadmin:
     container_name: phpmyadmin

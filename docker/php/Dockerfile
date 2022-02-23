@@ -11,4 +11,5 @@ RUN echo "deb https://mirrors.aliyun.com/debian/ bullseye main non-free contrib"
     echo "deb-src https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib" >> /etc/apt/sources.list
 RUN apt-get update && \
     apt-get install -y git && \
-    docker-php-ext-install pdo pdo_mysql
+    docker-php-ext-install pdo pdo_mysql && \
+    a2enmod rewrite
