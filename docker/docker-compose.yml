@@ -13,8 +13,8 @@ services:
       - php-net
     command: >
       sh -c "
-          /var/www/docker/magrate-db.sh &&
-          tail -f /dev/null
+          /var/www/docker/migrate-db.sh &&
+          apache2-foreground
         "
     depends_on:
       mysql:
@@ -48,7 +48,7 @@ services:
           "-p$$MYSQL_PASSWORD",
         ]
       timeout: 2s
-      retries: 10
+      retries: 3
 
   phpmyadmin:
     container_name: phpmyadmin
