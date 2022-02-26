@@ -7,7 +7,7 @@ services:
       - ../:/var/www/
       - ../public/:/var/www/html/
     ports:
-      - 3300:80
+      - 2200:80
     build: "./php"
     networks:
       - php-net
@@ -35,7 +35,7 @@ services:
     networks:
       - php-net
     ports:
-      - "3305:3306"
+      - "2205:3306"
     healthcheck:
       test:
         [
@@ -55,7 +55,7 @@ services:
     image: phpmyadmin
     restart: always
     ports:
-      - 3304:80
+      - 2204:80
     environment:
       - PMA_HOST=mysql
       - PMA_PORT=3306
