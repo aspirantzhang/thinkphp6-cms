@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace app\core\facade;
 
 use app\backend\SystemException;
+use app\core\Facade;
 
-class NullFacade
+class NullFacade implements Facade
 {
     public function isNullFacade(): bool
     {
@@ -25,7 +26,7 @@ class NullFacade
 
     public static function __callStatic($name, $args)
     {
-        self::throwException();
+        (new self())->throwException();
     }
 
     public function __get($name)
