@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\backend\view;
+namespace app\core\view;
 
 class JsonView
 {

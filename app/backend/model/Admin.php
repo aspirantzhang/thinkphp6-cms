@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace app\backend\model;
 
-use app\backend\service\AuthGroup as AuthGroupService;
-
 class Admin extends Common
 {
     public static $config = [
