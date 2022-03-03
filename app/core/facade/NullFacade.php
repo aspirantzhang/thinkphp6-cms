@@ -7,12 +7,9 @@ namespace app\core\facade;
 use app\backend\SystemException;
 use app\core\Facade;
 
-class NullFacade implements Facade
+class NullFacade extends Facade
 {
-    public function isNullFacade(): bool
-    {
-        return true;
-    }
+    public bool $isNull = true;
 
     private function throwException(): never
     {

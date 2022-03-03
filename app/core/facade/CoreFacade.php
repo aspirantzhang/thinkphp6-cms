@@ -6,10 +6,7 @@ namespace app\core\facade;
 
 use app\core\Facade;
 
-abstract class CoreFacade implements Facade
+abstract class CoreFacade extends Facade
 {
-    public function isNullFacade(): bool
-    {
-        return false;
-    }
+    public bool $isNull = false;
 }
