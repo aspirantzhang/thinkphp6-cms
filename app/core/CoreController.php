@@ -7,9 +7,13 @@ namespace app\core;
 use app\common\controller\GlobalController;
 use app\core\Facade;
 use app\core\view\JsonView;
+use app\core\traits\{ActionController, AllowField};
 
 class CoreController extends GlobalController
 {
+    use ActionController;
+    use AllowField;
+
     protected Facade $facade;
     protected $jsonView;
 
@@ -37,14 +41,5 @@ class CoreController extends GlobalController
             return;
         }
         $this->jsonView = new JsonView();
-    }
-
-    public function getAllow(string $action): array
-    {
-        $modelClass = str_replace('controller', 'model', static::class);
-        if (class_exists($modelClass)) {
-            return $this->request->only($modelClass::$config[$action] ?? []);
-        }
-        return [];
     }
 }
