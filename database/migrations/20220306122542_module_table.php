@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DbMigrations;
 
 use Phinx\Migration\AbstractMigration;
+use Phinx\Db\Adapter\MysqlAdapter;
 
 final class ModuleTable extends AbstractMigration
 {
