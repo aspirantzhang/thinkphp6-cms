@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\core\facade;
 
 use app\core\Facade;
+use app\backend\SystemException;
 
 abstract class CoreFacade extends Facade
 {
@@ -23,5 +24,6 @@ abstract class CoreFacade extends Facade
             $this->model = new $modelClass();
             return;
         }
+        throw new SystemException('model cannot be instantiated: ' . $modelClass);
     }
 }
