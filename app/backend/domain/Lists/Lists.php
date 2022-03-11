@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace app\backend\domain\Lists;
 
-class Lists
+use app\core\model\Model;
+
+class Lists implements \JsonSerializable
 {
+    public const PAGINATED = 'paginated';
     private array $params;
     private array $option;
     private string $type;
@@ -13,7 +16,7 @@ class Lists
     private $result;
 
 
-    public function __construct(private $model)
+    public function __construct(protected Model | \think\db\Query $model)
     {
     }
 
@@ -48,24 +51,6 @@ class Lists
         }
     }
 
-    public function select()
-    {
-        $this->getListParams();
-        $this->buildTrash();
-        $this->buildWith();
-
-        // $result = $this->withI18n($result->with($withRelation))
-        $this->model = $this->model
-            ->withSearch($this->listParams['search']['keys'], $this->listParams['search']['values'])
-            ->order($this->listParams['sort']['name'], $this->listParams['sort']['order'])
-            ->visible($this->listParams['visible']);
-
-        if ($this->type === 'paginated') {
-            return $this->model->paginate($this->listParams['per_page'])->toArray();
-        }
-        return $this->model->select()->toArray();
-    }
-
     private function getListParams()
     {
         $result = [];
@@ -86,7 +71,6 @@ class Lists
         ];
 
         if (isset($data['sort'])) {
-            // check if exist in allowed list
             $sort['name'] = in_array($data['sort'], $this->model::$config['allowSort']) ? $data['sort'] : 'id';
         }
         if (isset($data['order'])) {
@@ -94,5 +78,23 @@ class Lists
         }
 
         return $sort;
+    }
+
+    public function jsonSerialize(): array
+    {
+        $this->getListParams();
+        $this->buildTrash();
+        $this->buildWith();
+
+        // TODO: add i18n $result = $this->withI18n($result->with($withRelation))
+        $this->model = $this->model
+            ->withSearch($this->listParams['search']['keys'], $this->listParams['search']['values'])
+            ->order($this->listParams['sort']['name'], $this->listParams['sort']['order'])
+            ->visible($this->listParams['visible']);
+
+        if ($this->type === 'paginated') {
+            return $this->model->paginate($this->listParams['per_page'])->toArray();
+        }
+        return $this->model->select()->toArray();
     }
 }
