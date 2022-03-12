@@ -44,7 +44,7 @@ class Lists implements \JsonSerializable
             $this->model = $this->model->{$this->listParams['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
         }
     }
-    private function buildWith()
+    private function buildWithModel()
     {
         if (isset($this->option['with'])) {
             $this->model = $this->model->with($this->option['with']);
@@ -80,11 +80,11 @@ class Lists implements \JsonSerializable
         return $sort;
     }
 
-    public function jsonSerialize(): array
+    private function getResult()
     {
         $this->getListParams();
         $this->buildTrash();
-        $this->buildWith();
+        $this->buildWithModel();
 
         // TODO: add i18n $result = $this->withI18n($result->with($withRelation))
         $this->model = $this->model
@@ -93,8 +93,18 @@ class Lists implements \JsonSerializable
             ->visible($this->listParams['visible']);
 
         if ($this->type === 'paginated') {
-            return $this->model->paginate($this->listParams['per_page'])->toArray();
+            return $this->model->paginate($this->listParams['per_page']);
         }
-        return $this->model->select()->toArray();
+        return $this->model->select();
+    }
+
+    public function toArray()
+    {
+        return $this->getResult()->toArray();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }
