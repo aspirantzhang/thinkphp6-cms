@@ -14,10 +14,11 @@ final class ModuleData extends AbstractMigration
         $field = [
             'admin_name' => [
                 'type' => 'input',
-                'order' => 0,
                 'unique' => true,
                 'filter' => true,
                 'translate' => false,
+                'position' => 'tab.main',
+                'order' => 0,
                 'allow' => [
                     'browse' => true,
                     'read' => true,
@@ -34,13 +35,12 @@ final class ModuleData extends AbstractMigration
             ],
             'password' => [
                 'type' => 'password',
-                'order' => 0,
                 'unique' => false,
                 'filter' => true,
                 'translate' => false,
-                'display' => [
-                    'hideInColumn' => true,
-                ],
+                'position' => 'tab.main',
+                'order' => 0,
+                'hideInColumn' => true,
                 'allow' => [
                     'browse' => false,
                     'read' => true,
@@ -57,10 +57,11 @@ final class ModuleData extends AbstractMigration
             ],
             'display_name' => [
                 'type' => 'input',
-                'order' => 0,
                 'unique' => false,
                 'filter' => true,
                 'translate' => true,
+                'position' => 'tab.main',
+                'order' => 0,
                 'allow' => [
                     'browse' => true,
                     'read' => true,
@@ -76,13 +77,12 @@ final class ModuleData extends AbstractMigration
             ],
             'comment' => [
                 'type' => 'textarea',
-                'order' => 0,
                 'unique' => false,
                 'filter' => true,
                 'translate' => true,
-                'display' => [
-                    'hideInColumn' => true,
-                ],
+                'order' => 0,
+                'position' => 'sidebar.main',
+                'hideInColumn' => true,
                 'allow' => [
                     'browse' => true,
                     'read' => true,
