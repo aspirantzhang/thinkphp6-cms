@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace app\backend\domain\Layout;
 
-abstract class Layout
+use app\core\model\Model;
+
+abstract class Layout implements \JsonSerializable
 {
     protected array $param;
     protected array $option;
-    protected array $module;
-    public function __construct(protected $model)
+
+    public function __construct(protected Model $model)
     {
     }
 
@@ -21,11 +23,6 @@ abstract class Layout
     public function withOption(array $option)
     {
         $this->option = $option;
-        return $this;
-    }
-    public function withModule(array $module)
-    {
-        $this->module = $module;
         return $this;
     }
 }

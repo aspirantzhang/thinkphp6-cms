@@ -16,7 +16,7 @@ final class ModuleTable extends AbstractMigration
             ->addColumn('parent_id', 'integer', ['signed' => false, 'default' => 0])
             ->addColumn('type', 'integer', ['limit' => MysqlAdapter::INT_TINY, 'signed' => false, 'default' => 1])
             ->addColumn('field', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR])
-            ->addColumn('layout', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR])
+            ->addColumn('operation', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR])
             ->addColumn('setting', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR])
             ->addColumn('create_time', 'datetime')
             ->addColumn('update_time', 'datetime')

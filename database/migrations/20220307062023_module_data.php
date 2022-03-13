@@ -105,6 +105,7 @@ final class ModuleData extends AbstractMigration
             [
                 'name' => 'add',
                 'position' => 'list.tableToolbar',
+                'order' => 0,
                 'type' => 'primary',
                 'call' => 'modal',
                 'method' => 'get',
@@ -113,6 +114,7 @@ final class ModuleData extends AbstractMigration
             [
                 'name' => 'delete',
                 'position' => 'list.batchToolbar',
+                'order' => 0,
                 'type' => 'danger',
                 'call' => 'delete',
                 'method' => 'post',
@@ -121,6 +123,7 @@ final class ModuleData extends AbstractMigration
             [
                 'name' => 'disable',
                 'position' => 'list.batchToolbar',
+                'order' => 0,
                 'type' => 'normal',
                 'call' => 'disable',
                 'method' => 'post',
@@ -132,8 +135,8 @@ final class ModuleData extends AbstractMigration
                 'id' => 1,
                 'table_name' => 'admin',
                 'field' => json_encode($field),
-                'operation' => '',
-                'setting' => '',
+                'operation' => json_encode($operation),
+                'setting' => json_encode([]),
                 'create_time' => $currentTime,
                 'update_time' => $currentTime,
             ],
