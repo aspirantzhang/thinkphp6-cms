@@ -12,7 +12,8 @@ final class ModuleData extends AbstractMigration
     {
         $currentTime = date('Y-m-d H:i:s');
         $field = [
-            'admin_name' => [
+            [
+                'name' => 'admin_name',
                 'type' => 'input',
                 'unique' => true,
                 'filter' => true,
@@ -33,7 +34,8 @@ final class ModuleData extends AbstractMigration
                     ]
                 ]
             ],
-            'password' => [
+            [
+                'name' => 'password',
                 'type' => 'password',
                 'unique' => false,
                 'filter' => true,
@@ -55,7 +57,8 @@ final class ModuleData extends AbstractMigration
                     ],
                 ]
             ],
-            'display_name' => [
+            [
+                'name' => 'display_name',
                 'type' => 'input',
                 'unique' => false,
                 'filter' => true,
@@ -75,7 +78,8 @@ final class ModuleData extends AbstractMigration
                     ]
                 ]
             ],
-            'comment' => [
+            [
+                'name' => 'comment',
                 'type' => 'textarea',
                 'unique' => false,
                 'filter' => true,
@@ -97,12 +101,38 @@ final class ModuleData extends AbstractMigration
                 ]
             ],
         ];
+        $operation = [
+            [
+                'name' => 'add',
+                'position' => 'list.tableToolbar',
+                'type' => 'primary',
+                'call' => 'modal',
+                'method' => 'get',
+                'uri' => '/backend/admins/add'
+            ],
+            [
+                'name' => 'delete',
+                'position' => 'list.batchToolbar',
+                'type' => 'danger',
+                'call' => 'delete',
+                'method' => 'post',
+                'uri' => '/backend/admins/delete'
+            ],
+            [
+                'name' => 'disable',
+                'position' => 'list.batchToolbar',
+                'type' => 'normal',
+                'call' => 'disable',
+                'method' => 'post',
+                'uri' => '/backend/admins/disable'
+            ],
+        ];
         $mainTableRows = [
             [
                 'id' => 1,
                 'table_name' => 'admin',
                 'field' => json_encode($field),
-                'layout' => '',
+                'operation' => '',
                 'setting' => '',
                 'create_time' => $currentTime,
                 'update_time' => $currentTime,
