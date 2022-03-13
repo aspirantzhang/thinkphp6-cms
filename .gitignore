@@ -8,3 +8,5 @@
 /public/admin/*
 !/public/admin/.htaccess
 phpunit.xml
+*.ignore.*
+*.ignore/
