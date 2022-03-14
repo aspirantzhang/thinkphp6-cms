@@ -6,5 +6,4 @@ namespace app\backend;
 
 class SystemException extends \think\Exception
 {
-
 }

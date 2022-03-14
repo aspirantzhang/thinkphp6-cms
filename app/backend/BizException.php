@@ -6,5 +6,4 @@ namespace app\backend;
 
 class BizException extends \think\Exception
 {
-
 }

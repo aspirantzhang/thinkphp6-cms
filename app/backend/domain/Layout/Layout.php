@@ -9,6 +9,7 @@ use app\core\model\Model;
 abstract class Layout implements \JsonSerializable
 {
     protected array $param;
+
     protected array $option;
 
     public function __construct(protected Model $model)
@@ -20,6 +21,7 @@ abstract class Layout implements \JsonSerializable
         $this->param = $param;
         return $this;
     }
+
     public function withOption(array $option)
     {
         $this->option = $option;

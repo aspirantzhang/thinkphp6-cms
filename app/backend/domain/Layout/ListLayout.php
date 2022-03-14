@@ -9,10 +9,15 @@ use app\backend\SystemException;
 class ListLayout extends Layout
 {
     private $data;
+
     private $tableColumn;
+
     private $tableToolBar;
+
     private $batchToolbar;
+
     private $dataSource;
+
     private $meta;
 
     public function withData($data)

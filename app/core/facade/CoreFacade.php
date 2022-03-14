@@ -12,6 +12,7 @@ use think\db\Query;
 abstract class CoreFacade extends Facade
 {
     protected Model | Query $model;
+
     public bool $isNull = false;
 
     public function __construct()

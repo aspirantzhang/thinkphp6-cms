@@ -10,3 +10,4 @@
 phpunit.xml
 *.ignore.*
 *.ignore/
+.php-cs-fixer.cache

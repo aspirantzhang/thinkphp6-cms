@@ -13,8 +13,8 @@ use app\api\service\AuthGroup;
 
 class Auth
 {
- 
     protected static $instance;
+
     /**
      * 默认配置
      * 优先级低于 config/auth.php
@@ -27,6 +27,7 @@ class Auth
         'auth_rule' => 'auth_rule', // 权限规则表
         'auth_user' => 'admin', // 用户信息表
     ];
+
     /**
      * 构造方法
      * Auth constructor.
@@ -38,7 +39,7 @@ class Auth
             $this->config = array_merge($this->config, $auth);
         }
     }
-    
+
     private function __clone()
     {
     }
@@ -68,7 +69,6 @@ class Auth
      */
     public function check($name, int $admin_id, string $relation = 'or', int $type = 1, $mode = 'url'): bool
     {
-        
         if (!$this->config['auth_on']) {
             return true;
         }
@@ -83,7 +83,7 @@ class Auth
             }
         }
         $list = [];
-//保存验证通过的规则名
+        //保存验证通过的规则名
         if ('url' == $mode) {
             $REQUEST = unserialize(strtolower(serialize(Request::param())));
         }
@@ -91,11 +91,11 @@ class Auth
             $query = preg_replace('/^.+\?/U', '', $auth);
             if ('url' == $mode && $query != $auth) {
                 parse_str($query, $param);
-            //解析规则中的param
+                //解析规则中的param
                 $intersect = array_intersect_assoc($REQUEST, $param);
                 $auth = preg_replace('/\?.*$/U', '', $auth);
                 if (in_array($auth, $name) && $intersect == $param) {
-        //如果节点相符且url参数满足
+                    //如果节点相符且url参数满足
                     $list[] = $auth;
                 }
             } else {
@@ -117,6 +117,7 @@ class Auth
         }
         return false;
     }
+
     /**
      * 根据用户id获取用户组,返回值为数组
      * @param  $admin_id int     用户id
@@ -167,7 +168,7 @@ class Auth
     protected function getAuthList(int $admin_id, int $type): array
     {
         static $_authList = [];
-//保存用户验证通过的权限列表
+        //保存用户验证通过的权限列表
         $t = implode(',', (array) $type);
         if (isset($_authList[$admin_id . $t])) {
             return $_authList[$admin_id . $t];
@@ -178,7 +179,7 @@ class Auth
         //读取用户所属用户组
         $ids = $this->getGroups($admin_id);
 //         $ids = [];
-// //保存用户所属用户组设置的所有权限规则id
+        // //保存用户所属用户组设置的所有权限规则id
 //         foreach ($ids as $g) {
 //             $ids = array_merge($ids, explode(',', trim($g['rules'], ',')));
 //         }
@@ -192,30 +193,30 @@ class Auth
             'type' => $type,
             'status' => 1,
         );
-//读取用户组所有权限规则
+        //读取用户组所有权限规则
         $rules = Db::name($this->config['auth_rule'])->where($map)->field('condition,rule_path')->select();
-//循环规则，判断结果。
+        //循环规则，判断结果。
         $authList = [];
 //
         foreach ($rules as $rule) {
             if (!empty($rule['condition'])) {
-            //根据condition进行验证
+                //根据condition进行验证
                 $user = $this->getUserInfo($admin_id);
-            //获取用户信息,一维数组
+                //获取用户信息,一维数组
                 $command = preg_replace('/\{(\w*?)\}/', '$user[\'\\1\']', $rule['condition']);
-            //dump($command); //debug
+                //dump($command); //debug
                 @(eval('$condition=(' . $command . ');'));
                 if ($condition) {
                     $authList[] = strtolower($rule['rule_path']);
                 }
             } else {
-            //只要存在就记录
+                //只要存在就记录
                 $authList[] = strtolower($rule['rule_path']);
             }
         }
         $_authList[$admin_id . $t] = $authList;
         if (2 == $this->config['auth_type']) {
-        //规则列表结果保存到session
+            //规则列表结果保存到session
             Session::set('_auth_list_' . $admin_id . $t, $authList);
         }
         return array_unique($authList);
@@ -228,7 +229,7 @@ class Auth
     {
         static $userinfo = [];
         $user = $this->db->name($this->config['auth_user']);
-// 获取用户表主键
+        // 获取用户表主键
         $_pk = is_string($user->getPk()) ? $user->getPk() : 'admin_id';
         if (!isset($userinfo[$admin_id])) {
             $userinfo[$admin_id] = $user->where($_pk, $admin_id)->find();

@@ -8,5 +8,4 @@ use think\Validate;
 
 class Common extends Validate
 {
-
 }

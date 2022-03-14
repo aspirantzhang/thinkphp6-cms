@@ -9,5 +9,6 @@ use app\backend\model\Module;
 interface Model
 {
     public function getTableName(): string;
-    public function getModule(): Module;
+
+    public function getModule(string $itemName = null): mixed;
 }

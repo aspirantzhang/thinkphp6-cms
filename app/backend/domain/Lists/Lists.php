@@ -9,11 +9,14 @@ use app\core\model\Model;
 class Lists implements \JsonSerializable
 {
     public const PAGINATED = 'paginated';
-    private array $params;
-    private array $option;
-    private string $type;
-    private array $listParams;
 
+    private array $params;
+
+    private array $option;
+
+    private string $type;
+
+    private array $listParams;
 
     public function __construct(protected Model | \think\db\Query $model)
     {
@@ -43,6 +46,7 @@ class Lists implements \JsonSerializable
             $this->model = $this->model->{$this->listParams['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
         }
     }
+
     private function buildWithModel()
     {
         if (isset($this->option['with'])) {

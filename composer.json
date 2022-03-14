@@ -37,7 +37,9 @@
     "mockery/mockery": "^1.5",
     "aspirantzhang/thinkphp6-unit-test": "^1.0",
     "phpstan/phpstan": "^1.4",
-    "topthink/think-trace": "^1.4"
+    "topthink/think-trace": "^1.4",
+    "squizlabs/php_codesniffer": "^3.6",
+    "friendsofphp/php-cs-fixer": "^3.7"
   },
   "autoload": {
     "psr-4": {

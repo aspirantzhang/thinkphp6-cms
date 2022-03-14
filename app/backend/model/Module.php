@@ -7,7 +7,9 @@ namespace app\backend\model;
 class Module extends Common
 {
     protected $json = ['field', 'operation', 'setting'];
+
     protected $jsonAssoc = true;
+
     public static $config = [
         'titleField' => 'module_title',
         'uniqueValue' => ['module_title', 'table_name'],

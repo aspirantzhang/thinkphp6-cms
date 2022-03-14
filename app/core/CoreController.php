@@ -7,7 +7,8 @@ namespace app\core;
 use app\common\controller\GlobalController;
 use app\core\Facade;
 use app\core\view\JsonView;
-use app\core\traits\{ActionController, AllowField};
+use app\core\traits\ActionController;
+use app\core\traits\AllowField;
 
 class CoreController extends GlobalController
 {
@@ -15,6 +16,7 @@ class CoreController extends GlobalController
     use AllowField;
 
     protected Facade $facade;
+
     protected $jsonView;
 
     public function initialize()
