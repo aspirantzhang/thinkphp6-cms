@@ -16,15 +16,15 @@
     }
   ],
   "require": {
-    "php": ">=7.1.0",
+    "php": ">=8.1.0",
     "topthink/framework": "^6.0",
     "topthink/think-orm": "^2.0",
-    "nette/utils": "^3.0",
+    "nette/utils": "^3.2",
     "topthink/think-multi-app": "^1.0",
-    "nhzex/think-phinx": "^1.1",
+    "nhzex/think-phinx": "^2.0",
     "xiaodi/think-whoops": "^1.1",
     "topthink/think-helper": "^3.1",
-    "zircote/swagger-php": "^3.1",
+    "zircote/swagger-php": "^4.2",
     "aspirantzhang/octopus-helper": "dev-main",
     "aspirantzhang/octopus-model-creator": "dev-main",
     "aspirantzhang/octopus-revision": "dev-main",
@@ -32,11 +32,11 @@
     "aspirantzhang/octopus-twig-bridge": "dev-main"
   },
   "require-dev": {
-    "symfony/var-dumper": "^4.2",
+    "symfony/var-dumper": "^6.0",
     "phpunit/phpunit": "^9.5",
-    "mockery/mockery": "^1.4",
+    "mockery/mockery": "^1.5",
     "aspirantzhang/thinkphp6-unit-test": "^1.0",
-    "phpstan/phpstan": "^0.12.93",
+    "phpstan/phpstan": "^1.4",
     "topthink/think-trace": "^1.4"
   },
   "autoload": {
@@ -53,7 +53,8 @@
     }
   },
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "process-timeout": 0
   },
   "scripts": {
     "start": "php think run",
