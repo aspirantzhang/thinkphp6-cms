@@ -6,7 +6,7 @@ namespace app\backend\model;
 
 use app\common\model\GlobalModel;
 use app\core\model\Model;
-use app\backend\model\Module;
+use app\backend\SystemException;
 use app\backend\facade\Module as ModuleFacade;
 use think\helper\Str;
 
@@ -19,8 +19,15 @@ abstract class Common extends GlobalModel implements Model
         return Str::snake($this->name);
     }
 
-    public function getModule(): Module
+    public function getModule(string $itemName = null): mixed
     {
-        return (new ModuleFacade())->getModule($this->getTableName());
+        $module = (new ModuleFacade())->getModule($this->getTableName());
+        if (!empty($itemName)) {
+            if (!isset($module->$itemName)) {
+                throw new SystemException('cannot find that item in module: ' . $this->getTableName() . '->' . $itemName);
+            }
+            return $module->$itemName;
+        }
+        return $module->toArray();
     }
 }

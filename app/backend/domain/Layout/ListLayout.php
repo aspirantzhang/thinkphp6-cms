@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace app\backend\domain\Layout;
 
+use app\backend\SystemException;
+
 class ListLayout extends Layout
 {
     private $data;
@@ -32,7 +34,12 @@ class ListLayout extends Layout
 
     private function parseTableColumn()
     {
-        $fields = $this->model->getModule()->field;
+        $fields = $this->model->getModule('field');
+        if (empty($fields) && !is_array($fields)) {
+            throw new SystemException('no fields founded in module: ' . $this->model->getTableName());
+        }
+
+        $result = [];
         foreach ($fields as $field) {
             $result[] = [
                 'name' => $field['name'],
@@ -46,15 +53,17 @@ class ListLayout extends Layout
 
     private function parseOperation()
     {
-        $operations = $this->model->getModule()->operation;
-        if (!empty($operations) && count($operations) > 0) {
-            foreach ($operations as $operation) {
-                if ($operation['position'] === 'list.tableToolbar') {
-                    $this->tableToolBar[] = $operation;
-                }
-                if ($operation['position'] === 'list.batchToolbar') {
-                    $this->batchToolbar[] = $operation;
-                }
+        $operations = $this->model->getModule('operation');
+        if (empty($operations) && !is_array($operations)) {
+            throw new SystemException('no operations founded in module: ' . $this->model->getTableName());
+        }
+
+        foreach ($operations as $operation) {
+            if ($operation['position'] === 'list.tableToolbar') {
+                $this->tableToolBar[] = $operation;
+            }
+            if ($operation['position'] === 'list.batchToolbar') {
+                $this->batchToolbar[] = $operation;
             }
         }
     }
