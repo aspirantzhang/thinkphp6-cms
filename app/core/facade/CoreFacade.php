@@ -6,10 +6,12 @@ namespace app\core\facade;
 
 use app\core\Facade;
 use app\backend\SystemException;
+use app\core\model\Model;
+use think\db\Query;
 
 abstract class CoreFacade extends Facade
 {
-    protected $model;
+    protected Model | Query $model;
     public bool $isNull = false;
 
     public function __construct()

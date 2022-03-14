@@ -13,7 +13,6 @@ class Lists implements \JsonSerializable
     private array $option;
     private string $type;
     private array $listParams;
-    private $result;
 
 
     public function __construct(protected Model | \think\db\Query $model)
