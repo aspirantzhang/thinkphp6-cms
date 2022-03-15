@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\service;
 
-use think\Validate;
-use think\facade\Request;
 use think\facade\Lang;
+use think\facade\Request;
+use think\Validate;
 
 class ValidateExtend extends \think\Service
 {
@@ -31,7 +31,7 @@ class ValidateExtend extends \think\Service
                     return false;
                 }
             });
-            /**
+            /*
              * support number string, number array or single number
              */
             $validate->extend('numberArray', function ($value) {
@@ -44,6 +44,7 @@ class ValidateExtend extends \think\Service
                             return false;
                         }
                     }
+
                     return true;
                 }
                 if (is_string($value) && strpos($value, ',')) {
@@ -52,8 +53,10 @@ class ValidateExtend extends \think\Service
                             return false;
                         }
                     }
+
                     return true;
                 }
+
                 return false;
             });
             $validate->extend('checkParentId', function ($value) {

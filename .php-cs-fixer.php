@@ -7,14 +7,19 @@
 $config = new PhpCsFixer\Config();
 return $config
     ->setRules([
-        '@PSR12' => true,
-        // Class, trait and interface elements must be separated with one or none blank line.
-        'class_attributes_separation' => true,
+        '@Symfony' => true,
+        '@PHP81Migration' => true,
+        'array_indentation' => true,
+        'combine_consecutive_issets' => true,
+        'combine_consecutive_unsets' => true,
+        'concat_space' => ['spacing' => 'one'],
+        'method_chaining_indentation' => true,
+        'multiline_comment_opening_closing' => true,
+        'types_spaces' => ['space'=>'single'],
+        'yoda_style' => false,
     ])
-    ->setFinder(PhpCsFixer\Finder::create()
-        ->exclude('api.ignore')
-        ->exclude('backend/domain/Layout/Builder.ignore')
-        ->in('app')
-        ->in('tests')
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+        ->in(__DIR__)
     )
 ;

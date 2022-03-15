@@ -25,18 +25,21 @@ class Lists implements \JsonSerializable
     public function withParams(array $params)
     {
         $this->params = $params;
+
         return $this;
     }
 
     public function withOption(array $option)
     {
         $this->option = $option;
+
         return $this;
     }
 
     public function type(string $type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -98,6 +101,7 @@ class Lists implements \JsonSerializable
         if ($this->type === 'paginated') {
             return $this->model->paginate($this->listParams['per_page']);
         }
+
         return $this->model->select();
     }
 

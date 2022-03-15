@@ -2,7 +2,7 @@
 
  declare(strict_types=1);
 
- namespace app\index;
+namespace app\index;
 
 class TwigRuntimeLoader implements \Twig\RuntimeLoader\RuntimeLoaderInterface
 {
@@ -18,6 +18,7 @@ class TwigRuntimeLoader implements \Twig\RuntimeLoader\RuntimeLoaderInterface
         if ('app\index\TwigRuntimeExtension' === $class) {
             return new $class($this->app);
         }
+
         return null;
     }
 }

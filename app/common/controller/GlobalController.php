@@ -68,7 +68,7 @@ abstract class GlobalController
      * @param array        $message  提示信息
      * @param bool         $batch    是否批量验证
      *
-     * @return array|string|boolean
+     * @return array|string|bool
      *
      * @throws ValidateException
      */
@@ -80,7 +80,7 @@ abstract class GlobalController
         } else {
             if (strpos($validate, '.')) {
                 // 支持场景
-                list($validate, $scene) = explode('.', $validate);
+                [$validate, $scene] = explode('.', $validate);
             }
             $class = false !== strpos($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
             $v = new $class();

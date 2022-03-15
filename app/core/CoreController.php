@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace app\core;
 
 use app\common\controller\GlobalController;
-use app\core\Facade;
-use app\core\view\JsonView;
 use app\core\traits\ActionController;
 use app\core\traits\AllowField;
+use app\core\view\JsonView;
 
 class CoreController extends GlobalController
 {
@@ -31,6 +30,7 @@ class CoreController extends GlobalController
         $facadeClass = str_replace('controller', 'facade', static::class);
         if (class_exists($facadeClass)) {
             $this->facade = new $facadeClass();
+
             return;
         }
         $this->facade = new \app\core\facade\NullFacade();
@@ -40,6 +40,7 @@ class CoreController extends GlobalController
     {
         if (isset($this->jsonViewClass) && class_exists($this->jsonViewClass)) {
             $this->jsonView = new $this->jsonViewClass();
+
             return;
         }
         $this->jsonView = new JsonView();

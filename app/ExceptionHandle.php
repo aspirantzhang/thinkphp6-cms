@@ -18,9 +18,9 @@ use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
+use think\facade\Config;
 use think\Response;
 use Throwable;
-use think\facade\Config;
 
 /**
  * 应用异常处理类.
@@ -42,8 +42,6 @@ class ExceptionHandle extends Handle
 
     /**
      * 记录异常信息（包括日志或者其它方式记录）.
-     *
-     * @return void
      */
     public function report(Throwable $exception): void
     {
@@ -55,14 +53,13 @@ class ExceptionHandle extends Handle
      * Render an exception into an HTTP response.
      *
      * @param \think\Request $request
-     *
-     * @return Response
      */
     public function render($request, Throwable $e): Response
     {
         // 添加自定义异常处理机制
         if ($e instanceof ValidateException) {
             $returnBody = ['success' => false, 'message' => $e->getError()];
+
             return Response::create($returnBody, 'json', 200)->header(Config::get('response.default_header'));
         }
 

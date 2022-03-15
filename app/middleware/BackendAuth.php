@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace app\middleware;
 
-use think\facade\Config;
-use think\facade\Session;
 use app\common\Auth;
+use think\facade\Config;
 use think\facade\Lang;
+use think\facade\Session;
 
 class BackendAuth
 {
@@ -47,6 +47,7 @@ class BackendAuth
                     'success' => false,
                     'message' => Lang::get('session expired'),
                 ];
+
                 return json($data)->header(Config::get('response.default_header'));
             }
 
@@ -57,6 +58,7 @@ class BackendAuth
                     'success' => false,
                     'message' => Lang::get('no permission'),
                 ];
+
                 return json($data)->header(Config::get('response.default_header'));
             }
         }

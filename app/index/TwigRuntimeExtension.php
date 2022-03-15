@@ -2,7 +2,7 @@
 
  declare(strict_types=1);
 
- namespace app\index;
+namespace app\index;
 
 class TwigRuntimeExtension
 {
@@ -24,6 +24,7 @@ class TwigRuntimeExtension
                 dump($model->$method(...$params));
             }
         }
+
         return '[runtime] model name is: ' . $tableName;
     }
 }

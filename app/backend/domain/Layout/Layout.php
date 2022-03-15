@@ -19,12 +19,14 @@ abstract class Layout implements \JsonSerializable
     public function withParam(array $param)
     {
         $this->param = $param;
+
         return $this;
     }
 
     public function withOption(array $option)
     {
         $this->option = $option;
+
         return $this;
     }
 }

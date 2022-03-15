@@ -15,6 +15,7 @@ trait AllowField
         if (class_exists($modelClass) && isset($modelClass::$config[$configKeyName])) {
             return $this->request->only($modelClass::$config[$configKeyName] ?? []);
         }
+
         return [];
     }
 }

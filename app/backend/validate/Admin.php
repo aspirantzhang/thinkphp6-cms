@@ -11,6 +11,6 @@ class Admin extends Common
     ];
 
     protected $scene = [
-        'home' => ['']
+        'home' => [''],
     ];
 }

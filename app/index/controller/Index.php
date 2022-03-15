@@ -4,8 +4,6 @@ namespace app\index\controller;
 
 use app\BaseController;
 use think\facade\View;
-use app\api\service\Admin;
-use app\api\service\Model as ModelService;
 
 class Index extends BaseController
 {

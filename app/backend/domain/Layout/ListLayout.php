@@ -23,6 +23,7 @@ class ListLayout extends Layout
     public function withData($data)
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -87,7 +88,7 @@ class ListLayout extends Layout
                 'batchToolBar' => $this->batchToolbar,
             ],
             'dataSource' => $this->dataSource,
-            'meta' => $this->meta
+            'meta' => $this->meta,
         ];
     }
 }
