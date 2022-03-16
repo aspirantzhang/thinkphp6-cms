@@ -10,8 +10,8 @@ parameters:
     - tests.ignore/*
     - app/backend/domain/Layout/Builder.ignore/*
   ignoreErrors:
-    - '#Call to an undefined static method think\\facade\\Db::query\(\)#'
-    - '#Access to an undefined property think\\App::\$revision#'
-    - '#Parameter \#3 \$filter of static method think\\Request::param\(\) expects array\|string\, null given\.#'
+    # - '#Call to an undefined static method think\\facade\\Db::query\(\)#'
+    # - '#Access to an undefined property think\\App::\$revision#'
+    # - '#Parameter \#3 \$filter of static method think\\Request::param\(\) expects array\|string\, null given\.#'
     - '#Call to an undefined method app\\core\\Facade::\w+\(\).#'
     - '#Access to an undefined static property app\\core\\model\\Model\|think\\db\\Query::\$\w+#'
