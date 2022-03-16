@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace app\backend\facade;
 
 use app\backend\model\Module as ModuleModel;
-use app\backend\SystemException;
+use app\core\exception\SystemException;
 use app\core\facade\CoreFacade;
 
 class Module extends CoreFacade

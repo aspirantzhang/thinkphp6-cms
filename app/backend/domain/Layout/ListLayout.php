@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\backend\domain\Layout;
 
-use app\backend\SystemException;
+use app\core\exception\SystemException;
 
 class ListLayout extends Layout
 {

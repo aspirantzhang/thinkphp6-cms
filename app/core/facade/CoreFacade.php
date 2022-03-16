@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\core\facade;
 
-use app\backend\SystemException;
+use app\core\exception\SystemException;
 use app\core\Facade;
 use app\core\model\Model;
 use think\db\Query;

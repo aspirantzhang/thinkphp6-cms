@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace app\backend\model;
 
 use app\backend\facade\Module as ModuleFacade;
-use app\backend\SystemException;
 use app\common\model\GlobalModel;
+use app\core\exception\SystemException;
 use app\core\model\Model;
 use think\helper\Str;
 
