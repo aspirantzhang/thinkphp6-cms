@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\backend\domain\Layout;
+namespace app\core\domain\Layout;
 
 use app\core\model\Model;
 

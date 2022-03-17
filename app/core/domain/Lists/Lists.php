@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\backend\domain\Lists;
+namespace app\core\domain\Lists;
 
 use app\core\model\Model;
 
