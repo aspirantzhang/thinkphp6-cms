@@ -20,7 +20,7 @@ class ListLayout extends Layout
 
     private $meta;
 
-    public function withData($data)
+    public function withData(array $data)
     {
         $this->data = $data;
 
@@ -29,7 +29,7 @@ class ListLayout extends Layout
 
     private function parseDataSource()
     {
-        $dataArray = $this->data->toArray();
+        $dataArray = $this->data;
         if (isset($dataArray['dataSource'])) {
             $this->dataSource = $dataArray['dataSource'];
         }
