@@ -33,13 +33,6 @@
             <file>app/Request.php</file>
             <file>app/BaseController.php</file>
             <file>app/common/Auth.php</file>
-            <directory>app/api/apidoc</directory>
-            <directory>app/api/config</directory>
-            <directory>app/api/validate</directory>
-            <directory>app/api/route</directory>
-            <directory>app/api/lang</directory>
-            <directory>app/service</directory>
-            <directory>app/middleware</directory>
         </exclude>
     </coverage>
 </phpunit>
