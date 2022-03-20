@@ -96,7 +96,7 @@ class ListLayoutTest extends \tests\TestCase
     public function testParseTableColumnWithEmptyModelFieldShouldThrowException()
     {
         $this->expectException(SystemException::class);
-        $this->expectExceptionMessage('unit-test-table');
+        $this->expectExceptionMessage('no fields founded in module: unit-test-table');
 
         $modelField = [];
         $model = m::mock('app\core\model\Model');
@@ -109,5 +109,57 @@ class ListLayoutTest extends \tests\TestCase
             ->andReturn('unit-test-table');
         $this->class = new ListLayout($model);
         $this->getMethodInvoke('parseTableColumn');
+    }
+
+    public function testParseOperationWithValidArray()
+    {
+        $modelPosition = [
+            [
+                'name' => 'button1',
+                'position' => 'list.tableToolbar',
+            ],
+            [
+                'name' => 'button2',
+                'position' => 'list.batchToolbar',
+            ],
+            [
+                'name' => 'button3',
+                'position' => 'other',
+            ],
+        ];
+        $model = m::mock('app\core\model\Model');
+        $model->shouldReceive('getModule')
+            ->once()
+            ->with('operation')
+            ->andReturn($modelPosition);
+        $this->class = new ListLayout($model);
+        $this->getMethodInvoke('parseOperation');
+
+        $this->assertEqualsCanonicalizing([[
+            'name' => 'button1',
+            'position' => 'list.tableToolbar',
+        ]], $this->getPropertyValue('tableToolbar'));
+        $this->assertEqualsCanonicalizing([[
+            'name' => 'button2',
+            'position' => 'list.batchToolbar',
+        ]], $this->getPropertyValue('batchToolbar'));
+    }
+
+    public function testParseOperationWithEmptyArray()
+    {
+        $this->expectException(SystemException::class);
+        $this->expectExceptionMessage('no operations founded in module: unit-test-table');
+
+        $modelPosition = [];
+        $model = m::mock('app\core\model\Model');
+        $model->shouldReceive('getModule')
+            ->once()
+            ->with('operation')
+            ->andReturn($modelPosition);
+        $model->shouldReceive('getTableName')
+            ->once()
+            ->andReturn('unit-test-table');
+        $this->class = new ListLayout($model);
+        $this->getMethodInvoke('parseOperation');
     }
 }
