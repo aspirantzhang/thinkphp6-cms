@@ -27,7 +27,7 @@ abstract class Common extends GlobalModel implements Model
                 throw new SystemException('cannot find that item in module: ' . $this->getTableName() . '->' . $itemName);
             }
 
-            return $module->$itemName;
+            return $module->getAttr($itemName);
         }
 
         return $module->toArray();
