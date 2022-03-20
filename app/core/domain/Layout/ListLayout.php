@@ -12,7 +12,7 @@ class ListLayout extends Layout
 
     private $tableColumn;
 
-    private $tableToolBar;
+    private $tableToolbar;
 
     private $batchToolbar;
 
@@ -60,13 +60,13 @@ class ListLayout extends Layout
     private function parseOperation()
     {
         $operations = $this->model->getModule('operation');
-        if (empty($operations) && !is_array($operations)) {
+        if (empty($operations) || !is_array($operations)) {
             throw new SystemException('no operations founded in module: ' . $this->model->getTableName());
         }
 
         foreach ($operations as $operation) {
             if ($operation['position'] === 'list.tableToolbar') {
-                $this->tableToolBar[] = $operation;
+                $this->tableToolbar[] = $operation;
             }
             if ($operation['position'] === 'list.batchToolbar') {
                 $this->batchToolbar[] = $operation;
@@ -84,7 +84,7 @@ class ListLayout extends Layout
             'page' => [],
             'layout' => [
                 'tableColumn' => $this->tableColumn,
-                'tableToolBar' => $this->tableToolBar,
+                'tableToolBar' => $this->tableToolbar,
                 'batchToolBar' => $this->batchToolbar,
             ],
             'dataSource' => $this->dataSource,
