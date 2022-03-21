@@ -162,4 +162,105 @@ class ListLayoutTest extends \tests\TestCase
         $this->class = new ListLayout($model);
         $this->getMethodInvoke('parseOperation');
     }
+
+    public function testJsonSerializeInterface()
+    {
+        $modelField = [
+            [
+                'name' => 'admin_name',
+                'type' => 'input',
+                'unique' => true,
+                'filter' => true,
+                'translate' => false,
+                'position' => 'tab.main',
+                'order' => 1,
+            ],
+            [
+                'name' => 'comment',
+                'type' => 'textarea',
+                'unique' => false,
+                'filter' => true,
+                'translate' => true,
+                'order' => 99,
+                'position' => 'sidebar.main',
+                'hideInColumn' => true,
+            ],
+        ];
+        $modelPosition = [
+            [
+                'name' => 'button1',
+                'position' => 'list.tableToolbar',
+            ],
+            [
+                'name' => 'button2',
+                'position' => 'list.batchToolbar',
+            ],
+            [
+                'name' => 'button3',
+                'position' => 'other',
+            ],
+        ];
+        $model = m::mock('app\core\model\Model');
+        $model->shouldReceive('getModule')
+            ->once()
+            ->with('field')
+            ->andReturn($modelField);
+        $model->shouldReceive('getModule')
+            ->once()
+            ->with('operation')
+            ->andReturn($modelPosition);
+        $this->class = new ListLayout($model);
+        $data = [
+            'dataSource' => [
+                ['admin_name' => 'zhang1'],
+                ['admin_name' => 'zhang2'],
+            ],
+            'pagination' => [
+                'total' => 2,
+                'per_page' => 10,
+                'page' => 1,
+            ],
+        ];
+        $expect = [
+            'page' => [],
+            'layout' => [
+                'tableColumn' => [
+                    [
+                        'name' => 'admin_name',
+                        'type' => 'input',
+                        'translate' => false,
+                        'order' => 1,
+                    ],
+                    [
+                        'name' => 'comment',
+                        'type' => 'textarea',
+                        'translate' => true,
+                        'order' => 99,
+                    ],
+                ],
+                'tableToolBar' => [
+                    [
+                        'name' => 'button1',
+                        'position' => 'list.tableToolbar',
+                    ],
+                ],
+                'batchToolBar' => [
+                    [
+                        'name' => 'button2',
+                        'position' => 'list.batchToolbar',
+                    ],
+                ],
+            ],
+            'dataSource' => [
+                ['admin_name' => 'zhang1'],
+                ['admin_name' => 'zhang2'],
+            ],
+            'meta' => [
+                'total' => 2,
+                'per_page' => 10,
+                'page' => 1,
+            ],
+        ];
+        $this->assertEquals(json_encode($expect), json_encode($this->class->withData($data)));
+    }
 }
