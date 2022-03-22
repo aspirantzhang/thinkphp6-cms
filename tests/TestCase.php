@@ -3,13 +3,14 @@
 namespace tests;
 
 use aspirantzhang\thinkphp6UnitTest\UnitTestTrait;
+use ReflectionClass;
 
 abstract class TestCase extends \Mockery\Adapter\Phpunit\MockeryTestCase
 {
     use UnitTestTrait;
 
     protected $class;
-    protected $reflector;
+    protected ReflectionClass $reflector;
 
     protected function getMethodInvoke(string $methodName)
     {
