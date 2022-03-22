@@ -80,7 +80,7 @@ class Lists implements \JsonSerializable
             $sort['name'] = in_array($data['sort'], $this->model::$config['allowSort']) ? $data['sort'] : 'id';
         }
         if (isset($data['order'])) {
-            $sort['order'] = ('asc' == $data['order']) ? 'asc' : 'desc';
+            $sort['order'] = ('asc' === $data['order']) ? 'asc' : 'desc';
         }
 
         return $sort;
