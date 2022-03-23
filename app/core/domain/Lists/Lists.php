@@ -57,10 +57,26 @@ class Lists implements \JsonSerializable
         }
     }
 
+    private function getTrashParam(): string
+    {
+        if (!isset($this->params['trash'])) {
+            return 'withoutTrashed';
+        }
+
+        switch ($this->params['trash']) {
+            case 'onlyTrashed':
+                return 'onlyTrashed';
+            case 'withTrashed':
+                return 'withTrashed';
+            default:
+                return 'withoutTrashed';
+        }
+    }
+
     private function getListParams()
     {
         $result = [];
-        $result['trash'] = $this->params['trash'] ?? 'withoutTrashed';
+        $result['trash'] = $this->getTrashParam();
         $result['per_page'] = $this->params['per_page'] ?? 10;
         $result['visible'] = array_diff($this->model::$config['allowHome'], ['sort', 'order', 'page', 'per_page', 'trash']);
         $result['search']['values'] = array_intersect_key($this->params, array_flip($result['visible']));
