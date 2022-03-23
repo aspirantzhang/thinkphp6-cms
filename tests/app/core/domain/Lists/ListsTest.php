@@ -52,6 +52,7 @@ class ListsTest extends \tests\TestCase
             'order' => 'asc',
             'per_page' => 5,
             'trash' => 'onlyTrashed',
+            'username' => 'zhang',
         ]);
         $this->getMethodInvoke('getListParams');
         $expected = [
@@ -59,12 +60,43 @@ class ListsTest extends \tests\TestCase
             'per_page' => 5,
             'visible' => ['username', 'gender'],
             'search' => [
-                'values' => [],
-                'keys' => [],
+                'values' => [
+                    'username' => 'zhang',
+                ],
+                'keys' => ['username'],
             ],
             'sort' => [
                 'name' => 'age',
                 'order' => 'asc',
+            ],
+        ];
+        $this->assertEqualsCanonicalizing($expected, $this->getPropertyValue('listParams'));
+    }
+
+    public function testGetListParamsWithInvalidParams()
+    {
+        $model = m::mock('app\backend\model\Admin');
+        $model::$config = ['allowHome' => ['username', 'gender'], 'allowSort' => ['age']];
+        $this->class = new Lists($model);
+        $this->class->withParams([
+            'sort' => 'invalid-sort',
+            'order' => 'invalid-order',
+            'per_page' => 10,
+            'trash' => 'invalid-trash',
+            'invalid-search-key' => 'invalid-search-value',
+        ]);
+        $this->getMethodInvoke('getListParams');
+        $expected = [
+            'trash' => 'withoutTrashed',
+            'per_page' => 10,
+            'visible' => ['username', 'gender'],
+            'search' => [
+                'values' => [],
+                'keys' => [],
+            ],
+            'sort' => [
+                'name' => 'id',
+                'order' => 'desc',
             ],
         ];
         $this->assertEqualsCanonicalizing($expected, $this->getPropertyValue('listParams'));
