@@ -6,7 +6,6 @@ namespace tests\app\core\Lists;
 
 use app\core\domain\Lists\Lists;
 use Mockery as m;
-use ReflectionClass;
 
 class ListsTest extends \tests\TestCase
 {
@@ -14,7 +13,6 @@ class ListsTest extends \tests\TestCase
     {
         $model = m::mock('app\core\model\Model');
         $this->class = new Lists($model);
-        $this->reflector = new ReflectionClass($this->class);
     }
 
     public function testGetListParamsDefaultReturn()
@@ -23,9 +21,8 @@ class ListsTest extends \tests\TestCase
         $model::$config = ['allowHome' => []];
         $this->class = new Lists($model);
         $this->class->withParams([]);
-        $method = $this->reflector->getMethod('getListParams');
-        $method->setAccessible(true);
-        $method->invokeArgs($this->class, []);
+        $this->getReflectMethod('getListParams');
+
         $expected = [
             'trash' => 'withoutTrashed',
             'per_page' => 10,
@@ -54,7 +51,7 @@ class ListsTest extends \tests\TestCase
             'trash' => 'onlyTrashed',
             'username' => 'zhang',
         ]);
-        $this->getMethodInvoke('getListParams');
+        $this->getReflectMethod('getListParams');
         $expected = [
             'trash' => 'onlyTrashed',
             'per_page' => 5,
@@ -85,7 +82,7 @@ class ListsTest extends \tests\TestCase
             'trash' => 'invalid-trash',
             'invalid-search-key' => 'invalid-search-value',
         ]);
-        $this->getMethodInvoke('getListParams');
+        $this->getReflectMethod('getListParams');
         $expected = [
             'trash' => 'withoutTrashed',
             'per_page' => 10,
@@ -107,9 +104,7 @@ class ListsTest extends \tests\TestCase
         $model = m::mock('app\backend\model\Admin');
         $model::$config = ['allowSort' => []];
         $this->class = new Lists($model);
-        $method = $this->reflector->getMethod('getSortParam');
-        $method->setAccessible(true);
-        $actual = $method->invokeArgs($this->class, [[]]);
+        $actual = $this->getReflectMethod('getSortParam', [[]]);
         $expected = [
             'name' => 'id',
             'order' => 'desc',
@@ -122,9 +117,7 @@ class ListsTest extends \tests\TestCase
         $model = m::mock('app\backend\model\Admin');
         $model::$config = ['allowSort' => ['age']];
         $this->class = new Lists($model);
-        $method = $this->reflector->getMethod('getSortParam');
-        $method->setAccessible(true);
-        $actual = $method->invokeArgs($this->class, [[
+        $actual = $this->getReflectMethod('getSortParam', [[
             'sort' => 'age',
             'order' => 'asc',
         ]]);
@@ -140,9 +133,7 @@ class ListsTest extends \tests\TestCase
         $model = m::mock('app\backend\model\Admin');
         $model::$config = ['allowSort' => ['age']];
         $this->class = new Lists($model);
-        $method = $this->reflector->getMethod('getSortParam');
-        $method->setAccessible(true);
-        $actual = $method->invokeArgs($this->class, [[
+        $actual = $this->getReflectMethod('getSortParam', [[
             'sort' => 'name',
             'order' => 'asc',
         ]]);
@@ -158,9 +149,7 @@ class ListsTest extends \tests\TestCase
         $model = m::mock('app\backend\model\Admin');
         $model::$config = ['allowSort' => ['age']];
         $this->class = new Lists($model);
-        $method = $this->reflector->getMethod('getSortParam');
-        $method->setAccessible(true);
-        $actual = $method->invokeArgs($this->class, [[
+        $actual = $this->getReflectMethod('getSortParam', [[
             'sort' => 'name',
             'order' => 'foo',
         ]]);
@@ -174,10 +163,7 @@ class ListsTest extends \tests\TestCase
     public function testGetTrashParamDefaultReturn()
     {
         $this->class->withParams([]);
-        $this->reflector = new ReflectionClass($this->class);
-        $method = $this->reflector->getMethod('getTrashParam');
-        $method->setAccessible(true);
-        $actual = $method->invoke($this->class);
+        $actual = $this->getReflectMethod('getTrashParam');
 
         $this->assertEquals('withoutTrashed', $actual);
     }

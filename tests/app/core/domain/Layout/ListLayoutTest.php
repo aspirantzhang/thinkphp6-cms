@@ -7,7 +7,6 @@ namespace tests\app\core\Layout;
 use app\core\domain\Layout\ListLayout;
 use app\core\exception\SystemException;
 use Mockery as m;
-use ReflectionClass;
 
 class ListLayoutTest extends \tests\TestCase
 {
@@ -15,7 +14,6 @@ class ListLayoutTest extends \tests\TestCase
     {
         $model = m::mock('app\core\model\Model');
         $this->class = new ListLayout($model);
-        $this->reflector = new ReflectionClass(ListLayout::class);
     }
 
     public function testParseDataSourceWithValidArray()
@@ -32,7 +30,7 @@ class ListLayoutTest extends \tests\TestCase
             ],
         ];
         $this->class->withData($data);
-        $this->getMethodInvoke('parseDataSource');
+        $this->getReflectMethod('parseDataSource');
         $this->assertEqualsCanonicalizing($data['dataSource'], $this->getPropertyValue('dataSource'));
         $this->assertEqualsCanonicalizing($data['pagination'], $this->getPropertyValue('meta'));
     }
@@ -41,7 +39,7 @@ class ListLayoutTest extends \tests\TestCase
     {
         $data = [];
         $this->class->withData($data);
-        $this->getMethodInvoke('parseDataSource');
+        $this->getReflectMethod('parseDataSource');
         $this->assertNull($this->getPropertyValue('dataSource'));
         $this->assertNull($this->getPropertyValue('meta'));
     }
@@ -75,7 +73,7 @@ class ListLayoutTest extends \tests\TestCase
             ->with('field')
             ->andReturn($modelField);
         $this->class = new ListLayout($model);
-        $this->getMethodInvoke('parseTableColumn');
+        $this->getReflectMethod('parseTableColumn');
         $expect = [
             [
                 'name' => 'admin_name',
@@ -108,7 +106,7 @@ class ListLayoutTest extends \tests\TestCase
             ->once()
             ->andReturn('unit-test-table');
         $this->class = new ListLayout($model);
-        $this->getMethodInvoke('parseTableColumn');
+        $this->getReflectMethod('parseTableColumn');
     }
 
     public function testParseOperationWithValidArray()
@@ -133,7 +131,7 @@ class ListLayoutTest extends \tests\TestCase
             ->with('operation')
             ->andReturn($modelPosition);
         $this->class = new ListLayout($model);
-        $this->getMethodInvoke('parseOperation');
+        $this->getReflectMethod('parseOperation');
 
         $this->assertEqualsCanonicalizing([[
             'name' => 'button1',
@@ -160,7 +158,7 @@ class ListLayoutTest extends \tests\TestCase
             ->once()
             ->andReturn('unit-test-table');
         $this->class = new ListLayout($model);
-        $this->getMethodInvoke('parseOperation');
+        $this->getReflectMethod('parseOperation');
     }
 
     public function testJsonSerializeInterface()

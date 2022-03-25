@@ -12,17 +12,18 @@ abstract class TestCase extends \Mockery\Adapter\Phpunit\MockeryTestCase
     protected $class;
     protected ReflectionClass $reflector;
 
-    protected function getMethodInvoke(string $methodName)
+    protected function getReflectMethod(string $method, array $params = [])
     {
-        $method = $this->reflector->getMethod($methodName);
+        $this->reflector = new ReflectionClass($this->class);
+        $method = $this->reflector->getMethod($method);
         $method->setAccessible(true);
-        $method->invoke($this->class);
 
-        return $method;
+        return $method->invokeArgs($this->class, $params);
     }
 
     protected function getPropertyValue(string $propertyName)
     {
+        $this->reflector = new ReflectionClass($this->class);
         $property = $this->reflector->getProperty($propertyName);
         $property->setAccessible(true);
 
