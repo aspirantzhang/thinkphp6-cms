@@ -170,4 +170,15 @@ class ListsTest extends \tests\TestCase
         ];
         $this->assertEqualsCanonicalizing($expected, $actual);
     }
+
+    public function testGetTrashParamDefaultReturn()
+    {
+        $this->class->withParams([]);
+        $this->reflector = new ReflectionClass($this->class);
+        $method = $this->reflector->getMethod('getTrashParam');
+        $method->setAccessible(true);
+        $actual = $method->invoke($this->class);
+
+        $this->assertEquals('withoutTrashed', $actual);
+    }
 }
