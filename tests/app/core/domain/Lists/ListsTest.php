@@ -167,4 +167,19 @@ class ListsTest extends \tests\TestCase
 
         $this->assertEquals('withoutTrashed', $actual);
     }
+
+    public function testGetTrashParamSpecificReturn()
+    {
+        $this->class->withParams(['trash' => 'withoutTrashed']);
+        $actual = $this->getReflectMethod('getTrashParam');
+        $this->assertEquals('withoutTrashed', $actual);
+
+        $this->class->withParams(['trash' => 'onlyTrashed']);
+        $actual = $this->getReflectMethod('getTrashParam');
+        $this->assertEquals('onlyTrashed', $actual);
+
+        $this->class->withParams(['trash' => 'withTrashed']);
+        $actual = $this->getReflectMethod('getTrashParam');
+        $this->assertEquals('withTrashed', $actual);
+    }
 }
