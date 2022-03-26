@@ -42,7 +42,7 @@ abstract class Common extends GlobalModel implements Model
         }
 
         if (!empty($itemName)) {
-            if (!isset($field[$itemName])) {
+            if (!isset($fields[$itemName])) {
                 throw new SystemException('cannot find that item in module field: ' . $this->getTableName() . '-> field -> ' . $itemName);
             }
 
@@ -61,7 +61,7 @@ abstract class Common extends GlobalModel implements Model
         }
 
         if (!empty($itemName)) {
-            if (!isset($operation[$itemName])) {
+            if (!isset($operations[$itemName])) {
                 throw new SystemException('cannot find that item in module operation: ' . $this->getTableName() . '-> operation -> ' . $itemName);
             }
 
