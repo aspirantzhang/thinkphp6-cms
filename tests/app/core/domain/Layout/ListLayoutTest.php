@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace tests\app\core\Layout;
 
 use app\core\domain\Layout\ListLayout;
-use app\core\exception\SystemException;
 use Mockery as m;
 
 class ListLayoutTest extends \tests\TestCase
@@ -107,9 +106,8 @@ class ListLayoutTest extends \tests\TestCase
             ],
         ];
         $model = m::mock('app\core\model\Model');
-        $model->shouldReceive('getModule')
+        $model->shouldReceive('getModuleOperation')
             ->once()
-            ->with('operation')
             ->andReturn($modelPosition);
         $this->class = new ListLayout($model);
         $this->getReflectMethod('parseOperation');
@@ -122,24 +120,6 @@ class ListLayoutTest extends \tests\TestCase
             'name' => 'button2',
             'position' => 'list.batchToolbar',
         ]], $this->getPropertyValue('batchToolbar'));
-    }
-
-    public function testParseOperationWithEmptyArray()
-    {
-        $this->expectException(SystemException::class);
-        $this->expectExceptionMessage('no operations founded in module: unit-test-table');
-
-        $modelPosition = [];
-        $model = m::mock('app\core\model\Model');
-        $model->shouldReceive('getModule')
-            ->once()
-            ->with('operation')
-            ->andReturn($modelPosition);
-        $model->shouldReceive('getTableName')
-            ->once()
-            ->andReturn('unit-test-table');
-        $this->class = new ListLayout($model);
-        $this->getReflectMethod('parseOperation');
     }
 
     public function testJsonSerializeInterface()
@@ -183,9 +163,8 @@ class ListLayoutTest extends \tests\TestCase
         $model->shouldReceive('getModuleField')
             ->once()
             ->andReturn($modelField);
-        $model->shouldReceive('getModule')
+        $model->shouldReceive('getModuleOperation')
             ->once()
-            ->with('operation')
             ->andReturn($modelPosition);
         $this->class = new ListLayout($model);
         $data = [

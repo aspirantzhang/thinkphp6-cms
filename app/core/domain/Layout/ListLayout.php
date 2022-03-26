@@ -56,7 +56,7 @@ class ListLayout extends Layout
 
     private function parseOperation()
     {
-        $operations = $this->model->getModule('operation');
+        $operations = $this->model->getModuleOperation();
         if (empty($operations) || !is_array($operations)) {
             throw new SystemException('no operations founded in module: ' . $this->model->getTableName());
         }

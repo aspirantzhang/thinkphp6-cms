@@ -51,4 +51,23 @@ abstract class Common extends GlobalModel implements Model
 
         return $fields;
     }
+
+    public function getModuleOperation(string $itemName = null): mixed
+    {
+        $operations = $this->getModule('operation');
+
+        if (empty($operations) || !is_array($operations)) {
+            throw new SystemException('no operations founded in module: ' . $this->getTableName());
+        }
+
+        if (!empty($itemName)) {
+            if (!isset($operation[$itemName])) {
+                throw new SystemException('cannot find that item in module operation: ' . $this->getTableName() . '-> operation -> ' . $itemName);
+            }
+
+            return $operations[$itemName];
+        }
+
+        return $operations;
+    }
 }

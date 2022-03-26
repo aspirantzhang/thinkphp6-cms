@@ -11,4 +11,6 @@ interface Model
     public function getModule(string $itemName = null): mixed;
 
     public function getModuleField(string $itemName = null): mixed;
+
+    public function getModuleOperation(string $itemName = null): mixed;
 }
