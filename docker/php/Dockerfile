@@ -15,3 +15,5 @@ RUN apt-get update && \
     docker-php-ext-install pdo pdo_mysql && \
     a2enmod rewrite && \
     composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+
+RUN docker-php-ext-enable xdebug
