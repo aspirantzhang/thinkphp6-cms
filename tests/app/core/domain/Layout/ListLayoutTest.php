@@ -68,9 +68,8 @@ class ListLayoutTest extends \tests\TestCase
             ],
         ];
         $model = m::mock('app\core\model\Model');
-        $model->shouldReceive('getModule')
+        $model->shouldReceive('getModuleField')
             ->once()
-            ->with('field')
             ->andReturn($modelField);
         $this->class = new ListLayout($model);
         $this->getReflectMethod('parseTableColumn');
@@ -89,24 +88,6 @@ class ListLayoutTest extends \tests\TestCase
             ],
         ];
         $this->assertEqualsCanonicalizing($expect, $this->getPropertyValue('tableColumn'));
-    }
-
-    public function testParseTableColumnWithEmptyModelFieldShouldThrowException()
-    {
-        $this->expectException(SystemException::class);
-        $this->expectExceptionMessage('no fields founded in module: unit-test-table');
-
-        $modelField = [];
-        $model = m::mock('app\core\model\Model');
-        $model->shouldReceive('getModule')
-            ->once()
-            ->with('field')
-            ->andReturn($modelField);
-        $model->shouldReceive('getTableName')
-            ->once()
-            ->andReturn('unit-test-table');
-        $this->class = new ListLayout($model);
-        $this->getReflectMethod('parseTableColumn');
     }
 
     public function testParseOperationWithValidArray()
@@ -199,9 +180,8 @@ class ListLayoutTest extends \tests\TestCase
             ],
         ];
         $model = m::mock('app\core\model\Model');
-        $model->shouldReceive('getModule')
+        $model->shouldReceive('getModuleField')
             ->once()
-            ->with('field')
             ->andReturn($modelField);
         $model->shouldReceive('getModule')
             ->once()

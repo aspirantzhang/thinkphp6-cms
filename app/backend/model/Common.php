@@ -32,4 +32,23 @@ abstract class Common extends GlobalModel implements Model
 
         return $module->toArray();
     }
+
+    public function getModuleField(string $itemName = null): mixed
+    {
+        $fields = $this->getModule('field');
+
+        if (empty($fields) || !is_array($fields)) {
+            throw new SystemException('no fields founded in module: ' . $this->getTableName());
+        }
+
+        if (!empty($itemName)) {
+            if (!isset($field[$itemName])) {
+                throw new SystemException('cannot find that item in module field: ' . $this->getTableName() . '-> field -> ' . $itemName);
+            }
+
+            return $fields[$itemName];
+        }
+
+        return $fields;
+    }
 }

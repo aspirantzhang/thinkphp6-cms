@@ -9,4 +9,6 @@ interface Model
     public function getTableName(): string;
 
     public function getModule(string $itemName = null): mixed;
+
+    public function getModuleField(string $itemName = null): mixed;
 }

@@ -40,10 +40,7 @@ class ListLayout extends Layout
 
     private function parseTableColumn()
     {
-        $fields = $this->model->getModule('field');
-        if (empty($fields) || !is_array($fields)) {
-            throw new SystemException('no fields founded in module: ' . $this->model->getTableName());
-        }
+        $fields = $this->model->getModuleField();
 
         $result = [];
         foreach ($fields as $field) {
