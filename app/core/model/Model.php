@@ -13,4 +13,18 @@ interface Model
     public function getModuleField(string $itemName = null): mixed;
 
     public function getModuleOperation(string $itemName = null): mixed;
+
+    public function getFieldSetWithSpecificProperty(string $propertyName): array;
+
+    public function getAllowBrowse(): array;
+
+    public function getAllowRead(): array;
+
+    public function getAllowAdd(): array;
+
+    public function getAllowEdit(): array;
+
+    public function getTranslate(): array;
+
+    public function getUnique(): array;
 }
