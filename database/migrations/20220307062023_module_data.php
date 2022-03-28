@@ -24,15 +24,15 @@ final class ModuleData extends AbstractMigration
                     'browse' => true,
                     'read' => true,
                     'add' => true,
-                    'edit' => true,
+                    'edit' => false,
                 ],
                 'validate' => [
                     'required' => true,
                     'length' => [
                         'min' => 0,
-                        'max' => 255
-                    ]
-                ]
+                        'max' => 255,
+                    ],
+                ],
             ],
             [
                 'name' => 'password',
@@ -53,9 +53,9 @@ final class ModuleData extends AbstractMigration
                     'required' => true,
                     'length' => [
                         'min' => 0,
-                        'max' => 255
+                        'max' => 255,
                     ],
-                ]
+                ],
             ],
             [
                 'name' => 'display_name',
@@ -74,9 +74,9 @@ final class ModuleData extends AbstractMigration
                 'validate' => [
                     'length' => [
                         'min' => 0,
-                        'max' => 255
-                    ]
-                ]
+                        'max' => 255,
+                    ],
+                ],
             ],
             [
                 'name' => 'comment',
@@ -96,9 +96,9 @@ final class ModuleData extends AbstractMigration
                 'validate' => [
                     'length' => [
                         'min' => 0,
-                        'max' => 255
-                    ]
-                ]
+                        'max' => 255,
+                    ],
+                ],
             ],
         ];
         $operation = [
@@ -109,7 +109,7 @@ final class ModuleData extends AbstractMigration
                 'type' => 'primary',
                 'call' => 'modal',
                 'method' => 'get',
-                'uri' => '/backend/admins/add'
+                'uri' => '/backend/admins/add',
             ],
             [
                 'name' => 'delete',
@@ -118,7 +118,7 @@ final class ModuleData extends AbstractMigration
                 'type' => 'danger',
                 'call' => 'delete',
                 'method' => 'post',
-                'uri' => '/backend/admins/delete'
+                'uri' => '/backend/admins/delete',
             ],
             [
                 'name' => 'disable',
@@ -127,7 +127,7 @@ final class ModuleData extends AbstractMigration
                 'type' => 'normal',
                 'call' => 'disable',
                 'method' => 'post',
-                'uri' => '/backend/admins/disable'
+                'uri' => '/backend/admins/disable',
             ],
         ];
         $mainTableRows = [
@@ -154,7 +154,7 @@ final class ModuleData extends AbstractMigration
                 'lang_code' => 'zh-cn',
                 'module_title' => '管理员',
                 'translate_time' => $currentTime,
-            ]
+            ],
         ];
         $this->table('module_i18n')->insert($i18nTableRows)->save();
     }
