@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace app\core\domain\Layout;
 
-use app\core\exception\SystemException;
-
 class ListLayout extends Layout
 {
     private $data;
@@ -57,9 +55,6 @@ class ListLayout extends Layout
     private function parseOperation()
     {
         $operations = $this->model->getModuleOperation();
-        if (empty($operations) || !is_array($operations)) {
-            throw new SystemException('no operations founded in module: ' . $this->model->getTableName());
-        }
 
         foreach ($operations as $operation) {
             if ($operation['position'] === 'list.tableToolbar') {
