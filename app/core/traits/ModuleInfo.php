@@ -119,4 +119,9 @@ trait ModuleInfo
     {
         return $this->getFieldSetWithSpecificProperty('unique');
     }
+
+    public function getFilter(): array
+    {
+        return $this->getFieldSetWithSpecificProperty('filter');
+    }
 }
