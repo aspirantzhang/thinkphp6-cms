@@ -120,4 +120,90 @@ class ModuleInfoTest extends \tests\TestCase
         $this->assertEquals(['password', 'display_name'], $trait->getFieldSetWithSpecificProperty('allow.edit'));
         $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getFieldSetWithSpecificProperty('allow.add'));
     }
+
+    public function testGetFieldFunctionSet()
+    {
+        $trait = new class() {
+            use ModuleInfo;
+
+            public function getModuleField()
+            {
+                return [
+                    [
+                        'name' => 'admin_name',
+                        'type' => 'input',
+                        'unique' => true,
+                        'filter' => true,
+                        'translate' => false,
+                        'position' => 'tab.main',
+                        'order' => 0,
+                        'allow' => [
+                            'browse' => true,
+                            'read' => true,
+                            'add' => true,
+                            'edit' => false,
+                        ],
+                        'validate' => [
+                            'required' => true,
+                            'length' => [
+                                'min' => 0,
+                                'max' => 255,
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => 'password',
+                        'type' => 'password',
+                        'unique' => false,
+                        'filter' => true,
+                        'translate' => false,
+                        'position' => 'tab.main',
+                        'order' => 0,
+                        'hideInColumn' => true,
+                        'allow' => [
+                            'browse' => false,
+                            'read' => true,
+                            'add' => true,
+                            'edit' => true,
+                        ],
+                        'validate' => [
+                            'required' => true,
+                            'length' => [
+                                'min' => 0,
+                                'max' => 255,
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => 'display_name',
+                        'type' => 'input',
+                        'unique' => false,
+                        'filter' => true,
+                        'translate' => true,
+                        'position' => 'tab.main',
+                        'order' => 0,
+                        'allow' => [
+                            'browse' => true,
+                            'read' => true,
+                            'add' => true,
+                            'edit' => true,
+                        ],
+                        'validate' => [
+                            'length' => [
+                                'min' => 0,
+                                'max' => 255,
+                            ],
+                        ],
+                    ],
+                ];
+            }
+        };
+        $this->assertEquals(['admin_name', 'display_name'], $trait->getAllowBrowse());
+        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllowRead());
+        $this->assertEquals(['password', 'display_name'], $trait->getAllowEdit());
+        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllowAdd());
+        $this->assertEquals(['display_name'], $trait->getTranslate());
+        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getFilter());
+        $this->assertEquals(['admin_name'], $trait->getUnique());
+    }
 }
