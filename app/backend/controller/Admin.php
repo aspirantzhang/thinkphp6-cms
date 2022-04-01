@@ -13,7 +13,7 @@ class Admin extends Common
 
     public function home()
     {
-        $result = $this->facade->getPaginatedList($this->getAllow('home'), []);
+        $result = $this->facade->getPaginatedList($this->model->getAllowBrowse(), []);
         $this->jsonView->render($result);
     }
 }
