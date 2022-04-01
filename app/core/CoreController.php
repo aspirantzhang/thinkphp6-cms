@@ -5,16 +5,18 @@ declare(strict_types=1);
 namespace app\core;
 
 use app\common\controller\GlobalController;
+use app\core\exception\SystemException;
+use app\core\model\Model;
 use app\core\traits\ActionController;
-use app\core\traits\AllowField;
 use app\core\view\JsonView;
+use think\db\Query;
 
 class CoreController extends GlobalController
 {
     use ActionController;
-    use AllowField;
 
     protected Facade $facade;
+    protected Model | Query $model;
 
     protected $jsonView;
 
@@ -22,6 +24,7 @@ class CoreController extends GlobalController
     {
         parent::initialize();
         $this->initFacade();
+        $this->initModel();
         $this->initJsonView();
     }
 
@@ -34,6 +37,17 @@ class CoreController extends GlobalController
             return;
         }
         $this->facade = new \app\core\facade\NullFacade();
+    }
+
+    protected function initModel()
+    {
+        $modelClass = str_replace('controller', 'model', static::class);
+        if (class_exists($modelClass)) {
+            $this->model = new $modelClass();
+
+            return;
+        }
+        throw new SystemException('model cannot be instantiated: ' . $modelClass);
     }
 
     protected function initJsonView()
