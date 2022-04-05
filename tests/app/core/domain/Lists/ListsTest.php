@@ -11,7 +11,7 @@ class ListsTest extends \tests\TestCase
 {
     public function setUp(): void
     {
-        $model = m::mock('app\core\model\Model');
+        $model = m::mock('app\core\CoreModel');
         $this->class = new Lists($model);
     }
 

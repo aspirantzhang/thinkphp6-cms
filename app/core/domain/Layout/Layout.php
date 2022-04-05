@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\core\domain\Layout;
 
-use app\core\model\Model;
+use app\core\CoreModel;
 
 abstract class Layout implements \JsonSerializable
 {
@@ -12,7 +12,7 @@ abstract class Layout implements \JsonSerializable
 
     protected array $option;
 
-    public function __construct(protected Model $model)
+    public function __construct(protected CoreModel $model)
     {
     }
 

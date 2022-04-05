@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace app\core\facade;
 
+use app\core\CoreFacade;
 use app\core\exception\SystemException;
-use app\core\Facade;
 
-class NullFacade extends Facade
+class NullFacade extends CoreFacade
 {
-    public bool $isNull = true;
+    public function isNull()
+    {
+        return true;
+    }
 
     private function throwException(): never
     {

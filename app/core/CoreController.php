@@ -6,17 +6,16 @@ namespace app\core;
 
 use app\common\controller\GlobalController;
 use app\core\exception\SystemException;
-use app\core\model\Model;
 use app\core\traits\ActionController;
 use app\core\view\JsonView;
 use think\db\Query;
 
-class CoreController extends GlobalController
+abstract class CoreController extends GlobalController
 {
     use ActionController;
 
-    protected Facade $facade;
-    protected Model | Query $model;
+    protected CoreFacade $facade;
+    protected CoreModel | Query $model;
 
     protected $jsonView;
 

@@ -10,8 +10,6 @@ use think\helper\Str;
 
 trait ModuleInfo
 {
-    protected $deleteTime = 'delete_time';
-
     public function getTableName(): string
     {
         return Str::snake($this->name);

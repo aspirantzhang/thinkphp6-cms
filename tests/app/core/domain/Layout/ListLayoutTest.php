@@ -11,7 +11,7 @@ class ListLayoutTest extends \tests\TestCase
 {
     protected function setUp(): void
     {
-        $model = m::mock('app\core\model\Model');
+        $model = m::mock('app\core\CoreModel');
         $this->class = new ListLayout($model);
     }
 
@@ -66,7 +66,7 @@ class ListLayoutTest extends \tests\TestCase
                 'hideInColumn' => true,
             ],
         ];
-        $model = m::mock('app\core\model\Model');
+        $model = m::mock('app\core\CoreModel');
         $model->shouldReceive('getModuleField')
             ->once()
             ->andReturn($modelField);
@@ -105,7 +105,7 @@ class ListLayoutTest extends \tests\TestCase
                 'position' => 'other',
             ],
         ];
-        $model = m::mock('app\core\model\Model');
+        $model = m::mock('app\core\CoreModel');
         $model->shouldReceive('getModuleOperation')
             ->once()
             ->andReturn($modelPosition);
@@ -159,7 +159,7 @@ class ListLayoutTest extends \tests\TestCase
                 'position' => 'other',
             ],
         ];
-        $model = m::mock('app\core\model\Model');
+        $model = m::mock('app\core\CoreModel');
         $model->shouldReceive('getModuleField')
             ->once()
             ->andReturn($modelField);

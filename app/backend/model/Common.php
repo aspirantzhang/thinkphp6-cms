@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace app\backend\model;
 
-use app\common\model\GlobalModel;
-use app\core\model\Model;
-use app\core\traits\ModuleInfo;
+use app\core\CoreModel;
 
-abstract class Common extends GlobalModel implements Model
+class Common extends CoreModel
 {
-    use ModuleInfo;
+
 }

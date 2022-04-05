@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\core\domain\Lists;
 
-use app\core\model\Model;
+use app\core\CoreModel;
 
 class Lists implements \JsonSerializable
 {
@@ -18,7 +18,7 @@ class Lists implements \JsonSerializable
 
     private array $listParams;
 
-    public function __construct(protected Model | \think\db\Query $model)
+    public function __construct(protected CoreModel | \think\db\Query $model)
     {
     }
 
@@ -46,7 +46,7 @@ class Lists implements \JsonSerializable
     private function buildTrash()
     {
         if ($this->listParams['trash'] !== 'withoutTrashed') {
-            $this->model = $this->model->{$this->listParams['trash'] == 'onlyTrashed' ? 'onlyTrashed' : 'withTrashed'}();
+            $this->model = $this->model->{$this->listParams['trash']}();
         }
     }
 
