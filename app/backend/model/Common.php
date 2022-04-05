@@ -8,5 +8,4 @@ use app\core\CoreModel;
 
 class Common extends CoreModel
 {
-
 }
