@@ -18,7 +18,9 @@ class ListsTest extends \tests\TestCase
     public function testGetListParamsDefaultReturn()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model::$config = ['allowHome' => []];
+        $model->shouldReceive('getAllowBrowse')
+            ->once()
+            ->andReturn([]);
         $this->class = new Lists($model);
         $this->class->withParams([]);
         $this->getReflectMethod('getListParams');
@@ -42,7 +44,12 @@ class ListsTest extends \tests\TestCase
     public function testGetListParamsWithValidParams()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model::$config = ['allowHome' => ['username', 'gender'], 'allowSort' => ['age']];
+        $model->shouldReceive('getAllowBrowse')
+            ->once()
+            ->andReturn(['username', 'gender']);
+        $model->shouldReceive('getAllowSort')
+            ->once()
+            ->andReturn(['age']);
         $this->class = new Lists($model);
         $this->class->withParams([
             'sort' => 'age',
@@ -73,7 +80,12 @@ class ListsTest extends \tests\TestCase
     public function testGetListParamsWithInvalidParams()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model::$config = ['allowHome' => ['username', 'gender'], 'allowSort' => ['age']];
+        $model->shouldReceive('getAllowBrowse')
+            ->once()
+            ->andReturn(['username', 'gender']);
+        $model->shouldReceive('getAllowSort')
+            ->once()
+            ->andReturn(['age']);
         $this->class = new Lists($model);
         $this->class->withParams([
             'sort' => 'invalid-sort',
@@ -102,7 +114,8 @@ class ListsTest extends \tests\TestCase
     public function testGetSortParamDefaultReturn()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model::$config = ['allowSort' => []];
+        $model->shouldReceive('getAllowSort')
+            ->andReturn([]);
         $this->class = new Lists($model);
         $actual = $this->getReflectMethod('getSortParam', [[]]);
         $expected = [
@@ -115,7 +128,9 @@ class ListsTest extends \tests\TestCase
     public function testGetSortParamWithValidParams()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model::$config = ['allowSort' => ['age']];
+        $model->shouldReceive('getAllowSort')
+            ->once()
+            ->andReturn(['age']);
         $this->class = new Lists($model);
         $actual = $this->getReflectMethod('getSortParam', [[
             'sort' => 'age',
@@ -131,7 +146,9 @@ class ListsTest extends \tests\TestCase
     public function testGetSortParamWithInvalidSortParam()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model::$config = ['allowSort' => ['age']];
+        $model->shouldReceive('getAllowSort')
+            ->once()
+            ->andReturn(['age']);
         $this->class = new Lists($model);
         $actual = $this->getReflectMethod('getSortParam', [[
             'sort' => 'name',
@@ -147,7 +164,9 @@ class ListsTest extends \tests\TestCase
     public function testGetSortParamWithInvalidOrderParam()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model::$config = ['allowSort' => ['age']];
+        $model->shouldReceive('getAllowSort')
+            ->once()
+            ->andReturn(['age']);
         $this->class = new Lists($model);
         $actual = $this->getReflectMethod('getSortParam', [[
             'sort' => 'name',

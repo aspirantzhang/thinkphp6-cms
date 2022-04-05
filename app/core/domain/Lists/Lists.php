@@ -78,7 +78,7 @@ class Lists implements \JsonSerializable
         $result = [];
         $result['trash'] = $this->getTrashParam();
         $result['per_page'] = $this->params['per_page'] ?? 10;
-        $result['visible'] = array_diff($this->model::$config['allowHome'], ['sort', 'order', 'page', 'per_page', 'trash']);
+        $result['visible'] = array_diff($this->model->getAllowBrowse(), ['sort', 'order', 'page', 'per_page', 'trash']);
         $result['search']['values'] = array_intersect_key($this->params, array_flip($result['visible']));
         $result['search']['keys'] = array_keys($result['search']['values']);
         $result['sort'] = $this->getSortParam($this->params);
@@ -93,7 +93,7 @@ class Lists implements \JsonSerializable
         ];
 
         if (isset($data['sort'])) {
-            $sort['name'] = in_array($data['sort'], $this->model::$config['allowSort']) ? $data['sort'] : 'id';
+            $sort['name'] = in_array($data['sort'], $this->model->getAllowSort()) ? $data['sort'] : 'id';
         }
         if (isset($data['order'])) {
             $sort['order'] = ('asc' === $data['order']) ? 'asc' : 'desc';
