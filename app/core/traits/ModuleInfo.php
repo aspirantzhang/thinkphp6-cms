@@ -108,6 +108,11 @@ trait ModuleInfo
         return $this->getFieldSetWithSpecificProperty('allow.edit');
     }
 
+    public function getAllowSort(): array
+    {
+        return $this->getFieldSetWithSpecificProperty('allow.sort');
+    }
+
     public function getTranslate(): array
     {
         return $this->getFieldSetWithSpecificProperty('translate');

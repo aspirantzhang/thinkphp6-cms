@@ -109,16 +109,39 @@ class ModuleInfoTest extends \tests\TestCase
                             ],
                         ],
                     ],
+                    [
+                        'name' => 'age',
+                        'type' => 'integer',
+                        'unique' => false,
+                        'filter' => true,
+                        'translate' => false,
+                        'position' => 'tab.main',
+                        'order' => 0,
+                        'allow' => [
+                            'browse' => true,
+                            'read' => true,
+                            'add' => true,
+                            'edit' => true,
+                            'sort' => true,
+                        ],
+                        'validate' => [
+                            'length' => [
+                                'min' => 0,
+                                'max' => 255,
+                            ],
+                        ],
+                    ],
                 ];
             }
         };
         $this->assertEquals([], $trait->getFieldSetWithSpecificProperty('not-exist-property'));
         $this->assertEquals(['admin_name'], $trait->getFieldSetWithSpecificProperty('unique'));
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getFieldSetWithSpecificProperty('filter'));
-        $this->assertEquals(['admin_name', 'display_name'], $trait->getFieldSetWithSpecificProperty('allow.browse'));
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getFieldSetWithSpecificProperty('allow.read'));
-        $this->assertEquals(['password', 'display_name'], $trait->getFieldSetWithSpecificProperty('allow.edit'));
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getFieldSetWithSpecificProperty('allow.add'));
+        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('filter'));
+        $this->assertEquals(['admin_name', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.browse'));
+        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.read'));
+        $this->assertEquals(['password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.edit'));
+        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.add'));
+        $this->assertEquals(['age'], $trait->getFieldSetWithSpecificProperty('allow.sort'));
     }
 
     public function testGetFieldFunctionSet()
