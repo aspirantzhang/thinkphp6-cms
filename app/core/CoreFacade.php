@@ -11,14 +11,14 @@ abstract class CoreFacade
 {
     protected CoreModel | Query $model;
 
-    public function isNull()
-    {
-        return false;
-    }
-
     public function __construct()
     {
         $this->initModel();
+    }
+
+    public function isNull()
+    {
+        return false;
     }
 
     protected function initModel()

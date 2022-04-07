@@ -14,7 +14,7 @@ class NullFacade extends CoreFacade
         return true;
     }
 
-    private function throwException(): never
+    private function throwException()
     {
         throw new SystemException('invalid facade');
     }
@@ -22,11 +22,6 @@ class NullFacade extends CoreFacade
     public function __call($name, $args)
     {
         $this->throwException();
-    }
-
-    public static function __callStatic($name, $args)
-    {
-        (new self())->throwException();
     }
 
     public function __get($name)
