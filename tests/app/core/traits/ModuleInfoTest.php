@@ -47,8 +47,6 @@ class ModuleInfoTest extends \tests\TestCase
                         'name' => 'admin_name',
                         'type' => 'input',
                         'unique' => true,
-                        'filter' => true,
-                        'translate' => false,
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
@@ -56,6 +54,8 @@ class ModuleInfoTest extends \tests\TestCase
                             'read' => true,
                             'add' => true,
                             'edit' => false,
+                            'filter' => true,
+                            'translate' => false,
                         ],
                         'validate' => [
                             'required' => true,
@@ -69,8 +69,6 @@ class ModuleInfoTest extends \tests\TestCase
                         'name' => 'password',
                         'type' => 'password',
                         'unique' => false,
-                        'filter' => true,
-                        'translate' => false,
                         'position' => 'tab.main',
                         'order' => 0,
                         'hideInColumn' => true,
@@ -79,6 +77,8 @@ class ModuleInfoTest extends \tests\TestCase
                             'read' => true,
                             'add' => true,
                             'edit' => true,
+                            'filter' => true,
+                            'translate' => false,
                         ],
                         'validate' => [
                             'required' => true,
@@ -92,8 +92,6 @@ class ModuleInfoTest extends \tests\TestCase
                         'name' => 'display_name',
                         'type' => 'input',
                         'unique' => false,
-                        'filter' => true,
-                        'translate' => true,
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
@@ -101,6 +99,8 @@ class ModuleInfoTest extends \tests\TestCase
                             'read' => true,
                             'add' => true,
                             'edit' => true,
+                            'filter' => true,
+                            'translate' => true,
                         ],
                         'validate' => [
                             'length' => [
@@ -113,8 +113,6 @@ class ModuleInfoTest extends \tests\TestCase
                         'name' => 'age',
                         'type' => 'integer',
                         'unique' => false,
-                        'filter' => true,
-                        'translate' => false,
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
@@ -123,6 +121,8 @@ class ModuleInfoTest extends \tests\TestCase
                             'add' => true,
                             'edit' => true,
                             'sort' => true,
+                            'filter' => true,
+                            'translate' => false,
                         ],
                         'validate' => [
                             'length' => [
@@ -136,7 +136,8 @@ class ModuleInfoTest extends \tests\TestCase
         };
         $this->assertEquals([], $trait->getFieldSetWithSpecificProperty('not-exist-property'));
         $this->assertEquals(['admin_name'], $trait->getFieldSetWithSpecificProperty('unique'));
-        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('filter'));
+        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.filter'));
+        $this->assertEquals(['display_name'], $trait->getFieldSetWithSpecificProperty('allow.translate'));
         $this->assertEquals(['admin_name', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.browse'));
         $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.read'));
         $this->assertEquals(['password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.edit'));
@@ -156,8 +157,6 @@ class ModuleInfoTest extends \tests\TestCase
                         'name' => 'admin_name',
                         'type' => 'input',
                         'unique' => true,
-                        'filter' => true,
-                        'translate' => false,
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
@@ -165,6 +164,8 @@ class ModuleInfoTest extends \tests\TestCase
                             'read' => true,
                             'add' => true,
                             'edit' => false,
+                            'filter' => true,
+                            'translate' => false,
                         ],
                         'validate' => [
                             'required' => true,
@@ -178,8 +179,6 @@ class ModuleInfoTest extends \tests\TestCase
                         'name' => 'password',
                         'type' => 'password',
                         'unique' => false,
-                        'filter' => true,
-                        'translate' => false,
                         'position' => 'tab.main',
                         'order' => 0,
                         'hideInColumn' => true,
@@ -188,6 +187,8 @@ class ModuleInfoTest extends \tests\TestCase
                             'read' => true,
                             'add' => true,
                             'edit' => true,
+                            'filter' => true,
+                            'translate' => false,
                         ],
                         'validate' => [
                             'required' => true,
@@ -201,8 +202,6 @@ class ModuleInfoTest extends \tests\TestCase
                         'name' => 'display_name',
                         'type' => 'input',
                         'unique' => false,
-                        'filter' => true,
-                        'translate' => true,
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
@@ -210,6 +209,8 @@ class ModuleInfoTest extends \tests\TestCase
                             'read' => true,
                             'add' => true,
                             'edit' => true,
+                            'filter' => true,
+                            'translate' => true,
                         ],
                         'validate' => [
                             'length' => [
@@ -225,8 +226,8 @@ class ModuleInfoTest extends \tests\TestCase
         $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllowRead());
         $this->assertEquals(['password', 'display_name'], $trait->getAllowEdit());
         $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllowAdd());
-        $this->assertEquals(['display_name'], $trait->getTranslate());
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getFilter());
+        $this->assertEquals(['display_name'], $trait->getAllowTranslate());
+        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllowFilter());
         $this->assertEquals(['admin_name'], $trait->getUnique());
     }
 }

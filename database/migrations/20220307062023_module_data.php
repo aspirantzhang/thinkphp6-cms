@@ -16,8 +16,6 @@ final class ModuleData extends AbstractMigration
                 'name' => 'admin_name',
                 'type' => 'input',
                 'unique' => true,
-                'filter' => true,
-                'translate' => false,
                 'position' => 'tab.main',
                 'order' => 0,
                 'allow' => [
@@ -25,6 +23,8 @@ final class ModuleData extends AbstractMigration
                     'read' => true,
                     'add' => true,
                     'edit' => false,
+                    'filter' => true,
+                    'translate' => false,
                 ],
                 'validate' => [
                     'required' => true,
@@ -38,8 +38,6 @@ final class ModuleData extends AbstractMigration
                 'name' => 'password',
                 'type' => 'password',
                 'unique' => false,
-                'filter' => true,
-                'translate' => false,
                 'position' => 'tab.main',
                 'order' => 0,
                 'hideInColumn' => true,
@@ -48,6 +46,8 @@ final class ModuleData extends AbstractMigration
                     'read' => true,
                     'add' => true,
                     'edit' => true,
+                    'filter' => true,
+                    'translate' => false,
                 ],
                 'validate' => [
                     'required' => true,
@@ -61,8 +61,6 @@ final class ModuleData extends AbstractMigration
                 'name' => 'display_name',
                 'type' => 'input',
                 'unique' => false,
-                'filter' => true,
-                'translate' => true,
                 'position' => 'tab.main',
                 'order' => 0,
                 'allow' => [
@@ -70,6 +68,8 @@ final class ModuleData extends AbstractMigration
                     'read' => true,
                     'add' => true,
                     'edit' => true,
+                    'filter' => true,
+                    'translate' => true,
                 ],
                 'validate' => [
                     'length' => [
@@ -82,8 +82,6 @@ final class ModuleData extends AbstractMigration
                 'name' => 'comment',
                 'type' => 'textarea',
                 'unique' => false,
-                'filter' => true,
-                'translate' => true,
                 'order' => 0,
                 'position' => 'sidebar.main',
                 'hideInColumn' => true,
@@ -92,6 +90,8 @@ final class ModuleData extends AbstractMigration
                     'read' => true,
                     'add' => true,
                     'edit' => true,
+                    'filter' => true,
+                    'translate' => true,
                 ],
                 'validate' => [
                     'length' => [

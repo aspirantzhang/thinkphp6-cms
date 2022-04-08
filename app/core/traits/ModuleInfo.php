@@ -113,18 +113,18 @@ trait ModuleInfo
         return $this->getFieldSetWithSpecificProperty('allow.sort');
     }
 
-    public function getTranslate(): array
+    public function getAllowTranslate(): array
     {
-        return $this->getFieldSetWithSpecificProperty('translate');
+        return $this->getFieldSetWithSpecificProperty('allow.translate');
+    }
+
+    public function getAllowFilter(): array
+    {
+        return $this->getFieldSetWithSpecificProperty('allow.filter');
     }
 
     public function getUnique(): array
     {
         return $this->getFieldSetWithSpecificProperty('unique');
-    }
-
-    public function getFilter(): array
-    {
-        return $this->getFieldSetWithSpecificProperty('filter');
     }
 }
