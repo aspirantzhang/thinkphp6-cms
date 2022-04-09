@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace app\core\domain\Lists;
+namespace app\core\domain\Data;
 
 use app\core\CoreModel;
 
-class Lists implements \JsonSerializable
+class ListData implements \JsonSerializable
 {
     public const PAGINATED = 'paginated';
 

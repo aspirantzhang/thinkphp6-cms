@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace tests\app\core\Lists;
+namespace tests\app\core\Data;
 
-use app\core\domain\Lists\Lists;
+use app\core\domain\Data\ListData;
 use Mockery as m;
 
-class ListsTest extends \tests\TestCase
+class ListDataTest extends \tests\TestCase
 {
     public function setUp(): void
     {
         $model = m::mock('app\core\CoreModel');
-        $this->class = new Lists($model);
+        $this->class = new ListData($model);
     }
 
     public function testGetListParamsDefaultReturn()
@@ -21,7 +21,7 @@ class ListsTest extends \tests\TestCase
         $model->shouldReceive('getAllowBrowse')
             ->once()
             ->andReturn([]);
-        $this->class = new Lists($model);
+        $this->class = new ListData($model);
         $this->class->withParams([]);
         $this->getReflectMethod('getListParams');
 
@@ -50,7 +50,7 @@ class ListsTest extends \tests\TestCase
         $model->shouldReceive('getAllowSort')
             ->once()
             ->andReturn(['age']);
-        $this->class = new Lists($model);
+        $this->class = new ListData($model);
         $this->class->withParams([
             'sort' => 'age',
             'order' => 'asc',
@@ -86,7 +86,7 @@ class ListsTest extends \tests\TestCase
         $model->shouldReceive('getAllowSort')
             ->once()
             ->andReturn(['age']);
-        $this->class = new Lists($model);
+        $this->class = new ListData($model);
         $this->class->withParams([
             'sort' => 'invalid-sort',
             'order' => 'invalid-order',
@@ -116,7 +116,7 @@ class ListsTest extends \tests\TestCase
         $model = m::mock('app\backend\model\Admin');
         $model->shouldReceive('getAllowSort')
             ->andReturn([]);
-        $this->class = new Lists($model);
+        $this->class = new ListData($model);
         $actual = $this->getReflectMethod('getSortParam', [[]]);
         $expected = [
             'name' => 'id',
@@ -131,7 +131,7 @@ class ListsTest extends \tests\TestCase
         $model->shouldReceive('getAllowSort')
             ->once()
             ->andReturn(['age']);
-        $this->class = new Lists($model);
+        $this->class = new ListData($model);
         $actual = $this->getReflectMethod('getSortParam', [[
             'sort' => 'age',
             'order' => 'asc',
@@ -149,7 +149,7 @@ class ListsTest extends \tests\TestCase
         $model->shouldReceive('getAllowSort')
             ->once()
             ->andReturn(['age']);
-        $this->class = new Lists($model);
+        $this->class = new ListData($model);
         $actual = $this->getReflectMethod('getSortParam', [[
             'sort' => 'name',
             'order' => 'asc',
@@ -167,7 +167,7 @@ class ListsTest extends \tests\TestCase
         $model->shouldReceive('getAllowSort')
             ->once()
             ->andReturn(['age']);
-        $this->class = new Lists($model);
+        $this->class = new ListData($model);
         $actual = $this->getReflectMethod('getSortParam', [[
             'sort' => 'name',
             'order' => 'foo',
