@@ -8,14 +8,13 @@ use app\common\controller\GlobalController;
 use app\core\exception\SystemException;
 use app\core\traits\ActionController;
 use app\core\view\JsonView;
-use think\db\Query;
 
 abstract class CoreController extends GlobalController
 {
     use ActionController;
 
     protected CoreFacade $facade;
-    protected CoreModel | Query $model;
+    protected CoreModel $model;
 
     protected $jsonView;
 

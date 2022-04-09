@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace app\core;
 
 use app\core\exception\SystemException;
-use think\db\Query;
 
 abstract class CoreFacade
 {
-    protected CoreModel | Query $model;
+    protected CoreModel $model;
 
     public function __construct()
     {
