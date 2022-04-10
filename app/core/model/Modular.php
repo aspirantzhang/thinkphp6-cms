@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace app\core\traits;
+namespace app\core\model;
 
 use app\backend\facade\Module as ModuleFacade;
 use app\core\exception\SystemException;
 use think\helper\Str;
 
-trait ModuleInfo
+trait Modular
 {
     public function getTableName(): string
     {

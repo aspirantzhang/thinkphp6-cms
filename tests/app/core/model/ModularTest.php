@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace tests\app\core\traits;
+namespace tests\app\model;
 
-use app\core\traits\ModuleInfo;
+use app\core\model\Modular;
 
-class ModuleInfoTest extends \tests\TestCase
+class ModularTest extends \tests\TestCase
 {
     public function testGetTableName()
     {
         $trait = new class() {
             public string $name;
-            use ModuleInfo;
+            use Modular;
         };
         $trait->name = 'UnitTest';
         $this->assertEquals('unit_test', $trait->getTableName());
@@ -25,7 +25,7 @@ class ModuleInfoTest extends \tests\TestCase
     public function testGetFieldSetWithSpecificPropertyDefaultReturn()
     {
         $trait = new class() {
-            use ModuleInfo;
+            use Modular;
 
             public function getModuleField()
             {
@@ -38,7 +38,7 @@ class ModuleInfoTest extends \tests\TestCase
     public function testGetFieldSetWithSpecificPropertyValidReturn()
     {
         $trait = new class() {
-            use ModuleInfo;
+            use Modular;
 
             public function getModuleField()
             {
@@ -148,7 +148,7 @@ class ModuleInfoTest extends \tests\TestCase
     public function testGetFieldFunctionSet()
     {
         $trait = new class() {
-            use ModuleInfo;
+            use Modular;
 
             public function getModuleField()
             {
