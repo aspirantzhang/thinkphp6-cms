@@ -45,7 +45,6 @@ class ListLayout extends Layout
             $result[] = [
                 'name' => $field['name'],
                 'type' => $field['type'],
-                'translate' => $field['translate'],
                 'order' => $field['order'],
             ];
         }

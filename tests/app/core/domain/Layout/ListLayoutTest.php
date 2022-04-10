@@ -76,13 +76,11 @@ class ListLayoutTest extends \tests\TestCase
             [
                 'name' => 'admin_name',
                 'type' => 'input',
-                'translate' => false,
                 'order' => 1,
             ],
             [
                 'name' => 'comment',
                 'type' => 'textarea',
-                'translate' => true,
                 'order' => 99,
             ],
         ];
@@ -185,13 +183,11 @@ class ListLayoutTest extends \tests\TestCase
                     [
                         'name' => 'admin_name',
                         'type' => 'input',
-                        'translate' => false,
                         'order' => 1,
                     ],
                     [
                         'name' => 'comment',
                         'type' => 'textarea',
-                        'translate' => true,
                         'order' => 99,
                     ],
                 ],
