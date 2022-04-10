@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace app\core\traits;
+namespace app\core\controller;
 
-trait ActionController
+trait Actionable
 {
     public function home()
     {

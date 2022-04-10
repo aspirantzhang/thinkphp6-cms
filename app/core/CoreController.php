@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace app\core;
 
 use app\common\controller\GlobalController;
+use app\core\controller\Actionable;
 use app\core\exception\SystemException;
-use app\core\traits\ActionController;
 use app\core\view\JsonView;
 
 abstract class CoreController extends GlobalController
 {
-    use ActionController;
+    use Actionable;
 
     protected CoreFacade $facade;
     protected CoreModel $model;
