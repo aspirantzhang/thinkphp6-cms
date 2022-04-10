@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace tests\app\core\Data;
 
-use app\core\domain\Data\ListData;
+use app\core\mapper\ListData;
 use Mockery as m;
 
 class ListDataTest extends \tests\TestCase

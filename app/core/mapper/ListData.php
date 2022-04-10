@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\core\domain\Data;
+namespace app\core\mapper;
 
 use app\core\CoreModel;
 
