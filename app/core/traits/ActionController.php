@@ -9,6 +9,7 @@ trait ActionController
     public function home()
     {
         $result = $this->facade->getPaginatedList($this->model->getAllowBrowse());
-        $this->jsonView->render($result);
+
+        return $this->jsonView($result);
     }
 }

@@ -16,14 +16,11 @@ abstract class CoreController extends GlobalController
     protected CoreFacade $facade;
     protected CoreModel $model;
 
-    protected $jsonView;
-
     public function initialize()
     {
         parent::initialize();
         $this->initFacade();
         $this->initModel();
-        $this->initJsonView();
     }
 
     protected function initFacade()
@@ -48,13 +45,8 @@ abstract class CoreController extends GlobalController
         throw new SystemException('model cannot be instantiated: ' . $modelClass);
     }
 
-    protected function initJsonView()
+    protected function jsonView(mixed $data, int $code = 200)
     {
-        if (isset($this->jsonViewClass) && class_exists($this->jsonViewClass)) {
-            $this->jsonView = new $this->jsonViewClass();
-
-            return;
-        }
-        $this->jsonView = new JsonView();
+        return (new JsonView($data, $code))->output();
     }
 }

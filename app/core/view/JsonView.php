@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace app\core\view;
 
+use think\Response;
+
 class JsonView
 {
-    public static function render($data)
+    public function __construct(protected mixed $data, protected int $code = 200)
     {
-        halt('JsonView Handled', $data);
+    }
+
+    public function output()
+    {
+        return Response::create($this->data, 'json', $this->code);
     }
 }
