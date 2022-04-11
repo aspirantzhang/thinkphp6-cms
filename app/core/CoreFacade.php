@@ -8,7 +8,7 @@ use app\core\exception\SystemException;
 
 abstract class CoreFacade
 {
-    protected CoreModel $model;
+    public CoreModel $model;
 
     public function __construct()
     {
@@ -28,6 +28,6 @@ abstract class CoreFacade
 
             return;
         }
-        throw new SystemException('model cannot be instantiated: ' . $modelClass);
+        throw new SystemException('model cannot be instantiated in facade layer: ' . $modelClass);
     }
 }
