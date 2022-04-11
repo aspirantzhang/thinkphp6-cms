@@ -73,14 +73,43 @@ class ListData implements \JsonSerializable
         }
     }
 
+    private function getPerPage()
+    {
+        return $this->params['per_page'] ?? 10;
+    }
+
+    private function getVisible()
+    {
+        return array_diff($this->model->getAllowBrowse(), ['sort', 'order', 'page', 'per_page', 'trash']);
+    }
+
+    private function getSearchValues(array $visible)
+    {
+        return array_intersect_key($this->params, array_flip($visible));
+    }
+
+    private function getSearchKeys($values)
+    {
+        return array_keys($values);
+    }
+
+    private function getSearch(array $visible)
+    {
+        $searchValues = $this->getSearchValues($visible);
+
+        return [
+            'values' => $searchValues,
+            'keys' => $this->getSearchKeys($searchValues),
+        ];
+    }
+
     private function getListParams()
     {
         $result = [];
         $result['trash'] = $this->getTrashParam();
-        $result['per_page'] = $this->params['per_page'] ?? 10;
-        $result['visible'] = array_diff($this->model->getAllowBrowse(), ['sort', 'order', 'page', 'per_page', 'trash']);
-        $result['search']['values'] = array_intersect_key($this->params, array_flip($result['visible']));
-        $result['search']['keys'] = array_keys($result['search']['values']);
+        $result['per_page'] = $this->getPerPage();
+        $result['visible'] = $this->getVisible();
+        $result['search'] = $this->getSearch($result['visible']);
         $result['sort'] = $this->getSortParam($this->params);
         $this->listParams = $result;
     }
