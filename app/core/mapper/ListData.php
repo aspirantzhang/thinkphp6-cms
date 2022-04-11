@@ -57,7 +57,7 @@ class ListData implements \JsonSerializable
         }
     }
 
-    private function getTrashParam(): string
+    private function getTrash(): string
     {
         if (!isset($this->params['trash'])) {
             return 'withoutTrashed';
@@ -103,18 +103,18 @@ class ListData implements \JsonSerializable
         ];
     }
 
-    private function getListParams()
+    private function buildListParams()
     {
         $result = [];
-        $result['trash'] = $this->getTrashParam();
+        $result['trash'] = $this->getTrash();
         $result['per_page'] = $this->getPerPage();
         $result['visible'] = $this->getVisible();
         $result['search'] = $this->getSearch($result['visible']);
-        $result['sort'] = $this->getSortParam($this->params);
+        $result['sort'] = $this->getSort($this->params);
         $this->listParams = $result;
     }
 
-    private function getSortParam(array $data): array
+    private function getSort(array $data): array
     {
         $sort = [
             'name' => 'id',
@@ -133,7 +133,7 @@ class ListData implements \JsonSerializable
 
     private function getResult()
     {
-        $this->getListParams();
+        $this->buildListParams();
         $this->buildTrash();
         $this->buildWithModel();
 

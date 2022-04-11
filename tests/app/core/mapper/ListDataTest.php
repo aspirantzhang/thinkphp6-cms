@@ -15,7 +15,7 @@ class ListDataTest extends \tests\TestCase
         $this->class = new ListData($model);
     }
 
-    public function testGetListParamsDefaultReturn()
+    public function testBuildListParamsDefaultReturn()
     {
         $model = m::mock('app\backend\model\Admin');
         $model->shouldReceive('getAllowBrowse')
@@ -23,7 +23,7 @@ class ListDataTest extends \tests\TestCase
             ->andReturn([]);
         $this->class = new ListData($model);
         $this->class->withParams([]);
-        $this->getReflectMethod('getListParams');
+        $this->getReflectMethod('buildListParams');
 
         $expected = [
             'trash' => 'withoutTrashed',
@@ -41,7 +41,7 @@ class ListDataTest extends \tests\TestCase
         $this->assertEqualsCanonicalizing($expected, $this->getPropertyValue('listParams'));
     }
 
-    public function testGetListParamsWithValidParams()
+    public function testBuildListParamsWithValidParams()
     {
         $model = m::mock('app\backend\model\Admin');
         $model->shouldReceive('getAllowBrowse')
@@ -58,7 +58,7 @@ class ListDataTest extends \tests\TestCase
             'trash' => 'onlyTrashed',
             'username' => 'zhang',
         ]);
-        $this->getReflectMethod('getListParams');
+        $this->getReflectMethod('buildListParams');
         $expected = [
             'trash' => 'onlyTrashed',
             'per_page' => 5,
@@ -77,7 +77,7 @@ class ListDataTest extends \tests\TestCase
         $this->assertEqualsCanonicalizing($expected, $this->getPropertyValue('listParams'));
     }
 
-    public function testGetListParamsWithInvalidParams()
+    public function testBuildListParamsWithInvalidParams()
     {
         $model = m::mock('app\backend\model\Admin');
         $model->shouldReceive('getAllowBrowse')
@@ -94,7 +94,7 @@ class ListDataTest extends \tests\TestCase
             'trash' => 'invalid-trash',
             'invalid-search-key' => 'invalid-search-value',
         ]);
-        $this->getReflectMethod('getListParams');
+        $this->getReflectMethod('buildListParams');
         $expected = [
             'trash' => 'withoutTrashed',
             'per_page' => 10,
@@ -111,13 +111,13 @@ class ListDataTest extends \tests\TestCase
         $this->assertEqualsCanonicalizing($expected, $this->getPropertyValue('listParams'));
     }
 
-    public function testGetSortParamDefaultReturn()
+    public function testGetSortDefaultReturn()
     {
         $model = m::mock('app\backend\model\Admin');
         $model->shouldReceive('getAllowSort')
             ->andReturn([]);
         $this->class = new ListData($model);
-        $actual = $this->getReflectMethod('getSortParam', [[]]);
+        $actual = $this->getReflectMethod('getSort', [[]]);
         $expected = [
             'name' => 'id',
             'order' => 'desc',
@@ -125,14 +125,14 @@ class ListDataTest extends \tests\TestCase
         $this->assertEqualsCanonicalizing($expected, $actual);
     }
 
-    public function testGetSortParamWithValidParams()
+    public function testGetSortWithValidParams()
     {
         $model = m::mock('app\backend\model\Admin');
         $model->shouldReceive('getAllowSort')
             ->once()
             ->andReturn(['age']);
         $this->class = new ListData($model);
-        $actual = $this->getReflectMethod('getSortParam', [[
+        $actual = $this->getReflectMethod('getSort', [[
             'sort' => 'age',
             'order' => 'asc',
         ]]);
@@ -143,14 +143,14 @@ class ListDataTest extends \tests\TestCase
         $this->assertEqualsCanonicalizing($expected, $actual);
     }
 
-    public function testGetSortParamWithInvalidSortParam()
+    public function testGetSortWithInvalidSortParam()
     {
         $model = m::mock('app\backend\model\Admin');
         $model->shouldReceive('getAllowSort')
             ->once()
             ->andReturn(['age']);
         $this->class = new ListData($model);
-        $actual = $this->getReflectMethod('getSortParam', [[
+        $actual = $this->getReflectMethod('getSort', [[
             'sort' => 'name',
             'order' => 'asc',
         ]]);
@@ -161,14 +161,14 @@ class ListDataTest extends \tests\TestCase
         $this->assertEqualsCanonicalizing($expected, $actual);
     }
 
-    public function testGetSortParamWithInvalidOrderParam()
+    public function testGetSortWithInvalidOrderParam()
     {
         $model = m::mock('app\backend\model\Admin');
         $model->shouldReceive('getAllowSort')
             ->once()
             ->andReturn(['age']);
         $this->class = new ListData($model);
-        $actual = $this->getReflectMethod('getSortParam', [[
+        $actual = $this->getReflectMethod('getSort', [[
             'sort' => 'name',
             'order' => 'foo',
         ]]);
@@ -179,26 +179,26 @@ class ListDataTest extends \tests\TestCase
         $this->assertEqualsCanonicalizing($expected, $actual);
     }
 
-    public function testGetTrashParamDefaultReturn()
+    public function testBuildTrashParamDefaultReturn()
     {
         $this->class->withParams([]);
-        $actual = $this->getReflectMethod('getTrashParam');
+        $actual = $this->getReflectMethod('getTrash');
 
         $this->assertEquals('withoutTrashed', $actual);
     }
 
-    public function testGetTrashParamSpecificReturn()
+    public function testBuildTrashParamSpecificReturn()
     {
         $this->class->withParams(['trash' => 'withoutTrashed']);
-        $actual = $this->getReflectMethod('getTrashParam');
+        $actual = $this->getReflectMethod('getTrash');
         $this->assertEquals('withoutTrashed', $actual);
 
         $this->class->withParams(['trash' => 'onlyTrashed']);
-        $actual = $this->getReflectMethod('getTrashParam');
+        $actual = $this->getReflectMethod('getTrash');
         $this->assertEquals('onlyTrashed', $actual);
 
         $this->class->withParams(['trash' => 'withTrashed']);
-        $actual = $this->getReflectMethod('getTrashParam');
+        $actual = $this->getReflectMethod('getTrash');
         $this->assertEquals('withTrashed', $actual);
     }
 }
