@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace app\core\mapper;
 
 use app\core\CoreModel;
+use app\core\exception\SystemException;
+use think\db\exception\DbException;
 
 class ListData implements \JsonSerializable
 {
@@ -45,15 +47,23 @@ class ListData implements \JsonSerializable
 
     private function buildTrash()
     {
-        if ($this->listParams['trash'] !== 'withoutTrashed') {
-            $this->model = $this->model->{$this->listParams['trash']}();
+        try {
+            if ($this->listParams['trash'] !== 'withoutTrashed') {
+                $this->model = $this->model->{$this->listParams['trash']}();
+            }
+        } catch (DbException $e) {
+            throw new SystemException($e->getMessage());
         }
     }
 
     private function buildWithModel()
     {
-        if (isset($this->option['with'])) {
-            $this->model = $this->model->with($this->option['with']);
+        try {
+            if (isset($this->option['with'])) {
+                $this->model = $this->model->with($this->option['with']);
+            }
+        } catch (DbException $e) {
+            throw new SystemException($e->getMessage());
         }
     }
 
@@ -137,17 +147,21 @@ class ListData implements \JsonSerializable
         $this->buildTrash();
         $this->buildWithModel();
 
-        // TODO: add i18n $result = $this->withI18n($result->with($withRelation))
-        $this->model = $this->model
-            ->withSearch($this->listParams['search']['keys'], $this->listParams['search']['values'])
-            ->order($this->listParams['sort']['name'], $this->listParams['sort']['order'])
-            ->visible($this->listParams['visible']);
+        try {
+            // TODO: add i18n $result = $this->withI18n($result->with($withRelation))
+            $this->model = $this->model
+                ->withSearch($this->listParams['search']['keys'], $this->listParams['search']['values'])
+                ->order($this->listParams['sort']['name'], $this->listParams['sort']['order'])
+                ->visible($this->listParams['visible']);
 
-        if ($this->type === 'paginated') {
-            return $this->model->paginate($this->listParams['per_page']);
+            if ($this->type === 'paginated') {
+                return $this->model->paginate($this->listParams['per_page']);
+            }
+
+            return $this->model->select();
+        } catch (DbException $e) {
+            throw new SystemException($e->getMessage());
         }
-
-        return $this->model->select();
     }
 
     public function toArray()
