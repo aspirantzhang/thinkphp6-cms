@@ -6,7 +6,7 @@ namespace app\core\controller;
 
 trait Actionable
 {
-    public function home()
+    public function index()
     {
         $result = $this->facade->getPaginatedList($this->model->getAllowBrowse());
 

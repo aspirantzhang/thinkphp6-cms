@@ -11,7 +11,7 @@ class Admin extends Common
         parent::initialize();
     }
 
-    public function home()
+    public function index()
     {
         $result = $this->facade->getPaginatedList($this->facade->model->getAllowBrowse(), []);
 
