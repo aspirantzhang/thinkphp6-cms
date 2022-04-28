@@ -28,7 +28,7 @@ class ListLayoutTest extends \tests\TestCase
                 'page' => 1,
             ],
         ];
-        $this->class->withData($data);
+        $this->class->setData($data);
         $this->getReflectMethod('parseDataSource');
         $this->assertEqualsCanonicalizing($data['dataSource'], $this->getPropertyValue('dataSource'));
         $this->assertEqualsCanonicalizing($data['pagination'], $this->getPropertyValue('meta'));
@@ -37,7 +37,7 @@ class ListLayoutTest extends \tests\TestCase
     public function testParseDataSourceWithEmptyArray()
     {
         $data = [];
-        $this->class->withData($data);
+        $this->class->setData($data);
         $this->getReflectMethod('parseDataSource');
         $this->assertNull($this->getPropertyValue('dataSource'));
         $this->assertNull($this->getPropertyValue('meta'));
@@ -214,6 +214,6 @@ class ListLayoutTest extends \tests\TestCase
                 'page' => 1,
             ],
         ];
-        $this->assertEquals(json_encode($expect), json_encode($this->class->withData($data)));
+        $this->assertEquals(json_encode($expect), json_encode($this->class->setData($data)));
     }
 }

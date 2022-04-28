@@ -18,7 +18,7 @@ class ListLayout extends Layout
 
     private $meta;
 
-    public function withData(array $data)
+    public function setData(array $data)
     {
         $this->data = $data;
 

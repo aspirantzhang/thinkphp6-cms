@@ -12,7 +12,7 @@ class ListData implements \JsonSerializable
 {
     public const PAGINATED = 'paginated';
 
-    private array $params;
+    private array $input;
 
     private array $option;
 
@@ -24,21 +24,21 @@ class ListData implements \JsonSerializable
     {
     }
 
-    public function withParams(array $params)
+    public function setInput(array $input)
     {
-        $this->params = $params;
+        $this->input = $input;
 
         return $this;
     }
 
-    public function withOption(array $option)
+    public function setOption(array $option)
     {
         $this->option = $option;
 
         return $this;
     }
 
-    public function type(string $type)
+    public function setType(string $type)
     {
         $this->type = $type;
 
@@ -69,11 +69,11 @@ class ListData implements \JsonSerializable
 
     private function getTrash(): string
     {
-        if (!isset($this->params['trash'])) {
+        if (!isset($this->input['trash'])) {
             return 'withoutTrashed';
         }
 
-        switch ($this->params['trash']) {
+        switch ($this->input['trash']) {
             case 'onlyTrashed':
                 return 'onlyTrashed';
             case 'withTrashed':
@@ -85,7 +85,7 @@ class ListData implements \JsonSerializable
 
     private function getPerPage()
     {
-        return $this->params['per_page'] ?? 10;
+        return $this->input['per_page'] ?? 10;
     }
 
     private function getVisible()
@@ -95,7 +95,7 @@ class ListData implements \JsonSerializable
 
     private function getSearchValues(array $visible)
     {
-        return array_intersect_key($this->params, array_flip($visible));
+        return array_intersect_key($this->input, array_flip($visible));
     }
 
     private function getSearchKeys($values)
@@ -120,7 +120,7 @@ class ListData implements \JsonSerializable
         $result['per_page'] = $this->getPerPage();
         $result['visible'] = $this->getVisible();
         $result['search'] = $this->getSearch($result['visible']);
-        $result['sort'] = $this->getSort($this->params);
+        $result['sort'] = $this->getSort($this->input);
         $this->listParams = $result;
     }
 

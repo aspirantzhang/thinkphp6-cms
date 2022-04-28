@@ -22,7 +22,7 @@ class ListDataTest extends \tests\TestCase
             ->once()
             ->andReturn([]);
         $this->class = new ListData($model);
-        $this->class->withParams([]);
+        $this->class->setInput([]);
         $this->getReflectMethod('buildListParams');
 
         $expected = [
@@ -51,7 +51,7 @@ class ListDataTest extends \tests\TestCase
             ->once()
             ->andReturn(['age']);
         $this->class = new ListData($model);
-        $this->class->withParams([
+        $this->class->setInput([
             'sort' => 'age',
             'order' => 'asc',
             'per_page' => 5,
@@ -87,7 +87,7 @@ class ListDataTest extends \tests\TestCase
             ->once()
             ->andReturn(['age']);
         $this->class = new ListData($model);
-        $this->class->withParams([
+        $this->class->setInput([
             'sort' => 'invalid-sort',
             'order' => 'invalid-order',
             'per_page' => 10,
@@ -181,7 +181,7 @@ class ListDataTest extends \tests\TestCase
 
     public function testBuildTrashParamDefaultReturn()
     {
-        $this->class->withParams([]);
+        $this->class->setInput([]);
         $actual = $this->getReflectMethod('getTrash');
 
         $this->assertEquals('withoutTrashed', $actual);
@@ -189,15 +189,15 @@ class ListDataTest extends \tests\TestCase
 
     public function testBuildTrashParamSpecificReturn()
     {
-        $this->class->withParams(['trash' => 'withoutTrashed']);
+        $this->class->setInput(['trash' => 'withoutTrashed']);
         $actual = $this->getReflectMethod('getTrash');
         $this->assertEquals('withoutTrashed', $actual);
 
-        $this->class->withParams(['trash' => 'onlyTrashed']);
+        $this->class->setInput(['trash' => 'onlyTrashed']);
         $actual = $this->getReflectMethod('getTrash');
         $this->assertEquals('onlyTrashed', $actual);
 
-        $this->class->withParams(['trash' => 'withTrashed']);
+        $this->class->setInput(['trash' => 'withTrashed']);
         $actual = $this->getReflectMethod('getTrash');
         $this->assertEquals('withTrashed', $actual);
     }

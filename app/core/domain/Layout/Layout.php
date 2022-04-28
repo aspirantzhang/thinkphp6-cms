@@ -8,7 +8,7 @@ use app\core\CoreModel;
 
 abstract class Layout implements \JsonSerializable
 {
-    protected array $param;
+    protected array $input;
 
     protected array $option;
 
@@ -16,14 +16,14 @@ abstract class Layout implements \JsonSerializable
     {
     }
 
-    public function withParam(array $param)
+    public function setInput(array $input)
     {
-        $this->param = $param;
+        $this->input = $input;
 
         return $this;
     }
 
-    public function withOption(array $option)
+    public function setOption(array $option)
     {
         $this->option = $option;
 
