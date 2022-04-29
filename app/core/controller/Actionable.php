@@ -8,7 +8,7 @@ trait Actionable
 {
     public function index()
     {
-        $result = $this->facade->getPaginatedList($this->model->getAllowBrowse());
+        $result = $this->facade->getPaginatedList();
 
         return $this->jsonView($result);
     }
