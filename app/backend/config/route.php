@@ -2,6 +2,6 @@
 
 return [
     'middleware' => [
-        app\middleware\RouterValidate::class,
+        app\core\validator\Validator::class,
     ],
 ];

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace app\middleware;
+namespace app\core\validator;
 
 use app\core\exception\SystemException;
 
-class RouterValidate
+class Validator
 {
     public function handle($request, \Closure $next)
     {
@@ -18,10 +18,13 @@ class RouterValidate
         }
         $module = new $moduleClass();
 
-        $validateClass = new class ($module) extends \think\Validate {
-            public function __construct(private $module)
+        $validateClass = new class() extends \think\Validate {
+            public function __construct()
             {
                 $this->setLang(app()->lang);
+
+                $this->rule['admin_name'] = 'length:6-32';
+
                 $this->scene['index'] = ['admin_name'];
 
                 $this->message['admin_name.length'] = 'octopus-length';
