@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace app\core\validator;
 
 use app\core\exception\SystemException;
+use app\core\validator\rule\DateTimeRange;
+use app\core\validator\rule\NumberArray;
+use app\core\validator\rule\ParentId;
+use think\Validate;
 
 class Validator
 {
@@ -18,16 +22,24 @@ class Validator
         }
         $module = new $moduleClass();
 
-        $validateClass = new class() extends \think\Validate {
+        $extendRules = new ExtendedRules();
+        $extendRules->attach(new NumberArray());
+        $extendRules->attach(new DateTimeRange());
+        $extendRules->attach(new ParentId());
+        $extendRules->boot();
+
+        $validateClass = new class() extends Validate {
             public function __construct()
             {
-                $this->setLang(app()->lang);
+                parent::__construct();
+                // $this->setLang(app()->lang);
 
-                $this->rule['admin_name'] = 'length:6-32';
+                $this->rule['admin_name'] = 'numberArray';
 
                 $this->scene['index'] = ['admin_name'];
 
                 $this->message['admin_name.length'] = 'octopus-length';
+                $this->message['admin_name.numberArray'] = 'octopus-numberArray';
             }
         };
 

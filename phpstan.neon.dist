@@ -14,3 +14,4 @@ parameters:
     # - '#Access to an undefined property think\\App::\$revision#'
     # - '#Parameter \#3 \$filter of static method think\\Request::param\(\) expects array\|string\, null given\.#'
     - '#Call to an undefined method app\\core\\CoreFacade::\w+\(\).#'
+    - '#Call to an undefined method SplSubject::\w+\(\).#'
