@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace app\core\validator\rule;
 
+use app\core\validator\CoreRule;
 use think\Validate;
 
-class DateTimeRange implements \SplObserver
+class DateTimeRange implements CoreRule
 {
-    public function update(\SplSubject | Validate $validate): void
+    public function handle(Validate $validate)
     {
         $validate->extend('DateTimeRange', function ($value) {
             if (!$value) {

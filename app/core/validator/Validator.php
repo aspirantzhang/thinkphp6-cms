@@ -8,10 +8,45 @@ use app\core\exception\SystemException;
 use app\core\validator\rule\DateTimeRange;
 use app\core\validator\rule\NumberArray;
 use app\core\validator\rule\ParentId;
+use think\facade\Event;
 use think\Validate;
 
 class Validator
 {
+    public static array $coreRules = [
+        NumberArray::class,
+        DateTimeRange::class,
+        ParentId::class,
+    ];
+
+    private function initCoreRules()
+    {
+        Validate::maker(function ($validate) {
+            foreach (self::$coreRules as $ruleClass) {
+                $this->initRule($ruleClass, $validate);
+            }
+        });
+    }
+
+    private function isValidRuleClass(string $ruleClass)
+    {
+        if (class_exists($ruleClass)) {
+            $implements = class_implements($ruleClass);
+            if (isset($implements['app\core\validator\CoreRule'])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function initRule(string $ruleClass, Validate $validate)
+    {
+        if ($this->isValidRuleClass($ruleClass)) {
+            (new $ruleClass())->handle($validate);
+        }
+    }
+
     public function handle($request, \Closure $next)
     {
         $appName = parse_name(app('http')->getName());
@@ -22,24 +57,21 @@ class Validator
         }
         $module = new $moduleClass();
 
-        $extendRules = new ExtendedRules();
-        $extendRules->attach(new NumberArray());
-        $extendRules->attach(new DateTimeRange());
-        $extendRules->attach(new ParentId());
-        $extendRules->boot();
+        Event::trigger('ExtendValidateRules', $this);
+
+        $this->initCoreRules();
 
         $validateClass = new class() extends Validate {
             public function __construct()
             {
                 parent::__construct();
-                // $this->setLang(app()->lang);
 
-                $this->rule['admin_name'] = 'numberArray';
+                $this->rule['admin_name'] = 'NumberArray';
 
                 $this->scene['index'] = ['admin_name'];
 
                 $this->message['admin_name.length'] = 'octopus-length';
-                $this->message['admin_name.numberArray'] = 'octopus-numberArray';
+                $this->message['admin_name.NumberArray'] = 'octopus-NumberArray';
             }
         };
 

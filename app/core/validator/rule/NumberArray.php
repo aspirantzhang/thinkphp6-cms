@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace app\core\validator\rule;
 
+use app\core\validator\CoreRule;
 use think\Validate;
 
 // support number string, number array or single number
-class NumberArray implements \SplObserver
+class NumberArray implements CoreRule
 {
-    public function update(\SplSubject | Validate $validate): void
+    public function handle(Validate $validate)
     {
         $validate->extend('NumberArray', function ($value) {
             if (isInt($value)) {

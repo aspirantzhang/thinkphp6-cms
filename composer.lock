@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aspirantzhang/octopus-helper.git",
-                "reference": "b799e8fdf3490635add50b4c776b88116d448ed5"
+                "reference": "2bf685dbf0a8ad3a6d00c127b153a840e82d88e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/b799e8fdf3490635add50b4c776b88116d448ed5",
-                "reference": "b799e8fdf3490635add50b4c776b88116d448ed5",
+                "url": "https://api.github.com/repos/aspirantzhang/octopus-helper/zipball/2bf685dbf0a8ad3a6d00c127b153a840e82d88e4",
+                "reference": "2bf685dbf0a8ad3a6d00c127b153a840e82d88e4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -27,12 +27,13 @@
                 ]
             },
             "require": {
-                "php": ">=7.4.0",
+                "php": ">=8.1.0",
                 "topthink/framework": "^6.0"
             },
             "require-dev": {
-                "mockery/mockery": "^1.4",
-                "phpstan/phpstan": "^0.12.93",
+                "friendsofphp/php-cs-fixer": "^3.7",
+                "mockery/mockery": "^1.5",
+                "phpstan/phpstan": "^1.6",
                 "phpunit/phpunit": "^9.5"
             },
             "default-branch": true,
@@ -57,7 +58,7 @@
                 "issues": "https://github.com/aspirantzhang/octopus-helper/issues",
                 "source": "https://github.com/aspirantzhang/octopus-helper/tree/main"
             },
-            "time": "2021-11-19T07:00:12+00:00"
+            "time": "2022-05-11T15:25:25+00:00"
         },
         {
             "name": "aspirantzhang/octopus-model-creator",
@@ -6909,5 +6910,5 @@
         "php": ">=8.1.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.0.0"
 }
