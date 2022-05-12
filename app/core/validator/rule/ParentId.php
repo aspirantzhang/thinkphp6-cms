@@ -6,18 +6,10 @@ namespace app\core\validator\rule;
 
 use app\core\validator\CoreRule;
 use think\facade\Request;
-use think\Validate;
 
-class ParentId implements CoreRule
+class ParentId extends CoreRule
 {
-    public function handle(Validate $validate)
-    {
-        $validate->extend('ParentId', function ($value) {
-            return $this->check($value);
-        });
-    }
-
-    public function check($value): bool
+    public function rule($value): bool
     {
         return $value !== Request::param('id');
     }

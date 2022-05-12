@@ -5,18 +5,10 @@ declare(strict_types=1);
 namespace app\core\validator\rule;
 
 use app\core\validator\CoreRule;
-use think\Validate;
 
-class DateTimeRange implements CoreRule
+class DateTimeRange extends CoreRule
 {
-    public function handle(Validate $validate)
-    {
-        $validate->extend('DateTimeRange', function ($value) {
-            return $this->check($value);
-        });
-    }
-
-    public function check($value): bool
+    public function rule($value): bool
     {
         if (!$value) {
             return false;

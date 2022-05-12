@@ -31,7 +31,7 @@ class Validator
     private function isValidRuleClass(string $ruleClass)
     {
         if (class_exists($ruleClass)) {
-            $implements = class_implements($ruleClass);
+            $implements = class_parents($ruleClass);
             if (isset($implements['app\core\validator\CoreRule'])) {
                 return true;
             }
@@ -43,7 +43,7 @@ class Validator
     private function initRule(string $ruleClass, Validate $validate)
     {
         if ($this->isValidRuleClass($ruleClass)) {
-            (new $ruleClass())->handle($validate);
+            (new $ruleClass($validate))->check();
         }
     }
 

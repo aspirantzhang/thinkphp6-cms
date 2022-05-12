@@ -5,19 +5,11 @@ declare(strict_types=1);
 namespace app\core\validator\rule;
 
 use app\core\validator\CoreRule;
-use think\Validate;
 
 // support number string, number array or single number
-class NumberArray implements CoreRule
+class NumberArray extends CoreRule
 {
-    public function handle(Validate $validate)
-    {
-        $validate->extend('NumberArray', function ($value) {
-            return $this->check($value);
-        });
-    }
-
-    public function check($value): bool
+    public function rule($value): bool
     {
         if (isInt($value)) {
             return true;

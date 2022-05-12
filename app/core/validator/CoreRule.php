@@ -6,9 +6,18 @@ namespace app\core\validator;
 
 use think\Validate;
 
-interface CoreRule
+abstract class CoreRule
 {
-    public function handle(Validate $validate);
+    public function __construct(private Validate $validate)
+    {
+    }
 
-    public function check($value): bool;
+    public function check()
+    {
+        $this->validate->extend(class_basename(static::class), function ($value) {
+            return $this->rule($value);
+        });
+    }
+
+    abstract public function rule($value): bool;
 }
