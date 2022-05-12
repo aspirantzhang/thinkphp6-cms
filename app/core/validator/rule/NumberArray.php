@@ -13,29 +13,34 @@ class NumberArray implements CoreRule
     public function handle(Validate $validate)
     {
         $validate->extend('NumberArray', function ($value) {
-            if (isInt($value)) {
-                return true;
-            }
-            if (is_array($value)) {
-                foreach ($value as $val) {
-                    if (!isInt($val)) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-            if (is_string($value) && strpos($value, ',')) {
-                foreach (explode(',', $value) as $val) {
-                    if (!isInt($val)) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            return false;
+            return $this->check($value);
         });
+    }
+
+    public function check($value): bool
+    {
+        if (isInt($value)) {
+            return true;
+        }
+        if (is_array($value)) {
+            foreach ($value as $val) {
+                if (!isInt($val)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        if (is_string($value) && strpos($value, ',')) {
+            foreach (explode(',', $value) as $val) {
+                if (!isInt($val)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

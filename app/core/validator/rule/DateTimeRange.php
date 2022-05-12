@@ -12,27 +12,46 @@ class DateTimeRange implements CoreRule
     public function handle(Validate $validate)
     {
         $validate->extend('DateTimeRange', function ($value) {
-            if (!$value) {
-                return false;
-            }
-
-            if ($this->isValidDateTime($value, \DateTime::ATOM)) {
-                return true;
-            }
-
-            $valueArray = explode(',', $value);
-
-            if (count($valueArray) === 2 &&
-                $this->isValidDateTime($valueArray[0], \DateTime::ATOM) &&
-                $this->isValidDateTime($valueArray[1], \DateTime::ATOM)) {
-                return true;
-            } else {
-                return false;
-            }
+            return $this->check($value);
         });
     }
 
-    private function isValidDateTime($date, $format = 'Y-m-d H:i:s')
+    public function check($value): bool
+    {
+        if (!$value) {
+            return false;
+        }
+
+        if (str_contains($value, ',')) {
+            $valueArray = explode(',', $value);
+
+            return $this->isValidDatetimeRange($valueArray);
+        } else {
+            return $this->isValidDatetime($value);
+        }
+    }
+
+    private function isValidDatetime($value)
+    {
+        if ($this->isValidDateTimeFormat($value, \DateTime::ATOM)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isValidDatetimeRange(array $valueArray)
+    {
+        if (count($valueArray) === 2 &&
+            $this->isValidDateTimeFormat($valueArray[0], \DateTime::ATOM) &&
+            $this->isValidDateTimeFormat($valueArray[1], \DateTime::ATOM)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function isValidDateTimeFormat($date, $format = 'Y-m-d H:i:s')
     {
         if ($date) {
             $d = \DateTime::createFromFormat($format, $date);

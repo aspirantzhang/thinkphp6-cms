@@ -13,7 +13,12 @@ class ParentId implements CoreRule
     public function handle(Validate $validate)
     {
         $validate->extend('ParentId', function ($value) {
-            return $value !== Request::param('id');
+            return $this->check($value);
         });
+    }
+
+    public function check($value): bool
+    {
+        return $value !== Request::param('id');
     }
 }
