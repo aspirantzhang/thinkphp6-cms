@@ -31,8 +31,8 @@ class Validator
     private function isValidRuleClass(string $ruleClass)
     {
         if (class_exists($ruleClass)) {
-            $implements = class_parents($ruleClass);
-            if (isset($implements['app\core\validator\CoreRule'])) {
+            $parents = class_parents($ruleClass);
+            if (isset($parents[CoreRule::class])) {
                 return true;
             }
         }
@@ -66,12 +66,12 @@ class Validator
             {
                 parent::__construct();
 
-                $this->rule['admin_name'] = 'NumberArray';
+                $this->rule['admin_name'] = 'Integer';
 
                 $this->scene['index'] = ['admin_name'];
 
                 $this->message['admin_name.length'] = 'octopus-length';
-                $this->message['admin_name.NumberArray'] = 'octopus-NumberArray';
+                $this->message['admin_name.Integer'] = 'octopus-Integer';
             }
         };
 
