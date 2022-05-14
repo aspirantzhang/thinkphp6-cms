@@ -6,7 +6,7 @@ namespace app\core\validator;
 
 use app\core\exception\SystemException;
 use app\core\validator\rule\DateTimeRange;
-use app\core\validator\rule\NumberArray;
+use app\core\validator\rule\Integer;
 use app\core\validator\rule\ParentId;
 use think\facade\Event;
 use think\Validate;
@@ -14,7 +14,7 @@ use think\Validate;
 class Validator
 {
     public static array $coreRules = [
-        NumberArray::class,
+        Integer::class,
         DateTimeRange::class,
         ParentId::class,
     ];

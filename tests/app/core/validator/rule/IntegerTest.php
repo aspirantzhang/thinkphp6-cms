@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-use app\core\validator\rule\NumberArray;
+use app\core\validator\rule\Integer;
 use Mockery as m;
 
 // support number string, number array or single number
-class NumberArrayTest extends \tests\TestCase
+class IntegerTest extends \tests\TestCase
 {
     public function setUp(): void
     {
         $validate = m::mock(think\Validate::class);
-        $this->class = new NumberArray($validate);
+        $this->class = new Integer($validate);
     }
 
     public function testRuleIfValueIsInvalidShouldReturnFalse()
@@ -23,12 +23,12 @@ class NumberArrayTest extends \tests\TestCase
         $this->assertFalse($this->class->rule('\r'));
         $this->assertFalse($this->class->rule(''));
         $this->assertFalse($this->class->rule(' '));
-        $this->assertFalse($this->class->rule('π'));
+        $this->assertFalse($this->class->rule('张'));
         $this->assertFalse($this->class->rule(0.688));
         $this->assertFalse($this->class->rule([111, 'foo', false]));
     }
 
-    public function testRuleIfValueIsNumberShouldReturnTrue()
+    public function testRuleIfValueIsIntegerShouldReturnTrue()
     {
         $this->assertTrue($this->class->rule(111));
         $this->assertTrue($this->class->rule('666'));
@@ -36,9 +36,15 @@ class NumberArrayTest extends \tests\TestCase
         $this->assertTrue($this->class->rule(false));
     }
 
-    public function testRuleIfValueIsNumberArrayShouldReturnTrue()
+    public function testRuleIfValueIsIntegerArrayShouldReturnTrue()
     {
         $this->assertTrue($this->class->rule([111, '666']));
         $this->assertTrue($this->class->rule([true, false]));
+    }
+
+    public function testRuleIfValueIsStringOfIntegersShouldReturnTrue()
+    {
+        $this->assertTrue($this->class->rule('111,666'));
+        $this->assertTrue($this->class->rule('1, 0'));
     }
 }

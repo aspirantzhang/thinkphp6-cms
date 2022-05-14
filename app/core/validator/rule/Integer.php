@@ -7,7 +7,7 @@ namespace app\core\validator\rule;
 use app\core\validator\CoreRule;
 
 // support number string, number array or single number
-class NumberArray extends CoreRule
+class Integer extends CoreRule
 {
     public function rule($value): bool
     {
@@ -15,24 +15,23 @@ class NumberArray extends CoreRule
             return true;
         }
         if (is_array($value)) {
-            foreach ($value as $val) {
-                if (!isInt($val)) {
-                    return false;
-                }
-            }
-
-            return true;
+            return $this->checkIntegerArray($value);
         }
         if (is_string($value) && strpos($value, ',')) {
-            foreach (explode(',', $value) as $val) {
-                if (!isInt($val)) {
-                    return false;
-                }
-            }
-
-            return true;
+            return $this->checkIntegerArray(explode(',', $value));
         }
 
         return false;
+    }
+
+    private function checkIntegerArray(array $value): bool
+    {
+        foreach ($value as $val) {
+            if (!isInt($val)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
