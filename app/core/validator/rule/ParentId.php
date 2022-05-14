@@ -11,6 +11,6 @@ class ParentId extends CoreRule
 {
     public function rule($value): bool
     {
-        return $value !== Request::param('id');
+        return (int) $value !== (int) Request::param('id');
     }
 }
