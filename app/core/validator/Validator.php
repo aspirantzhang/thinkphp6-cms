@@ -13,6 +13,12 @@ use think\Validate;
 
 class Validator
 {
+    private $module;
+    private array $field;
+    private array $rule;
+    private array $scene;
+    private array $message;
+
     public static array $coreRules = [
         Integer::class,
         DateTimeRange::class,
@@ -47,7 +53,7 @@ class Validator
         }
     }
 
-    public function handle($request, \Closure $next)
+    private function initModule($request)
     {
         $appName = parse_name(app('http')->getName());
         $moduleName = $request->controller();
@@ -55,27 +61,32 @@ class Validator
         if (!class_exists($moduleClass)) {
             throw new SystemException('invalid module class: ' . $moduleClass);
         }
-        $module = new $moduleClass();
+        $this->module = new $moduleClass();
+    }
+
+    public function handle($request, \Closure $next)
+    {
+        $this->initModule($request);
+
+        $this->rule['admin_name'] = 'required';
+        $this->scene['index'] = ['admin_name'];
+        $this->message['admin_name.required'] = 'octopus-required';
 
         Event::trigger('ExtendValidateRules', $this);
 
         $this->initCoreRules();
 
-        $validateClass = new class() extends Validate {
-            public function __construct()
+        $validateClass = new class($this->rule, $this->scene, $this->message) extends Validate {
+            public function __construct($rule, $scene, $message)
             {
                 parent::__construct();
-
-                $this->rule['admin_name'] = 'Integer';
-
-                $this->scene['index'] = ['admin_name'];
-
-                $this->message['admin_name.length'] = 'octopus-length';
-                $this->message['admin_name.Integer'] = 'octopus-Integer';
+                $this->rule = $rule;
+                $this->scene = $scene;
+                $this->message = $message;
             }
         };
 
-        (new $validateClass($module))->failException(true)->scene(parse_name($request->action()))->check($request->param());
+        $validateClass->failException(true)->scene(parse_name($request->action()))->check($request->param());
 
         return $next($request);
     }
