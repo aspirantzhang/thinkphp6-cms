@@ -15,16 +15,16 @@ class Validator
 {
     private $module;
 
-    public static array $coreRules = [
+    public static array $rules = [
         Integer::class,
         DateTimeRange::class,
         ParentId::class,
     ];
 
-    private function initCoreRules()
+    private function initRules()
     {
         Validate::maker(function ($validate) {
-            foreach (self::$coreRules as $ruleClass) {
+            foreach (self::$rules as $ruleClass) {
                 $this->initRule($ruleClass, $validate);
             }
         });
@@ -64,9 +64,9 @@ class Validator
     {
         $this->initModule($request);
 
-        Event::trigger('ExtendValidateRules', $this);
+        Event::trigger('ValidateRules', $this);
 
-        $this->initCoreRules();
+        $this->initRules();
 
         (new ValidateBuilder($this->module))->failException(true)->scene(parse_name($request->action()))->check($request->param());
 
