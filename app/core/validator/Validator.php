@@ -14,10 +14,6 @@ use think\Validate;
 class Validator
 {
     private $module;
-    private array $field;
-    private array $rule;
-    private array $scene;
-    private array $message;
 
     public static array $coreRules = [
         Integer::class,
@@ -68,25 +64,11 @@ class Validator
     {
         $this->initModule($request);
 
-        $this->rule['admin_name'] = 'required';
-        $this->scene['index'] = ['admin_name'];
-        $this->message['admin_name.required'] = 'octopus-required';
-
         Event::trigger('ExtendValidateRules', $this);
 
         $this->initCoreRules();
 
-        $validateClass = new class($this->rule, $this->scene, $this->message) extends Validate {
-            public function __construct($rule, $scene, $message)
-            {
-                parent::__construct();
-                $this->rule = $rule;
-                $this->scene = $scene;
-                $this->message = $message;
-            }
-        };
-
-        $validateClass->failException(true)->scene(parse_name($request->action()))->check($request->param());
+        (new ValidateBuilder($this->module))->failException(true)->scene(parse_name($request->action()))->check($request->param());
 
         return $next($request);
     }
