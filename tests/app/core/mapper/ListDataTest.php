@@ -18,7 +18,8 @@ class ListDataTest extends \tests\TestCase
     public function testBuildListParamsDefaultReturn()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model->shouldReceive('getAllowBrowse')
+        $model->shouldReceive('getAllow')
+            ->with('index')
             ->once()
             ->andReturn([]);
         $this->class = new ListData($model);
@@ -44,10 +45,12 @@ class ListDataTest extends \tests\TestCase
     public function testBuildListParamsWithValidParams()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model->shouldReceive('getAllowBrowse')
+        $model->shouldReceive('getAllow')
+            ->with('index')
             ->once()
             ->andReturn(['username', 'gender']);
-        $model->shouldReceive('getAllowSort')
+        $model->shouldReceive('getAllow')
+            ->with('sort')
             ->once()
             ->andReturn(['age']);
         $this->class = new ListData($model);
@@ -80,11 +83,11 @@ class ListDataTest extends \tests\TestCase
     public function testBuildListParamsWithInvalidParams()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model->shouldReceive('getAllowBrowse')
-            ->once()
+        $model->shouldReceive('getAllow')
+            ->with('index')
             ->andReturn(['username', 'gender']);
-        $model->shouldReceive('getAllowSort')
-            ->once()
+        $model->shouldReceive('getAllow')
+            ->with('sort')
             ->andReturn(['age']);
         $this->class = new ListData($model);
         $this->class->setInput([
@@ -114,7 +117,8 @@ class ListDataTest extends \tests\TestCase
     public function testGetSortDefaultReturn()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model->shouldReceive('getAllowSort')
+        $model->shouldReceive('getAllow')
+            ->with('sort')
             ->andReturn([]);
         $this->class = new ListData($model);
         $actual = $this->getReflectMethod('getSort', [[]]);
@@ -128,7 +132,8 @@ class ListDataTest extends \tests\TestCase
     public function testGetSortWithValidParams()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model->shouldReceive('getAllowSort')
+        $model->shouldReceive('getAllow')
+            ->with('sort')
             ->once()
             ->andReturn(['age']);
         $this->class = new ListData($model);
@@ -146,7 +151,8 @@ class ListDataTest extends \tests\TestCase
     public function testGetSortWithInvalidSortParam()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model->shouldReceive('getAllowSort')
+        $model->shouldReceive('getAllow')
+            ->with('sort')
             ->once()
             ->andReturn(['age']);
         $this->class = new ListData($model);
@@ -164,7 +170,8 @@ class ListDataTest extends \tests\TestCase
     public function testGetSortWithInvalidOrderParam()
     {
         $model = m::mock('app\backend\model\Admin');
-        $model->shouldReceive('getAllowSort')
+        $model->shouldReceive('getAllow')
+            ->with('sort')
             ->once()
             ->andReturn(['age']);
         $this->class = new ListData($model);

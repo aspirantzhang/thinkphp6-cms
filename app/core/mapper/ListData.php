@@ -90,7 +90,7 @@ class ListData implements \JsonSerializable
 
     private function getVisible()
     {
-        return array_diff($this->model->getAllowBrowse(), ['sort', 'order', 'page', 'per_page', 'trash']);
+        return array_diff($this->model->getAllow('index'), ['sort', 'order', 'page', 'per_page', 'trash']);
     }
 
     private function getSearchValues(array $visible)
@@ -132,7 +132,7 @@ class ListData implements \JsonSerializable
         ];
 
         if (isset($data['sort'])) {
-            $sort['name'] = in_array($data['sort'], $this->model->getAllowSort()) ? $data['sort'] : 'id';
+            $sort['name'] = in_array($data['sort'], $this->model->getAllow('sort')) ? $data['sort'] : 'id';
         }
         if (isset($data['order'])) {
             $sort['order'] = ('asc' === $data['order']) ? 'asc' : 'desc';

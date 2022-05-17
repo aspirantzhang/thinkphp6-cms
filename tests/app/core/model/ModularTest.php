@@ -50,8 +50,8 @@ class ModularTest extends \tests\TestCase
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
-                            'browse' => true,
-                            'read' => true,
+                            'index' => true,
+                            'view' => true,
                             'add' => true,
                             'edit' => false,
                             'filter' => true,
@@ -73,8 +73,8 @@ class ModularTest extends \tests\TestCase
                         'order' => 0,
                         'hideInColumn' => true,
                         'allow' => [
-                            'browse' => false,
-                            'read' => true,
+                            'index' => false,
+                            'view' => true,
                             'add' => true,
                             'edit' => true,
                             'filter' => true,
@@ -95,8 +95,8 @@ class ModularTest extends \tests\TestCase
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
-                            'browse' => true,
-                            'read' => true,
+                            'index' => true,
+                            'view' => true,
                             'add' => true,
                             'edit' => true,
                             'filter' => true,
@@ -116,8 +116,8 @@ class ModularTest extends \tests\TestCase
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
-                            'browse' => true,
-                            'read' => true,
+                            'index' => true,
+                            'view' => true,
                             'add' => true,
                             'edit' => true,
                             'sort' => true,
@@ -138,14 +138,14 @@ class ModularTest extends \tests\TestCase
         $this->assertEquals(['admin_name'], $trait->getFieldSetWithSpecificProperty('unique'));
         $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.filter'));
         $this->assertEquals(['display_name'], $trait->getFieldSetWithSpecificProperty('allow.translate'));
-        $this->assertEquals(['admin_name', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.browse'));
-        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.read'));
+        $this->assertEquals(['admin_name', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.index'));
+        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.view'));
         $this->assertEquals(['password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.edit'));
         $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.add'));
         $this->assertEquals(['age'], $trait->getFieldSetWithSpecificProperty('allow.sort'));
     }
 
-    public function testGetFieldFunctionSet()
+    public function testGetAllowFunctions()
     {
         $trait = new class() {
             use Modular;
@@ -160,8 +160,8 @@ class ModularTest extends \tests\TestCase
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
-                            'browse' => true,
-                            'read' => true,
+                            'index' => true,
+                            'view' => true,
                             'add' => true,
                             'edit' => false,
                             'filter' => true,
@@ -183,8 +183,8 @@ class ModularTest extends \tests\TestCase
                         'order' => 0,
                         'hideInColumn' => true,
                         'allow' => [
-                            'browse' => false,
-                            'read' => true,
+                            'index' => false,
+                            'view' => true,
                             'add' => true,
                             'edit' => true,
                             'filter' => true,
@@ -205,8 +205,8 @@ class ModularTest extends \tests\TestCase
                         'position' => 'tab.main',
                         'order' => 0,
                         'allow' => [
-                            'browse' => true,
-                            'read' => true,
+                            'index' => true,
+                            'view' => true,
                             'add' => true,
                             'edit' => true,
                             'filter' => true,
@@ -222,12 +222,12 @@ class ModularTest extends \tests\TestCase
                 ];
             }
         };
-        $this->assertEquals(['admin_name', 'display_name'], $trait->getAllowBrowse());
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllowRead());
-        $this->assertEquals(['password', 'display_name'], $trait->getAllowEdit());
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllowAdd());
-        $this->assertEquals(['display_name'], $trait->getAllowTranslate());
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllowFilter());
+        $this->assertEquals(['admin_name', 'display_name'], $trait->getAllow('index'));
+        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllow('view'));
+        $this->assertEquals(['password', 'display_name'], $trait->getAllow('edit'));
+        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllow('add'));
+        $this->assertEquals(['display_name'], $trait->getAllow('translate'));
+        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllow('filter'));
         $this->assertEquals(['admin_name'], $trait->getUnique());
     }
 }

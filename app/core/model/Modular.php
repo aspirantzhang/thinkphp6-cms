@@ -88,39 +88,9 @@ trait Modular
         return $result;
     }
 
-    public function getAllowBrowse(): array
+    public function getAllow(string $property): array
     {
-        return $this->getFieldSetWithSpecificProperty('allow.browse');
-    }
-
-    public function getAllowRead(): array
-    {
-        return $this->getFieldSetWithSpecificProperty('allow.read');
-    }
-
-    public function getAllowAdd(): array
-    {
-        return $this->getFieldSetWithSpecificProperty('allow.add');
-    }
-
-    public function getAllowEdit(): array
-    {
-        return $this->getFieldSetWithSpecificProperty('allow.edit');
-    }
-
-    public function getAllowSort(): array
-    {
-        return $this->getFieldSetWithSpecificProperty('allow.sort');
-    }
-
-    public function getAllowTranslate(): array
-    {
-        return $this->getFieldSetWithSpecificProperty('allow.translate');
-    }
-
-    public function getAllowFilter(): array
-    {
-        return $this->getFieldSetWithSpecificProperty('allow.filter');
+        return $this->getFieldSetWithSpecificProperty('allow.' . $property);
     }
 
     public function getUnique(): array

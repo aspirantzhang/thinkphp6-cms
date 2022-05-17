@@ -19,8 +19,8 @@ final class ModuleData extends AbstractMigration
                 'position' => 'tab.main',
                 'order' => 0,
                 'allow' => [
-                    'browse' => true,
-                    'read' => true,
+                    'index' => true,
+                    'view' => true,
                     'add' => true,
                     'edit' => false,
                     'filter' => true,
@@ -42,8 +42,8 @@ final class ModuleData extends AbstractMigration
                 'order' => 0,
                 'hideInColumn' => true,
                 'allow' => [
-                    'browse' => false,
-                    'read' => true,
+                    'index' => false,
+                    'view' => true,
                     'add' => true,
                     'edit' => true,
                     'filter' => true,
@@ -64,8 +64,8 @@ final class ModuleData extends AbstractMigration
                 'position' => 'tab.main',
                 'order' => 0,
                 'allow' => [
-                    'browse' => true,
-                    'read' => true,
+                    'index' => true,
+                    'view' => true,
                     'add' => true,
                     'edit' => true,
                     'filter' => true,
@@ -86,8 +86,8 @@ final class ModuleData extends AbstractMigration
                 'position' => 'sidebar.main',
                 'hideInColumn' => true,
                 'allow' => [
-                    'browse' => true,
-                    'read' => true,
+                    'index' => true,
+                    'view' => true,
                     'add' => true,
                     'edit' => true,
                     'filter' => true,

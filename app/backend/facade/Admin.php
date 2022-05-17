@@ -13,7 +13,7 @@ class Admin extends CoreFacade
 {
     public function getPaginatedList(array $option = [], array $input = null)
     {
-        $input ??= Request::param($this->model->getAllowBrowse());
+        $input ??= Request::param($this->model->getAllow('index'));
         // get data from mapper
         $data = (new ListData($this->model))->setInput($input)
             ->setOption($option)
