@@ -27,7 +27,7 @@ final class ModuleData extends AbstractMigration
                     'translate' => false,
                 ],
                 'validate' => [
-                    'required' => true,
+                    'require' => true,
                     'length' => [
                         'min' => 0,
                         'max' => 255,
@@ -50,7 +50,7 @@ final class ModuleData extends AbstractMigration
                     'translate' => false,
                 ],
                 'validate' => [
-                    'required' => true,
+                    'require' => true,
                     'length' => [
                         'min' => 0,
                         'max' => 255,
