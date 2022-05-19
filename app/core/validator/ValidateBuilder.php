@@ -125,7 +125,7 @@ class ValidateBuilder extends Validate
             }
         }
 
-        return null;
+        return '';
     }
 
     // overwrite parent method, change delimiter to "-"
