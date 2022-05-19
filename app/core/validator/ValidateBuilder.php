@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace app\core\validator;
 
-use app\core\exception\SystemException;
 use think\File;
 use think\Validate;
 
@@ -31,8 +30,7 @@ class ValidateBuilder extends Validate
 
     private function getSceneName()
     {
-        $action = parse_name($this->request->action());
-        $this->sceneName = $this->parseScene($action);
+        $this->sceneName = parse_name($this->request->action());
     }
 
     private function getAllowedFields()
@@ -97,35 +95,6 @@ class ValidateBuilder extends Validate
         }
 
         return implode('|', $ruleArray);
-    }
-
-    private function parseScene(string $action): string
-    {
-        $result = null;
-
-        $defaultConfigFilePath = dirname(__DIR__) . '/config/validator.php';
-        if (file_exists($defaultConfigFilePath)) {
-            $defaultConfig = require_once dirname(__DIR__) . '/config/validator.php';
-
-            $result = $this->findSceneInConfig($action, $defaultConfig['scenes']);
-        }
-
-        if (!empty($result)) {
-            return $result;
-        }
-
-        throw new SystemException('cannot find scene for action: ' . $action);
-    }
-
-    private function findSceneInConfig(string $needle, array $haystack): string
-    {
-        foreach ($haystack as $key => $value) {
-            if (in_array($needle, $value)) {
-                return $key;
-            }
-        }
-
-        return '';
     }
 
     // overwrite parent method, change delimiter to "-"
