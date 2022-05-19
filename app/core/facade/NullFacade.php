@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace app\core\facade;
 
-use app\core\CoreFacade;
+use app\core\BaseFacade;
 use app\core\exception\SystemException;
 
-class NullFacade extends CoreFacade
+class NullFacade extends BaseFacade
 {
     public function isNull()
     {

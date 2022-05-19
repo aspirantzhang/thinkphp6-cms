@@ -34,7 +34,7 @@ class Validator
     {
         if (class_exists($ruleClass)) {
             $parents = class_parents($ruleClass);
-            if (isset($parents[CoreRule::class])) {
+            if (isset($parents[BaseRule::class])) {
                 return true;
             }
         }

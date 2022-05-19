@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\core\validator\rule;
 
-use app\core\validator\CoreRule;
+use app\core\validator\BaseRule;
 
-class DateTimeRange extends CoreRule
+class DateTimeRange extends BaseRule
 {
     public function rule($value): bool
     {

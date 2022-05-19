@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\backend\controller;
 
-use app\core\CoreController;
+use app\core\BaseController;
 
-class Common extends CoreController
+class Common extends BaseController
 {
     public function initialize()
     {

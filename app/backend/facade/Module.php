@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace app\backend\facade;
 
 use app\backend\model\Module as ModuleModel;
-use app\core\CoreFacade;
+use app\core\BaseFacade;
 use app\core\exception\SystemException;
 
-class Module extends CoreFacade
+class Module extends BaseFacade
 {
     public function getModule(string $moduleName): ModuleModel
     {

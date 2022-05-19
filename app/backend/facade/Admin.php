@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace app\backend\facade;
 
-use app\core\CoreFacade;
+use app\core\BaseFacade;
 use app\core\domain\Layout\ListLayout;
 use app\core\mapper\ListData;
 use think\facade\Request;
 
-class Admin extends CoreFacade
+class Admin extends BaseFacade
 {
     public function getPaginatedList(array $option = [], array $input = null)
     {

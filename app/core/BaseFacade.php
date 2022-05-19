@@ -6,9 +6,9 @@ namespace app\core;
 
 use app\core\exception\SystemException;
 
-abstract class CoreFacade
+abstract class BaseFacade
 {
-    public CoreModel $model;
+    public BaseModel $model;
 
     public function __construct()
     {

@@ -6,7 +6,7 @@ namespace app\core\validator;
 
 use think\Validate;
 
-abstract class CoreRule
+abstract class BaseRule
 {
     public function __construct(private Validate $validate)
     {

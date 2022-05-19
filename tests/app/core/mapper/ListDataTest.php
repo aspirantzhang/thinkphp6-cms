@@ -11,7 +11,7 @@ class ListDataTest extends \tests\TestCase
 {
     public function setUp(): void
     {
-        $model = m::mock('app\core\CoreModel');
+        $model = m::mock('app\core\BaseModel');
         $this->class = new ListData($model);
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\core\domain\Layout;
 
-class ListLayout extends Layout
+class ListLayout extends BaseLayout
 {
     private $data;
 

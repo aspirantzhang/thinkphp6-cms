@@ -8,12 +8,12 @@ use app\common\controller\GlobalController;
 use app\core\controller\Actionable;
 use app\core\view\JsonView;
 
-abstract class CoreController extends GlobalController
+abstract class BaseController extends GlobalController
 {
     use Actionable;
 
-    protected CoreFacade $facade;
-    protected CoreModel $model;
+    protected BaseFacade $facade;
+    protected BaseModel $model;
 
     public function initialize()
     {

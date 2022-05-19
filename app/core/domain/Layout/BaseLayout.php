@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace app\core\domain\Layout;
 
-use app\core\CoreModel;
+use app\core\BaseModel;
 
-abstract class Layout implements \JsonSerializable
+abstract class BaseLayout implements \JsonSerializable
 {
     protected array $input;
 
     protected array $option;
 
-    public function __construct(protected CoreModel $model)
+    public function __construct(protected BaseModel $model)
     {
     }
 

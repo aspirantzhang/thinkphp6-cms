@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace app\backend\model;
 
-use app\core\CoreModel;
+use app\core\BaseModel;
 
-class Common extends CoreModel
+class Common extends BaseModel
 {
 }

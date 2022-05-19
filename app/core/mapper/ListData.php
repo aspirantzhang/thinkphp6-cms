@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\core\mapper;
 
-use app\core\CoreModel;
+use app\core\BaseModel;
 use app\core\exception\SystemException;
 use think\db\exception\DbException;
 
@@ -20,7 +20,7 @@ class ListData implements \JsonSerializable
 
     private array $listParams;
 
-    public function __construct(protected CoreModel | \think\db\Query $model)
+    public function __construct(protected BaseModel | \think\db\Query $model)
     {
     }
 
