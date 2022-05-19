@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace app\core\validator;
 
 use app\core\exception\SystemException;
+use think\File;
 use think\Validate;
 
+// TODO: 3 methods may need overridden: parseErrorMsg, filter, length
 class ValidateBuilder extends Validate
 {
     private string $sceneName;
@@ -24,10 +26,7 @@ class ValidateBuilder extends Validate
         $this->buildScene();
         $this->buildRuleAndMessage();
 
-        // var_dump($this->rule);
-        // var_dump($this->scene);
-        // var_dump($this->message);
-        // exit();
+        // halt($this->rule, $this->scene, $this->message);
     }
 
     private function getSceneName()
@@ -85,13 +84,13 @@ class ValidateBuilder extends Validate
         $ruleArray = [];
         if (isset($field['validate'])) {
             foreach ($field['validate'] as $ruleName => $ruleAttr) {
-                if ($this->sceneName === 'index' && $ruleName === 'required') {
+                if ($this->sceneName === 'index' && $ruleName === 'require') {
                     continue;
                 }
 
                 $ruleString = $ruleName;
                 if (is_array($ruleAttr)) {
-                    $ruleString .= ':' . implode(',', array_values($ruleAttr));
+                    $ruleString .= ':' . implode('-', array_values($ruleAttr));
                 }
                 $ruleArray[] = $ruleString;
             }
@@ -127,5 +126,27 @@ class ValidateBuilder extends Validate
         }
 
         return null;
+    }
+
+    // overwrite parent method, change delimiter to "-"
+    public function length($value, $rule): bool
+    {
+        if (is_array($value)) {
+            $length = count($value);
+        } elseif ($value instanceof File) {
+            $length = $value->getSize();
+        } else {
+            $length = mb_strlen((string) $value);
+        }
+
+        if (is_string($rule) && strpos($rule, '-')) {
+            // 长度区间
+            [$min, $max] = explode('-', $rule);
+
+            return $length >= $min && $length <= $max;
+        }
+
+        // 指定长度
+        return $length == $rule;
     }
 }
