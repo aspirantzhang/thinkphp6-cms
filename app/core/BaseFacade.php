@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace app\core;
 
 use app\core\exception\SystemException;
+use think\Request;
 
 abstract class BaseFacade
 {
     public BaseModel $model;
+    protected Request $request;
 
     public function __construct()
     {
+        $this->request = app('request');
         $this->initModel();
     }
 

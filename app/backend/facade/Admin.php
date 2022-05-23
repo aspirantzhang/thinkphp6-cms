@@ -7,13 +7,12 @@ namespace app\backend\facade;
 use app\core\BaseFacade;
 use app\core\domain\Layout\ListLayout;
 use app\core\mapper\ListData;
-use think\facade\Request;
 
 class Admin extends BaseFacade
 {
     public function getPaginatedList(array $option = [], array $input = null)
     {
-        $input ??= Request::param($this->model->getAllow('index'));
+        $input ??= $this->request->only($this->model->getAllow('index'));
         // get data from mapper
         $data = (new ListData($this->model))->setInput($input)
             ->setOption($option)
