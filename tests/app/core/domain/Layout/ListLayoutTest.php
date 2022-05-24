@@ -39,8 +39,8 @@ class ListLayoutTest extends \tests\TestCase
         $data = [];
         $this->class->setData($data);
         $this->getReflectMethod('parseDataSource');
-        $this->assertNull($this->getPropertyValue('dataSource'));
-        $this->assertNull($this->getPropertyValue('meta'));
+        $this->assertEmpty($this->getPropertyValue('dataSource'));
+        $this->assertEmpty($this->getPropertyValue('meta'));
     }
 
     public function testParseTableColumnWithValidArray()

@@ -6,17 +6,17 @@ namespace app\core\domain\Layout;
 
 class ListLayout extends BaseLayout
 {
-    private $data;
+    private array $data = [];
 
-    private $tableColumn;
+    private array $tableColumn = [];
 
-    private $tableToolbar;
+    private array $tableToolbar = [];
 
-    private $batchToolbar;
+    private array $batchToolbar = [];
 
-    private $dataSource;
+    private array $dataSource = [];
 
-    private $meta;
+    private array $meta = [];
 
     public function setData(array $data)
     {
