@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e13fd050b84f7976ea54d3cb5e6963c1",
+    "content-hash": "8652a972a579c1bb68857b75f2883ca3",
     "packages": [
         {
             "name": "aspirantzhang/octopus-helper",
@@ -2814,16 +2814,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v6.0.12",
+            "version": "6.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "e478316ac843c1a884a3b3a7a94db17c4001ff5c"
+                "reference": "b7ec86830c49bd8cbdda30a3f7999b09c376ca8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/e478316ac843c1a884a3b3a7a94db17c4001ff5c",
-                "reference": "e478316ac843c1a884a3b3a7a94db17c4001ff5c",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/b7ec86830c49bd8cbdda30a3f7999b09c376ca8b",
+                "reference": "b7ec86830c49bd8cbdda30a3f7999b09c376ca8b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2851,6 +2851,7 @@
                 "mockery/mockery": "^1.2",
                 "phpunit/phpunit": "^7.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [],
@@ -2881,9 +2882,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v6.0.12"
+                "source": "https://github.com/top-think/framework/tree/6.0"
             },
-            "time": "2022-01-21T06:31:07+00:00"
+            "time": "2022-04-27T23:59:23+00:00"
         },
         {
             "name": "topthink/think-helper",
@@ -3199,16 +3200,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.4.2",
+            "version": "4.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "1653b53eb3973a9a6dac87ef8f2676801b14469f"
+                "reference": "05e3cb201dd4b08c5263193bd48841e3a4ca22a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/1653b53eb3973a9a6dac87ef8f2676801b14469f",
-                "reference": "1653b53eb3973a9a6dac87ef8f2676801b14469f",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/05e3cb201dd4b08c5263193bd48841e3a4ca22a0",
+                "reference": "05e3cb201dd4b08c5263193bd48841e3a4ca22a0",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3276,9 +3277,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.4.2"
+                "source": "https://github.com/zircote/swagger-php/tree/4.4.3"
             },
-            "time": "2022-05-13T23:51:07+00:00"
+            "time": "2022-05-24T21:21:19+00:00"
         },
         {
             "name": "zxin/phinx-schema",
@@ -4541,16 +4542,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.6.6",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "96c3c53bb127895570f1f8a2488017afc0fae55d"
+                "reference": "e3baed2ee2ef322e0f9b8fe8f87fdbe024c7c719"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/96c3c53bb127895570f1f8a2488017afc0fae55d",
-                "reference": "96c3c53bb127895570f1f8a2488017afc0fae55d",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e3baed2ee2ef322e0f9b8fe8f87fdbe024c7c719",
+                "reference": "e3baed2ee2ef322e0f9b8fe8f87fdbe024c7c719",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4582,7 +4583,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.6.6"
+                "source": "https://github.com/phpstan/phpstan/tree/1.7.1"
             },
             "funding": [
                 {
@@ -4602,7 +4603,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-04T22:27:56+00:00"
+            "time": "2022-05-24T09:05:09+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6896,6 +6897,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "topthink/framework": 20,
         "aspirantzhang/octopus-helper": 20,
         "aspirantzhang/octopus-model-creator": 20,
         "aspirantzhang/octopus-revision": 20,
