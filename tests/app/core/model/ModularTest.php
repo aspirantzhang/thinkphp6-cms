@@ -145,10 +145,15 @@ class ModularTest extends \tests\TestCase
         $this->assertEquals(['age'], $trait->getFieldSetWithSpecificProperty('allow.sort'));
     }
 
-    public function testGetAllowFunctions()
+    public function testGetAllowMethods()
     {
         $trait = new class() {
             use Modular;
+
+            public function getDefaultConfig()
+            {
+                return ['built-in-field'];
+            }
 
             public function getModuleField()
             {
@@ -222,12 +227,13 @@ class ModularTest extends \tests\TestCase
                 ];
             }
         };
-        $this->assertEquals(['admin_name', 'display_name'], $trait->getAllow('index'));
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllow('view'));
-        $this->assertEquals(['password', 'display_name'], $trait->getAllow('edit'));
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllow('add'));
-        $this->assertEquals(['display_name'], $trait->getAllow('translate'));
-        $this->assertEquals(['admin_name', 'password', 'display_name'], $trait->getAllow('filter'));
+        $this->assertEquals(['built-in-field', 'admin_name', 'display_name'], $trait->getAllow('index'));
+        $this->assertEquals(['built-in-field', 'admin_name', 'password', 'display_name'], $trait->getAllow('view'));
+        $this->assertEquals(['built-in-field', 'password', 'display_name'], $trait->getAllow('edit'));
+        $this->assertEquals(['built-in-field', 'admin_name', 'password', 'display_name'], $trait->getAllow('add'));
+        $this->assertEquals(['built-in-field', 'display_name'], $trait->getAllow('translate'));
+        $this->assertEquals(['built-in-field', 'admin_name', 'password', 'display_name'], $trait->getAllow('filter'));
+        // no built-in fields for 'unique' action
         $this->assertEquals(['admin_name'], $trait->getUnique());
     }
 }

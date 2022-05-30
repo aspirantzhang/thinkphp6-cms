@@ -88,9 +88,27 @@ trait Modular
         return $result;
     }
 
+    public function getDefaultConfig(string $type, string $property): array
+    {
+        $defaultAllowFile = createPath(dirname(__DIR__), 'config', $type) . '.php';
+        if (file_exists($defaultAllowFile)) {
+            $defaultAllow = require $defaultAllowFile;
+        }
+
+        return $defaultAllow[$property] ?? [];
+    }
+
+    public function getBuiltInAllowedFields(string $action)
+    {
+        return $this->getDefaultConfig('allow', $action);
+    }
+
     public function getAllow(string $property): array
     {
-        return $this->getFieldSetWithSpecificProperty('allow.' . $property);
+        $default = $this->getBuiltInAllowedFields($property);
+        $custom = $this->getFieldSetWithSpecificProperty('allow.' . $property);
+
+        return [...$default, ...$custom];
     }
 
     public function getUnique(): array
