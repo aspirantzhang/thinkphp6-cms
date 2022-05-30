@@ -25,7 +25,7 @@ class ValidateBuilder extends Validate
         $this->buildScene();
         $this->buildRuleAndMessage();
 
-        // halt($this->rule, $this->scene, $this->message);
+        // halt($this->sceneName, $this->rule, $this->scene, $this->message);
     }
 
     private function getSceneName()
@@ -43,8 +43,50 @@ class ValidateBuilder extends Validate
         $this->moduleFields = $this->module->model->getModule('field');
     }
 
+    private function clearRequiredFields(array $rules)
+    {
+        $result = [];
+        foreach ($rules as $ruleName => $ruleString) {
+            if (str_contains($ruleString, 'require')) {
+                $withoutRequire = strtr($ruleString, ['require|' => '', 'require' => '']);
+                $result[$ruleName] = $withoutRequire;
+            } else {
+                $result[$ruleName] = $ruleString;
+            }
+        }
+
+        return $result;
+    }
+
+    private function getBuiltInRule()
+    {
+        $builtInRuleFile = createPath(dirname(__DIR__), 'config', 'rule') . '.php';
+        if (file_exists($builtInRuleFile)) {
+            $builtInRules = require $builtInRuleFile;
+        }
+
+        if ($this->sceneName === 'index') {
+            return $this->clearRequiredFields($builtInRules ?? []);
+        }
+
+        return $builtInRules ?? [];
+    }
+
+    private function getBuiltInMessage()
+    {
+        $builtInRuleFile = createPath(dirname(__DIR__), 'config', 'message') . '.php';
+        if (file_exists($builtInRuleFile)) {
+            $builtInRules = require $builtInRuleFile;
+        }
+
+        return $builtInRules ?? [];
+    }
+
     private function buildRuleAndMessage()
     {
+        $this->rule = $this->getBuiltInRule();
+        $this->message = $this->getBuiltInMessage();
+
         foreach ($this->moduleFields as $field) {
             if (!in_array($field['name'], $this->allowedFields)) {
                 continue;
