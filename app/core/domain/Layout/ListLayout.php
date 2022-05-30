@@ -8,6 +8,8 @@ class ListLayout extends BaseLayout
 {
     private array $data = [];
 
+    private array $columnKey = ['name', 'type', 'order', 'position', 'hideInColumn'];
+
     private array $tableColumn = [];
 
     private array $tableToolbar = [];
@@ -36,17 +38,30 @@ class ListLayout extends BaseLayout
         }
     }
 
+    public function setColumnKey(array $keyNames)
+    {
+        $this->columnKey = $keyNames;
+
+        return $this;
+    }
+
+    private function buildColumnValue(array $field)
+    {
+        $result = [];
+        foreach ($this->columnKey as $key) {
+            $result[$key] = $field[$key] ?? null;
+        }
+
+        return $result;
+    }
+
     private function parseTableColumn()
     {
         $fields = $this->model->getModuleField();
 
         $result = [];
         foreach ($fields as $field) {
-            $result[] = [
-                'name' => $field['name'],
-                'type' => $field['type'],
-                'order' => $field['order'],
-            ];
+            $result[] = $this->buildColumnValue($field);
         }
         $this->tableColumn = $result;
     }

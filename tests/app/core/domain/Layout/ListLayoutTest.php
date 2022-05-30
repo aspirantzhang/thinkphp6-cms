@@ -54,6 +54,8 @@ class ListLayoutTest extends \tests\TestCase
                 'translate' => false,
                 'position' => 'tab.main',
                 'order' => 1,
+                'foo' => 'bar',
+                'bar' => 'baz',
             ],
             [
                 'name' => 'comment',
@@ -64,24 +66,35 @@ class ListLayoutTest extends \tests\TestCase
                 'order' => 99,
                 'position' => 'sidebar.main',
                 'hideInColumn' => true,
+                'foo' => 'bar',
+                'bar' => 'baz',
             ],
         ];
+
         $model = m::mock('app\core\BaseModel');
         $model->shouldReceive('getModuleField')
             ->once()
             ->andReturn($modelField);
-        $this->class = new ListLayout($model);
+        $this->class = (new ListLayout($model))
+            ->setColumnKey(['name', 'type', 'order', 'position', 'hideInColumn', 'foo']);
         $this->getReflectMethod('parseTableColumn');
+
         $expect = [
             [
                 'name' => 'admin_name',
                 'type' => 'input',
                 'order' => 1,
+                'position' => 'tab.main',
+                'hideInColumn' => null,
+                'foo' => 'bar',
             ],
             [
                 'name' => 'comment',
                 'type' => 'textarea',
                 'order' => 99,
+                'position' => 'sidebar.main',
+                'hideInColumn' => true,
+                'foo' => 'bar',
             ],
         ];
         $this->assertEqualsCanonicalizing($expect, $this->getPropertyValue('tableColumn'));
@@ -184,11 +197,15 @@ class ListLayoutTest extends \tests\TestCase
                         'name' => 'admin_name',
                         'type' => 'input',
                         'order' => 1,
+                        'position' => 'tab.main',
+                        'hideInColumn' => null,
                     ],
                     [
                         'name' => 'comment',
                         'type' => 'textarea',
                         'order' => 99,
+                        'position' => 'sidebar.main',
+                        'hideInColumn' => true,
                     ],
                 ],
                 'tableToolBar' => [
@@ -205,8 +222,12 @@ class ListLayoutTest extends \tests\TestCase
                 ],
             ],
             'dataSource' => [
-                ['admin_name' => 'zhang1'],
-                ['admin_name' => 'zhang2'],
+                [
+                    'admin_name' => 'zhang1',
+                ],
+                [
+                    'admin_name' => 'zhang2',
+                ],
             ],
             'meta' => [
                 'total' => 2,
