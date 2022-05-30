@@ -104,8 +104,8 @@ class ValidateBuilder extends Validate
 
     private function buildMessage(array $field)
     {
-        if (isset($field['validate'])) {
-            foreach ($field['validate'] as $ruleName => $ruleAttr) {
+        if (isset($field['rule'])) {
+            foreach ($field['rule'] as $ruleName => $ruleAttr) {
                 $messageKey = $field['name'] . '.' . $ruleName;
                 $this->message[$messageKey] = $ruleName;
             }
@@ -122,8 +122,8 @@ class ValidateBuilder extends Validate
     private function getRuleString($field)
     {
         $ruleArray = [];
-        if (isset($field['validate'])) {
-            foreach ($field['validate'] as $ruleName => $ruleAttr) {
+        if (isset($field['rule'])) {
+            foreach ($field['rule'] as $ruleName => $ruleAttr) {
                 if ($this->sceneName === 'index' && $ruleName === 'require') {
                     continue;
                 }

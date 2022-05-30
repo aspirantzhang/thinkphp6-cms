@@ -28,8 +28,7 @@ final class ModuleData extends AbstractMigration
                     'filter' => true,
                     'translate' => false,
                 ],
-                'validate' => [
-                    'require' => true,
+                'rule' => [
                     'length' => [
                         'min' => 0,
                         'max' => 255,
@@ -53,8 +52,7 @@ final class ModuleData extends AbstractMigration
                     'filter' => true,
                     'translate' => false,
                 ],
-                'validate' => [
-                    'require' => true,
+                'rule' => [
                     'length' => [
                         'min' => 0,
                         'max' => 255,
@@ -77,7 +75,7 @@ final class ModuleData extends AbstractMigration
                     'filter' => true,
                     'translate' => true,
                 ],
-                'validate' => [
+                'rule' => [
                     'length' => [
                         'min' => 0,
                         'max' => 255,
@@ -101,7 +99,7 @@ final class ModuleData extends AbstractMigration
                     'filter' => true,
                     'translate' => true,
                 ],
-                'validate' => [
+                'rule' => [
                     'length' => [
                         'min' => 0,
                         'max' => 255,
