@@ -67,15 +67,23 @@ trait Modular
         return $operations;
     }
 
-    public function getFieldSetWithSpecificProperty(string $propertyName): array
+    /**
+     * Find field set with specific property in the module.
+     *
+     * 1 layer, property with boolean value: [ unique: true ]
+     *
+     * 2 layer, values in an indexed array: [ allow: ['index', 'add', 'edit] ]
+     */
+    public function findFieldSetWithProperty(string $propertyName): array
     {
         $result = [];
 
         foreach ($this->getModuleField() as $field) {
             if (str_contains($propertyName, '.')) {
-                $split = explode('.', $propertyName);
-
-                if (isset($field[$split[0]][$split[1]]) && $field[$split[0]][$split[1]] === true) {
+                $split = explode('.', $propertyName, 2);
+                $haystack = $field[$split[0]];
+                $needle = $split[1];
+                if (in_array($needle, $haystack)) {
                     $result[] = $field['name'];
                 }
             } else {
@@ -106,13 +114,13 @@ trait Modular
     public function getAllow(string $property): array
     {
         $default = $this->getBuiltInAllowedFields($property);
-        $custom = $this->getFieldSetWithSpecificProperty('allow.' . $property);
+        $custom = $this->findFieldSetWithProperty('allow.' . $property);
 
         return [...$default, ...$custom];
     }
 
     public function getUnique(): array
     {
-        return $this->getFieldSetWithSpecificProperty('unique');
+        return $this->findFieldSetWithProperty('unique');
     }
 }

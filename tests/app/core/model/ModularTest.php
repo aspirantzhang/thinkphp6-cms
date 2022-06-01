@@ -22,7 +22,7 @@ class ModularTest extends \tests\TestCase
         $this->assertEquals('unit_test', $trait->getTableName());
     }
 
-    public function testGetFieldSetWithSpecificPropertyDefaultReturn()
+    public function testFindFieldSetWithPropertyDefaultReturn()
     {
         $trait = new class() {
             use Modular;
@@ -32,10 +32,10 @@ class ModularTest extends \tests\TestCase
                 return [];
             }
         };
-        $this->assertEquals([], $trait->getFieldSetWithSpecificProperty('whatever'));
+        $this->assertEquals([], $trait->findFieldSetWithProperty('whatever'));
     }
 
-    public function testGetFieldSetWithSpecificPropertyValidReturn()
+    public function testFindFieldSetWithPropertyValidReturn()
     {
         $trait = new class() {
             use Modular;
@@ -49,14 +49,7 @@ class ModularTest extends \tests\TestCase
                         'unique' => true,
                         'position' => 'tab.main',
                         'order' => 0,
-                        'allow' => [
-                            'index' => true,
-                            'view' => true,
-                            'add' => true,
-                            'edit' => false,
-                            'filter' => true,
-                            'translate' => false,
-                        ],
+                        'allow' => ['index', 'view', 'add', 'filter'],
                         'validate' => [
                             'required' => true,
                             'length' => [
@@ -72,14 +65,7 @@ class ModularTest extends \tests\TestCase
                         'position' => 'tab.main',
                         'order' => 0,
                         'hideInColumn' => true,
-                        'allow' => [
-                            'index' => false,
-                            'view' => true,
-                            'add' => true,
-                            'edit' => true,
-                            'filter' => true,
-                            'translate' => false,
-                        ],
+                        'allow' => ['view', 'add', 'edit', 'filter'],
                         'validate' => [
                             'required' => true,
                             'length' => [
@@ -94,14 +80,7 @@ class ModularTest extends \tests\TestCase
                         'unique' => false,
                         'position' => 'tab.main',
                         'order' => 0,
-                        'allow' => [
-                            'index' => true,
-                            'view' => true,
-                            'add' => true,
-                            'edit' => true,
-                            'filter' => true,
-                            'translate' => true,
-                        ],
+                        'allow' => ['index', 'view', 'add', 'edit', 'filter', 'translate'],
                         'validate' => [
                             'length' => [
                                 'min' => 0,
@@ -115,15 +94,7 @@ class ModularTest extends \tests\TestCase
                         'unique' => false,
                         'position' => 'tab.main',
                         'order' => 0,
-                        'allow' => [
-                            'index' => true,
-                            'view' => true,
-                            'add' => true,
-                            'edit' => true,
-                            'sort' => true,
-                            'filter' => true,
-                            'translate' => false,
-                        ],
+                        'allow' => ['index', 'view', 'add', 'edit', 'sort', 'filter'],
                         'validate' => [
                             'length' => [
                                 'min' => 0,
@@ -134,15 +105,15 @@ class ModularTest extends \tests\TestCase
                 ];
             }
         };
-        $this->assertEquals([], $trait->getFieldSetWithSpecificProperty('not-exist-property'));
-        $this->assertEquals(['admin_name'], $trait->getFieldSetWithSpecificProperty('unique'));
-        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.filter'));
-        $this->assertEquals(['display_name'], $trait->getFieldSetWithSpecificProperty('allow.translate'));
-        $this->assertEquals(['admin_name', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.index'));
-        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.view'));
-        $this->assertEquals(['password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.edit'));
-        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->getFieldSetWithSpecificProperty('allow.add'));
-        $this->assertEquals(['age'], $trait->getFieldSetWithSpecificProperty('allow.sort'));
+        $this->assertEquals([], $trait->findFieldSetWithProperty('not-exist-property'));
+        $this->assertEquals(['admin_name'], $trait->findFieldSetWithProperty('unique'));
+        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->findFieldSetWithProperty('allow.filter'));
+        $this->assertEquals(['display_name'], $trait->findFieldSetWithProperty('allow.translate'));
+        $this->assertEquals(['admin_name', 'display_name', 'age'], $trait->findFieldSetWithProperty('allow.index'));
+        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->findFieldSetWithProperty('allow.view'));
+        $this->assertEquals(['password', 'display_name', 'age'], $trait->findFieldSetWithProperty('allow.edit'));
+        $this->assertEquals(['admin_name', 'password', 'display_name', 'age'], $trait->findFieldSetWithProperty('allow.add'));
+        $this->assertEquals(['age'], $trait->findFieldSetWithProperty('allow.sort'));
     }
 
     public function testGetAllowMethods()
@@ -164,14 +135,7 @@ class ModularTest extends \tests\TestCase
                         'unique' => true,
                         'position' => 'tab.main',
                         'order' => 0,
-                        'allow' => [
-                            'index' => true,
-                            'view' => true,
-                            'add' => true,
-                            'edit' => false,
-                            'filter' => true,
-                            'translate' => false,
-                        ],
+                        'allow' => ['index', 'view', 'add', 'filter'],
                         'validate' => [
                             'required' => true,
                             'length' => [
@@ -187,14 +151,7 @@ class ModularTest extends \tests\TestCase
                         'position' => 'tab.main',
                         'order' => 0,
                         'hideInColumn' => true,
-                        'allow' => [
-                            'index' => false,
-                            'view' => true,
-                            'add' => true,
-                            'edit' => true,
-                            'filter' => true,
-                            'translate' => false,
-                        ],
+                        'allow' => ['view', 'add', 'edit', 'filter'],
                         'validate' => [
                             'required' => true,
                             'length' => [
@@ -209,14 +166,7 @@ class ModularTest extends \tests\TestCase
                         'unique' => false,
                         'position' => 'tab.main',
                         'order' => 0,
-                        'allow' => [
-                            'index' => true,
-                            'view' => true,
-                            'add' => true,
-                            'edit' => true,
-                            'filter' => true,
-                            'translate' => true,
-                        ],
+                        'allow' => ['index', 'view', 'add', 'edit', 'filter', 'translate'],
                         'validate' => [
                             'length' => [
                                 'min' => 0,
