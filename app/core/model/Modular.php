@@ -81,8 +81,8 @@ trait Modular
         foreach ($this->getModuleField() as $field) {
             if (str_contains($propertyName, '.')) {
                 $split = explode('.', $propertyName, 2);
-                $haystack = $field[$split[0]];
-                $needle = $split[1];
+                $haystack = $field[$split[0]] ?? [];
+                $needle = $split[1] ?? null;
                 if (in_array($needle, $haystack)) {
                     $result[] = $field['name'];
                 }
@@ -117,6 +117,11 @@ trait Modular
         $custom = $this->findFieldSetWithProperty('allow.' . $property);
 
         return [...$default, ...$custom];
+    }
+
+    public function getRequire(string $action): array
+    {
+        return $this->findFieldSetWithProperty('require.' . $action);
     }
 
     public function getUnique(): array

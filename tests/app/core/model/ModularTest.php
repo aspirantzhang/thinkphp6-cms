@@ -186,4 +186,65 @@ class ModularTest extends \tests\TestCase
         // no built-in fields for 'unique' action
         $this->assertEquals(['admin_name'], $trait->getUnique());
     }
+
+    public function testGetRequire()
+    {
+        $trait = new class() {
+            use Modular;
+
+            public function getModuleField()
+            {
+                return [
+                    [
+                        'name' => 'admin_name',
+                        'type' => 'input',
+                        'unique' => true,
+                        'position' => 'tab.main',
+                        'order' => 0,
+                        'allow' => ['index', 'view', 'add', 'filter'],
+                        'require' => ['update'],
+                        'validate' => [
+                            'required' => true,
+                            'length' => [
+                                'min' => 0,
+                                'max' => 255,
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => 'password',
+                        'type' => 'password',
+                        'unique' => false,
+                        'position' => 'tab.main',
+                        'order' => 0,
+                        'hideInColumn' => true,
+                        'allow' => ['view', 'add', 'edit', 'filter'],
+                        'require' => ['update'],
+                        'validate' => [
+                            'required' => true,
+                            'length' => [
+                                'min' => 0,
+                                'max' => 255,
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => 'display_name',
+                        'type' => 'input',
+                        'unique' => false,
+                        'position' => 'tab.main',
+                        'order' => 0,
+                        'allow' => ['index', 'view', 'add', 'edit', 'filter', 'translate'],
+                        'validate' => [
+                            'length' => [
+                                'min' => 0,
+                                'max' => 255,
+                            ],
+                        ],
+                    ],
+                ];
+            }
+        };
+        $this->assertEquals(['admin_name', 'password'], $trait->getRequire('update'));
+    }
 }
