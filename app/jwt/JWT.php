@@ -32,6 +32,11 @@ class JWT
         return $this->claims;
     }
 
+    public function getClaim(string $key)
+    {
+        return $this->claims[$key] ?? null;
+    }
+
     public function addClaim(string $key, mixed $value)
     {
         $this->claims = [...$this->claims, $key => $value];

@@ -36,4 +36,18 @@ class JWTTest extends \tests\TestCase
         $this->assertEquals($result['nbf'], $result['iat']);
         $this->assertEquals($result['iat'] + 30, $result['exp']);
     }
+
+    public function testGetClaimForDefaultValue()
+    {
+        $result = (new JWT())->getClaim('exp');
+        $this->assertEquals(time() + 30, $result);
+    }
+
+    public function testGetClaimForExtraValue()
+    {
+        $jwt = (new JWT())->addClaim('foo', 'bar');
+        $result = $jwt->getClaim('foo');
+
+        $this->assertEquals('bar', $result);
+    }
 }
