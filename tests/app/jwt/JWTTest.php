@@ -19,6 +19,14 @@ class JWTTest extends \tests\TestCase
         $mock->shouldReceive('get')->with('jwt.renew')->once()->andReturn('10000');
     }
 
+    public function testGetAddClaim()
+    {
+        $refreshExpire = 9999;
+        $result = (new JWT())->addClaim('exp', $refreshExpire)->addClaim('foo', 'bar')->getClaims();
+        $this->assertEquals(9999, $result['exp']);
+        $this->assertEquals('bar', $result['foo']);
+    }
+
     public function testGetClaimsReturnDefaultClaims()
     {
         $result = (new JWT())->getClaims();

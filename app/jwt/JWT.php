@@ -13,6 +13,7 @@ class JWT
     private string $algorism = 'HS256';
     private string $secretKey;
     private array $claims;
+    private DateTimeImmutable $now;
 
     public function __construct()
     {
@@ -21,6 +22,7 @@ class JWT
 
     protected function init()
     {
+        $this->now = new DateTimeImmutable();
         $this->secretKey = Config::get('jwt.key') ?? '';
         $this->initClaims();
     }
@@ -46,20 +48,26 @@ class JWT
 
     public function initClaims()
     {
-        $now = new DateTimeImmutable();
-
         $this->claims = [
             'iss' => Config::get('jwt.iss'),
             'aud' => Config::get('jwt.aud'),
-            'iat' => $now->getTimestamp(),
-            'nbf' => $now->getTimestamp(),
-            'exp' => $now->modify('+ ' . (int) Config::get('jwt.exp') . ' seconds')->getTimestamp(),
+            'iat' => $this->now->getTimestamp(),
+            'nbf' => $this->now->getTimestamp(),
+            'exp' => $this->now->modify('+ ' . (int) Config::get('jwt.exp') . ' seconds')->getTimestamp(),
         ];
     }
 
     public function getAccessToken()
     {
         $payload = $this->getClaims();
+
+        return JWT_LIB::encode($payload, $this->secretKey, $this->algorism);
+    }
+
+    public function getRefreshToken()
+    {
+        $refreshExpire = $this->now->modify('+ ' . (int) Config::get('jwt.renew') . ' seconds')->getTimestamp();
+        $payload = $this->addClaim('exp', $refreshExpire)->getClaims();
 
         return JWT_LIB::encode($payload, $this->secretKey, $this->algorism);
     }
