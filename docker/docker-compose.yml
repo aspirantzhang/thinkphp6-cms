@@ -1,16 +1,18 @@
 version: "3.9"
 services:
   web:
-    container_name: php-apache
-    image: php:8.1.2-apache
+    container_name: octopus-php-apache
+    image: octopus-php-apache
     volumes:
       - ../:/var/www/
       - ../public/:/var/www/html/
+      - ./php/custom_php.ini:/usr/local/etc/php/conf.d/custom_php.ini
+      - ./php/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     ports:
       - 2200:80
     build: "./php"
     networks:
-      - php-net
+      - octopus-net
     command: >
       sh -c "
           /var/www/docker/migrate-db.sh &&
@@ -23,7 +25,7 @@ services:
     stdin_open: true
 
   mysql:
-    container_name: mysql
+    container_name: octopus-mysql
     image: mysql
     restart: always
     environment:
@@ -33,7 +35,7 @@ services:
       MYSQL_PASSWORD: pass
       TZ: Asia/Shanghai
     networks:
-      - php-net
+      - octopus-net
     ports:
       - "2205:3306"
     healthcheck:
@@ -51,7 +53,7 @@ services:
       retries: 3
 
   phpmyadmin:
-    container_name: phpmyadmin
+    container_name: octopus-phpmyadmin
     image: phpmyadmin
     restart: always
     ports:
@@ -62,12 +64,12 @@ services:
       - PMA_USER=user
       - PMA_PASSWORD=pass
     networks:
-      - php-net
+      - octopus-net
     depends_on:
       - mysql
 
 networks:
-  php-net:
+  octopus-net:
     ipam:
       driver: default
       config:
