@@ -30,7 +30,8 @@
     "aspirantzhang/octopus-revision": "dev-main",
     "aspirantzhang/octopus-page-builder": "dev-master",
     "aspirantzhang/octopus-twig-bridge": "dev-main",
-    "firebase/php-jwt": "^6.1"
+    "firebase/php-jwt": "^6.1",
+    "nesbot/carbon": "^2.58"
   },
   "require-dev": {
     "symfony/var-dumper": "^6.0",
