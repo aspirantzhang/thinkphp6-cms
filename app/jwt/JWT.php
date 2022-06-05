@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace app\jwt;
 
+use app\jwt\exception\TokenExpiredException;
+use app\jwt\exception\TokenInvalidException;
 use Carbon\CarbonImmutable;
+use Firebase\JWT\ExpiredException as LIB_ExpiredException;
 use Firebase\JWT\JWT as JWT_LIB;
+use Firebase\JWT\Key;
 use think\facade\Config;
 
 class JWT
@@ -75,5 +79,18 @@ class JWT
         $payload = $this->addClaim('exp', $refreshExpire)->getClaims();
 
         return JWT_LIB::encode($payload, $this->secretKey, $this->algorism);
+    }
+
+    public function checkToken(string $token)
+    {
+        try {
+            $result = JWT_LIB::decode($token, new Key($this->secretKey, 'HS256'));
+
+            return (array) $result;
+        } catch (LIB_ExpiredException) {
+            throw new TokenExpiredException('token expired');
+        } catch (\Exception) {
+            throw new TokenInvalidException('token invalid');
+        }
     }
 }

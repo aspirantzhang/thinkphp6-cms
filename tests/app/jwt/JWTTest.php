@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace tests\app\jwt;
 
+use app\jwt\exception\TokenExpiredException;
+use app\jwt\exception\TokenInvalidException;
 use app\jwt\JWT;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
@@ -52,5 +54,32 @@ class JWTTest extends \tests\TestCase
         $result = $jwt->getClaim('foo');
 
         $this->assertEquals('bar', $result);
+    }
+
+    public function testCheckTokenWithValidTokenString()
+    {
+        CarbonImmutable::setTestNow();
+        $token = (new JWT())->addClaim('foo', 'bar')->getAccessToken();
+        $result = (new JWT())->checkToken($token);
+        $this->assertEquals('fake_iss', $result['iss']);
+        $this->assertEquals('fake_aud', $result['aud']);
+        $this->assertEquals('bar', $result['foo']);
+    }
+
+    public function testCheckTokenWithExpiredTokenShouldThrowError()
+    {
+        $this->expectException(TokenExpiredException::class);
+        $this->expectExceptionMessage('token expired');
+
+        $token = (new JWT())->addClaim('foo', 'bar')->getAccessToken();
+        (new JWT())->checkToken($token);
+    }
+
+    public function testCheckTokenWithInvalidTokenShouldThrowError()
+    {
+        $this->expectException(TokenInvalidException::class);
+        $this->expectExceptionMessage('token invalid');
+
+        (new JWT())->checkToken('invalid');
     }
 }
