@@ -12,8 +12,26 @@ class RefreshToken extends TokenStrategy
     public function getToken()
     {
         $refreshExpire = $this->now->addSeconds((int) Config::get('jwt.renew'))->getTimestamp();
-        $payload = $this->addClaim('exp', $refreshExpire)->getClaims();
+        $jti = $this->getUniqueId();
+        $payload = $this->addClaim('exp', $refreshExpire)
+            ->addClaim('jti', $jti)
+            ->getClaims();
 
         return JWT_LIB::encode($payload, $this->secretKey, $this->algorism);
+    }
+
+    private function getUniqueId()
+    {
+        $id = uniqid();
+        $addLength = 12;
+        if (function_exists('random_bytes')) {
+            $id .= substr(bin2hex(random_bytes((int) ceil(($addLength) / 2))), 0, $addLength);
+        } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            $id .= substr(bin2hex(openssl_random_pseudo_bytes((int) ceil($addLength / 2))), 0, $addLength);
+        } else {
+            $id .= mt_rand(1 * pow(10, ($addLength)), 9 * pow(10, ($addLength)));
+        }
+
+        return $id;
     }
 }
