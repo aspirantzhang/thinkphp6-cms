@@ -48,6 +48,15 @@ class JWTTest extends \tests\TestCase
         $this->assertEquals('bar', $result['foo']);
     }
 
+    public function testGetAddClaims()
+    {
+        $added = ['foo1' => 'bar1', 'foo' => 8, 'exp' => 123];
+        $result = $this->class->addClaims($added)->getClaims();
+        $this->assertEquals('bar1', $result['foo1']);
+        $this->assertEquals(8, $result['foo']);
+        $this->assertEquals(123, $result['exp']);
+    }
+
     public function testGetClaimsReturnDefaultClaims()
     {
         $result = $this->class->getClaims();

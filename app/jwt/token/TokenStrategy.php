@@ -48,6 +48,13 @@ abstract class TokenStrategy
         return $this;
     }
 
+    public function addClaims(array $values)
+    {
+        $this->claims = [...$this->claims, ...$values];
+
+        return $this;
+    }
+
     public function setClaim(string $key, mixed $value)
     {
         $this->claims[$key] = $value;
