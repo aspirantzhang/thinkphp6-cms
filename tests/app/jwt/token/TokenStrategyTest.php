@@ -24,6 +24,7 @@ class JWTTest extends \tests\TestCase
         $mock->shouldReceive('get')->with('jwt.aud')->once()->andReturn('fake_aud');
         $mock->shouldReceive('get')->with('jwt.exp')->once()->andReturn(30);
         $mock->shouldReceive('get')->with('jwt.renew')->once()->andReturn(10000);
+        $mock->shouldReceive('get')->with('jwt.alg')->once()->andReturn('HS256');
         CarbonImmutable::setTestNow(Carbon::parse(1600000000));
         $this->initClass();
     }

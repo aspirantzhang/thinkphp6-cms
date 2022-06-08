@@ -14,7 +14,7 @@ use think\facade\Config;
 
 abstract class TokenStrategy
 {
-    protected string $algorism = 'HS256';
+    protected string $algorism;
     protected string $secretKey;
     protected array $claims;
     protected CarbonImmutable $now;
@@ -28,6 +28,7 @@ abstract class TokenStrategy
     {
         $this->now = CarbonImmutable::now();
         $this->secretKey = Config::get('jwt.key') ?? '';
+        $this->algorism = Config::get('jwt.alg') ?? 'HS256';
         $this->initClaims();
     }
 
@@ -77,7 +78,7 @@ abstract class TokenStrategy
     public function checkToken(string $token)
     {
         try {
-            $result = JWT_LIB::decode($token, new Key($this->secretKey, 'HS256'));
+            $result = JWT_LIB::decode($token, new Key($this->secretKey, $this->algorism));
 
             return (array) $result;
         } catch (LIB_ExpiredException) {
