@@ -67,6 +67,7 @@ abstract class TokenStrategy
         $this->claims = [
             'iss' => Config::get('jwt.iss'),
             'aud' => Config::get('jwt.aud'),
+            'grant_type' => 'access_token',
             'iat' => $this->now->getTimestamp(),
             'nbf' => $this->now->getTimestamp(),
             'exp' => $this->now->addSeconds((int) Config::get('jwt.exp'))->getTimestamp(),

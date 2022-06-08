@@ -63,6 +63,7 @@ class JWTTest extends \tests\TestCase
 
         $this->assertEquals('fake_iss', $result['iss']);
         $this->assertEquals('fake_aud', $result['aud']);
+        $this->assertEquals('access_token', $result['grant_type']);
         $this->assertEquals($result['nbf'], $result['iat']);
         $this->assertEquals($result['iat'] + 30, $result['exp']);
     }

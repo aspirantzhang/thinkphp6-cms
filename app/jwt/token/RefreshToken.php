@@ -15,6 +15,7 @@ class RefreshToken extends TokenStrategy
         $jti = $this->getUniqueId();
         $payload = $this->addClaim('exp', $refreshExpire)
             ->addClaim('jti', $jti)
+            ->addClaim('grant_type', 'refresh_token')
             ->getClaims();
 
         return JWT_LIB::encode($payload, $this->secretKey, $this->algorism);
