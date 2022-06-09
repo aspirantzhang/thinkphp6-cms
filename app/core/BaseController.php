@@ -32,8 +32,8 @@ abstract class BaseController extends GlobalController
         $this->facade = new \app\core\facade\NullFacade();
     }
 
-    protected function jsonView(mixed $data, int $code = 200)
+    protected function jsonView(array $data)
     {
-        return (new JsonView($data, $code))->output();
+        return (new JsonView($data))->output();
     }
 }
