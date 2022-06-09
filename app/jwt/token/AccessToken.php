@@ -6,7 +6,7 @@ namespace app\jwt\token;
 
 use Firebase\JWT\JWT as JWT_LIB;
 
-class AccessToken extends TokenStrategy
+class AccessToken extends BaseToken
 {
     public function getToken()
     {

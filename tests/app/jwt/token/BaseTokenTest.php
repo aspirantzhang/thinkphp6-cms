@@ -6,7 +6,7 @@ namespace tests\app\jwt\token;
 
 use app\jwt\exception\TokenExpiredException;
 use app\jwt\exception\TokenInvalidException;
-use app\jwt\token\TokenStrategy;
+use app\jwt\token\BaseToken;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Firebase\JWT\JWT as JWT_LIB;
@@ -31,7 +31,7 @@ class JWTTest extends \tests\TestCase
 
     private function initClass()
     {
-        $this->class = new class() extends TokenStrategy {
+        $this->class = new class() extends BaseToken {
             public function getToken()
             {
                 $payload = $this->getClaims();

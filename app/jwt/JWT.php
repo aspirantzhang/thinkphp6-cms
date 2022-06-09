@@ -6,14 +6,13 @@ namespace app\jwt;
 
 use app\jwt\token\AccessToken;
 use app\jwt\token\RefreshToken;
-use app\jwt\token\Token;
 
 class JWT
 {
-    public function getToken()
+    public function getToken($payload = [])
     {
-        $accessToken = (new Token(new AccessToken()))->getToken();
-        $refreshToken = (new Token(new RefreshToken()))->getToken();
+        $accessToken = (new AccessToken())->addClaims($payload)->getToken();
+        $refreshToken = (new RefreshToken())->getToken();
 
         return [
             'access_token' => $accessToken,

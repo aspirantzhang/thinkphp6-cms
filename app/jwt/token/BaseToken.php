@@ -12,7 +12,7 @@ use Firebase\JWT\JWT as JWT_LIB;
 use Firebase\JWT\Key;
 use think\facade\Config;
 
-abstract class TokenStrategy
+abstract class BaseToken
 {
     protected string $algorism;
     protected string $secretKey;

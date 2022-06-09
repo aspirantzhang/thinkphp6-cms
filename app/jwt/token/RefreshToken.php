@@ -7,7 +7,7 @@ namespace app\jwt\token;
 use Firebase\JWT\JWT as JWT_LIB;
 use think\facade\Config;
 
-class RefreshToken extends TokenStrategy
+class RefreshToken extends BaseToken
 {
     public function getToken()
     {
