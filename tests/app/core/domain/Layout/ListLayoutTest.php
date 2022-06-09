@@ -133,7 +133,7 @@ class ListLayoutTest extends \tests\TestCase
         ]], $this->getPropertyValue('batchToolbar'));
     }
 
-    public function testJsonSerializeInterface()
+    public function testToArray()
     {
         $modelField = [
             [
@@ -235,6 +235,6 @@ class ListLayoutTest extends \tests\TestCase
                 'page' => 1,
             ],
         ];
-        $this->assertEquals(json_encode($expect), json_encode($this->class->setData($data)));
+        $this->assertEquals($expect, $this->class->setData($data)->toArray());
     }
 }

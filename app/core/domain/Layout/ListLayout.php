@@ -80,7 +80,7 @@ class ListLayout extends BaseLayout
         }
     }
 
-    public function jsonSerialize(): array
+    public function toArray(): array
     {
         $this->parseDataSource();
         $this->parseTableColumn();

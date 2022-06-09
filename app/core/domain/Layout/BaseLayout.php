@@ -6,7 +6,7 @@ namespace app\core\domain\Layout;
 
 use app\core\BaseModel;
 
-abstract class BaseLayout implements \JsonSerializable
+abstract class BaseLayout
 {
     protected array $input;
 
