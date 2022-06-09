@@ -28,7 +28,7 @@ class JsonView
             'access-control-allow-headers' => 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-Requested-With',
             'access-control-allow-credentials' => 'true',
         ];
-        $this->header = Config::get('response.default_header') ?? $header;
+        $this->header = [...$header, ...Config::get('response.default_header') ?? [], ...$this->data['header'] ?? []];
     }
 
     private function initBody()
