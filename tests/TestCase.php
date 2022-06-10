@@ -2,15 +2,15 @@
 
 namespace tests;
 
-use aspirantzhang\thinkphp6UnitTest\UnitTestTrait;
+use Mockery;
+use Mockery\MockInterface;
 use ReflectionClass;
 
 abstract class TestCase extends \Mockery\Adapter\Phpunit\MockeryTestCase
 {
-    use UnitTestTrait;
-
     protected $class;
     protected ReflectionClass $reflector;
+    protected MockInterface $mock;
 
     protected function getReflectMethod(string $method, array $params = [])
     {
@@ -28,5 +28,11 @@ abstract class TestCase extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $property->setAccessible(true);
 
         return $property->getValue($this->class);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        unset($this->class, $this->reflector, $this->mock);
     }
 }
