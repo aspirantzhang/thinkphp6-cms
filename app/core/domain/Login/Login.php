@@ -42,11 +42,9 @@ class Login
 
     private function checkRequiredInput()
     {
-        if ((
-            ($this->input[$this->fieldName['username']] ?? false) &&
-            ($this->input[$this->fieldName['password']] ?? false)
-        ) === false) {
-            throw new SystemException('missing required values');
+        $result = missingRequiredValues($this->input, [$this->fieldName['username'], $this->fieldName['password']]);
+        if ($result !== false) {
+            throw new SystemException('missing required values: ' . $result);
         }
     }
 

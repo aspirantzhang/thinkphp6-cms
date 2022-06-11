@@ -25,3 +25,23 @@ if (!function_exists('error')) {
         ];
     }
 }
+
+if (!function_exists('missingRequiredValues')) {
+    /**
+     * Check if the array is missing specified keys or those key's value are empty.
+     *
+     * E.g. checkRequiredValues($haystack, ['foo', 'bar']).
+     *
+     * @return string|bool returns the first missing key name, or false for no missing
+     */
+    function missingRequiredValues(array $array, array $requiredKeys = [])
+    {
+        foreach ($requiredKeys as $key) {
+            if ((($array[$key] ?? false) && !empty($array[$key])) === false) {
+                return $key;
+            }
+        }
+
+        return false;
+    }
+}
