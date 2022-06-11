@@ -17,4 +17,11 @@ class Admin extends Common
 
         return $this->jsonView($result);
     }
+
+    public function login()
+    {
+        $result = $this->facade->login();
+
+        return $this->jsonView($result);
+    }
 }
