@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\core\domain;
+namespace app\core\domain\Login;
 
 use app\core\BaseModel;
 use app\core\exception\SystemException;
@@ -19,6 +19,11 @@ class Login
 
     public function __construct(protected BaseModel $model)
     {
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 
     public function setFieldName(array $data)
@@ -45,7 +50,7 @@ class Login
         }
     }
 
-    private function getUser()
+    private function getUserModel()
     {
         $username = $this->input[$this->fieldName['username']];
         $this->user = $this->model->where($this->fieldName['username'], $username)->find();
@@ -56,30 +61,21 @@ class Login
         return password_verify($this->input[$this->fieldName['password']], $this->user->{$this->fieldName['password']});
     }
 
-    private function getPayloadAndToken()
-    {
-        $payload = [
-            'admin_id' => $this->user->id,
-            'admin_name' => $this->user->admin_name,
-            'display_name' => $this->user->display_name ?? $this->user->admin_name,
-        ];
-        $token = app('jwt')->getToken($payload);
-
-        return [$payload, $token];
-    }
-
     public function check()
     {
         $this->checkRequiredInput();
 
-        $this->getUser();
+        $this->getUserModel();
 
         if ($this->user && $this->isCorrectPassword()) {
-            [$payload, $token] = $this->getPayloadAndToken();
-
-            return [...$payload, ...$token];
+            return true;
         }
 
         return false;
+    }
+
+    public function accept(LoginVisitor $visitor)
+    {
+        $visitor->visitLogin($this);
     }
 }
