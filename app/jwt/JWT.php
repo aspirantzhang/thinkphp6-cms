@@ -7,7 +7,7 @@ namespace app\jwt;
 use app\jwt\token\AccessToken;
 use app\jwt\token\RefreshToken;
 
-class JWT
+class Jwt
 {
     public function getToken($payload = [])
     {
