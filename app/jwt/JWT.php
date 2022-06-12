@@ -15,8 +15,8 @@ class JWT
         $refreshToken = (new RefreshToken())->getToken();
 
         return [
-            'access_token' => $accessToken,
-            'refresh_token' => $refreshToken,
+            'accessToken' => $accessToken,
+            'refreshToken' => $refreshToken,
         ];
     }
 }
