@@ -12,7 +12,8 @@ class Jwt
 {
     public function handle($request, \Closure $next)
     {
-        if ($request->controller() === 'Admin' && $request->action() === 'login') {
+        $ignoreList = ['/backend/admins/login', '/backend/admins/refresh-token'];
+        if (in_array($request->url() ?? '', $ignoreList)) {
             return $next($request);
         }
 
