@@ -12,6 +12,10 @@ class Jwt
 {
     public function handle($request, \Closure $next)
     {
+        if ($request->controller() === 'Admin' && $request->action() === 'login') {
+            return $next($request);
+        }
+
         try {
             $payload = app('jwt')->checkAccessToken($request);
         } catch (TokenExpiredException) {
