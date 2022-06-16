@@ -24,4 +24,11 @@ class Admin extends Common
 
         return $this->jsonView($result);
     }
+
+    public function refreshToken()
+    {
+        $result = $this->facade->refreshToken();
+
+        return $this->jsonView($result);
+    }
 }

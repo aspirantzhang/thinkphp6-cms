@@ -9,6 +9,7 @@ use app\core\domain\Layout\ListLayout;
 use app\core\domain\Login\JwtVisitor;
 use app\core\domain\Login\Login;
 use app\core\mapper\ListData;
+use app\jwt\token\AccessToken;
 
 class Admin extends BaseFacade
 {
@@ -53,6 +54,24 @@ class Admin extends BaseFacade
 
         $userProps = ['adminId' => 'id', 'adminName' => 'admin_name', 'displayName' => 'display_name'];
         $result = $jwtVisitor->withUserProps($userProps)->getResult();
+
+        return success(data: $result);
+    }
+
+    public function refreshToken()
+    {
+        try {
+            $payload = app('jwt')->checkRefreshToken($this->request);
+        } catch (TokenExpiredException) {
+            return error(message: 're-login required', code: 401);
+        } catch (TokenInvalidException) {
+            return error(message: 'invalid refresh token', code: 401);
+        }
+
+        unset($payload['grant_type'], $payload['iat'], $payload['nbf'], $payload['exp'], $payload['jti']);
+
+        $newAccessToken = (new AccessToken())->addClaims($payload)->getToken();
+        $result = ['accessToken' => $newAccessToken];
 
         return success(data: $result);
     }
