@@ -55,4 +55,15 @@ class Jwt
 
         return (new RefreshToken())->checkToken($refreshToken);
     }
+
+    public function refreshToken($request)
+    {
+        $payload = $this->checkRefreshToken($request);
+
+        unset($payload['grant_type'], $payload['iat'], $payload['nbf'], $payload['exp'], $payload['jti']);
+
+        $newAccessToken = (new AccessToken())->addClaims($payload)->getToken();
+
+        return $newAccessToken;
+    }
 }
