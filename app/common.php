@@ -1,28 +1,18 @@
 <?php
 
+use app\core\view\JsonView;
+
 if (!function_exists('success')) {
-    function success(string $message = '', array $data = [], int $code = 200, array $header = [])
+    function success(string $message = '', array $data = [], int $code = null, array $header = null)
     {
-        return [
-            'success' => true,
-            'message' => $message,
-            'data' => $data,
-            'code' => $code,
-            'header' => $header,
-        ];
+        return JsonView::buildResponse(true, $message, $data, $code, $header);
     }
 }
 
 if (!function_exists('error')) {
-    function error(string $message = '', array $data = [], int $code = 200, array $header = [])
+    function error(string $message = '', array $data = [], int $code = null, array $header = null)
     {
-        return [
-            'success' => false,
-            'message' => $message,
-            'data' => $data,
-            'code' => $code,
-            'header' => $header,
-        ];
+        return JsonView::buildResponse(false, $message, $data, $code, $header);
     }
 }
 
