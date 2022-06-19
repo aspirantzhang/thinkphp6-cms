@@ -80,9 +80,13 @@ abstract class BaseToken
     public function checkToken(string $token)
     {
         try {
-            $result = JWT_LIB::decode($token, new Key($this->secretKey, $this->algorism));
+            $payloads = JWT_LIB::decode($token, new Key($this->secretKey, $this->algorism));
+            $payloadsArr = (array) $payloads;
 
-            return (array) $result;
+            if (($payloadsArr['grant_type'] ?? '') === $this->tokenType) {
+                return $payloadsArr;
+            }
+            throw new TokenInvalidException('token type invalid');
         } catch (LIB_ExpiredException) {
             throw new TokenExpiredException('token expired');
         } catch (\Exception) {
