@@ -8,6 +8,8 @@ use Firebase\JWT\JWT as JWT_LIB;
 
 class AccessToken extends BaseToken
 {
+    protected string $tokenType = 'accessToken';
+
     public function getToken()
     {
         $payload = $this->getClaims();

@@ -9,13 +9,14 @@ use think\facade\Config;
 
 class RefreshToken extends BaseToken
 {
+    protected string $tokenType = 'refreshToken';
+
     public function getToken()
     {
         $refreshExpire = $this->now->addSeconds((int) Config::get('jwt.renew'))->getTimestamp();
         $jti = $this->getUniqueId();
         $payload = $this->addClaim('exp', $refreshExpire)
             ->addClaim('jti', $jti)
-            ->addClaim('grant_type', 'refresh_token')
             ->getClaims();
 
         return JWT_LIB::encode($payload, $this->secretKey, $this->algorism);

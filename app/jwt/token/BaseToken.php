@@ -19,6 +19,8 @@ abstract class BaseToken
     protected array $claims;
     protected CarbonImmutable $now;
 
+    protected string $tokenType = 'unknown';
+
     public function __construct()
     {
         $this->init();
@@ -68,7 +70,7 @@ abstract class BaseToken
         $this->claims = [
             'iss' => Config::get('jwt.iss'),
             'aud' => Config::get('jwt.aud'),
-            'grant_type' => 'access_token',
+            'grant_type' => $this->tokenType,
             'iat' => $this->now->getTimestamp(),
             'nbf' => $this->now->getTimestamp(),
             'exp' => $this->now->addSeconds((int) Config::get('jwt.exp'))->getTimestamp(),
