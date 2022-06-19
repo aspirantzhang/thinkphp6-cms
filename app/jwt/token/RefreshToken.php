@@ -13,6 +13,8 @@ class RefreshToken extends BaseToken
 
     public function getToken()
     {
+        $this->checkUid();
+
         $refreshExpire = $this->now->addSeconds((int) Config::get('jwt.renew'))->getTimestamp();
         $jti = $this->getUniqueId();
         $payload = $this->addClaim('exp', $refreshExpire)

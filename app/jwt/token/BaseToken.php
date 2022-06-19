@@ -102,5 +102,13 @@ abstract class BaseToken
         }
     }
 
+    protected function checkUid()
+    {
+        $payload = $this->getClaims();
+        if ((int) ($payload['uid'] ?? 0) === 0) {
+            throw new \Exception('missing uid claim');
+        }
+    }
+
     abstract public function getToken();
 }

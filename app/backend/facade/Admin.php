@@ -53,7 +53,7 @@ class Admin extends BaseFacade
         $jwtVisitor = new JwtVisitor();
         $login->accept($jwtVisitor);
 
-        $userProps = ['adminId' => 'id', 'adminName' => 'admin_name', 'displayName' => 'display_name'];
+        $userProps = ['uid' => 'id', 'adminName' => 'admin_name', 'displayName' => 'display_name'];
         $result = $jwtVisitor->withUserProps($userProps)->getResult();
 
         return success(data: $result);
