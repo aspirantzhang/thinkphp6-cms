@@ -31,7 +31,15 @@ abstract class BaseToken
         $this->now = CarbonImmutable::now();
         $this->secretKey = Config::get('jwt.key') ?? '';
         $this->algorism = Config::get('jwt.alg') ?? 'HS256';
+        $this->checkSecretKey();
         $this->initClaims();
+    }
+
+    private function checkSecretKey()
+    {
+        if (empty($this->secretKey)) {
+            throw new \Exception('missing secret key for JWT');
+        }
     }
 
     public function getClaims()

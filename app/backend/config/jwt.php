@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'key' => 'T3z6kcwNEJt%wXBBec_wSrpCCNhX3FFf',
     'iss' => 'http://test.com',    // issuer, the server
     'aud' => 'http://test.com',
     'exp' => 30, // expired time
