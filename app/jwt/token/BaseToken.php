@@ -110,5 +110,14 @@ abstract class BaseToken
         }
     }
 
+    public function getUid()
+    {
+        $this->checkUid();
+
+        $payload = $this->getClaims();
+
+        return (int) $payload['uid'];
+    }
+
     abstract public function getToken();
 }
