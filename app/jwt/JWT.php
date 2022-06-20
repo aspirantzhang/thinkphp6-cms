@@ -7,13 +7,27 @@ namespace app\jwt;
 use app\jwt\token\AccessToken;
 use app\jwt\token\RefreshToken;
 use think\exception\ValidateException;
+use think\facade\Db;
 
 class Jwt
 {
     public function getToken($payload = [])
     {
         $accessToken = (new AccessToken())->addClaims($payload)->getToken();
-        $refreshToken = (new RefreshToken())->addClaims($payload)->getToken();
+        $refresh = (new RefreshToken())->addClaims($payload);
+        $refreshToken = $refresh->getToken();
+
+        $jti = $refresh->getJti();
+        $uid = $refresh->getUid();
+        $ua = app('request')->header('user-agent');
+        $record = [
+            'uid' => $uid,
+            'jti' => $jti,
+            'ua' => $ua,
+            'create_time' => date('Y-m-d H:i:s'),
+            'status' => 1,
+        ];
+        Db::name('jwt_log')->insert($record);
 
         return [
             'accessToken' => $accessToken,
