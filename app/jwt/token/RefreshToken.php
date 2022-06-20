@@ -10,18 +10,30 @@ use think\facade\Config;
 class RefreshToken extends BaseToken
 {
     protected string $tokenType = 'refreshToken';
+    protected string $jti = '';
 
     public function getToken()
     {
         $this->checkUid();
+        $this->createJti();
 
         $refreshExpire = $this->now->addSeconds((int) Config::get('jwt.renew'))->getTimestamp();
-        $jti = $this->getUniqueId();
+
         $payload = $this->addClaim('exp', $refreshExpire)
-            ->addClaim('jti', $jti)
+            ->addClaim('jti', $this->jti)
             ->getClaims();
 
         return JWT_LIB::encode($payload, $this->secretKey, $this->algorism);
+    }
+
+    public function getJti()
+    {
+        return $this->jti;
+    }
+
+    private function createJti()
+    {
+        $this->jti = $this->getUniqueId();
     }
 
     private function getUniqueId()
