@@ -27,7 +27,13 @@ class Jwt
             'create_time' => date('Y-m-d H:i:s'),
             'status' => 1,
         ];
-        Db::name('jwt_log')->insert($record);
+
+        $uidExists = Db::table('jwt_log')->where('uid', $uid)->find();
+        if ($uidExists) {
+            Db::name('jwt_log')->where('uid', $uid)->update($record);
+        } else {
+            Db::name('jwt_log')->insert($record);
+        }
 
         return [
             'accessToken' => $accessToken,
