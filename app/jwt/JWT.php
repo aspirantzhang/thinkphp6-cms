@@ -17,6 +17,16 @@ class Jwt
         $refresh = (new RefreshToken())->addClaims($payload);
         $refreshToken = $refresh->getToken();
 
+        $this->updateTokenRecord($refresh);
+
+        return [
+            'accessToken' => $accessToken,
+            'refreshToken' => $refreshToken,
+        ];
+    }
+
+    private function updateTokenRecord(RefreshToken $refresh)
+    {
         $jti = $refresh->getJti();
         $uid = $refresh->getUid();
         $ua = app('request')->header('user-agent');
@@ -34,11 +44,6 @@ class Jwt
         } else {
             Db::name('jwt_log')->insert($record);
         }
-
-        return [
-            'accessToken' => $accessToken,
-            'refreshToken' => $refreshToken,
-        ];
     }
 
     public function checkAccessToken($request)
