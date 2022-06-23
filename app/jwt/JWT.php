@@ -11,6 +11,15 @@ use think\facade\Db;
 
 class Jwt
 {
+    private bool $stateful = false;
+
+    public function setStateful(bool $value)
+    {
+        $this->stateful = $value;
+
+        return $this;
+    }
+
     public function getToken($payload = [])
     {
         $accessToken = (new AccessToken())->addClaims($payload)->getToken();
@@ -27,6 +36,10 @@ class Jwt
 
     private function updateTokenRecord(RefreshToken $refresh)
     {
+        if ($this->stateful === false) {
+            return;
+        }
+
         $jti = $refresh->getJti();
         $uid = $refresh->getUid();
         $ua = app('request')->header('user-agent');

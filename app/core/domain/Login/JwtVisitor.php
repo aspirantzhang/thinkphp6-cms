@@ -30,7 +30,7 @@ class JwtVisitor implements LoginVisitor
 
     private function getPayloadAndToken()
     {
-        $token = app('jwt')->getToken($this->payload);
+        $token = app('jwt')->setStateful(true)->getToken($this->payload);
 
         return [$this->payload, $token];
     }
