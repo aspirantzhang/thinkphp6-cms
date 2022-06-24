@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\jwt;
 
+use app\jwt\exception\TokenInvalidException;
 use app\jwt\token\AccessToken;
 use app\jwt\token\RefreshToken;
 use think\exception\ValidateException;
@@ -98,10 +99,24 @@ class Jwt
     {
         $payload = $this->checkRefreshToken($request);
 
+        $this->checkRefreshTokenInDb($payload['jti']);
+
         unset($payload['grant_type'], $payload['iat'], $payload['nbf'], $payload['exp'], $payload['jti']);
 
         $newAccessToken = (new AccessToken())->addClaims($payload)->getToken();
 
         return $newAccessToken;
+    }
+
+    private function checkRefreshTokenInDb(string $jti)
+    {
+        if ($this->stateful === false) {
+            return;
+        }
+
+        $result = Db::name('jwt_log')->where('jti', $jti)->find();
+        if (!$result) {
+            throw new TokenInvalidException('invalid refresh token');
+        }
     }
 }
