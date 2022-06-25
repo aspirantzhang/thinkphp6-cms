@@ -17,6 +17,7 @@ final class JwtLog extends AbstractMigration
             ->addColumn('create_time', 'datetime')
             ->addColumn('status', 'boolean', ['default' => 1])
             ->addIndex(['uid'], ['unique' => true, 'name' => 'idx_uid'])
+            ->addIndex(['jti'], ['limit' => 20, 'name' => 'idx_jti'])
             ->create();
     }
 }
