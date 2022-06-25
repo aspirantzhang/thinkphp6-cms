@@ -62,7 +62,7 @@ class Admin extends BaseFacade
     public function refreshToken()
     {
         try {
-            $newToken = app('jwt')->refreshToken($this->request);
+            $newToken = app('jwt')->setStateful(true)->refreshToken($this->request);
         } catch (TokenExpiredException) {
             return error(message: 're-login required', code: 401);
         } catch (TokenInvalidException) {
