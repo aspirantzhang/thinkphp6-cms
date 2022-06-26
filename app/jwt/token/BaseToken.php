@@ -91,14 +91,20 @@ abstract class BaseToken
             $payloads = JWT_LIB::decode($token, new Key($this->secretKey, $this->algorism));
             $payloadsArr = (array) $payloads;
 
-            if (($payloadsArr['grant_type'] ?? '') === $this->tokenType) {
-                return $payloadsArr;
-            }
-            throw new TokenInvalidException('token type invalid');
+            $this->checkGrantType($payloadsArr);
+
+            return $payloadsArr;
         } catch (LIB_ExpiredException) {
             throw new TokenExpiredException('token expired');
         } catch (\Exception) {
             throw new TokenInvalidException('token invalid');
+        }
+    }
+
+    protected function checkGrantType(array $payloadsArr)
+    {
+        if (($payloadsArr['grant_type'] ?? '') !== $this->tokenType) {
+            throw new TokenInvalidException('invalid grant type');
         }
     }
 
