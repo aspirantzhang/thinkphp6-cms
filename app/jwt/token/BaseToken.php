@@ -88,12 +88,10 @@ abstract class BaseToken
     public function checkToken(string $token)
     {
         try {
-            $payloads = JWT_LIB::decode($token, new Key($this->secretKey, $this->algorism));
-            $payloadsArr = (array) $payloads;
+            $claims = (array) $this->decodeToken($token);
+            $this->checkGrantType($claims);
 
-            $this->checkGrantType($payloadsArr);
-
-            return $payloadsArr;
+            return $claims;
         } catch (LIB_ExpiredException) {
             throw new TokenExpiredException('token expired');
         } catch (\Exception) {
@@ -101,17 +99,22 @@ abstract class BaseToken
         }
     }
 
-    protected function checkGrantType(array $payloadsArr)
+    protected function decodeToken(string $token)
     {
-        if (($payloadsArr['grant_type'] ?? '') !== $this->tokenType) {
+        return JWT_LIB::decode($token, new Key($this->secretKey, $this->algorism));
+    }
+
+    protected function checkGrantType(array $claims)
+    {
+        if (($claims['grant_type'] ?? '') !== $this->tokenType) {
             throw new TokenInvalidException('invalid grant type');
         }
     }
 
     protected function checkUid()
     {
-        $payload = $this->getClaims();
-        if ((int) ($payload['uid'] ?? 0) === 0) {
+        $claims = $this->getClaims();
+        if ((int) ($claims['uid'] ?? 0) === 0) {
             throw new \Exception('missing uid claim');
         }
     }
@@ -120,9 +123,9 @@ abstract class BaseToken
     {
         $this->checkUid();
 
-        $payload = $this->getClaims();
+        $claims = $this->getClaims();
 
-        return (int) $payload['uid'];
+        return (int) $claims['uid'];
     }
 
     abstract public function getToken();
