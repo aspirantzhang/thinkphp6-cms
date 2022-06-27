@@ -28,7 +28,7 @@ class Jwt
         $refresh = (new RefreshToken())->addClaims($payload);
         $refreshToken = $refresh->getToken();
 
-        $this->updateTokenRecord($refresh);
+        $this->updateRefreshTokenInDb($refresh);
 
         return [
             'accessToken' => $accessToken,
@@ -36,7 +36,7 @@ class Jwt
         ];
     }
 
-    private function updateTokenRecord(RefreshToken $refresh)
+    private function updateRefreshTokenInDb(RefreshToken $refresh)
     {
         if ($this->stateful === false) {
             return;
