@@ -22,10 +22,10 @@ class Jwt
         return $this;
     }
 
-    public function getToken($payload = [])
+    public function getToken($claims = [])
     {
-        $accessToken = (new AccessToken())->addClaims($payload)->getToken();
-        $refresh = (new RefreshToken())->addClaims($payload);
+        $accessToken = (new AccessToken())->addClaims($claims)->getToken();
+        $refresh = (new RefreshToken())->addClaims($claims);
         $refreshToken = $refresh->getToken();
 
         $this->updateRefreshTokenInDb($refresh);
@@ -98,18 +98,18 @@ class Jwt
 
     public function refreshToken(Request $request)
     {
-        $payload = $this->checkRefreshToken($request);
+        $claims = $this->checkRefreshToken($request);
 
-        $this->checkRefreshTokenInDb($request, $payload);
+        $this->checkRefreshTokenInDb($request, $claims);
 
-        unset($payload['grant_type'], $payload['iat'], $payload['nbf'], $payload['exp'], $payload['jti']);
+        unset($claims['grant_type'], $claims['iat'], $claims['nbf'], $claims['exp'], $claims['jti']);
 
-        $newAccessToken = (new AccessToken())->addClaims($payload)->getToken();
+        $newAccessToken = (new AccessToken())->addClaims($claims)->getToken();
 
         return $newAccessToken;
     }
 
-    private function checkRefreshTokenInDb(Request $request, array $payload)
+    private function checkRefreshTokenInDb(Request $request, array $claims)
     {
         if ($this->stateful === false) {
             return;
@@ -117,7 +117,7 @@ class Jwt
 
         $ua = $request->header('user-agent');
 
-        $result = Db::name('jwt_log')->where('jti', $payload['jti'])->where('ua', $ua)->find();
+        $result = Db::name('jwt_log')->where('jti', $claims['jti'])->where('ua', $ua)->find();
         if (!$result) {
             throw new TokenInvalidException('invalid refresh token');
         }

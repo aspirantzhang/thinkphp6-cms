@@ -19,11 +19,11 @@ class RefreshToken extends BaseToken
 
         $refreshExpire = $this->now->addSeconds((int) Config::get('jwt.renew'))->getTimestamp();
 
-        $payload = $this->addClaim('exp', $refreshExpire)
+        $claims = $this->addClaim('exp', $refreshExpire)
             ->addClaim('jti', $this->jti)
             ->getClaims();
 
-        return JWT_LIB::encode($payload, $this->secretKey, $this->algorism);
+        return JWT_LIB::encode($claims, $this->secretKey, $this->algorism);
     }
 
     public function getJti()

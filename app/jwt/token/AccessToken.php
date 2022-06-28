@@ -14,8 +14,8 @@ class AccessToken extends BaseToken
     {
         $this->checkUid();
 
-        $payload = $this->getClaims();
+        $claims = $this->getClaims();
 
-        return JWT_LIB::encode($payload, $this->secretKey, $this->algorism);
+        return JWT_LIB::encode($claims, $this->secretKey, $this->algorism);
     }
 }
