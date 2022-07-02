@@ -26,7 +26,7 @@ final class RuleTable extends AbstractMigration
             ->addColumn('lang_code', 'char', ['limit' => 5, 'null' => false, 'default' => ''])
             ->addColumn('rule_title', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('translate_time', 'datetime', ['null' => true])
-            ->addIndex(['original_id', 'lang_code'], ['unique' => true])
+            ->addIndex(['original_id', 'lang_code'], ['unique' => true, 'name' => 'uk_original_id_lang_code'])
             ->create();
     }
 }

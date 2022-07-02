@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace DbMigrations;
 
-use Phinx\Migration\AbstractMigration;
 use Phinx\Db\Adapter\MysqlAdapter;
+use Phinx\Migration\AbstractMigration;
 
 final class ModuleTable extends AbstractMigration
 {
@@ -23,9 +23,9 @@ final class ModuleTable extends AbstractMigration
             ->addColumn('delete_time', 'datetime', ['null' => true])
             ->addColumn('status', 'boolean', ['default' => 1])
             ->addIndex(['table_name'], [
-                    'unique' => true,
-                    'name' => 'idx_table_name'
-                ])
+                'unique' => true,
+                'name' => 'uk_table_name',
+            ])
             ->create();
 
         $i18nTable = $this->table('module_i18n', ['id' => '_id', 'signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
@@ -34,9 +34,9 @@ final class ModuleTable extends AbstractMigration
             ->addColumn('module_title', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('translate_time', 'datetime', ['null' => true])
             ->addIndex(['original_id', 'lang_code'], [
-                    'unique' => true,
-                    'name' => 'idx_original_id_lang_code'
-                ])
+                'unique' => true,
+                'name' => 'uk_original_id_lang_code',
+            ])
             ->create();
     }
 }

@@ -17,7 +17,7 @@ final class AdminTable extends AbstractMigration
             ->addColumn('update_time', 'datetime')
             ->addColumn('delete_time', 'datetime', ['null' => true])
             ->addColumn('status', 'boolean', ['default' => 1])
-            ->addIndex(['admin_name'], ['unique' => true])
+            ->addIndex(['admin_name'], ['unique' => true, 'name' => 'uk_admin_name'])
             ->create();
 
         $adminI18nTable = $this->table('admin_i18n', ['id' => '_id', 'signed' => false, 'engine' => 'InnoDB', 'collation' => 'utf8mb4_unicode_ci']);
@@ -26,7 +26,7 @@ final class AdminTable extends AbstractMigration
             ->addColumn('display_name', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('comment', 'string', ['limit' => 255, 'null' => false, 'default' => ''])
             ->addColumn('translate_time', 'datetime', ['null' => true])
-            ->addIndex(['original_id', 'lang_code'], ['unique' => true])
+            ->addIndex(['original_id', 'lang_code'], ['unique' => true, 'name' => 'uk_original_id_lang_code'])
             ->create();
     }
 }

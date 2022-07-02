@@ -15,7 +15,7 @@ final class GroupRuleTable extends AbstractMigration
             ->addColumn('rule_id', 'integer', ['signed' => false])
             ->addIndex(['group_id'])
             ->addIndex(['rule_id'])
-            ->addIndex(['group_id', 'rule_id'], ['unique' => true, 'name' => 'group_rule_id'])
+            ->addIndex(['group_id', 'rule_id'], ['unique' => true, 'name' => 'uk_group_id_rule_id'])
             ->create();
     }
 }
