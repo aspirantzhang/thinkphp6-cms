@@ -72,7 +72,7 @@ class Jwt
     {
         $bearer = $request->header('authorization');
 
-        if (!str_starts_with($bearer, 'Bearer')) {
+        if (!str_starts_with($bearer ?? '', 'Bearer')) {
             throw new ValidateException('no permission');
         }
 

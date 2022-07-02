@@ -14,3 +14,4 @@ parameters:
     # - '#Access to an undefined property think\\App::\$revision#'
     # - '#Parameter \#3 \$filter of static method think\\Request::param\(\) expects array\|string\, null given\.#'
     - '#Call to an undefined method app\\core\\BaseFacade::\w+\(\).#'
+    - '#Variable \$bearer on left side of \?\? always exists and is not nullable\.#'
