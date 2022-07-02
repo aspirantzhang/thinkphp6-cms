@@ -28,17 +28,15 @@ class JwtVisitor implements LoginVisitor
         return $this;
     }
 
-    private function getPayloadAndToken()
+    private function getToken()
     {
-        $token = app('jwt')->setStateful(true)->getToken($this->payload);
-
-        return [$this->payload, $token];
+        return app('jwt')->setStateful(true)->getToken($this->payload);
     }
 
     public function getResult()
     {
-        [$payload, $token] = $this->getPayloadAndToken();
+        $token = $this->getToken();
 
-        return [...$payload, ...$token];
+        return [...$this->payload, ...$token];
     }
 }
