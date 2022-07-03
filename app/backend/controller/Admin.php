@@ -31,4 +31,14 @@ class Admin extends Common
 
         return $this->jsonView($result);
     }
+
+    public function view($id)
+    {
+        return 'ok';
+    }
+
+    public function store()
+    {
+        return $this->jsonView(success('ok'));
+    }
 }

@@ -18,7 +18,8 @@ final class ModuleData extends AbstractMigration
                 'unique' => true,
                 'position' => 'tab.main',
                 'order' => 0,
-                'allow' => ['index', 'view', 'add', 'store', 'filter'],
+                'allow' => ['index', 'view', 'add', 'store', 'edit', 'filter'],
+                'require' => ['store'],
                 'rule' => [
                     'length' => [
                         'min' => 0,
@@ -34,6 +35,7 @@ final class ModuleData extends AbstractMigration
                 'order' => 0,
                 'hideInColumn' => true,
                 'allow' => ['view', 'add', 'store', 'edit', 'update', 'filter'],
+                'require' => ['store'],
                 'rule' => [
                     'length' => [
                         'min' => 0,
