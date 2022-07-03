@@ -12,6 +12,7 @@ class ValidateBuilder extends Validate
 {
     private string $sceneName;
     private array $allowedFields;
+    private array $requiredFields;
     private array $moduleFields;
 
     public function __construct(private $module)
@@ -19,10 +20,13 @@ class ValidateBuilder extends Validate
         parent::__construct();
 
         $this->getSceneName();
-        $this->getAllowedFields();
         $this->getModuleFields();
+        $this->getAllowedFields();
+        $this->getRequiredFields();
 
         $this->buildScene();
+        $this->initBuiltInRulesAndMessages();
+        $this->buildRequiredRules();
         $this->buildRuleAndMessage();
 
         // halt($this->sceneName, $this->rule, $this->scene, $this->message);
@@ -36,6 +40,11 @@ class ValidateBuilder extends Validate
     private function getAllowedFields()
     {
         $this->allowedFields = $this->module->model->getAllow($this->sceneName);
+    }
+
+    private function getRequiredFields()
+    {
+        $this->requiredFields = $this->module->model->getRequire($this->sceneName);
     }
 
     private function getModuleFields()
@@ -82,11 +91,26 @@ class ValidateBuilder extends Validate
         return $builtInRules ?? [];
     }
 
-    private function buildRuleAndMessage()
+    private function initBuiltInRulesAndMessages()
     {
         $this->rule = $this->getBuiltInRule();
         $this->message = $this->getBuiltInMessage();
+    }
 
+    private function buildRequiredRules()
+    {
+        foreach ($this->moduleFields as $field) {
+            if (!in_array($field['name'], $this->requiredFields)) {
+                continue;
+            }
+
+            $this->buildRequiredRule($field);
+            $this->buildRequiredMessage($field);
+        }
+    }
+
+    private function buildRuleAndMessage()
+    {
         foreach ($this->moduleFields as $field) {
             if (!in_array($field['name'], $this->allowedFields)) {
                 continue;
@@ -97,9 +121,28 @@ class ValidateBuilder extends Validate
         }
     }
 
+    private function buildRequiredRule(array $field)
+    {
+        if ($this->rule[$field['name']] ?? '') {
+            $this->rule[$field['name']] = 'require|' . $this->getRuleString($field);
+        } else {
+            $this->rule[$field['name']] = 'require';
+        }
+    }
+
     private function buildRule(array $field)
     {
-        $this->rule[$field['name']] = $this->getRuleString($field);
+        if ($this->rule[$field['name']] ?? '') {
+            $this->rule[$field['name']] = $this->rule[$field['name']] . '|' . $this->getRuleString($field);
+        } else {
+            $this->rule[$field['name']] = $this->getRuleString($field);
+        }
+    }
+
+    private function buildRequiredMessage(array $field)
+    {
+        $messageKey = $field['name'] . '.require';
+        $this->message[$messageKey] = 'require';
     }
 
     private function buildMessage(array $field)
@@ -124,7 +167,7 @@ class ValidateBuilder extends Validate
         $ruleArray = [];
         if (isset($field['rule'])) {
             foreach ($field['rule'] as $ruleName => $ruleAttr) {
-                if ($this->sceneName === 'index' && $ruleName === 'require') {
+                if ($this->sceneName === 'index') {
                     continue;
                 }
 
