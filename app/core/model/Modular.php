@@ -68,22 +68,18 @@ trait Modular
     }
 
     /**
-     * Find field set with specific property in the module.
-     *
-     * 1 layer, property with boolean value: [ unique: true ]
-     *
-     * 2 layer, values in an indexed array: [ allow: ['index', 'add', 'edit] ]
+     * Get field list by specific property in the module.
      */
-    public function findFieldSetWithProperty(string $propertyName): array
+    public function getFieldListByProperty(string $propertyName): array
     {
         $result = [];
 
         foreach ($this->getModuleField() as $field) {
             if (str_contains($propertyName, '.')) {
-                $split = explode('.', $propertyName, 2);
-                $haystack = $field[$split[0]] ?? [];
-                $needle = $split[1] ?? null;
-                if (in_array($needle, $haystack)) {
+                // e.g. allow.view
+                [$prop, $action] = explode('.', $propertyName, 2);
+                $haystack = $field[$prop] ?? [];
+                if (in_array($action, $haystack)) {
                     $result[] = $field['name'];
                 }
             } else {
@@ -106,26 +102,21 @@ trait Modular
         return $defaultAllow[$property] ?? [];
     }
 
-    public function getBuiltInAllowedFields(string $action)
-    {
-        return $this->getDefaultConfig('allow', $action);
-    }
-
     public function getAllow(string $property): array
     {
-        $default = $this->getBuiltInAllowedFields($property);
-        $custom = $this->findFieldSetWithProperty('allow.' . $property);
+        $default = $this->getDefaultConfig('allow', $property);
+        $custom = $this->getFieldListByProperty('allow.' . $property);
 
         return [...$default, ...$custom];
     }
 
     public function getRequire(string $action): array
     {
-        return $this->findFieldSetWithProperty('require.' . $action);
+        return $this->getFieldListByProperty('require.' . $action);
     }
 
     public function getUnique(): array
     {
-        return $this->findFieldSetWithProperty('unique');
+        return $this->getFieldListByProperty('unique');
     }
 }
