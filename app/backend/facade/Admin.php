@@ -73,4 +73,24 @@ class Admin extends BaseFacade
 
         return success(data: $result);
     }
+
+    public function store()
+    {
+        $data = $this->request->param();
+
+        $this->model->startTrans();
+        try {
+            $this->model->allowField($this->model->getAllow('store'))->save($data);
+
+            $id = (int) $this->model->getAttr('id');
+
+            $this->model->commit();
+
+            return success('add successfully', ['id' => $id]);
+        } catch (\Exception $e) {
+            $this->model->rollback();
+
+            return error('operation failed');
+        }
+    }
 }
