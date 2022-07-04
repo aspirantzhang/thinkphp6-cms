@@ -14,6 +14,7 @@ namespace app;
 
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
+use think\db\exception\PDOException;
 use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
@@ -61,6 +62,11 @@ class ExceptionHandle extends Handle
             $returnBody = ['success' => false, 'message' => $e->getError()];
 
             return Response::create($returnBody, 'json', 200)->header(Config::get('response.default_header'));
+        }
+
+        if ($e instanceof PDOException) {
+            // TODO: log pdo exception and give user a friendly notice
+            exit('sql error');
         }
 
         // 其他错误交给系统处理
