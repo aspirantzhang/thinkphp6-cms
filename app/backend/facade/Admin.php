@@ -74,13 +74,13 @@ class Admin extends BaseFacade
         return success(data: $result);
     }
 
-    public function store()
+    public function store($input = null)
     {
-        $data = $this->request->param();
+        $input ??= $this->request->only($this->model->getAllow('store'));
 
         $this->model->startTrans();
         try {
-            $this->model->allowField($this->model->getAllow('store'))->save($data);
+            $this->model->allowField($this->model->getAllow('store'))->save($input);
 
             $id = (int) $this->model->getAttr('id');
 
