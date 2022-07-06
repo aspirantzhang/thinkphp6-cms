@@ -78,6 +78,8 @@ class Admin extends BaseFacade
     {
         $input ??= $this->request->only($this->model->getAllow('store'));
 
+        $this->model->checkUniqueValues($input);
+
         $this->model->startTrans();
         try {
             $this->model->allowField($this->model->getAllow('store'))->save($input);
