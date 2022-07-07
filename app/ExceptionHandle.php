@@ -12,6 +12,9 @@
 
 namespace app;
 
+use app\core\exception\BizException;
+use app\core\exception\SystemException;
+use app\core\view\JsonView;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\db\exception\PDOException;
@@ -19,7 +22,6 @@ use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
-use think\facade\Config;
 use think\Response;
 use Throwable;
 
@@ -61,12 +63,19 @@ class ExceptionHandle extends Handle
         if ($e instanceof ValidateException) {
             $returnBody = ['success' => false, 'message' => $e->getError()];
 
-            return Response::create($returnBody, 'json', 200)->header(Config::get('response.default_header'));
+            return (new JsonView(error($e->getError())))->output();
         }
 
         if ($e instanceof PDOException) {
-            // TODO: log pdo exception and give user a friendly notice
-            exit('sql error');
+            return (new JsonView(error($e->getMessage())))->output();
+        }
+
+        if ($e instanceof SystemException) {
+            return (new JsonView(error($e->getMessage())))->output();
+        }
+
+        if ($e instanceof BizException) {
+            return (new JsonView(error($e->getMessage())))->output();
         }
 
         // 其他错误交给系统处理
