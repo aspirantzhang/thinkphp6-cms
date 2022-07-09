@@ -32,14 +32,26 @@ class Admin extends Common
         return $this->jsonView($result);
     }
 
-    public function view($id)
+    public function add()
     {
-        return 'ok';
+        return 'add action';
     }
 
     public function store()
     {
         $result = $this->facade->store();
+
+        return $this->jsonView($result);
+    }
+
+    public function view($id)
+    {
+        return 'view action';
+    }
+
+    public function update($id)
+    {
+        $result = $this->facade->update((int) $id);
 
         return $this->jsonView($result);
     }

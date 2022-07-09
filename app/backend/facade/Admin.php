@@ -74,6 +74,18 @@ class Admin extends BaseFacade
         return success(data: $result);
     }
 
+    public function update(int $id, array $input = null)
+    {
+        $input ??= $this->request->only($this->model->getAllow('update'));
+
+        $record = $this->model->where('id', $id)->find();
+        if ($record && $record->allowField($this->model->getAllow('update'))->save($input)) {
+            return success('update successfully');
+        }
+
+        return error('operation failed');
+    }
+
     public function store(array $input = null)
     {
         $input ??= $this->request->only($this->model->getAllow('store'));

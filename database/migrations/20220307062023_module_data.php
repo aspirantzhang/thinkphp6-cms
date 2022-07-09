@@ -18,7 +18,7 @@ final class ModuleData extends AbstractMigration
                 'unique' => true,
                 'position' => 'tab.main',
                 'order' => 0,
-                'allow' => ['index', 'view', 'add', 'store', 'edit', 'filter'],
+                'allow' => ['index', 'view', 'add', 'store', 'filter'],
                 'require' => ['store'],
                 'rule' => [
                     'length' => [
@@ -34,7 +34,7 @@ final class ModuleData extends AbstractMigration
                 'position' => 'tab.main',
                 'order' => 0,
                 'hideInColumn' => true,
-                'allow' => ['view', 'add', 'store', 'edit', 'update', 'filter'],
+                'allow' => ['view', 'add', 'store', 'update', 'filter'],
                 'require' => ['store'],
                 'rule' => [
                     'length' => [
@@ -49,7 +49,7 @@ final class ModuleData extends AbstractMigration
                 'unique' => false,
                 'position' => 'tab.main',
                 'order' => 0,
-                'allow' => ['index', 'view', 'add', 'store', 'edit', 'update', 'filter', 'translate'],
+                'allow' => ['index', 'view', 'add', 'store', 'filter', 'translate'],
                 'rule' => [
                     'length' => [
                         'min' => 0,
@@ -64,7 +64,7 @@ final class ModuleData extends AbstractMigration
                 'order' => 0,
                 'position' => 'sidebar.main',
                 'hideInColumn' => true,
-                'allow' => ['index', 'view', 'add', 'store', 'edit', 'update', 'filter', 'translate'],
+                'allow' => ['index', 'view', 'add', 'store', 'filter', 'translate'],
                 'rule' => [
                     'length' => [
                         'min' => 0,
