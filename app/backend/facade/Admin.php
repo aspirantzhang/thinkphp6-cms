@@ -74,7 +74,7 @@ class Admin extends BaseFacade
         return success(data: $result);
     }
 
-    public function store($input = null)
+    public function store(array $input = null)
     {
         $input ??= $this->request->only($this->model->getAllow('store'));
 

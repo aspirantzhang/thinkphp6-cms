@@ -39,6 +39,8 @@ class Admin extends Common
 
     public function store()
     {
-        return $this->jsonView(success('ok'));
+        $result = $this->facade->store();
+
+        return $this->jsonView($result);
     }
 }
