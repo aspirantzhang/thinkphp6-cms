@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\core\validator;
 
+use app\core\BaseModel;
 use think\File;
 use think\Validate;
 
@@ -13,14 +14,14 @@ class ValidateBuilder extends Validate
     private string $sceneName;
     private array $allowedFields;
     private array $requiredFields;
-    private array $moduleFields;
+    private array $modelFields;
 
-    public function __construct(private $module)
+    public function __construct(private BaseModel $model)
     {
         parent::__construct();
 
         $this->getSceneName();
-        $this->getModuleFields();
+        $this->getModelFields();
         $this->getAllowedFields();
         $this->getRequiredFields();
 
@@ -39,17 +40,17 @@ class ValidateBuilder extends Validate
 
     private function getAllowedFields()
     {
-        $this->allowedFields = $this->module->model->getAllow($this->sceneName);
+        $this->allowedFields = $this->model->getAllow($this->sceneName);
     }
 
     private function getRequiredFields()
     {
-        $this->requiredFields = $this->module->model->getRequire($this->sceneName);
+        $this->requiredFields = $this->model->getRequire($this->sceneName);
     }
 
-    private function getModuleFields()
+    private function getModelFields()
     {
-        $this->moduleFields = $this->module->model->getModule('field');
+        $this->modelFields = $this->model->getModule('field');
     }
 
     private function clearRequiredFields(array $rules)
@@ -99,7 +100,7 @@ class ValidateBuilder extends Validate
 
     private function buildRequiredRules()
     {
-        foreach ($this->moduleFields as $field) {
+        foreach ($this->modelFields as $field) {
             if (!in_array($field['name'], $this->requiredFields)) {
                 continue;
             }
@@ -111,7 +112,7 @@ class ValidateBuilder extends Validate
 
     private function buildRuleAndMessage()
     {
-        foreach ($this->moduleFields as $field) {
+        foreach ($this->modelFields as $field) {
             if (!in_array($field['name'], $this->allowedFields)) {
                 continue;
             }

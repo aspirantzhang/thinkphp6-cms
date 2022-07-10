@@ -13,7 +13,7 @@ use think\Validate;
 
 class Validator
 {
-    private $module;
+    private $model;
 
     public static array $rules = [
         Integer::class,
@@ -49,26 +49,26 @@ class Validator
         }
     }
 
-    private function initModule($request)
+    private function initModel($request)
     {
         $appName = parse_name(app('http')->getName());
-        $moduleName = $request->controller();
-        $moduleClass = 'app\\' . $appName . '\\facade\\' . $moduleName;
-        if (!class_exists($moduleClass)) {
-            throw new SystemException('invalid module class: ' . $moduleClass);
+        $modelName = $request->controller();
+        $modelClass = 'app\\' . $appName . '\\model\\' . $modelName;
+        if (!class_exists($modelClass)) {
+            throw new SystemException('invalid model class: ' . $modelClass);
         }
-        $this->module = new $moduleClass();
+        $this->model = new $modelClass();
     }
 
     public function handle($request, \Closure $next)
     {
-        $this->initModule($request);
+        $this->initModel($request);
 
         Event::trigger('ValidateRules', $this);
 
         $this->initRules();
 
-        (new ValidateBuilder($this->module))->failException(true)->scene(parse_name($request->action()))->check($request->param());
+        (new ValidateBuilder($this->model))->failException(true)->scene(parse_name($request->action()))->check($request->param());
 
         return $next($request);
     }
