@@ -12,6 +12,9 @@ abstract class BaseFacade
     public BaseModel $model;
     protected Request $request;
 
+    protected array $input;
+    private bool $customizedInput = false;
+
     public function __construct()
     {
         $this->request = app('request');
@@ -32,5 +35,20 @@ abstract class BaseFacade
             return;
         }
         throw new SystemException('model cannot be instantiated in facade layer: ' . $modelClass);
+    }
+
+    protected function initInput()
+    {
+        if ($this->customizedInput === false) {
+            $this->input = $this->request->only($this->model->getAllow($this->request->action()));
+        }
+    }
+
+    public function setInput(array $input)
+    {
+        $this->customizedInput = true;
+        $this->input = $input;
+
+        return $this;
     }
 }

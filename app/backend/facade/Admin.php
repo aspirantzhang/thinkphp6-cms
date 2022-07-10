@@ -14,17 +14,17 @@ use app\jwt\exception\TokenInvalidException;
 
 class Admin extends BaseFacade
 {
-    public function getPaginatedList(array $option = [], array $input = null)
+    public function getPaginatedList(array $option = [])
     {
-        $input ??= $this->request->only($this->model->getAllow('index'));
+        $this->initInput();
         // get data from mapper
-        $data = (new ListData($this->model))->setInput($input)
+        $data = (new ListData($this->model))->setInput($this->input)
             ->setOption($option)
             ->setType(ListData::PAGINATED)
             ->toArray();
 
         // inject data into the layout
-        $result = (new ListLayout($this->model))->setInput($input)
+        $result = (new ListLayout($this->model))->setInput($this->input)
             ->setOption($option)
             ->setData($data)
             ->toArray();
@@ -74,27 +74,27 @@ class Admin extends BaseFacade
         return success(data: $result);
     }
 
-    public function update(int $id, array $input = null)
+    public function update(int $id)
     {
-        $input ??= $this->request->only($this->model->getAllow('update'));
+        $this->initInput();
 
         $record = $this->model->where('id', $id)->find();
-        if ($record && $record->allowField($this->model->getAllow('update'))->save($input)) {
+        if ($record && $record->allowField($this->model->getAllow('update'))->save($this->input)) {
             return success('update successfully');
         }
 
         return error('operation failed');
     }
 
-    public function store(array $input = null)
+    public function store()
     {
-        $input ??= $this->request->only($this->model->getAllow('store'));
+        $this->initInput();
 
-        $this->model->checkUniqueValues($input);
+        $this->model->checkUniqueValues($this->input);
 
         $this->model->startTrans();
         try {
-            $this->model->allowField($this->model->getAllow('store'))->save($input);
+            $this->model->allowField($this->model->getAllow('store'))->save($this->input);
 
             $id = (int) $this->model->getAttr('id');
 
