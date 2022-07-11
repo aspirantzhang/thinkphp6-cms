@@ -13,7 +13,7 @@ class Admin extends Common
 
     public function index()
     {
-        $result = $this->facade->getPaginatedList();
+        $result = $this->facade->getBasicPaginatedList();
 
         return $this->jsonView($result);
     }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace tests\app\core\Layout;
+namespace tests\app\core\domain\Basic\layout;
 
-use app\core\domain\Layout\ListLayout;
+use app\core\domain\Basic\layout\ListLayout;
 use Mockery as m;
 
 class ListLayoutTest extends \tests\TestCase

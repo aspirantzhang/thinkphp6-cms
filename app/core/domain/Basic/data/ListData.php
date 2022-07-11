@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\core\mapper;
+namespace app\core\domain\Basic\data;
 
 use app\core\BaseModel;
 use app\core\exception\SystemException;

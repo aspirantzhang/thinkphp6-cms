@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace app\backend\facade;
 
 use app\core\BaseFacade;
-use app\core\domain\Layout\ListLayout;
+use app\core\domain\Basic\data\ListData;
+use app\core\domain\Basic\layout\ListLayout;
 use app\core\domain\Login\JwtVisitor;
 use app\core\domain\Login\Login;
-use app\core\mapper\ListData;
 use app\jwt\exception\TokenExpiredException;
 use app\jwt\exception\TokenInvalidException;
 
 class Admin extends BaseFacade
 {
-    public function getPaginatedList(array $option = [])
+    public function getBasicPaginatedList(array $option = [])
     {
         $this->initInput();
         // get data from mapper

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace tests\app\core\Data;
+namespace tests\app\core\domain\Basic\data;
 
-use app\core\mapper\ListData;
+use app\core\domain\Basic\data\ListData;
 use Mockery as m;
 
 class ListDataTest extends \tests\TestCase
