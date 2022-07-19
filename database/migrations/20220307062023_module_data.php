@@ -15,12 +15,11 @@ final class ModuleData extends AbstractMigration
             [
                 'name' => 'admin_name',
                 'type' => 'input',
+                'default' => '',
                 'unique' => true,
-                'position' => 'tab.main',
-                'order' => 0,
                 'allow' => ['index', 'view', 'add', 'store', 'filter'],
                 'require' => ['store'],
-                'rule' => [
+                'validation' => [
                     'length' => [
                         'min' => 0,
                         'max' => 255,
@@ -30,13 +29,11 @@ final class ModuleData extends AbstractMigration
             [
                 'name' => 'password',
                 'type' => 'password',
+                'default' => '',
                 'unique' => false,
-                'position' => 'tab.main',
-                'order' => 0,
-                'hideInColumn' => true,
                 'allow' => ['view', 'add', 'store', 'update', 'filter'],
                 'require' => ['store'],
-                'rule' => [
+                'validation' => [
                     'length' => [
                         'min' => 0,
                         'max' => 255,
@@ -46,11 +43,10 @@ final class ModuleData extends AbstractMigration
             [
                 'name' => 'display_name',
                 'type' => 'input',
+                'default' => '',
                 'unique' => false,
-                'position' => 'tab.main',
-                'order' => 0,
-                'allow' => ['index', 'view', 'add', 'store', 'filter', 'translate'],
-                'rule' => [
+                'allow' => ['index', 'view', 'add', 'filter', 'translate'],
+                'validation' => [
                     'length' => [
                         'min' => 0,
                         'max' => 255,
@@ -60,12 +56,10 @@ final class ModuleData extends AbstractMigration
             [
                 'name' => 'comment',
                 'type' => 'textarea',
+                'default' => '',
                 'unique' => false,
-                'order' => 0,
-                'position' => 'sidebar.main',
-                'hideInColumn' => true,
-                'allow' => ['index', 'view', 'add', 'store', 'filter', 'translate'],
-                'rule' => [
+                'allow' => ['index', 'view', 'add', 'filter', 'translate'],
+                'validation' => [
                     'length' => [
                         'min' => 0,
                         'max' => 255,
