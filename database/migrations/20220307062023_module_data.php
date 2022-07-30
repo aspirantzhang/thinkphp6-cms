@@ -12,8 +12,7 @@ final class ModuleData extends AbstractMigration
     {
         $currentTime = date('Y-m-d H:i:s');
         $field = [
-            [
-                'name' => 'admin_name',
+            'admin_name' => [
                 'type' => 'input',
                 'default' => '',
                 'unique' => true,
@@ -26,8 +25,7 @@ final class ModuleData extends AbstractMigration
                     ],
                 ],
             ],
-            [
-                'name' => 'password',
+            'password' => [
                 'type' => 'password',
                 'default' => '',
                 'unique' => false,
@@ -40,8 +38,7 @@ final class ModuleData extends AbstractMigration
                     ],
                 ],
             ],
-            [
-                'name' => 'display_name',
+            'display_name' => [
                 'type' => 'input',
                 'default' => '',
                 'unique' => false,
@@ -53,8 +50,7 @@ final class ModuleData extends AbstractMigration
                     ],
                 ],
             ],
-            [
-                'name' => 'comment',
+            'comment' => [
                 'type' => 'textarea',
                 'default' => '',
                 'unique' => false,
@@ -67,33 +63,68 @@ final class ModuleData extends AbstractMigration
                 ],
             ],
         ];
-        $operation = [
-            [
-                'name' => 'add',
-                'position' => 'list.tableToolbar',
-                'order' => 0,
-                'type' => 'primary',
-                'call' => 'modal',
-                'method' => 'get',
-                'uri' => '/backend/admins/add',
-            ],
-            [
-                'name' => 'delete',
-                'position' => 'list.batchToolbar',
-                'order' => 0,
-                'type' => 'danger',
-                'call' => 'delete',
-                'method' => 'post',
-                'uri' => '/backend/admins/delete',
-            ],
-            [
-                'name' => 'disable',
-                'position' => 'list.batchToolbar',
-                'order' => 0,
-                'type' => 'normal',
-                'call' => 'disable',
-                'method' => 'post',
-                'uri' => '/backend/admins/disable',
+        $layout = [
+            'basic-list' => [
+                'tableColumn' => [
+                    'admin_name' => [],
+                    'password' => false,
+                    'display_name' => [],
+                    'comment' => [],
+                    'group' => [
+                        'type' => 'relationModel',
+                    ],
+                ],
+                'searchBar' => [
+                    'admin_name' => [],
+                    'display_name' => [],
+                    'comment' => [],
+                ],
+                'tableToolbar' => [
+                    [
+                        'name' => 'add',
+                        'order' => 0,
+                        'type' => 'primary',
+                        'call' => 'modal',
+                        'method' => 'get',
+                        'uri' => '/backend/admins/add',
+                    ],
+                ],
+                'batchToolbar' => [
+                    [
+                        'name' => 'delete',
+                        'order' => 0,
+                        'type' => 'danger',
+                        'call' => 'delete',
+                        'method' => 'post',
+                        'uri' => '/backend/admins/delete',
+                    ],
+                    [
+                        'name' => 'disable',
+                        'order' => 0,
+                        'type' => 'normal',
+                        'call' => 'disable',
+                        'method' => 'post',
+                        'uri' => '/backend/admins/disable',
+                    ],
+                    [
+                        'name' => 'enable',
+                        'order' => 0,
+                        'type' => 'normal',
+                        'call' => 'disable',
+                        'method' => 'post',
+                        'uri' => '/backend/admins/enable',
+                    ],
+                ],
+                'batchToolbarTrashed' => [
+                    [
+                        'name' => 'deletePermanently',
+                        'order' => 0,
+                        'type' => 'danger',
+                        'call' => 'delete',
+                        'method' => 'post',
+                        'uri' => '/backend/admins/delete',
+                    ],
+                ],
             ],
         ];
         $mainTableRows = [
@@ -101,27 +132,14 @@ final class ModuleData extends AbstractMigration
                 'id' => 1,
                 'table_name' => 'admin',
                 'field' => json_encode($field),
-                'operation' => json_encode($operation),
+                'layout' => json_encode($layout),
                 'setting' => json_encode([]),
                 'create_time' => $currentTime,
                 'update_time' => $currentTime,
             ],
         ];
         $this->table('module')->insert($mainTableRows)->save();
-        $i18nTableRows = [
-            [
-                'original_id' => 1,
-                'lang_code' => 'en-us',
-                'module_title' => 'Admin',
-                'translate_time' => $currentTime,
-            ],
-            [
-                'original_id' => 1,
-                'lang_code' => 'zh-cn',
-                'module_title' => '管理员',
-                'translate_time' => $currentTime,
-            ],
-        ];
+        $i18nTableRows = [];
         $this->table('module_i18n')->insert($i18nTableRows)->save();
     }
 
